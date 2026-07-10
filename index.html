@@ -9,7 +9,6 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800;14..32,900&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="css/main.css" />
   <style>
-    /* Дополнительные стили для увеличенной акции */
     .hero-promo {
       background: linear-gradient(135deg, #151121, #1f1830);
       padding: 18px 24px;
@@ -35,38 +34,13 @@
         min-height: 100px;
       }
     }
-    .hero-promo .promo-icon {
-      font-size: 1.8rem;
-      flex-shrink: 0;
-    }
-    @media (min-width: 768px) {
-      .hero-promo .promo-icon {
-        font-size: 2.4rem;
-      }
-    }
-    .hero-promo .promo-text {
-      font-size: 0.95rem;
-      color: #d4c8f0;
-      font-weight: 500;
-    }
-    @media (min-width: 480px) {
-      .hero-promo .promo-text {
-        font-size: 1.05rem;
-      }
-    }
-    @media (min-width: 768px) {
-      .hero-promo .promo-text {
-        font-size: 1.2rem;
-      }
-    }
-    .hero-promo .promo-text strong {
-      color: #fff;
-      font-weight: 800;
-    }
-    .hero-promo .promo-text .highlight {
-      color: #b388ff;
-      font-weight: 700;
-    }
+    .hero-promo .promo-icon { font-size: 1.8rem; flex-shrink: 0; }
+    @media (min-width: 768px) { .hero-promo .promo-icon { font-size: 2.4rem; } }
+    .hero-promo .promo-text { font-size: 0.95rem; color: #d4c8f0; font-weight: 500; }
+    @media (min-width: 480px) { .hero-promo .promo-text { font-size: 1.05rem; } }
+    @media (min-width: 768px) { .hero-promo .promo-text { font-size: 1.2rem; } }
+    .hero-promo .promo-text strong { color: #fff; font-weight: 800; }
+    .hero-promo .promo-text .highlight { color: #b388ff; font-weight: 700; }
     .hero-promo .promo-btn {
       background: #7c4dff;
       border: none;
@@ -81,21 +55,14 @@
       flex-shrink: 0;
     }
     @media (min-width: 768px) {
-      .hero-promo .promo-btn {
-        padding: 12px 36px;
-        font-size: 1rem;
-      }
+      .hero-promo .promo-btn { padding: 12px 36px; font-size: 1rem; }
     }
     .hero-promo .promo-btn:hover {
       background: #966aff;
       transform: scale(1.03);
       box-shadow: 0 4px 30px rgba(124, 77, 255, 0.3);
     }
-
-    /* Стиль для активной ссылки в шапке */
-    .nav a[href="#section-birthday"] {
-      cursor: pointer;
-    }
+    .nav a[href="#section-birthday"] { cursor: pointer; }
   </style>
 </head>
 <body>
@@ -109,7 +76,6 @@
       <a href="#top" class="logo" id="logoLink">immerscape</a>
       <nav class="nav">
         <a class="active" href="#section-quests">Квесты</a>
-        <!-- ИСПРАВЛЕНО: просто якорь, без перехода на другую страницу -->
         <a href="#section-birthday" id="birthdayNavLink">День рождения под ключ</a>
         <a href="horror.html">Хоррор вечер</a>
         <a href="events.html">Выездные мероприятия</a>
@@ -201,20 +167,20 @@
         </div>
       </div>
     </div>
-    <!-- УВЕЛИЧЕННАЯ ПЛАШКА АКЦИИ -->
     <div class="container" style="margin-top: 16px;">
-<div class="hero-promo">
-  <span class="promo-icon">🎭</span>
-  <span class="promo-text">
-    <strong>По промокоду</strong> 
-    <button class="promo-code-btn" onclick="copyPromoCode()" title="Нажмите чтобы скопировать промокод">
-      <span class="promo-code">КВЕСТ10</span>
-      <span class="copy-icon">📋</span>
-    </button>
-    <strong>— скидка</strong> <span class="highlight">-10%</span> на все наши квесты для бронирования в будние дни
-  </span>
-  <button class="promo-btn" onclick="document.getElementById('section-quests').scrollIntoView({behavior:'smooth'})">Квесты</button>
-</div>
+      <div class="hero-promo">
+        <span class="promo-icon">🎭</span>
+        <span class="promo-text">
+          <strong>По промокоду</strong> 
+          <button class="promo-code-btn" onclick="copyPromoCode()" title="Нажмите чтобы скопировать промокод">
+            <span class="promo-code">КВЕСТ10</span>
+            <span class="copy-icon">📋</span>
+          </button>
+          <strong>— скидка</strong> <span class="highlight">-10%</span> на все наши квесты для бронирования в будние дни
+        </span>
+        <button class="promo-btn" onclick="document.getElementById('section-quests').scrollIntoView({behavior:'smooth'})">Квесты</button>
+      </div>
+    </div>
   </section>
 
   <!-- ===== АТМОСФЕРА ===== -->
@@ -472,19 +438,9 @@
       <div class="step-content active" data-step="1">
         <div class="booking-grid">
           <div class="booking-info">
-            <div style="margin-top:12px; background:linear-gradient(135deg, rgba(124,77,255,0.1), rgba(179,136,255,0.05)); border-radius:14px; padding:14px 16px; border:1px solid rgba(124,77,255,0.15);">
-  <div style="display:flex; justify-content:space-between; align-items:center;">
-    <span style="font-size:0.85rem; color:#b0a8c8;">Итого к оплате:</span>
-    <span style="font-size:1.4rem; font-weight:800; color:#b388ff;" id="bookingTotalDisplay">0 ₽</span>
-  </div>
-  <div style="display:flex; justify-content:space-between; font-size:0.7rem; color:#7a6e96; margin-top:4px;">
-    <span>Включая депозит 500 ₽</span>
-    <span id="bookingPriceDisplay">3 500 ₽</span>
-  </div>
-</div>
             <h3 id="bookQuestName">Невеста</h3>
             <div class="desc" id="bookQuestDesc">Интерактивный хоррор-квест с мистическим сюжетом.</div>
-            <div class="meta"><span>⏱ 60 мин</span><span>👥 2–6 чел.</span><span>⚡ Сложность: 4/5</span></div>
+            <div class="meta"><span>⏱ <span id="bookQuestMetaTime">60 мин</span></span><span>👥 <span id="bookQuestMetaPlayers">1–6</span> чел.</span><span>⚡ Сложность: <span id="bookQuestMetaDifficulty">4/5</span></span></div>
 
             <div class="booking-photos-carousel">
               <div class="booking-photos-track" id="bookingPhotosTrack">
@@ -532,7 +488,7 @@
                 <option value="Рик и Морти">Рик и Морти</option>
                 <option value="Хогвартс">Хогвартс</option>
                 <option value="Лабубу: волшебный мир">Лабубу: волшебный мир</option>
-                <option value="Стоматология 'Новая жизнь'">Стоматология "Новая жизнь"</option>
+                <option value="Стоматология &quot;Новая жизнь&quot;">Стоматология "Новая жизнь"</option>
                 <option value="K-pop: последний стрим">K-pop: последний стрим</option>
                 <option value="Монастырь">Монастырь</option>
                 <option value="Гринч">Гринч</option>
@@ -548,21 +504,16 @@
                 <button class="qty-btn" onclick="changeBookingPlayers(1)">+</button>
               </div>
             </div>
-
-<div style="margin-top:12px; background:#13101e; border-radius:14px; padding:12px; border:1px solid #26203a;">
-  <strong style="font-size:0.85rem;">Краткая информация</strong>
-  <div style="display:flex; justify-content:space-between; font-size:0.8rem; color:#b0a8c8; margin-top:4px;">
-    <span>Цена: <span id="bookingPriceDisplay">3 500</span> ₽</span>
-    <span>Депозит: 500 ₽</span>
-  </div>
-</div>
-
-<!-- СЮДА ВСТАВИТЬ БЛОК С ИТОГОВОЙ СУММОЙ -->
-
-<div class="btn-group">
-  <button class="btn-primary" onclick="goStep(2)">Далее →</button>
-</div>
-
+            <div class="booking-summary-card">
+              <div class="row-between">
+                <span class="summary-label">Итого к оплате:</span>
+                <span class="summary-total" id="bookingTotalDisplay">0 ₽</span>
+              </div>
+              <div class="row-between summary-subrow">
+                <span>Цена квеста: <span id="bookingPriceDisplay">0</span> ₽</span>
+                <span>Предоплата: <span id="bookingDepositDisplay">1 500</span> ₽</span>
+              </div>
+            </div>
             <div class="btn-group">
               <button class="btn-primary" onclick="goStep(2)">Далее →</button>
             </div>
@@ -574,6 +525,18 @@
       <div class="step-content" data-step="2">
         <h3 style="margin-bottom:10px; font-size:1.2rem;">Опции и дополнения</h3>
         <div class="options-grid" id="optionsGrid"></div>
+
+        <!-- ИТОГО К ОПЛАТЕ (ШАГ 2) -->
+        <div style="margin-top:16px; background:linear-gradient(135deg, rgba(124,77,255,0.12), rgba(179,136,255,0.06)); border-radius:14px; padding:14px 18px; border:1px solid rgba(124,77,255,0.15);">
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <span style="font-size:0.85rem; color:#b0a8c8;">Итого к оплате:</span>
+            <span style="font-size:1.4rem; font-weight:800; color:#b388ff;" id="bookingTotalDisplayStep2">0 ₽</span>
+          </div>
+          <div style="display:flex; justify-content:space-between; font-size:0.7rem; color:#7a6e96; margin-top:4px;">
+            <span>Цена квеста: <span id="bookingPriceDisplay2">3 500</span> ₽</span>
+            <span>Предоплата: <span id="bookingDepositDisplay2">1 500</span> ₽</span>
+          </div>
+        </div>
 
         <div class="packages-collapsible" id="packagesCollapsible">
           <div class="collapsible-header" id="packagesToggle">
@@ -622,15 +585,28 @@
             <div class="contact-method" data-method="vk"><span class="method-icon">📱</span><span class="method-label">VK</span></div>
             <div class="contact-method" data-method="sms"><span class="method-icon">📲</span><span class="method-label">SMS</span></div>
           </div>
+
           <label>Промокод</label>
-<div style="display:flex; gap:8px;">
-  <input type="text" id="promoInput" placeholder="Введите промокод" style="flex:1;" />
-  <button id="applyPromoBtn" class="btn-book-sm" style="white-space:nowrap;">Применить</button>
-</div>
-<div id="promoStatus" style="font-size:0.7rem; margin-top:4px;"></div>
+          <div style="display:flex; gap:8px;">
+            <input type="text" id="promoInput" placeholder="Введите промокод" style="flex:1;" />
+            <button id="applyPromoBtn" class="btn-book-sm" style="white-space:nowrap;">Применить</button>
+          </div>
+          <div id="promoStatus" style="font-size:0.7rem; margin-top:4px;"></div>
 
           <label>Комментарий к заказу</label>
           <textarea id="bookingComment" placeholder="Дополнительные пожелания..." rows="2"></textarea>
+
+          <!-- ИТОГО К ОПЛАТЕ (ШАГ 3) -->
+          <div style="margin-top:16px; background:linear-gradient(135deg, rgba(124,77,255,0.12), rgba(179,136,255,0.06)); border-radius:14px; padding:14px 18px; border:1px solid rgba(124,77,255,0.15);">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+              <span style="font-size:0.85rem; color:#b0a8c8;">Итого к оплате:</span>
+              <span style="font-size:1.4rem; font-weight:800; color:#b388ff;" id="bookingTotalDisplayStep3">0 ₽</span>
+            </div>
+            <div style="display:flex; justify-content:space-between; font-size:0.7rem; color:#7a6e96; margin-top:4px;">
+              <span>Цена квеста: <span id="bookingPriceDisplay3">3 500</span> ₽</span>
+              <span>Предоплата: <span id="bookingDepositDisplay3">1 500</span> ₽</span>
+            </div>
+          </div>
 
           <div class="btn-group">
             <button class="btn-outline" onclick="goStep(2)">← Назад</button>
@@ -649,10 +625,22 @@
           <div class="row"><span>Количество участников</span><span id="receiptPlayers">4</span></div>
           <div class="row"><span>Доп. услуги</span><span id="receiptExtras">—</span></div>
           <div class="row"><span>Способ связи</span><span id="receiptMethod">WhatsApp</span></div>
-          <div class="row"><span>Скидка</span><span>-10%</span></div>
-          <div class="row total"><span>Итого</span><span id="receiptTotal">4 200 ₽</span></div>
           <div class="row"><span>Сумма</span><span id="receiptSubtotal">0 ₽</span></div>
           <div class="row"><span>Скидка</span><span id="receiptDiscount">—</span></div>
+          <div class="row total"><span>Итого</span><span id="receiptTotal">4 200 ₽</span></div>
+          
+          <!-- ИТОГО К ОПЛАТЕ (ШАГ 4) -->
+          <div style="margin-top:12px; background:linear-gradient(135deg, rgba(124,77,255,0.12), rgba(179,136,255,0.06)); border-radius:14px; padding:14px 18px; border:1px solid rgba(124,77,255,0.15);">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+              <span style="font-size:0.85rem; color:#b0a8c8;">Итого к оплате:</span>
+              <span style="font-size:1.4rem; font-weight:800; color:#b388ff;" id="bookingTotalDisplayStep4">0 ₽</span>
+            </div>
+            <div style="display:flex; justify-content:space-between; font-size:0.7rem; color:#7a6e96; margin-top:4px;">
+              <span>Цена квеста: <span id="bookingPriceDisplay4">3 500</span> ₽</span>
+              <span>Предоплата: <span id="bookingDepositDisplay4">1 500</span> ₽</span>
+            </div>
+          </div>
+
           <div class="btn-group">
             <button class="btn-outline" onclick="goStep(3)">← Назад</button>
             <button class="btn-primary" onclick="confirmBooking()">Подтвердить бронь</button>
@@ -666,9 +654,6 @@
   <script src="js/main.js"></script>
   
   <script>
-    // ===== СКРОЛЛ К "ДЕНЬ РОЖДЕНИЯ ПОД КЛЮЧ" =====
-    // Просто якорь в href="#section-birthday" уже работает
-    // Но на всякий случай добавляем дополнительную обработку
     document.addEventListener('DOMContentLoaded', function() {
       const birthdayLink = document.getElementById('birthdayNavLink');
       if (birthdayLink) {

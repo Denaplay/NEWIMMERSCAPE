@@ -9,20 +9,13 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800;14..32,900&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="css/main.css" />
   <style>
-    /* ===== ДОПОЛНИТЕЛЬНЫЕ СТИЛИ ДЛЯ ХОРРОР-СТРАНИЦЫ В СТИЛЕ ПЕРВОНАЧАЛЬНОГО ПРОЕКТА ===== */
-    
-    /* Hero как в оригинале */
     .horror-hero {
       padding: 40px 0 30px;
       background: radial-gradient(ellipse at 30% 20%, #2a1035, #0c0a14 75%);
       border-bottom: 1px solid rgba(124, 77, 255, 0.08);
       overflow: hidden;
     }
-    @media (min-width: 768px) {
-      .horror-hero {
-        padding: 60px 0 50px;
-      }
-    }
+    @media (min-width: 768px) { .horror-hero { padding: 60px 0 50px; } }
     .horror-hero .container {
       display: grid;
       grid-template-columns: 1fr;
@@ -30,12 +23,8 @@
       align-items: center;
     }
     @media (min-width: 992px) {
-      .horror-hero .container {
-        grid-template-columns: 1fr 1fr;
-        gap: 50px;
-      }
+      .horror-hero .container { grid-template-columns: 1fr 1fr; gap: 50px; }
     }
-
     .horror-hero-content h1 {
       font-size: 2.8rem;
       font-weight: 900;
@@ -43,16 +32,8 @@
       letter-spacing: -0.02em;
       margin-bottom: 6px;
     }
-    @media (min-width: 480px) {
-      .horror-hero-content h1 {
-        font-size: 3.4rem;
-      }
-    }
-    @media (min-width: 768px) {
-      .horror-hero-content h1 {
-        font-size: 4.4rem;
-      }
-    }
+    @media (min-width: 480px) { .horror-hero-content h1 { font-size: 3.4rem; } }
+    @media (min-width: 768px) { .horror-hero-content h1 { font-size: 4.4rem; } }
     .horror-hero-content h1 .highlight {
       background: linear-gradient(135deg, #ff6ec7, #ff3d8a, #7c4dff);
       -webkit-background-clip: text;
@@ -73,11 +54,7 @@
       letter-spacing: 0.5px;
     }
     @media (min-width: 768px) {
-      .horror-hero-content .badge {
-        font-size: 0.8rem;
-        padding: 6px 20px;
-        margin-bottom: 16px;
-      }
+      .horror-hero-content .badge { font-size: 0.8rem; padding: 6px 20px; margin-bottom: 16px; }
     }
     .horror-hero-content p {
       color: #b0a8c8;
@@ -87,31 +64,16 @@
       line-height: 1.6;
     }
     @media (min-width: 768px) {
-      .horror-hero-content p {
-        font-size: 1.1rem;
-        margin-bottom: 24px;
-      }
+      .horror-hero-content p { font-size: 1.1rem; margin-bottom: 24px; }
     }
-
-    /* Статистика как в оригинале */
     .horror-stats {
       display: flex;
       flex-wrap: wrap;
       gap: 10px;
       margin: 12px 0 16px;
     }
-    @media (min-width: 480px) {
-      .horror-stats {
-        gap: 14px;
-        margin: 16px 0 20px;
-      }
-    }
-    @media (min-width: 768px) {
-      .horror-stats {
-        gap: 18px;
-        margin: 20px 0 24px;
-      }
-    }
+    @media (min-width: 480px) { .horror-stats { gap: 14px; margin: 16px 0 20px; } }
+    @media (min-width: 768px) { .horror-stats { gap: 18px; margin: 20px 0 24px; } }
     .stat-card {
       background: rgba(19, 16, 30, 0.7);
       backdrop-filter: blur(8px);
@@ -122,38 +84,15 @@
       text-align: center;
       transition: 0.3s;
     }
-    @media (min-width: 480px) {
-      .stat-card {
-        padding: 12px 20px;
-        min-width: 110px;
-        border-radius: 16px;
-      }
-    }
-    @media (min-width: 768px) {
-      .stat-card {
-        padding: 14px 24px;
-        min-width: 120px;
-      }
-    }
+    @media (min-width: 480px) { .stat-card { padding: 12px 20px; min-width: 110px; border-radius: 16px; } }
+    @media (min-width: 768px) { .stat-card { padding: 14px 24px; min-width: 120px; } }
     .stat-card:hover {
       border-color: rgba(124, 77, 255, 0.3);
       transform: translateY(-2px);
     }
-    .stat-card .stat-value {
-      font-size: 1rem;
-      font-weight: 800;
-      color: #fff;
-    }
-    @media (min-width: 480px) {
-      .stat-card .stat-value {
-        font-size: 1.1rem;
-      }
-    }
-    @media (min-width: 768px) {
-      .stat-card .stat-value {
-        font-size: 1.2rem;
-      }
-    }
+    .stat-card .stat-value { font-size: 1rem; font-weight: 800; color: #fff; }
+    @media (min-width: 480px) { .stat-card .stat-value { font-size: 1.1rem; } }
+    @media (min-width: 768px) { .stat-card .stat-value { font-size: 1.2rem; } }
     .stat-card .stat-label {
       font-size: 0.55rem;
       color: #7a6e96;
@@ -161,18 +100,8 @@
       letter-spacing: 0.3px;
       font-weight: 500;
     }
-    @media (min-width: 480px) {
-      .stat-card .stat-label {
-        font-size: 0.6rem;
-      }
-    }
-    @media (min-width: 768px) {
-      .stat-card .stat-label {
-        font-size: 0.65rem;
-      }
-    }
-
-    /* Визуальная часть героя */
+    @media (min-width: 480px) { .stat-card .stat-label { font-size: 0.6rem; } }
+    @media (min-width: 768px) { .stat-card .stat-label { font-size: 0.65rem; } }
     .horror-hero-visual .hero-image {
       width: 100%;
       max-width: 500px;
@@ -189,10 +118,7 @@
       box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
     }
     @media (min-width: 768px) {
-      .horror-hero-visual .hero-image {
-        border-radius: 32px;
-        font-size: 10rem;
-      }
+      .horror-hero-visual .hero-image { border-radius: 32px; font-size: 10rem; }
     }
     .horror-hero-visual .hero-image .floating-tag {
       position: absolute;
@@ -207,11 +133,7 @@
       animation: float 4s ease-in-out infinite;
     }
     @media (min-width: 768px) {
-      .horror-hero-visual .hero-image .floating-tag {
-        padding: 8px 16px;
-        font-size: 0.75rem;
-        border-radius: 14px;
-      }
+      .horror-hero-visual .hero-image .floating-tag { padding: 8px 16px; font-size: 0.75rem; border-radius: 14px; }
     }
     .horror-hero-visual .hero-image .floating-tag:nth-child(2) { top: 12%; right: 8%; animation-delay: 0.5s; }
     .horror-hero-visual .hero-image .floating-tag:nth-child(3) { bottom: 15%; left: 8%; animation-delay: 1s; }
@@ -221,26 +143,14 @@
       0%, 100% { transform: translateY(0px); }
       50% { transform: translateY(-10px); }
     }
-
-    /* ВЫБОР ЛОКАЦИИ — стиль как у фильтров на главной */
     .horror-location-selector {
       display: flex;
       flex-wrap: wrap;
       gap: 10px;
       margin: 12px 0 6px;
     }
-    @media (min-width: 480px) {
-      .horror-location-selector {
-        gap: 12px;
-        margin: 14px 0 8px;
-      }
-    }
-    @media (min-width: 768px) {
-      .horror-location-selector {
-        gap: 16px;
-        margin: 16px 0 10px;
-      }
-    }
+    @media (min-width: 480px) { .horror-location-selector { gap: 12px; margin: 14px 0 8px; } }
+    @media (min-width: 768px) { .horror-location-selector { gap: 16px; margin: 16px 0 10px; } }
     .horror-location-selector .loc-btn {
       padding: 8px 18px;
       border-radius: 60px;
@@ -255,18 +165,8 @@
       align-items: center;
       gap: 6px;
     }
-    @media (min-width: 480px) {
-      .horror-location-selector .loc-btn {
-        padding: 10px 22px;
-        font-size: 0.8rem;
-      }
-    }
-    @media (min-width: 768px) {
-      .horror-location-selector .loc-btn {
-        padding: 12px 28px;
-        font-size: 0.9rem;
-      }
-    }
+    @media (min-width: 480px) { .horror-location-selector .loc-btn { padding: 10px 22px; font-size: 0.8rem; } }
+    @media (min-width: 768px) { .horror-location-selector .loc-btn { padding: 12px 28px; font-size: 0.9rem; } }
     .horror-location-selector .loc-btn:hover {
       border-color: #7c4dff;
       color: #fff;
@@ -278,9 +178,7 @@
       color: #fff;
       box-shadow: 0 0 30px rgba(124, 77, 255, 0.08);
     }
-    .horror-location-selector .loc-btn .pin {
-      font-size: 0.8rem;
-    }
+    .horror-location-selector .loc-btn .pin { font-size: 0.8rem; }
     .horror-location-selector .loc-btn .badge {
       font-size: 0.5rem;
       background: rgba(124, 77, 255, 0.15);
@@ -289,51 +187,25 @@
       color: #b388ff;
       white-space: nowrap;
     }
-    @media (min-width: 480px) {
-      .horror-location-selector .loc-btn .badge {
-        font-size: 0.55rem;
-        padding: 2px 10px;
-      }
-    }
-    @media (min-width: 768px) {
-      .horror-location-selector .loc-btn .badge {
-        font-size: 0.6rem;
-        padding: 3px 12px;
-      }
-    }
-
-    /* Контент для локаций — плавное переключение */
+    @media (min-width: 480px) { .horror-location-selector .loc-btn .badge { font-size: 0.55rem; padding: 2px 10px; } }
+    @media (min-width: 768px) { .horror-location-selector .loc-btn .badge { font-size: 0.6rem; padding: 3px 12px; } }
     .horror-content-wrapper {
       display: none;
       animation: fadeIn 0.4s ease;
     }
-    .horror-content-wrapper.active {
-      display: block;
-    }
+    .horror-content-wrapper.active { display: block; }
     @keyframes fadeIn {
       from { opacity: 0; transform: translateY(10px); }
       to { opacity: 1; transform: translateY(0); }
     }
-
-    /* Блок "Как пройдёт" — в стиле оригинальных карточек */
     .how-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 16px;
       margin-top: 10px;
     }
-    @media (min-width: 480px) {
-      .how-grid {
-        gap: 20px;
-      }
-    }
-    @media (min-width: 768px) {
-      .how-grid {
-        grid-template-columns: 1fr 1fr;
-        gap: 24px;
-        margin-top: 14px;
-      }
-    }
+    @media (min-width: 480px) { .how-grid { gap: 20px; } }
+    @media (min-width: 768px) { .how-grid { grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 14px; } }
     .how-card {
       background: #13101e;
       border-radius: 18px;
@@ -341,12 +213,7 @@
       border: 1px solid #26203a;
       transition: 0.3s;
     }
-    @media (min-width: 768px) {
-      .how-card {
-        border-radius: 24px;
-        padding: 20px 18px;
-      }
-    }
+    @media (min-width: 768px) { .how-card { border-radius: 24px; padding: 20px 18px; } }
     .how-card:hover {
       border-color: #7c4dff;
       transform: translateY(-3px);
@@ -364,55 +231,19 @@
       color: #fff;
       margin-bottom: 8px;
     }
-    @media (min-width: 768px) {
-      .how-card .step-number {
-        width: 34px;
-        height: 34px;
-        font-size: 0.85rem;
-        margin-bottom: 10px;
-      }
-    }
-    .how-card h4 {
-      font-size: 1rem;
-      font-weight: 700;
-      margin-bottom: 2px;
-    }
-    @media (min-width: 768px) {
-      .how-card h4 {
-        font-size: 1.1rem;
-        margin-bottom: 4px;
-      }
-    }
-    .how-card p {
-      color: #b0a8c8;
-      font-size: 0.8rem;
-      line-height: 1.4;
-    }
-    @media (min-width: 768px) {
-      .how-card p {
-        font-size: 0.9rem;
-      }
-    }
-
-    /* Шаги — как в оригинале */
+    @media (min-width: 768px) { .how-card .step-number { width: 34px; height: 34px; font-size: 0.85rem; margin-bottom: 10px; } }
+    .how-card h4 { font-size: 1rem; font-weight: 700; margin-bottom: 2px; }
+    @media (min-width: 768px) { .how-card h4 { font-size: 1.1rem; margin-bottom: 4px; } }
+    .how-card p { color: #b0a8c8; font-size: 0.8rem; line-height: 1.4; }
+    @media (min-width: 768px) { .how-card p { font-size: 0.9rem; } }
     .steps-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 14px;
       margin-top: 10px;
     }
-    @media (min-width: 480px) {
-      .steps-grid {
-        gap: 18px;
-      }
-    }
-    @media (min-width: 768px) {
-      .steps-grid {
-        grid-template-columns: repeat(4, 1fr);
-        gap: 20px;
-        margin-top: 14px;
-      }
-    }
+    @media (min-width: 480px) { .steps-grid { gap: 18px; } }
+    @media (min-width: 768px) { .steps-grid { grid-template-columns: repeat(4, 1fr); gap: 20px; margin-top: 14px; } }
     .step-item {
       background: #13101e;
       border-radius: 16px;
@@ -421,27 +252,13 @@
       text-align: center;
       transition: 0.3s;
     }
-    @media (min-width: 768px) {
-      .step-item {
-        border-radius: 20px;
-        padding: 18px 14px;
-      }
-    }
+    @media (min-width: 768px) { .step-item { border-radius: 20px; padding: 18px 14px; } }
     .step-item:hover {
       border-color: #7c4dff;
       transform: translateY(-3px);
     }
-    .step-item .step-icon {
-      font-size: 1.8rem;
-      display: block;
-      margin-bottom: 4px;
-    }
-    @media (min-width: 768px) {
-      .step-item .step-icon {
-        font-size: 2.2rem;
-        margin-bottom: 6px;
-      }
-    }
+    .step-item .step-icon { font-size: 1.8rem; display: block; margin-bottom: 4px; }
+    @media (min-width: 768px) { .step-item .step-icon { font-size: 2.2rem; margin-bottom: 6px; } }
     .step-item .step-num {
       display: inline-block;
       background: rgba(124, 77, 255, 0.12);
@@ -452,53 +269,19 @@
       border-radius: 40px;
       margin-bottom: 4px;
     }
-    @media (min-width: 768px) {
-      .step-item .step-num {
-        font-size: 0.65rem;
-        padding: 3px 14px;
-        margin-bottom: 6px;
-      }
-    }
-    .step-item h5 {
-      font-size: 0.8rem;
-      font-weight: 600;
-    }
-    @media (min-width: 768px) {
-      .step-item h5 {
-        font-size: 0.9rem;
-      }
-    }
-    .step-item p {
-      font-size: 0.6rem;
-      color: #9288b0;
-      margin-top: 2px;
-    }
-    @media (min-width: 768px) {
-      .step-item p {
-        font-size: 0.7rem;
-      }
-    }
-
-    /* Услуги — как в оригинале */
+    @media (min-width: 768px) { .step-item .step-num { font-size: 0.65rem; padding: 3px 14px; margin-bottom: 6px; } }
+    .step-item h5 { font-size: 0.8rem; font-weight: 600; }
+    @media (min-width: 768px) { .step-item h5 { font-size: 0.9rem; } }
+    .step-item p { font-size: 0.6rem; color: #9288b0; margin-top: 2px; }
+    @media (min-width: 768px) { .step-item p { font-size: 0.7rem; } }
     .services-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 12px;
       margin-top: 10px;
     }
-    @media (min-width: 480px) {
-      .services-grid {
-        grid-template-columns: 1fr 1fr 1fr;
-        gap: 14px;
-      }
-    }
-    @media (min-width: 768px) {
-      .services-grid {
-        grid-template-columns: repeat(3, 1fr);
-        gap: 18px;
-        margin-top: 14px;
-      }
-    }
+    @media (min-width: 480px) { .services-grid { grid-template-columns: 1fr 1fr 1fr; gap: 14px; } }
+    @media (min-width: 768px) { .services-grid { grid-template-columns: repeat(3, 1fr); gap: 18px; margin-top: 14px; } }
     .service-item {
       background: #13101e;
       border-radius: 14px;
@@ -507,66 +290,25 @@
       text-align: center;
       transition: 0.3s;
     }
-    @media (min-width: 768px) {
-      .service-item {
-        border-radius: 18px;
-        padding: 18px 14px;
-      }
-    }
+    @media (min-width: 768px) { .service-item { border-radius: 18px; padding: 18px 14px; } }
     .service-item:hover {
       border-color: #7c4dff;
       transform: translateY(-2px);
     }
-    .service-item .service-icon {
-      font-size: 1.6rem;
-      display: block;
-      margin-bottom: 4px;
-    }
-    @media (min-width: 768px) {
-      .service-item .service-icon {
-        font-size: 2rem;
-        margin-bottom: 6px;
-      }
-    }
-    .service-item h5 {
-      font-size: 0.75rem;
-      font-weight: 600;
-    }
-    @media (min-width: 768px) {
-      .service-item h5 {
-        font-size: 0.85rem;
-      }
-    }
-    .service-item p {
-      font-size: 0.55rem;
-      color: #9288b0;
-      margin-top: 2px;
-    }
-    @media (min-width: 768px) {
-      .service-item p {
-        font-size: 0.65rem;
-      }
-    }
-
-    /* Отзывы */
+    .service-item .service-icon { font-size: 1.6rem; display: block; margin-bottom: 4px; }
+    @media (min-width: 768px) { .service-item .service-icon { font-size: 2rem; margin-bottom: 6px; } }
+    .service-item h5 { font-size: 0.75rem; font-weight: 600; }
+    @media (min-width: 768px) { .service-item h5 { font-size: 0.85rem; } }
+    .service-item p { font-size: 0.55rem; color: #9288b0; margin-top: 2px; }
+    @media (min-width: 768px) { .service-item p { font-size: 0.65rem; } }
     .reviews-grid {
       display: grid;
       grid-template-columns: 1fr;
       gap: 16px;
       margin-top: 10px;
     }
-    @media (min-width: 480px) {
-      .reviews-grid {
-        grid-template-columns: 1fr 1fr;
-      }
-    }
-    @media (min-width: 768px) {
-      .reviews-grid {
-        grid-template-columns: repeat(3, 1fr);
-        gap: 20px;
-        margin-top: 14px;
-      }
-    }
+    @media (min-width: 480px) { .reviews-grid { grid-template-columns: 1fr 1fr; } }
+    @media (min-width: 768px) { .reviews-grid { grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 14px; } }
     .review-card {
       background: #13101e;
       border-radius: 18px;
@@ -574,12 +316,7 @@
       border: 1px solid #26203a;
       transition: 0.3s;
     }
-    @media (min-width: 768px) {
-      .review-card {
-        border-radius: 22px;
-        padding: 20px 18px;
-      }
-    }
+    @media (min-width: 768px) { .review-card { border-radius: 22px; padding: 20px 18px; } }
     .review-card:hover {
       border-color: #7c4dff;
     }
@@ -602,44 +339,18 @@
       color: #fff;
       flex-shrink: 0;
     }
-    @media (min-width: 768px) {
-      .review-card .review-avatar {
-        width: 44px;
-        height: 44px;
-        font-size: 1rem;
-      }
-    }
-    .review-card .review-name {
-      font-weight: 700;
-      font-size: 0.9rem;
-    }
-    @media (min-width: 768px) {
-      .review-card .review-name {
-        font-size: 1rem;
-      }
-    }
-    .review-card .review-date {
-      font-size: 0.65rem;
-      color: #7a6e96;
-    }
-    .review-card .review-stars {
-      color: #f9a825;
-      font-size: 0.8rem;
-      letter-spacing: 2px;
-    }
+    @media (min-width: 768px) { .review-card .review-avatar { width: 44px; height: 44px; font-size: 1rem; } }
+    .review-card .review-name { font-weight: 700; font-size: 0.9rem; }
+    @media (min-width: 768px) { .review-card .review-name { font-size: 1rem; } }
+    .review-card .review-date { font-size: 0.65rem; color: #7a6e96; }
+    .review-card .review-stars { color: #f9a825; font-size: 0.8rem; letter-spacing: 2px; }
     .review-card .review-text {
       font-size: 0.75rem;
       color: #b0a8c8;
       line-height: 1.5;
       margin-top: 4px;
     }
-    @media (min-width: 768px) {
-      .review-card .review-text {
-        font-size: 0.85rem;
-      }
-    }
-
-    /* CTA */
+    @media (min-width: 768px) { .review-card .review-text { font-size: 0.85rem; } }
     .cta-section {
       background: radial-gradient(ellipse at 50% 30%, #1f1830, #0c0a14 70%);
       padding: 30px 0 25px;
@@ -647,41 +358,12 @@
       border-bottom: 1px solid rgba(124, 77, 255, 0.08);
       text-align: center;
     }
-    @media (min-width: 768px) {
-      .cta-section {
-        padding: 50px 0 40px;
-      }
-    }
-    .cta-section h2 {
-      font-size: 1.8rem;
-      font-weight: 800;
-      margin-bottom: 6px;
-    }
-    @media (min-width: 480px) {
-      .cta-section h2 {
-        font-size: 2.2rem;
-      }
-    }
-    @media (min-width: 768px) {
-      .cta-section h2 {
-        font-size: 2.6rem;
-        margin-bottom: 10px;
-      }
-    }
-    .cta-section p {
-      color: #b0a8c8;
-      font-size: 0.85rem;
-      max-width: 600px;
-      margin: 0 auto 16px;
-    }
-    @media (min-width: 768px) {
-      .cta-section p {
-        font-size: 1rem;
-        margin-bottom: 24px;
-      }
-    }
-
-    /* Кнопки */
+    @media (min-width: 768px) { .cta-section { padding: 50px 0 40px; } }
+    .cta-section h2 { font-size: 1.8rem; font-weight: 800; margin-bottom: 6px; }
+    @media (min-width: 480px) { .cta-section h2 { font-size: 2.2rem; } }
+    @media (min-width: 768px) { .cta-section h2 { font-size: 2.6rem; margin-bottom: 10px; } }
+    .cta-section p { color: #b0a8c8; font-size: 0.85rem; max-width: 600px; margin: 0 auto 16px; }
+    @media (min-width: 768px) { .cta-section p { font-size: 1rem; margin-bottom: 24px; } }
     .btn-primary.pink {
       background: linear-gradient(135deg, #ff6ec7, #ff3d8a);
       box-shadow: 0 4px 30px rgba(255, 110, 199, 0.25);
@@ -689,19 +371,9 @@
     .btn-primary.pink:hover {
       box-shadow: 0 8px 40px rgba(255, 110, 199, 0.35);
     }
-
-    .section-padding {
-      padding: 30px 0 25px;
-    }
-    @media (min-width: 768px) {
-      .section-padding {
-        padding: 50px 0 40px;
-      }
-    }
-    .section-border {
-      border-bottom: 1px solid #1f1a2e;
-    }
-
+    .section-padding { padding: 30px 0 25px; }
+    @media (min-width: 768px) { .section-padding { padding: 50px 0 40px; } }
+    .section-border { border-bottom: 1px solid #1f1a2e; }
     @media (max-width: 360px) {
       .horror-hero-content h1 { font-size: 2rem; }
       .how-grid { grid-template-columns: 1fr; }
@@ -750,7 +422,6 @@
         <h1>Хоррор <span class="highlight">вечер</span></h1>
         <p>Уникальное хоррор-свидание, которое впечатлит вашу вторую половинку и подарит вам непередаваемые эмоции экстрима, любви и интереса!</p>
         
-        <!-- ВЫБОР ЛОКАЦИИ -->
         <div class="horror-location-selector">
           <button class="loc-btn active" data-location="profsoyuznaya">
             <span class="pin">📍</span> Профсоюзная
@@ -790,30 +461,12 @@
       <div class="container">
         <h2 class="section-title">Хоррор <span class="highlight">свидание</span> на Профсоюзной</h2>
         <p class="section-sub">Романтическое свидание с элементами хоррора. Проведите незабываемый вечер вдвоём в атмосфере мистики и страха.</p>
-        
         <div class="how-grid">
-          <div class="how-card">
-            <div class="step-number">1</div>
-            <h4>🍷 Уютная комната для просмотра</h4>
-            <p>Вас приведут в атмосферную комнату для просмотра ужастика. Вас будут ждать на выбор: вино или чай, сырная или фруктовая тарелка.</p>
-          </div>
-          <div class="how-card">
-            <div class="step-number">2</div>
-            <h4>👻 Фильм превращается в реальность</h4>
-            <p>Во время фильма будет интересное появление сущностей. Актёры начнут своё представление прямо в комнате для просмотра.</p>
-          </div>
-          <div class="how-card">
-            <div class="step-number">3</div>
-            <h4>🧩 Квест в 5-ти комнатах</h4>
-            <p>Уровень страха и контакта с актерами вы выбираете заранее. От лёгкого до хард — решать только вам!</p>
-          </div>
-          <div class="how-card">
-            <div class="step-number">4</div>
-            <h4>📸 На память</h4>
-            <p>По желанию — видео-съёмка вашего приключения. А также опция, когда вы сами становитесь на сторону зла!</p>
-          </div>
+          <div class="how-card"><div class="step-number">1</div><h4>🍷 Уютная комната для просмотра</h4><p>Вас приведут в атмосферную комнату для просмотра ужастика. Вас будут ждать на выбор: вино или чай, сырная или фруктовая тарелка.</p></div>
+          <div class="how-card"><div class="step-number">2</div><h4>👻 Фильм превращается в реальность</h4><p>Во время фильма будет интересное появление сущностей. Актёры начнут своё представление прямо в комнате для просмотра.</p></div>
+          <div class="how-card"><div class="step-number">3</div><h4>🧩 Квест в 5-ти комнатах</h4><p>Уровень страха и контакта с актерами вы выбираете заранее. От лёгкого до хард — решать только вам!</p></div>
+          <div class="how-card"><div class="step-number">4</div><h4>📸 На память</h4><p>По желанию — видео-съёмка вашего приключения. А также опция, когда вы сами становитесь на сторону зла!</p></div>
         </div>
-
         <div style="text-align:center; margin-top:20px;">
           <button class="btn-primary pink" onclick="openBooking('Хоррор свидание (Профсоюзная)','Романтическое хоррор-свидание на м. Профсоюзная',4500,false)">Забронировать свидание</button>
         </div>
@@ -827,30 +480,12 @@
       <div class="container">
         <h2 class="section-title">Хоррор <span class="highlight">вечер</span> на Таганской</h2>
         <p class="section-sub">Погрузитесь в мир мистики и ужаса. Хоррор вечер для смелых пар, которые хотят проверить свои чувства на прочность.</p>
-        
         <div class="how-grid">
-          <div class="how-card">
-            <div class="step-number">1</div>
-            <h4>🕯️ Мистическая атмосфера</h4>
-            <p>Вас встретит тематическая комната с приглушённым светом, свечами и антуражем, который настроит на нужный лад.</p>
-          </div>
-          <div class="how-card">
-            <div class="step-number">2</div>
-            <h4>👻 Полное погружение в хоррор</h4>
-            <p>Профессиональные актёры создадут эффект полного присутствия. Вы станете частью страшной истории.</p>
-          </div>
-          <div class="how-card">
-            <div class="step-number">3</div>
-            <h4>🧩 Испытание для двоих</h4>
-            <p>Вместе вам предстоит пройти через серию испытаний, которые проверят ваши нервы и чувства.</p>
-          </div>
-          <div class="how-card">
-            <div class="step-number">4</div>
-            <h4>💝 Романтика в экстриме</h4>
-            <p>После пережитых эмоций вас ждёт романтический финал с напитками и приятными сюрпризами.</p>
-          </div>
+          <div class="how-card"><div class="step-number">1</div><h4>🕯️ Мистическая атмосфера</h4><p>Вас встретит тематическая комната с приглушённым светом, свечами и антуражем, который настроит на нужный лад.</p></div>
+          <div class="how-card"><div class="step-number">2</div><h4>👻 Полное погружение в хоррор</h4><p>Профессиональные актёры создадут эффект полного присутствия. Вы станете частью страшной истории.</p></div>
+          <div class="how-card"><div class="step-number">3</div><h4>🧩 Испытание для двоих</h4><p>Вместе вам предстоит пройти через серию испытаний, которые проверят ваши нервы и чувства.</p></div>
+          <div class="how-card"><div class="step-number">4</div><h4>💝 Романтика в экстриме</h4><p>После пережитых эмоций вас ждёт романтический финал с напитками и приятными сюрпризами.</p></div>
         </div>
-
         <div style="text-align:center; margin-top:20px;">
           <button class="btn-primary pink" onclick="openBooking('Хоррор вечер (Таганская)','Хоррор вечер на м. Таганская',5000,false)">Забронировать вечер</button>
         </div>
@@ -918,9 +553,9 @@
     <div class="container">
       <h2 class="section-title">📍 Как нас <span class="highlight">найти</span></h2>
       <p class="section-sub">Приходите к нам по адресу или свяжитесь для выездного мероприятия</p>
-    <div class="map-wrapper">
-      <iframe src="https://yandex.ru/map-widget/v1/?um=constructor%3A1a2b3c4d5e6f7g8h9i0j&source=constructor&lang=ru_RU&scroll=true" allowfullscreen></iframe>
-    </div>
+      <div class="map-wrapper">
+        <iframe src="https://yandex.ru/map-widget/v1/?um=constructor%3A1a2b3c4d5e6f7g8h9i0j&source=constructor&lang=ru_RU&scroll=true" allowfullscreen></iframe>
+      </div>
     </div>
   </section>
 
@@ -985,19 +620,22 @@
       <div class="step-content active" data-step="1">
         <div class="booking-grid">
           <div class="booking-info">
-            <div style="margin-top:12px; background:linear-gradient(135deg, rgba(124,77,255,0.1), rgba(179,136,255,0.05)); border-radius:14px; padding:14px 16px; border:1px solid rgba(124,77,255,0.15);">
-  <div style="display:flex; justify-content:space-between; align-items:center;">
-    <span style="font-size:0.85rem; color:#b0a8c8;">Итого к оплате:</span>
-    <span style="font-size:1.4rem; font-weight:800; color:#b388ff;" id="bookingTotalDisplay">0 ₽</span>
-  </div>
-  <div style="display:flex; justify-content:space-between; font-size:0.7rem; color:#7a6e96; margin-top:4px;">
-    <span>Включая депозит 500 ₽</span>
-    <span id="bookingPriceDisplay">3 500 ₽</span>
-  </div>
-</div>
+            <!-- ИТОГО К ОПЛАТЕ (ШАГ 1) -->
+            <div style="margin-top:12px; background:linear-gradient(135deg, rgba(124,77,255,0.12), rgba(179,136,255,0.06)); border-radius:14px; padding:14px 18px; border:1px solid rgba(124,77,255,0.15);">
+              <div style="display:flex; justify-content:space-between; align-items:center;">
+                <span style="font-size:0.85rem; color:#b0a8c8;">Итого к оплате:</span>
+                <span style="font-size:1.4rem; font-weight:800; color:#b388ff;" id="bookingTotalDisplay">0 ₽</span>
+              </div>
+              <div style="display:flex; justify-content:space-between; font-size:0.7rem; color:#7a6e96; margin-top:4px;">
+                <span>Цена квеста: <span id="bookingPriceDisplay">0</span> ₽</span>
+                <span>Предоплата: <span id="bookingDepositDisplay">1 500</span> ₽</span>
+              </div>
+            </div>
+
             <h3 id="bookQuestName">Хоррор вечер</h3>
             <div class="desc" id="bookQuestDesc">Романтическое свидание с хоррор-элементами.</div>
             <div class="meta"><span>⏱ 60-90 мин</span><span>👥 2–8 чел.</span><span>⚡ Сложность: 4/5</span></div>
+
             <div class="booking-photos-carousel">
               <div class="booking-photos-track" id="bookingPhotosTrack">
                 <div class="booking-photos-slide"><div style="text-align:center;"><div>👻</div><div class="slide-label">Мистическая атмосфера</div></div></div>
@@ -1034,6 +672,7 @@
               </div>
               <div class="time-grid" id="timeGrid"></div>
             </div>
+
             <div style="margin-top:10px;">
               <label>Количество участников</label>
               <div class="quantity-control">
@@ -1042,13 +681,7 @@
                 <button class="qty-btn" onclick="changeBookingPlayers(1)">+</button>
               </div>
             </div>
-            <div style="margin-top:12px; background:#13101e; border-radius:14px; padding:12px; border:1px solid #26203a;">
-              <strong style="font-size:0.85rem;">Краткая информация</strong>
-              <div style="display:flex; justify-content:space-between; font-size:0.8rem; color:#b0a8c8; margin-top:4px;">
-                <span>Цена: <span id="bookingPriceDisplay">4 500</span> ₽</span>
-                <span>Депозит: 500 ₽</span>
-              </div>
-            </div>
+
             <div class="btn-group">
               <button class="btn-primary" onclick="goStep(2)">Далее →</button>
             </div>
@@ -1060,6 +693,17 @@
       <div class="step-content" data-step="2">
         <h3 style="margin-bottom:10px; font-size:1.2rem;">Опции и дополнения</h3>
         <div class="options-grid" id="optionsGrid"></div>
+        <!-- ИТОГО К ОПЛАТЕ (ШАГ 2) -->
+        <div style="margin-top:16px; background:linear-gradient(135deg, rgba(124,77,255,0.12), rgba(179,136,255,0.06)); border-radius:14px; padding:14px 18px; border:1px solid rgba(124,77,255,0.15);">
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <span style="font-size:0.85rem; color:#b0a8c8;">Итого к оплате:</span>
+            <span style="font-size:1.4rem; font-weight:800; color:#b388ff;" id="bookingTotalDisplayStep2">0 ₽</span>
+          </div>
+          <div style="display:flex; justify-content:space-between; font-size:0.7rem; color:#7a6e96; margin-top:4px;">
+            <span>Цена квеста: <span id="bookingPriceDisplay2">3 500</span> ₽</span>
+            <span>Предоплата: <span id="bookingDepositDisplay2">1 500</span> ₽</span>
+          </div>
+        </div>
         <div class="btn-group">
           <button class="btn-outline" onclick="goStep(1)">← Назад</button>
           <button class="btn-primary" onclick="goStep(3)">Далее →</button>
@@ -1082,6 +726,17 @@
           </div>
           <label>Комментарий к заказу</label>
           <textarea id="bookingComment" placeholder="Дополнительные пожелания..." rows="2"></textarea>
+          <!-- ИТОГО К ОПЛАТЕ (ШАГ 3) -->
+          <div style="margin-top:16px; background:linear-gradient(135deg, rgba(124,77,255,0.12), rgba(179,136,255,0.06)); border-radius:14px; padding:14px 18px; border:1px solid rgba(124,77,255,0.15);">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+              <span style="font-size:0.85rem; color:#b0a8c8;">Итого к оплате:</span>
+              <span style="font-size:1.4rem; font-weight:800; color:#b388ff;" id="bookingTotalDisplayStep3">0 ₽</span>
+            </div>
+            <div style="display:flex; justify-content:space-between; font-size:0.7rem; color:#7a6e96; margin-top:4px;">
+              <span>Цена квеста: <span id="bookingPriceDisplay3">3 500</span> ₽</span>
+              <span>Предоплата: <span id="bookingDepositDisplay3">1 500</span> ₽</span>
+            </div>
+          </div>
           <div class="btn-group">
             <button class="btn-outline" onclick="goStep(2)">← Назад</button>
             <button class="btn-primary" onclick="goStep(4)">Перейти к оплате</button>
@@ -1099,8 +754,20 @@
           <div class="row"><span>Количество участников</span><span id="receiptPlayers">4</span></div>
           <div class="row"><span>Доп. услуги</span><span id="receiptExtras">—</span></div>
           <div class="row"><span>Способ связи</span><span id="receiptMethod">WhatsApp</span></div>
-          <div class="row"><span>Скидка</span><span>-10%</span></div>
+          <div class="row"><span>Сумма</span><span id="receiptSubtotal">0 ₽</span></div>
+          <div class="row"><span>Скидка</span><span id="receiptDiscount">—</span></div>
           <div class="row total"><span>Итого</span><span id="receiptTotal">4 050 ₽</span></div>
+          <!-- ИТОГО К ОПЛАТЕ (ШАГ 4) -->
+          <div style="margin-top:12px; background:linear-gradient(135deg, rgba(124,77,255,0.12), rgba(179,136,255,0.06)); border-radius:14px; padding:14px 18px; border:1px solid rgba(124,77,255,0.15);">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+              <span style="font-size:0.85rem; color:#b0a8c8;">Итого к оплате:</span>
+              <span style="font-size:1.4rem; font-weight:800; color:#b388ff;" id="bookingTotalDisplayStep4">0 ₽</span>
+            </div>
+            <div style="display:flex; justify-content:space-between; font-size:0.7rem; color:#7a6e96; margin-top:4px;">
+              <span>Цена квеста: <span id="bookingPriceDisplay4">3 500</span> ₽</span>
+              <span>Предоплата: <span id="bookingDepositDisplay4">1 500</span> ₽</span>
+            </div>
+          </div>
           <div class="btn-group">
             <button class="btn-outline" onclick="goStep(3)">← Назад</button>
             <button class="btn-primary" onclick="confirmBooking()">Подтвердить бронь</button>
@@ -1114,28 +781,23 @@
   <script src="js/main.js"></script>
   
   <script>
-    // ===== ПЕРЕКЛЮЧЕНИЕ ЛОКАЦИЙ =====
     document.addEventListener('DOMContentLoaded', function() {
       const locBtns = document.querySelectorAll('.horror-location-selector .loc-btn');
       const contents = {
         'profsoyuznaya': document.getElementById('content-profsoyuznaya'),
         'taganskaya': document.getElementById('content-taganskaya')
       };
-      
       const bookBtns = document.querySelectorAll('#horrorBookBtn, #ctaBookBtn');
-      
       locBtns.forEach(btn => {
         btn.addEventListener('click', function() {
           locBtns.forEach(b => b.classList.remove('active'));
           this.classList.add('active');
-          
           const location = this.dataset.location;
           Object.keys(contents).forEach(key => {
             if (contents[key]) {
               contents[key].classList.toggle('active', key === location);
             }
           });
-          
           const isProf = location === 'profsoyuznaya';
           bookBtns.forEach(b => {
             b.onclick = function() {
@@ -1148,8 +810,6 @@
           });
         });
       });
-      
-      // Инициализация
       const activeBtn = document.querySelector('.horror-location-selector .loc-btn.active');
       if (activeBtn) {
         const location = activeBtn.dataset.location;
@@ -1159,8 +819,6 @@
           }
         });
       }
-      
-      // Кнопки по умолчанию — Профсоюзная
       bookBtns.forEach(b => {
         b.onclick = function() {
           openBooking('Хоррор свидание (Профсоюзная)', 'Романтическое хоррор-свидание на м. Профсоюзная', 4500, false);

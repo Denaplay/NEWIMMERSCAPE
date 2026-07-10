@@ -1,7 +1,7 @@
 // ===== BOOKING SYSTEM =====
 // Глобальные переменные
 let currentStep = 1;
-let currentBookingPrice = 3500;
+let currentBookingPrice = 0;
 let currentBookingName = 'Невеста';
 let currentBookingDesc = '';
 let isPackageBooking = false;
@@ -15,6 +15,19 @@ today.setHours(0, 0, 0, 0);
 let promoApplied = false;
 let promoCode = 'квест10';
 let isWeekday = true;
+
+// ============================================================
+// ===== ЭКРАНИРОВАНИЕ ДЛЯ HTML-АТРИБУТОВ =====
+// (защищает от поломки вёрстки, если в названии/описании есть кавычки —
+//  например 'Стоматология "Новая жизнь"')
+// ============================================================
+function escapeAttr(str) {
+  return String(str == null ? '' : str)
+    .replace(/&/g, '&amp;')
+    .replace(/"/g, '&quot;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;');
+}
 
 // ============================================================
 // ===== ДАННЫЕ КВЕСТОВ С ЦЕНАМИ ПО ВРЕМЕНИ =====
@@ -320,13 +333,11 @@ function getMapUrl(location) {
 }
 
 // ============================================================
-// ===== ОСНОВНЫЕ ФУНКЦИИ =====
+// ===== ПОЛУЧЕНИЕ ЦЕНЫ ПО ВРЕМЕНИ =====
 // ============================================================
-
-// ПОЛУЧЕНИЕ ЦЕНЫ ПО ВРЕМЕНИ
 function getPriceByTime(questName, timeSlot) {
   const quest = questsData.find(q => q.name === questName);
-  if (!quest || !quest.prices) return quest ? quest.price : 3500;
+  if (!quest || !quest.prices) return quest ? quest.price : 0;
   
   const prices = quest.prices;
   
@@ -340,21 +351,29 @@ function getPriceByTime(questName, timeSlot) {
     return prices['Всегда'] || 7990;
   }
   
+  // Поиск по диапазонам времени
   for (const [range, price] of Object.entries(prices)) {
     if (range.includes('-')) {
       const [start, end] = range.split('-');
-      if (timeSlot >= start && timeSlot <= end) {
-        return price;
+      if (start <= end) {
+        // Обычный диапазон в пределах одних суток
+        if (timeSlot >= start && timeSlot <= end) {
+          return price;
+        }
+      } else {
+        // Диапазон переходит через полночь (например '19:00-10:15')
+        if (timeSlot >= start || timeSlot <= end) {
+          return price;
+        }
       }
     } else if (range === timeSlot) {
       return price;
     }
   }
   
-  return quest.price || 3500;
+  return quest.price || 0;
 }
 
-// ПОЛУЧЕНИЕ ТИПА БРОНИРОВАНИЯ
 function getBookingType(name) {
   if (name.includes('Пакет') || name.includes('Свой пакет')) {
     return 'package';
@@ -392,7 +411,6 @@ function getQuestPhotos(questName) {
   return quest && quest.photos ? quest.photos : ['🎭', '🔮', '✨'];
 }
 
-// TOAST
 function showToast(msg, duration) {
   const t = document.getElementById('toast');
   if (!t) {
@@ -406,7 +424,7 @@ function showToast(msg, duration) {
 }
 
 // ============================================================
-// ===== ОБНОВЛЕНИЕ ФОТО В БРОНИРОВАНИИ =====
+// ===== ОБНОВЛЕНИЕ ФОТО =====
 // ============================================================
 function updateBookingPhotos(questName) {
   const photos = getQuestPhotos(questName);
@@ -465,15 +483,15 @@ function updateBookingPhotoPosition() {
 }
 
 // ============================================================
-// ===== ОБНОВЛЕНИЕ ИТОГОВОЙ СУММЫ (ШАГ 1) =====
+// ===== ОСНОВНАЯ ФУНКЦИЯ: ОБНОВЛЕНИЕ ИТОГОВОЙ СУММЫ =====
 // ============================================================
 function updateTotalDisplay() {
   const players = parseInt(document.getElementById('bookingPlayersDisplay').textContent) || 1;
   const activeTime = document.querySelector('.time-slot.active');
   const selectedOptions = document.querySelectorAll('.option-checkbox:checked');
   
-  // === БАЗОВАЯ ЦЕНА ===
-  let basePrice = currentBookingPrice;
+  // === ОПРЕДЕЛЯЕМ БАЗОВУЮ ЦЕНУ ===
+  let basePrice = 0;
   
   if (activeTime && currentBookingName) {
     const time = activeTime.querySelector('.slot-time').textContent;
@@ -481,18 +499,16 @@ function updateTotalDisplay() {
     if (priceByTime) {
       basePrice = priceByTime;
       currentBookingPrice = priceByTime;
-      document.getElementById('bookingPriceDisplay').textContent = priceByTime;
     }
   } else {
     const quest = questsData.find(q => q.name === currentBookingName);
     if (quest) {
       basePrice = quest.price;
       currentBookingPrice = quest.price;
-      document.getElementById('bookingPriceDisplay').textContent = quest.price;
     }
   }
   
-  // === ОПЦИИ ===
+  // === СЧИТАЕМ ОПЦИИ ===
   let optionTotal = 0;
   selectedOptions.forEach(el => {
     optionTotal += parseInt(el.dataset.price || 0);
@@ -505,10 +521,10 @@ function updateTotalDisplay() {
     extraPlayerCost = (players - basePlayers) * 1500;
   }
   
-  // === ИТОГО ===
+  // === ПОДСЧЁТ ИТОГО ===
   const subtotal = basePrice + optionTotal + extraPlayerCost;
   
-  // === СКИДКА ===
+  // === СКИДКА ПО ПРОМОКОДУ ===
   const now = new Date();
   const day = now.getDay();
   const isWeekday = day !== 0 && day !== 6;
@@ -518,16 +534,72 @@ function updateTotalDisplay() {
   }
   
   const total = subtotal - discount;
+  const deposit = 1500; // Предоплата
   
   // === ОБНОВЛЯЕМ ОТОБРАЖЕНИЕ ===
+  // Шаг 1
   const totalDisplay = document.getElementById('bookingTotalDisplay');
   if (totalDisplay) {
     totalDisplay.textContent = `${total} ₽`;
   }
   
+  // Шаг 2
+  const totalDisplayStep2 = document.getElementById('bookingTotalDisplayStep2');
+  if (totalDisplayStep2) {
+    totalDisplayStep2.textContent = `${total} ₽`;
+  }
+  
+  // Шаг 3
+  const totalDisplayStep3 = document.getElementById('bookingTotalDisplayStep3');
+  if (totalDisplayStep3) {
+    totalDisplayStep3.textContent = `${total} ₽`;
+  }
+  
+  // Шаг 4
+  const totalDisplayStep4 = document.getElementById('bookingTotalDisplayStep4');
+  if (totalDisplayStep4) {
+    totalDisplayStep4.textContent = `${total} ₽`;
+  }
+  
+  // Обновляем цену квеста во всех местах
   const priceDisplay = document.getElementById('bookingPriceDisplay');
   if (priceDisplay) {
     priceDisplay.textContent = basePrice;
+  }
+  
+  const priceDisplay2 = document.getElementById('bookingPriceDisplay2');
+  if (priceDisplay2) {
+    priceDisplay2.textContent = basePrice;
+  }
+  
+  const priceDisplay3 = document.getElementById('bookingPriceDisplay3');
+  if (priceDisplay3) {
+    priceDisplay3.textContent = basePrice;
+  }
+  
+  const priceDisplay4 = document.getElementById('bookingPriceDisplay4');
+  if (priceDisplay4) {
+    priceDisplay4.textContent = basePrice;
+  }
+  
+  const depositDisplay = document.getElementById('bookingDepositDisplay');
+  if (depositDisplay) {
+    depositDisplay.textContent = `${deposit} ₽`;
+  }
+  
+  const depositDisplay2 = document.getElementById('bookingDepositDisplay2');
+  if (depositDisplay2) {
+    depositDisplay2.textContent = `${deposit} ₽`;
+  }
+  
+  const depositDisplay3 = document.getElementById('bookingDepositDisplay3');
+  if (depositDisplay3) {
+    depositDisplay3.textContent = `${deposit} ₽`;
+  }
+  
+  const depositDisplay4 = document.getElementById('bookingDepositDisplay4');
+  if (depositDisplay4) {
+    depositDisplay4.textContent = `${deposit} ₽`;
   }
 }
 
@@ -542,7 +614,7 @@ function openBooking(name, desc, price, isPackage) {
   isPackageBooking = isPackage || false;
   currentBookingName = name;
   currentBookingDesc = desc || '';
-  currentBookingPrice = price || 3500;
+  currentBookingPrice = price || 0;
   
   const overlay = document.getElementById('bookingOverlay');
   if (!overlay) return;
@@ -550,12 +622,17 @@ function openBooking(name, desc, price, isPackage) {
   document.getElementById('bookQuestName').textContent = name;
   document.getElementById('bookQuestDesc').textContent = desc || 'Погрузитесь в атмосферу приключения!';
   
-  // Устанавливаем базовую цену для отображения
   const quest = questsData.find(q => q.name === name);
   if (quest) {
     currentBookingPrice = quest.price;
-    document.getElementById('bookingPriceDisplay').textContent = quest.price;
   }
+  
+  const metaTime = document.getElementById('bookQuestMetaTime');
+  const metaPlayers = document.getElementById('bookQuestMetaPlayers');
+  const metaDifficulty = document.getElementById('bookQuestMetaDifficulty');
+  if (metaTime) metaTime.textContent = quest ? quest.time : '60-90 мин';
+  if (metaPlayers) metaPlayers.textContent = quest ? quest.players : '1–8';
+  if (metaDifficulty) metaDifficulty.textContent = quest ? quest.difficulty : '—';
   
   updateBookingPhotos(name);
   
@@ -567,8 +644,8 @@ function openBooking(name, desc, price, isPackage) {
   
   renderCalendar(currentMonth, currentYear);
   
-  bookingPlayersValue = 1;
-  document.getElementById('bookingPlayersDisplay').textContent = '1';
+  bookingPlayersValue = (quest && quest.minPlayers) || 1;
+  document.getElementById('bookingPlayersDisplay').textContent = String(bookingPlayersValue);
   
   promoApplied = false;
   const promoInput = document.getElementById('promoInput');
@@ -583,7 +660,6 @@ function openBooking(name, desc, price, isPackage) {
   const packageQuestSelect = document.getElementById('packageQuestSelect');
   const optionsTitle = document.querySelector('.step-content[data-step="2"] h3');
   
-  // === АДРЕС И КАРТА ===
   let location = quest ? quest.loc : '';
   const address = getLocationAddress(location);
   const mapUrl = getMapUrl(location);
@@ -722,7 +798,6 @@ function goStep(n) {
       const questName = getCurrentQuestName();
       const price = getPriceByTime(questName, selectedTime);
       currentBookingPrice = price;
-      document.getElementById('bookingPriceDisplay').textContent = price;
       updateTotalDisplay();
       updateReceipt();
     }
@@ -741,9 +816,6 @@ function goStep(n) {
       }
     }
   }
-  
-  const isPackage = currentBookingName.includes('Пакет') || currentBookingName.includes('Свой пакет');
-  if (isPackage && n === 4) return;
   
   document.querySelectorAll('.step-content').forEach(el => el.classList.remove('active'));
   document.querySelectorAll('.step-btn').forEach(el => el.classList.remove('active'));
@@ -900,7 +972,6 @@ function generateTimeSlots(questName) {
           const questName = getCurrentQuestName();
           const price = getPriceByTime(questName, selectedTime);
           currentBookingPrice = price;
-          document.getElementById('bookingPriceDisplay').textContent = price;
           updateTotalDisplay();
           updateReceipt();
         }
@@ -910,9 +981,6 @@ function generateTimeSlots(questName) {
   });
 }
 
-// ============================================================
-// ===== ПОЛУЧЕНИЕ ТЕКУЩЕГО КВЕСТА =====
-// ============================================================
 function getCurrentQuestName() {
   const select = document.getElementById('packageQuestChoice');
   if (select && document.getElementById('packageQuestSelect').style.display !== 'none') {
@@ -942,7 +1010,7 @@ function renderOptions(options) {
       <div class="option-price">${opt.price} ₽</div>
       <div style="font-size:0.7rem; color:#9288b0; margin-top:4px; max-width:100%; display:block; line-height:1.4; padding:4px 8px; background:rgba(124,77,255,0.05); border-radius:8px;" class="option-desc">${opt.desc}</div>
       <button class="option-desc-toggle" style="background:rgba(124,77,255,0.15); border:1px solid rgba(124,77,255,0.2); color:#b388ff; font-size:0.6rem; cursor:pointer; margin-top:4px; padding:4px 12px; border-radius:40px; font-weight:600; transition:0.2s;">Скрыть описание</button>
-      <input type="checkbox" class="option-checkbox" data-price="${opt.price}" data-name="${opt.name}" />
+      <input type="checkbox" class="option-checkbox" data-price="${opt.price}" data-name="${escapeAttr(opt.name)}" />
     `;
     
     const desc = card.querySelector('.option-desc');
@@ -1167,7 +1235,6 @@ document.addEventListener('DOMContentLoaded', function() {
       const quest = questsData.find(q => q.name === this.value);
       if (quest) {
         currentBookingPrice = quest.price;
-        document.getElementById('bookingPriceDisplay').textContent = quest.price;
       }
       updateTotalDisplay();
       updateReceipt();
@@ -1232,7 +1299,8 @@ function initBookingPhotos() {
 // ===== ИЗМЕНЕНИЕ КОЛИЧЕСТВА УЧАСТНИКОВ =====
 // ============================================================
 function changeBookingPlayers(delta) {
-  const minPlayers = 1;
+  const quest = questsData.find(q => q.name === currentBookingName);
+  const minPlayers = (quest && quest.minPlayers) || 1;
   const maxPlayers = 20;
   const newValue = bookingPlayersValue + delta;
   
@@ -1310,7 +1378,7 @@ document.addEventListener('click', function(e) {
   if (!btn) return;
   
   const name = btn.dataset.questName || btn.dataset.package || 'Квест';
-  const price = parseInt(btn.dataset.price || btn.dataset.questPrice || 3500);
+  const price = parseInt(btn.dataset.price || btn.dataset.questPrice || 0);
   const desc = btn.dataset.questDesc || 'Погрузитесь в атмосферу приключения!';
   
   e.preventDefault();

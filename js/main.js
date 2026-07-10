@@ -9,7 +9,7 @@ const quests = [
     age: '16+',
     loc: 'м. Профсоюзная',
     time: '60 мин',
-    players: '3–6',
+    players: '1–6',
     difficulty: '4/5',
     desc: 'Интересные загадки · Страшный',
     price: 6500,
@@ -23,7 +23,7 @@ const quests = [
     age: '12+',
     loc: 'м. Профсоюзная',
     time: '60 мин',
-    players: '3–6',
+    players: '1–6',
     difficulty: '3/5',
     desc: 'Путешествие по мультивселенной.',
     price: 6500,
@@ -37,7 +37,7 @@ const quests = [
     age: '14+',
     loc: 'м. Профсоюзная',
     time: '75 мин',
-    players: '3–8',
+    players: '1–8',
     difficulty: '4/5',
     desc: 'Расследуйте исчезновение кумира.',
     price: 5500,
@@ -51,7 +51,7 @@ const quests = [
     age: '14+',
     loc: 'м. Измайловская',
     time: '70 мин',
-    players: '3–5',
+    players: '1–5',
     difficulty: '5/5',
     desc: 'Таинственная комната с сюрпризами.',
     price: 4990,
@@ -65,7 +65,7 @@ const quests = [
     age: '16+',
     loc: 'м. Измайловская',
     time: '80 мин',
-    players: '3–6',
+    players: '1–6',
     difficulty: '5/5',
     desc: 'Погружение в тёмные лабиринты сознания.',
     price: 5990,
@@ -79,7 +79,7 @@ const quests = [
     age: '16+',
     loc: 'м. Таганская',
     time: '60 мин',
-    players: '3–6',
+    players: '1–6',
     difficulty: '4/5',
     desc: 'Мистический хоррор с живым актёром.',
     price: 5500,
@@ -93,7 +93,7 @@ const quests = [
     age: '8+',
     loc: 'м. Таганская',
     time: '60 мин',
-    players: '3–7',
+    players: '1–7',
     difficulty: '3/5',
     desc: 'Магия и школа чародейства.',
     price: 5500,
@@ -107,7 +107,7 @@ const quests = [
     age: '6+',
     loc: 'м. Таганская',
     time: '50 мин',
-    players: '3–8',
+    players: '1–8',
     difficulty: '2/5',
     desc: 'Сказочное приключение для малышей.',
     price: 5500,
@@ -121,7 +121,7 @@ const quests = [
     age: '16+',
     loc: 'м. Таганская',
     time: '70 мин',
-    players: '3–6',
+    players: '1–6',
     difficulty: '5/5',
     desc: 'Древний монастырь с мистическими тайнами.',
     price: 5990,
@@ -135,12 +135,40 @@ const quests = [
     age: '6+',
     loc: 'м. Таганская',
     time: '55 мин',
-    players: '3–8',
+    players: '1–8',
     difficulty: '2/5',
     desc: 'Приключение по мотивам любимой истории.',
     price: 5500,
     oldPrice: 7500,
     emoji: '🎄'
+  },
+  {
+    name: 'Хоррор-свидание',
+    tags: ['романтика', 'хоррор'],
+    genre: 'хоррор',
+    age: '16+',
+    loc: 'м. Профсоюзная',
+    time: '60-90 мин',
+    players: '1–8',
+    difficulty: '4/5',
+    desc: 'Романтическое свидание с элементами хоррора.',
+    price: 10000,
+    oldPrice: 15000,
+    emoji: '❤️‍🔥'
+  },
+  {
+    name: 'Хоррор-вечер',
+    tags: ['хоррор', 'мистика'],
+    genre: 'хоррор',
+    age: '16+',
+    loc: 'м. Таганская',
+    time: '60-90 мин',
+    players: '1–8',
+    difficulty: '4/5',
+    desc: 'Хоррор вечер для смелых пар.',
+    price: 5500,
+    oldPrice: 7500,
+    emoji: '🌙'
   },
   {
     name: 'Among Us',
@@ -199,7 +227,7 @@ function createQuestCard(q) {
     </div>
     <div class="card-footer">
       <span class="price">от ${q.price} ₽ <small>${q.oldPrice} ₽</small></span>
-      <button class="btn-book-sm" data-quest-name="${q.name}" data-quest-desc="${q.desc}" data-quest-price="${q.price}">Забронировать</button>
+      <button class="btn-book-sm" data-quest-name="${escapeAttr(q.name)}" data-quest-desc="${escapeAttr(q.desc)}" data-quest-price="${q.price}">Забронировать</button>
     </div>
   `;
   const btn = card.querySelector('.btn-book-sm');
@@ -401,7 +429,6 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   });
   
-  // Убираем анимацию при загрузке
   document.body.classList.remove('page-transition');
 });
 
@@ -417,12 +444,12 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   }
 });
+
 // ===== КОПИРОВАНИЕ ПРОМОКОДА =====
 function copyPromoCode() {
   const promoCode = 'КВЕСТ10';
   const btn = document.querySelector('.promo-code-btn');
   
-  // Копируем в буфер обмена
   if (navigator.clipboard && navigator.clipboard.writeText) {
     navigator.clipboard.writeText(promoCode).then(() => {
       showCopyTooltip(btn, '✅ Скопировано!');

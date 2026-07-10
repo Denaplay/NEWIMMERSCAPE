@@ -3067,6 +3067,35 @@ body.page-transition {
   border-color: #7c4dff;
   color: #fff;
 }
+.booking-summary-card {
+  margin-top: 16px;
+  background: linear-gradient(135deg, rgba(124, 77, 255, 0.12), rgba(179, 136, 255, 0.06));
+  border-radius: 14px;
+  padding: 16px 20px;
+  border: 1px solid rgba(124, 77, 255, 0.15);
+}
+.booking-summary-card .row-between {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.booking-summary-card .summary-label {
+  font-size: 0.9rem;
+  color: #b0a8c8;
+  font-weight: 500;
+}
+.booking-summary-card .summary-total {
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: #b388ff;
+}
+.booking-summary-card .summary-subrow {
+  font-size: 0.75rem;
+  color: #7a6e96;
+  margin-top: 6px;
+  padding-top: 6px;
+  border-top: 1px solid rgba(255, 255, 255, 0.04);
+}
 .btn-group {
   display: flex;
   flex-wrap: wrap;
