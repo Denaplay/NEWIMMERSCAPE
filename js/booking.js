@@ -5,29 +5,202 @@ let currentBookingPrice = 3500;
 let currentBookingName = 'Невеста';
 let currentBookingDesc = '';
 let isPackageBooking = false;
-let bookingPlayersValue = 4;
+let bookingPlayersValue = 1;
 let selectedDate = null;
+let selectedTime = null;
 let currentMonth = new Date().getMonth();
 let currentYear = new Date().getFullYear();
 const today = new Date();
 today.setHours(0, 0, 0, 0);
+let promoApplied = false;
+let promoCode = 'квест10';
+let isWeekday = true;
 
-// ===== ДАННЫЕ КВЕСТОВ (для бронирования) =====
+// ============================================================
+// ===== ДАННЫЕ КВЕСТОВ С ЦЕНАМИ ПО ВРЕМЕНИ =====
+// ============================================================
 const questsData = [
-  { name: 'Стоматология "Новая жизнь"', price: 3500, time: '60 мин', players: '2–6', difficulty: '4/5', photos: ['🦷', '🪥', '🔬'], loc: 'м. Профсоюзная' },
-  { name: 'Рик и Морти', price: 3200, time: '60 мин', players: '2–6', difficulty: '3/5', photos: ['🚀', '🛸', '🌌'], loc: 'м. Профсоюзная' },
-  { name: 'K-pop: последний стрим', price: 3700, time: '75 мин', players: '3–8', difficulty: '4/5', photos: ['🎤', '💿', '🌟'], loc: 'м. Профсоюзная' },
-  { name: 'Запретная дверь', price: 3900, time: '70 мин', players: '2–5', difficulty: '5/5', photos: ['🚪', '🔑', '👁️'], loc: 'м. Измайловская' },
-  { name: 'Изнанка в разуме Векны', price: 4200, time: '80 мин', players: '2–6', difficulty: '5/5', photos: ['🌀', '🧠', '🌑'], loc: 'м. Измайловская' },
-  { name: 'Невеста', price: 3500, time: '60 мин', players: '2–6', difficulty: '4/5', photos: ['👻', '🕯️', '💍'], loc: 'м. Таганская' },
-  { name: 'Хогвартс', price: 3100, time: '60 мин', players: '2–7', difficulty: '3/5', photos: ['🧙', '⚡', '📚'], loc: 'м. Таганская' },
-  { name: 'Лабубу: волшебный мир', price: 2800, time: '50 мин', players: '2–8', difficulty: '2/5', photos: ['🧚', '🌈', '✨'], loc: 'м. Таганская' },
-  { name: 'Монастырь', price: 3900, time: '70 мин', players: '2–6', difficulty: '5/5', photos: ['⛪', '🕯️', '📜'], loc: 'м. Таганская' },
-  { name: 'Гринч', price: 2900, time: '55 мин', players: '2–8', difficulty: '2/5', photos: ['🎄', '🎁', '💚'], loc: 'м. Таганская' },
-  { name: 'Among Us', price: 4200, time: '60 мин', players: '4–10', difficulty: '4/5', photos: ['🛸', '🔍', '🎯'], loc: 'м. Измайловская' }
+  { 
+    name: 'Стоматология "Новая жизнь"', 
+    price: 6500, 
+    time: '60 мин', 
+    players: '1–6', 
+    difficulty: '4/5', 
+    photos: ['🦷', '🪥', '🔬'], 
+    loc: 'м. Профсоюзная',
+    prices: {
+      '00:00-01:15': 7990,
+      '09:00': 6500,
+      '10:15': 6990,
+      '11:30-17:45': 7500,
+      '19:00-22:45': 6990
+    }
+  },
+  { 
+    name: 'Рик и Морти', 
+    price: 6500, 
+    time: '60 мин', 
+    players: '1–6', 
+    difficulty: '3/5', 
+    photos: ['🚀', '🛸', '🌌'], 
+    loc: 'м. Профсоюзная',
+    prices: {
+      '00:00-01:15': 7990,
+      '09:00': 6500,
+      '10:15': 6990,
+      '11:30-17:45': 7500,
+      '19:00-22:45': 6990
+    }
+  },
+  { 
+    name: 'K-pop: последний стрим', 
+    price: 5500, 
+    time: '75 мин', 
+    players: '1–8', 
+    difficulty: '4/5', 
+    photos: ['🎤', '💿', '🌟'], 
+    loc: 'м. Профсоюзная',
+    prices: {
+      '00:15-01:30': 8500,
+      '09:15': 5500,
+      '10:30': 5990,
+      '11:45-20:30': 6500,
+      '21:45-23:00': 5990
+    }
+  },
+  { 
+    name: 'Хоррор-свидание', 
+    price: 10000, 
+    time: '60-90 мин', 
+    players: '1–8', 
+    difficulty: '4/5', 
+    photos: ['👻', '🕯️', '💍'], 
+    loc: 'м. Профсоюзная',
+    prices: {
+      '00:00-01:15': 15000,
+      '09:00-22:45': 10000
+    }
+  },
+  { 
+    name: 'Запретная дверь', 
+    price: 4990, 
+    time: '70 мин', 
+    players: '1–5', 
+    difficulty: '5/5', 
+    photos: ['🚪', '🔑', '👁️'], 
+    loc: 'м. Измайловская',
+    prices: {
+      'Рабочие': 4990,
+      'Выходные': 6990
+    }
+  },
+  { 
+    name: 'Изнанка в разуме Векны', 
+    price: 5990, 
+    time: '80 мин', 
+    players: '1–6', 
+    difficulty: '5/5', 
+    photos: ['🌀', '🧠', '🌑'], 
+    loc: 'м. Измайловская',
+    prices: {
+      '09:00-11:30': 5990,
+      '12:45-21:30': 7500
+    }
+  },
+  { 
+    name: 'Among Us', 
+    price: 7990, 
+    time: '60 мин', 
+    players: '6–10', 
+    difficulty: '4/5', 
+    photos: ['🛸', '🔍', '🎯'], 
+    loc: 'м. Измайловская',
+    minPlayers: 6,
+    prices: { 'Всегда': 7990 }
+  },
+  { 
+    name: 'Невеста', 
+    price: 5500, 
+    time: '60 мин', 
+    players: '1–6', 
+    difficulty: '4/5', 
+    photos: ['👻', '🕯️', '💍'], 
+    loc: 'м. Таганская',
+    prices: {
+      '09:00-10:15': 5500,
+      '11:30-01:15': 7500
+    }
+  },
+  { 
+    name: 'Хогвартс', 
+    price: 5500, 
+    time: '60 мин', 
+    players: '1–7', 
+    difficulty: '3/5', 
+    photos: ['🧙', '⚡', '📚'], 
+    loc: 'м. Таганская',
+    prices: {
+      '09:00-10:15': 5500,
+      '11:30-22:45': 7500
+    }
+  },
+  { 
+    name: 'Лабубу: волшебный мир', 
+    price: 5500, 
+    time: '50 мин', 
+    players: '1–8', 
+    difficulty: '2/5', 
+    photos: ['🧚', '🌈', '✨'], 
+    loc: 'м. Таганская',
+    prices: {
+      '11:30-17:45': 7500,
+      '19:00-10:15': 5500
+    }
+  },
+  { 
+    name: 'Монастырь', 
+    price: 5990, 
+    time: '70 мин', 
+    players: '1–6', 
+    difficulty: '5/5', 
+    photos: ['⛪', '🕯️', '📜'], 
+    loc: 'м. Таганская',
+    prices: {
+      '09:00-11:30': 5990,
+      '12:45-01:15': 7500
+    }
+  },
+  { 
+    name: 'Гринч', 
+    price: 5500, 
+    time: '55 мин', 
+    players: '1–8', 
+    difficulty: '2/5', 
+    photos: ['🎄', '🎁', '💚'], 
+    loc: 'м. Таганская',
+    prices: {
+      '09:00-10:15': 5500,
+      '11:30-22:45': 7500
+    }
+  },
+  { 
+    name: 'Хоррор-вечер', 
+    price: 5500, 
+    time: '60-90 мин', 
+    players: '1–8', 
+    difficulty: '4/5', 
+    photos: ['👻', '🕯️', '🌙'], 
+    loc: 'м. Таганская',
+    prices: {
+      '09:00-10:15': 5500,
+      '11:30-01:15': 7500
+    }
+  }
 ];
 
-// ===== ФОТО ДЛЯ ПАКЕТОВ (по умолчанию) =====
+// ============================================================
+// ===== ФОТО ДЛЯ ПАКЕТОВ =====
+// ============================================================
 const packagePhotos = {
   'Пакет на 1 час': ['🎂', '🎁', '🎈'],
   'Пакет на 2 часа': ['🎂', '🎁', '🎈', '⭐'],
@@ -35,7 +208,9 @@ const packagePhotos = {
   'Пакет на 3.5 часа': ['🎂', '🎁', '🎈', '⭐', '🎮', '🎪']
 };
 
+// ============================================================
 // ===== ВРЕМЕННЫЕ СЛОТЫ =====
+// ============================================================
 const questTimes = {
   'Among Us': ['09:00', '10:15', '11:30', '12:45', '14:00', '15:15', '16:30', '17:45', '19:00', '20:15', '21:30'],
   'K-pop: последний стрим': ['00:15', '01:30', '09:15', '10:30', '11:45', '13:00', '14:15', '15:30', '16:45', '18:00', '19:15', '20:30', '21:45', '23:00'],
@@ -47,48 +222,79 @@ const questTimes = {
   'Невеста': ['00:00', '01:15', '09:00', '10:15', '11:30', '12:45', '14:00', '15:15', '16:30', '17:45', '19:00', '20:15', '21:30', '22:45'],
   'Хогвартс': ['09:00', '10:15', '11:30', '12:45', '14:00', '15:15', '16:30', '17:45', '19:00', '20:15', '21:30', '22:45'],
   'Рик и Морти': ['00:00', '01:15', '09:00', '10:15', '11:30', '12:45', '14:00', '15:15', '16:30', '17:45', '19:00', '20:15', '21:30', '22:45'],
-  'Стоматология "Новая жизнь"': ['00:00', '01:15', '09:00', '10:15', '11:30', '12:45', '14:00', '15:15', '16:30', '17:45', '19:00', '20:15', '21:30', '22:45']
+  'Стоматология "Новая жизнь"': ['00:00', '01:15', '09:00', '10:15', '11:30', '12:45', '14:00', '15:15', '16:30', '17:45', '19:00', '20:15', '21:30', '22:45'],
+  'Хоррор-свидание': ['00:00', '01:15', '09:00', '10:15', '11:30', '12:45', '14:00', '15:15', '16:30', '17:45', '19:00', '20:15', '21:30', '22:45'],
+  'Хоррор-вечер': ['09:00', '10:15', '11:30', '12:45', '14:00', '15:15', '16:30', '17:45', '19:00', '20:15', '21:30', '22:45']
 };
 
+// ============================================================
+// ===== ДОПОЛНИТЕЛЬНЫЕ УСЛУГИ (ДЛЯ КВЕСТОВ) =====
+// ============================================================
+const additionalServices = [
+  { id: 'video', name: 'Видеонарезка', price: 4000, icon: '🎥', desc: '5-7 минут ярких моментов вашего приключения.' },
+  { id: 'director', name: 'Кресло режиссёра', price: 2000, icon: '🎬', desc: 'Наблюдение за игрой со стороны.' },
+  { id: 'actor', name: 'Доп. актёр', price: 2000, icon: '🎭', desc: 'Может уменьшить или увеличить уровень страха.' },
+  { id: 'loft', name: 'Лофт', price: 5500, icon: '🏠', desc: 'Украшенный шарами и засервированный одноразовой посудой.' },
+  { id: 'board_game', name: 'Настольная игра', price: 8000, icon: '🎲', desc: 'С ведущим после квеста.' },
+  { id: 'congrats', name: 'Креатив', price: 2000, icon: '🎉', desc: 'Креативное поздравление для именинника.' },
+  { id: 'photographer', name: 'Фотограф', price: 4000, icon: '📸', desc: 'После квеста, все исходники и 10 фото в проф. обработке.' }
+];
+
+// ============================================================
+// ===== ОПЦИИ ДЛЯ ПАКЕТОВ =====
+// ============================================================
+const packageOptions = [
+  { id: 'video', name: 'Видеонарезка', price: 4000, icon: '🎥', desc: '5-7 минут ярких моментов вашего приключения.' },
+  { id: 'director', name: 'Кресло режиссёра', price: 2000, icon: '🎬', desc: 'Наблюдение за игрой со стороны.' },
+  { id: 'actor', name: 'Доп. актёр', price: 2000, icon: '🎭', desc: 'Может уменьшить или увеличить уровень страха.' },
+  { id: 'loft', name: 'Лофт', price: 5500, icon: '🏠', desc: 'Украшенный шарами и засервированный одноразовой посудой.' },
+  { id: 'board_game', name: 'Настольная игра', price: 8000, icon: '🎲', desc: 'С ведущим после квеста.' },
+  { id: 'congrats', name: 'Креатив', price: 2000, icon: '🎉', desc: 'Креативное поздравление для именинника.' },
+  { id: 'photographer', name: 'Фотограф', price: 4000, icon: '📸', desc: 'После квеста, все исходники и 10 фото в проф. обработке.' },
+  { id: 'balloon', name: 'Шар с цифрой', price: 1000, icon: '🎈', desc: 'Красивый шар с цифрой для именинника.' },
+  { id: 'aquagrim', name: 'Аквагрим/Блеск-тату', price: 7000, icon: '🎨', desc: 'Аквагрим или блеск-тату (или бьюти-бар за 8000).' },
+  { id: 'candy_bar', name: 'Кенди-бар', price: 9000, icon: '🍭', desc: 'Сладкий стол для вашего праздника.' },
+  { id: 'pinata', name: 'Пиньята', price: 6000, icon: '🎊', desc: 'С любым дизайном на ваш выбор.' },
+  { id: 'paper_disco', name: 'Бумажная дискотека', price: 12000, icon: '🪩', desc: 'Яркое шоу с бумажным конфетти.' },
+  { id: 'wish_ball', name: 'Шар желаний', price: 3000, icon: '🌟', desc: 'Загадайте желание в красивом шаре.' },
+  { id: 'show_program', name: 'Шоу-программа', price: 12000, icon: '🎪', desc: 'Крио-шоу или шоу хоррор-фокусов.' },
+  { id: 'trash_box', name: 'Треш-коробка', price: 8000, icon: '📦', desc: 'Коробка с сюрпризами для именинника.' },
+  { id: 'videographer', name: 'Видеограф', price: 6000, icon: '🎥', desc: 'Профессиональная видеосъёмка всего мероприятия.' },
+  { id: 'master_class', name: 'Мастер-класс', price: 10000, icon: '🎨', desc: 'Роспись шоперов или создание коктейлей.' }
+];
+
+// ============================================================
 // ===== ОПЦИИ ДЛЯ РАЗНЫХ ТИПОВ БРОНИРОВАНИЯ =====
+// ============================================================
 const bookingOptions = {
-  // Стандартные опции для обычных квестов
-  default: [
-    { id: 'video', name: 'Видеоролик', price: 2000, icon: '🎥', desc: 'Профессиональная видео-нарезка самых ярких моментов вашего приключения.' },
-    { id: 'director', name: 'Кресло режиссёра', price: 1500, icon: '🎬', desc: 'Наблюдайте за игрой со стороны и управляйте процессом.' },
-    { id: 'actor', name: 'Доп. персонаж', price: 2500, icon: '🎭', desc: 'Ещё один актёр для более насыщенного сюжета.' },
-    { id: 'loft', name: 'Лофт', price: 2000, icon: '🏠', desc: 'Уютное пространство для празднования после квеста.' },
-    { id: 'mafia', name: 'Мафия', price: 1500, icon: '🕵️', desc: 'Интеллектуальная игра с живым ведущим после квеста.' },
-    { id: 'congrats', name: 'Поздравление', price: 1000, icon: '🎉', desc: 'Креативное поздравление для именинника с сюрпризами.' },
-    { id: 'photographer', name: 'Фотограф', price: 3000, icon: '📸', desc: 'Профессиональная фотосъёмка в процессе прохождения квеста.' }
-  ],
-  // Опции для Among Us
+  default: additionalServices,
   amongus: [
     { id: 'extra_round', name: 'Дополнительный раунд', price: 2000, icon: '🔄', desc: 'Добавьте ещё один раунд игры для большего адреналина!' },
     { id: 'costumes', name: 'Костюмы персонажей', price: 1500, icon: '👽', desc: 'Наденьте костюмы персонажей Among Us для полного погружения.' },
     { id: 'host', name: 'Специальный ведущий', price: 2500, icon: '🎙️', desc: 'Профессиональный ведущий, который будет управлять игрой.' },
     { id: 'photo', name: 'Фотосессия', price: 2000, icon: '📸', desc: 'Профессиональная фотосессия в костюмах Among Us.' },
-    { id: 'video', name: 'Видео-нарезка', price: 3000, icon: '🎥', desc: 'Динамичная видео-нарезка с самыми яркими моментами игры.' }
+    { id: 'video', name: 'Видеонарезка', price: 4000, icon: '🎥', desc: 'Динамичная видео-нарезка с самыми яркими моментами игры.' }
   ],
-  // Опции для Хоррор-свидания
   horror: [
-    { id: 'fear_level', name: 'Повышенный уровень страха', price: 2000, icon: '😱', desc: 'Увеличьте уровень страха — более интенсивные эффекты и неожиданные моменты.' },
-    { id: 'extra_actor', name: 'Дополнительный актёр', price: 2500, icon: '🎭', desc: 'Ещё один актёр для более насыщенного и страшного сюжета.' },
-    { id: 'video', name: 'Видео-нарезка', price: 3000, icon: '🎥', desc: 'Профессиональная видео-нарезка самых ярких моментов вашего хоррор-свидания.' },
+    { id: 'fear_level', name: 'Повышенный уровень страха', price: 2000, icon: '😱', desc: 'Увеличьте уровень страха — более интенсивные эффекты.' },
+    { id: 'extra_actor', name: 'Дополнительный актёр', price: 2000, icon: '🎭', desc: 'Может уменьшить или увеличить уровень страха.' },
+    { id: 'video', name: 'Видеонарезка', price: 4000, icon: '🎥', desc: '5-7 минут ярких моментов вашего приключения.' },
     { id: 'romantic_dinner', name: 'Романтический ужин', price: 3500, icon: '🍷', desc: 'Уютный ужин при свечах после прохождения квеста.' },
-    { id: 'proposal', name: 'Организация предложения', price: 5000, icon: '💍', desc: 'Поможем сделать предложение руки и сердца в нестандартной обстановке.' }
+    { id: 'photographer', name: 'Фотограф', price: 4000, icon: '📸', desc: 'После квеста, все исходники и 10 фото в проф. обработке.' }
   ],
-  // Опции для Выездных мероприятий
   events: [
     { id: 'out_of_mkad', name: 'Выезд за МКАД', price: 3000, icon: '🚗', desc: 'Доплата за выезд за пределы МКАД.' },
-    { id: 'extra_actor', name: 'Дополнительный актёр', price: 2500, icon: '🎭', desc: 'Ещё один актёр для более насыщенного сюжета.' },
-    { id: 'video', name: 'Видео-нарезка', price: 3000, icon: '🎥', desc: 'Профессиональная видео-нарезка самых ярких моментов.' },
-    { id: 'photographer', name: 'Фотограф', price: 4000, icon: '📸', desc: 'Профессиональный фотограф для вашего мероприятия.' },
+    { id: 'extra_actor', name: 'Дополнительный актёр', price: 2000, icon: '🎭', desc: 'Может уменьшить или увеличить уровень страха.' },
+    { id: 'video', name: 'Видеонарезка', price: 4000, icon: '🎥', desc: '5-7 минут ярких моментов вашего приключения.' },
+    { id: 'photographer', name: 'Фотограф', price: 4000, icon: '📸', desc: 'После квеста, все исходники и 10 фото в проф. обработке.' },
     { id: 'decor', name: 'Декор помещения', price: 3500, icon: '🎈', desc: 'Тематическое украшение помещения для вашего праздника.' }
-  ]
+  ],
+  package: packageOptions
 };
 
+// ============================================================
 // ===== АДРЕСА ЛОКАЦИЙ =====
+// ============================================================
 function getLocationAddress(location) {
   const addresses = {
     'м. Профсоюзная': 'ул. Кржижановского, 8, корп. 2',
@@ -102,32 +308,53 @@ function getLocationAddress(location) {
 }
 
 function getMapUrl(location) {
-  const coords = {
-    'м. Профсоюзная': '55.6705,37.5628',
-    'Профсоюзная': '55.6705,37.5628',
-    'м. Таганская': '55.743260, 37.661557',
-    'Таганская': '55.743260, 37.661557',
-    'м. Измайловская': '55.7804,37.7492',
-    'Измайловская': '55.7804,37.7492'
+  const maps = {
+    'м. Профсоюзная': 'https://yandex.ru/maps/-/CTuYB071',
+    'Профсоюзная': 'https://yandex.ru/maps/-/CTuYB071',
+    'м. Таганская': 'https://yandex.ru/maps/-/CTuYBOz0',
+    'Таганская': 'https://yandex.ru/maps/-/CTuYBOz0',
+    'м. Измайловская': 'https://yandex.ru/maps/-/CTuYi68-',
+    'Измайловская': 'https://yandex.ru/maps/-/CTuYi68-'
   };
-  const coord = coords[location] || '55.7558,37.6173';
-  return `https://yandex.ru/map-widget/v1/?ll=${coord}&z=15&pt=${coord}&l=map`;
+  return maps[location] || 'https://yandex.ru/maps/-/CTuYB071';
 }
 
-// ===== TOAST =====
-function showToast(msg, duration) {
-  const t = document.getElementById('toast');
-  if (!t) {
-    console.log('Toast:', msg);
-    return;
+// ============================================================
+// ===== ОСНОВНЫЕ ФУНКЦИИ =====
+// ============================================================
+
+// ПОЛУЧЕНИЕ ЦЕНЫ ПО ВРЕМЕНИ
+function getPriceByTime(questName, timeSlot) {
+  const quest = questsData.find(q => q.name === questName);
+  if (!quest || !quest.prices) return quest ? quest.price : 3500;
+  
+  const prices = quest.prices;
+  
+  if (questName === 'Запретная дверь') {
+    const day = selectedDate ? selectedDate.getDay() : new Date().getDay();
+    const isWeekend = day === 0 || day === 6;
+    return isWeekend ? prices['Выходные'] : prices['Рабочие'];
   }
-  t.textContent = msg;
-  t.classList.add('show');
-  clearTimeout(t._timer);
-  t._timer = setTimeout(() => t.classList.remove('show'), duration || 2800);
+  
+  if (questName === 'Among Us') {
+    return prices['Всегда'] || 7990;
+  }
+  
+  for (const [range, price] of Object.entries(prices)) {
+    if (range.includes('-')) {
+      const [start, end] = range.split('-');
+      if (timeSlot >= start && timeSlot <= end) {
+        return price;
+      }
+    } else if (range === timeSlot) {
+      return price;
+    }
+  }
+  
+  return quest.price || 3500;
 }
 
-// ===== ПОЛУЧЕНИЕ ТИПА БРОНИРОВАНИЯ =====
+// ПОЛУЧЕНИЕ ТИПА БРОНИРОВАНИЯ
 function getBookingType(name) {
   if (name.includes('Пакет') || name.includes('Свой пакет')) {
     return 'package';
@@ -144,38 +371,43 @@ function getBookingType(name) {
   return 'default';
 }
 
-// ===== ПОЛУЧЕНИЕ ОПЦИЙ ПО ТИПУ =====
 function getOptionsByType(type) {
   switch(type) {
-    case 'amongus':
-      return bookingOptions.amongus;
-    case 'horror':
-      return bookingOptions.horror;
-    case 'events':
-      return bookingOptions.events;
-    default:
-      return bookingOptions.default;
+    case 'package': return bookingOptions.package;
+    case 'amongus': return bookingOptions.amongus;
+    case 'horror': return bookingOptions.horror;
+    case 'events': return bookingOptions.events;
+    default: return bookingOptions.default;
   }
 }
 
-// ===== ПОЛУЧЕНИЕ ФОТО ДЛЯ КВЕСТА =====
 function getQuestPhotos(questName) {
   if (questName.includes('Пакет') || questName.includes('Свой пакет')) {
     for (const [key, photos] of Object.entries(packagePhotos)) {
-      if (questName.includes(key)) {
-        return photos;
-      }
+      if (questName.includes(key)) return photos;
     }
     return ['🎂', '🎁', '🎈'];
   }
   const quest = questsData.find(q => q.name === questName);
-  if (quest && quest.photos) {
-    return quest.photos;
-  }
-  return ['🎭', '🔮', '✨'];
+  return quest && quest.photos ? quest.photos : ['🎭', '🔮', '✨'];
 }
 
+// TOAST
+function showToast(msg, duration) {
+  const t = document.getElementById('toast');
+  if (!t) {
+    console.log('Toast:', msg);
+    return;
+  }
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(t._timer);
+  t._timer = setTimeout(() => t.classList.remove('show'), duration || 2800);
+}
+
+// ============================================================
 // ===== ОБНОВЛЕНИЕ ФОТО В БРОНИРОВАНИИ =====
+// ============================================================
 function updateBookingPhotos(questName) {
   const photos = getQuestPhotos(questName);
   const track = document.getElementById('bookingPhotosTrack');
@@ -232,8 +464,79 @@ function updateBookingPhotoPosition() {
   });
 }
 
-// ===== ОТКРЫТИЕ БРОНИРОВАНИЯ =====
+// ============================================================
+// ===== ОБНОВЛЕНИЕ ИТОГОВОЙ СУММЫ (ШАГ 1) =====
+// ============================================================
+function updateTotalDisplay() {
+  const players = parseInt(document.getElementById('bookingPlayersDisplay').textContent) || 1;
+  const activeTime = document.querySelector('.time-slot.active');
+  const selectedOptions = document.querySelectorAll('.option-checkbox:checked');
+  
+  // === БАЗОВАЯ ЦЕНА ===
+  let basePrice = currentBookingPrice;
+  
+  if (activeTime && currentBookingName) {
+    const time = activeTime.querySelector('.slot-time').textContent;
+    const priceByTime = getPriceByTime(currentBookingName, time);
+    if (priceByTime) {
+      basePrice = priceByTime;
+      currentBookingPrice = priceByTime;
+      document.getElementById('bookingPriceDisplay').textContent = priceByTime;
+    }
+  } else {
+    const quest = questsData.find(q => q.name === currentBookingName);
+    if (quest) {
+      basePrice = quest.price;
+      currentBookingPrice = quest.price;
+      document.getElementById('bookingPriceDisplay').textContent = quest.price;
+    }
+  }
+  
+  // === ОПЦИИ ===
+  let optionTotal = 0;
+  selectedOptions.forEach(el => {
+    optionTotal += parseInt(el.dataset.price || 0);
+  });
+  
+  // === УЧАСТНИКИ (база 3 человека) ===
+  const basePlayers = 3;
+  let extraPlayerCost = 0;
+  if (players > basePlayers) {
+    extraPlayerCost = (players - basePlayers) * 1500;
+  }
+  
+  // === ИТОГО ===
+  const subtotal = basePrice + optionTotal + extraPlayerCost;
+  
+  // === СКИДКА ===
+  const now = new Date();
+  const day = now.getDay();
+  const isWeekday = day !== 0 && day !== 6;
+  let discount = 0;
+  if (promoApplied && isWeekday) {
+    discount = Math.round(subtotal * 0.1);
+  }
+  
+  const total = subtotal - discount;
+  
+  // === ОБНОВЛЯЕМ ОТОБРАЖЕНИЕ ===
+  const totalDisplay = document.getElementById('bookingTotalDisplay');
+  if (totalDisplay) {
+    totalDisplay.textContent = `${total} ₽`;
+  }
+  
+  const priceDisplay = document.getElementById('bookingPriceDisplay');
+  if (priceDisplay) {
+    priceDisplay.textContent = basePrice;
+  }
+}
+
+// ============================================================
+// ===== ОТКРЫТИЕ / ЗАКРЫТИЕ БРОНИРОВАНИЯ =====
+// ============================================================
 function openBooking(name, desc, price, isPackage) {
+  resetBookingData();
+  
   document.querySelectorAll('.page-overlay').forEach(el => el.classList.remove('open'));
   
   isPackageBooking = isPackage || false;
@@ -246,7 +549,13 @@ function openBooking(name, desc, price, isPackage) {
   
   document.getElementById('bookQuestName').textContent = name;
   document.getElementById('bookQuestDesc').textContent = desc || 'Погрузитесь в атмосферу приключения!';
-  document.getElementById('bookingPriceDisplay').textContent = price || 3500;
+  
+  // Устанавливаем базовую цену для отображения
+  const quest = questsData.find(q => q.name === name);
+  if (quest) {
+    currentBookingPrice = quest.price;
+    document.getElementById('bookingPriceDisplay').textContent = quest.price;
+  }
   
   updateBookingPhotos(name);
   
@@ -254,17 +563,19 @@ function openBooking(name, desc, price, isPackage) {
   currentMonth = now.getMonth();
   currentYear = now.getFullYear();
   selectedDate = null;
+  selectedTime = null;
   
   renderCalendar(currentMonth, currentYear);
   
-  bookingPlayersValue = 4;
-  document.getElementById('bookingPlayersDisplay').textContent = '4';
+  bookingPlayersValue = 1;
+  document.getElementById('bookingPlayersDisplay').textContent = '1';
   
-  // ===== ОПРЕДЕЛЯЕМ ТИП БРОНИРОВАНИЯ =====
+  promoApplied = false;
+  const promoInput = document.getElementById('promoInput');
+  if (promoInput) promoInput.value = '';
+  
   const bookingType = getBookingType(name);
   const isPackageBookingNow = bookingType === 'package';
-  
-  // ===== ПОЛУЧАЕМ ОПЦИИ ДЛЯ ТИПА =====
   const optionsForType = getOptionsByType(bookingType);
   
   const optionsGrid = document.getElementById('optionsGrid');
@@ -272,120 +583,44 @@ function openBooking(name, desc, price, isPackage) {
   const packageQuestSelect = document.getElementById('packageQuestSelect');
   const optionsTitle = document.querySelector('.step-content[data-step="2"] h3');
   
-  // ===== ДОБАВЛЯЕМ АДРЕС И КАРТУ =====
-  const quest = questsData.find(q => q.name === name);
+  // === АДРЕС И КАРТА ===
   let location = quest ? quest.loc : '';
   const address = getLocationAddress(location);
   const mapUrl = getMapUrl(location);
   
-  // Добавляем адрес в мета-информацию
-  const metaContainer = document.querySelector('.booking-info .meta');
-  if (metaContainer) {
-    // Удаляем старый адрес если есть
-    const oldAddress = metaContainer.querySelector('.booking-address');
-    if (oldAddress) oldAddress.remove();
-    
-    const addressSpan = document.createElement('span');
-    addressSpan.className = 'booking-address';
-    addressSpan.innerHTML = `📍 ${location}: ${address}`;
-    addressSpan.style.cssText = 'width:100%; margin-top:4px; font-size:0.75rem; color:#b388ff;';
-    metaContainer.appendChild(addressSpan);
-  }
-  
-  // Добавляем карту
   const mapContainer = document.getElementById('bookingMap');
   if (mapContainer) {
     mapContainer.innerHTML = `
-      <iframe 
-        src="${mapUrl}" 
-        width="100%" 
-        height="200" 
-        style="border:none; border-radius:12px; margin-top:12px;"
-        allowfullscreen
-      ></iframe>
+      <div style="margin-top:12px; border-radius:12px; overflow:hidden; border:1px solid #2d2640;">
+        <iframe 
+          src="${mapUrl}" 
+          width="100%" 
+          height="200" 
+          style="border:none; display:block;"
+          allowfullscreen
+        ></iframe>
+        <div style="padding:8px 12px; background:#1a1625; font-size:0.75rem; color:#b0a8c8;">
+          📍 ${location}: ${address}
+        </div>
+      </div>
     `;
   }
   
   if (isPackageBookingNow) {
-    // === ПАКЕТ (ДЕНЬ РОЖДЕНИЯ) — БЕЗ ОПЦИЙ ===
     if (optionsGrid) {
-      optionsGrid.style.display = 'none';
-      // Показываем сообщение, что всё включено
-      const step2Container = optionsGrid.closest('.step-content');
-      if (step2Container) {
-        const oldMsg = step2Container.querySelector('.package-message');
-        if (oldMsg) oldMsg.remove();
-        
-        const msg = document.createElement('div');
-        msg.className = 'package-message';
-        msg.style.cssText = `
-          text-align: center;
-          padding: 30px 20px;
-          background: #13101e;
-          border-radius: 16px;
-          border: 1px solid rgba(124, 77, 255, 0.1);
-          margin: 10px 0;
-        `;
-        msg.innerHTML = `
-          <div style="font-size: 3rem; margin-bottom: 10px;">🎉</div>
-          <div style="font-size: 1.1rem; font-weight: 600; color: #b388ff;">У вас уже всё выбрано!</div>
-          <div style="font-size: 0.85rem; color: #9288b0; margin-top: 4px;">Все опции включены в ваш пакет</div>
-        `;
-        step2Container.prepend(msg);
-      }
+      optionsGrid.style.display = 'grid';
+      renderOptions(optionsForType);
     }
-    if (optionsTitle) optionsTitle.style.display = 'none';
+    if (optionsTitle) {
+      optionsTitle.textContent = '🎁 Опции для вашего пакета';
+      optionsTitle.style.display = 'block';
+    }
     if (packagesCollapsible) packagesCollapsible.style.display = 'none';
+    if (packageQuestSelect) packageQuestSelect.style.display = 'none';
     
-    // === ВЫБОР КВЕСТА С ТРЁМЯ ЛОКАЦИЯМИ ===
-    if (packageQuestSelect) {
-      packageQuestSelect.style.display = 'block';
-      const select = document.getElementById('packageQuestChoice');
-      if (select) {
-        select.innerHTML = '';
-        
-        // Группируем квесты по локациям (без Among Us)
-        const locations = {
-          '📍 Профсоюзная': questsData.filter(q => q.loc === 'м. Профсоюзная' && q.name !== 'Among Us'),
-          '📍 Таганская': questsData.filter(q => q.loc === 'м. Таганская' && q.name !== 'Among Us'),
-          '📍 Измайловская': questsData.filter(q => q.loc === 'м. Измайловская' && q.name !== 'Among Us')
-        };
-        
-        // Добавляем опции с группировкой по локациям
-        Object.keys(locations).forEach(locLabel => {
-          const quests = locations[locLabel];
-          if (quests.length === 0) return;
-          
-          // Добавляем заголовок локации
-          const groupHeader = document.createElement('option');
-          groupHeader.value = '';
-          groupHeader.textContent = `─── ${locLabel} ───`;
-          groupHeader.disabled = true;
-          groupHeader.style.cssText = 'color: #7c4dff; font-weight: 600;';
-          select.appendChild(groupHeader);
-          
-          quests.forEach(q => {
-            const option = document.createElement('option');
-            option.value = q.name;
-            option.textContent = `${q.emoji || '🎭'} ${q.name}`;
-            select.appendChild(option);
-          });
-        });
-        
-        // Если квест есть в списке — выбираем его
-        if (questsData.some(q => q.name === name && q.name !== 'Among Us')) {
-          select.value = name;
-        }
-        updateBookingPhotos(select.value);
-      }
-    }
   } else {
-    // === ОБЫЧНОЕ БРОНИРОВАНИЕ ===
-    if (packageQuestSelect) {
-      packageQuestSelect.style.display = 'none';
-    }
+    if (packageQuestSelect) packageQuestSelect.style.display = 'none';
     
-    // Показываем опции для данного типа
     if (optionsGrid) {
       optionsGrid.style.display = 'grid';
       renderOptions(optionsForType);
@@ -395,43 +630,84 @@ function openBooking(name, desc, price, isPackage) {
         'amongus': '⚡ Дополнительные опции для Among Us',
         'horror': '🕯️ Дополнительные опции для хоррор-свидания',
         'events': '🚐 Дополнительные услуги для выездного мероприятия',
-        'default': '🎯 Дополнительные опции'
+        'default': '🎯 Дополнительные услуги'
       };
       optionsTitle.textContent = typeLabels[bookingType] || typeLabels.default;
       optionsTitle.style.display = 'block';
     }
     
-    if (packagesCollapsible) {
-      packagesCollapsible.style.display = 'none';
-    }
+    if (packagesCollapsible) packagesCollapsible.style.display = 'none';
   }
   
   overlay.classList.add('open');
   document.body.style.overflow = 'hidden';
   currentStep = 1;
   goStep(1);
+  updateTotalDisplay();
   updateReceipt();
 }
 
-// ===== ЗАКРЫТИЕ БРОНИРОВАНИЯ =====
 function closeBooking() {
   const overlay = document.getElementById('bookingOverlay');
   if (overlay) overlay.classList.remove('open');
   document.body.style.overflow = '';
+  resetBookingData();
 }
 
-// ===== ШАГИ БРОНИРОВАНИЯ (С ВАЛИДАЦИЕЙ) =====
+// ============================================================
+// ===== СБРОС ДАННЫХ =====
+// ============================================================
+function resetBookingData() {
+  selectedDate = null;
+  selectedTime = null;
+  
+  const dateEl = document.getElementById('selectedDate');
+  if (dateEl) dateEl.textContent = 'Выберите дату';
+  
+  const timeGrid = document.getElementById('timeGrid');
+  if (timeGrid) timeGrid.innerHTML = '';
+  
+  bookingPlayersValue = 1;
+  const playersDisplay = document.getElementById('bookingPlayersDisplay');
+  if (playersDisplay) playersDisplay.textContent = '1';
+  
+  const nameInput = document.getElementById('bookingName');
+  const phoneInput = document.getElementById('bookingPhone');
+  if (nameInput) nameInput.value = '';
+  if (phoneInput) phoneInput.value = '';
+  
+  promoApplied = false;
+  const promoInput = document.getElementById('promoInput');
+  if (promoInput) promoInput.value = '';
+  const promoStatus = document.getElementById('promoStatus');
+  if (promoStatus) promoStatus.textContent = '';
+  
+  document.querySelectorAll('.option-checkbox').forEach(cb => {
+    cb.checked = false;
+    cb.closest('.option-card')?.classList.remove('active');
+  });
+  
+  document.querySelectorAll('.contact-method').forEach(m => m.classList.remove('active'));
+  const firstMethod = document.querySelector('.contact-method');
+  if (firstMethod) firstMethod.classList.add('active');
+  
+  const now = new Date();
+  currentMonth = now.getMonth();
+  currentYear = now.getFullYear();
+  renderCalendar(currentMonth, currentYear);
+}
+
+// ============================================================
+// ===== ШАГИ БРОНИРОВАНИЯ =====
+// ============================================================
 function goStep(n) {
   if (n === currentStep) return;
   if (n < 1 || n > 4) return;
   
-  // === ВАЛИДАЦИЯ ПЕРЕД ПЕРЕХОДОМ ===
   if (n > currentStep) {
-    // Проверяем текущий шаг перед переходом вперёд
     if (currentStep === 1) {
       const activeDate = document.querySelector('.date-grid .date-cell.active');
       const activeTime = document.querySelector('.time-slot.active');
-      const players = parseInt(document.getElementById('bookingPlayersDisplay').textContent) || 4;
       
       if (!activeDate) {
         showToast('⚠️ Выберите дату!');
@@ -441,10 +717,14 @@ function goStep(n) {
         showToast('⚠️ Выберите время!');
         return;
       }
-      if (players < 1) {
-        showToast('⚠️ Выберите количество участников!');
-        return;
-      }
+      
+      selectedTime = activeTime.querySelector('.slot-time').textContent;
+      const questName = getCurrentQuestName();
+      const price = getPriceByTime(questName, selectedTime);
+      currentBookingPrice = price;
+      document.getElementById('bookingPriceDisplay').textContent = price;
+      updateTotalDisplay();
+      updateReceipt();
     }
     
     if (currentStep === 3) {
@@ -462,11 +742,8 @@ function goStep(n) {
     }
   }
   
-  // Для пакетов: шаги 1 → 2 → 3 (без шага 4)
   const isPackage = currentBookingName.includes('Пакет') || currentBookingName.includes('Свой пакет');
-  if (isPackage && n === 4) {
-    return;
-  }
+  if (isPackage && n === 4) return;
   
   document.querySelectorAll('.step-content').forEach(el => el.classList.remove('active'));
   document.querySelectorAll('.step-btn').forEach(el => el.classList.remove('active'));
@@ -483,7 +760,9 @@ function goStep(n) {
   if (n === 4) updateReceipt();
 }
 
+// ============================================================
 // ===== КАЛЕНДАРЬ =====
+// ============================================================
 function renderCalendar(month, year) {
   const grid = document.getElementById('dateGrid');
   const label = document.getElementById('monthLabel');
@@ -546,6 +825,7 @@ function renderCalendar(month, year) {
         document.getElementById('dateDropdown').classList.remove('open');
         document.getElementById('dateArrow').classList.remove('open');
         generateTimeSlots(getCurrentQuestName());
+        updateTotalDisplay();
         updateReceipt();
       });
     }
@@ -569,11 +849,14 @@ function renderCalendar(month, year) {
     selectedDate = new Date(todayStr);
     document.getElementById('selectedDate').textContent = selectedDate.toLocaleDateString('ru-RU', { day: 'numeric', month: 'long', year: 'numeric' });
     generateTimeSlots(getCurrentQuestName());
+    updateTotalDisplay();
     updateReceipt();
   }
 }
 
+// ============================================================
 // ===== ГЕНЕРАЦИЯ ВРЕМЕНИ =====
+// ============================================================
 function generateTimeSlots(questName) {
   const grid = document.getElementById('timeGrid');
   if (!grid) return;
@@ -586,7 +869,9 @@ function generateTimeSlots(questName) {
   const currentHour = now.getHours();
   const currentMinute = now.getMinutes();
   
-  times.forEach(time => {
+  const sortedTimes = times.sort();
+  
+  sortedTimes.forEach(time => {
     const slot = document.createElement('div');
     slot.className = 'time-slot';
     const isBusy = busySlots.includes(time);
@@ -598,8 +883,12 @@ function generateTimeSlots(questName) {
     if (isBusy) slot.classList.add('busy');
     if (isPast && !isBusy) slot.classList.add('disabled');
     
+    const price = getPriceByTime(questName, time);
+    const priceText = price ? ` ${price} ₽` : '';
+    
     slot.innerHTML = `
       <div class="slot-time">${time}</div>
+      <div class="slot-price" style="font-size:0.55rem; color:#b388ff; margin-top:1px;">${priceText}</div>
       <div class="slot-status ${isBusy ? 'busy' : (isPast ? 'прошло' : 'available')}">${isBusy ? 'занято' : (isPast ? 'прошло' : 'доступно')}</div>
     `;
     if (!isBusy && !isPast) {
@@ -607,6 +896,12 @@ function generateTimeSlots(questName) {
         document.querySelectorAll('.time-slot').forEach(s => s.classList.remove('active'));
         if (!this.classList.contains('busy') && !this.classList.contains('disabled')) {
           this.classList.add('active');
+          selectedTime = this.querySelector('.slot-time').textContent;
+          const questName = getCurrentQuestName();
+          const price = getPriceByTime(questName, selectedTime);
+          currentBookingPrice = price;
+          document.getElementById('bookingPriceDisplay').textContent = price;
+          updateTotalDisplay();
           updateReceipt();
         }
       });
@@ -615,7 +910,9 @@ function generateTimeSlots(questName) {
   });
 }
 
+// ============================================================
 // ===== ПОЛУЧЕНИЕ ТЕКУЩЕГО КВЕСТА =====
+// ============================================================
 function getCurrentQuestName() {
   const select = document.getElementById('packageQuestChoice');
   if (select && document.getElementById('packageQuestSelect').style.display !== 'none') {
@@ -624,7 +921,9 @@ function getCurrentQuestName() {
   return currentBookingName;
 }
 
-// ===== РЕНДЕР ОПЦИЙ (С УЛУЧШЕННЫМ ОПИСАНИЕМ) =====
+// ============================================================
+// ===== РЕНДЕР ОПЦИЙ =====
+// ============================================================
 function renderOptions(options) {
   const container = document.getElementById('optionsGrid');
   if (!container) return;
@@ -662,6 +961,7 @@ function renderOptions(options) {
       const checkbox = this.querySelector('.option-checkbox');
       checkbox.checked = !checkbox.checked;
       this.classList.toggle('active', checkbox.checked);
+      updateTotalDisplay();
       updateReceipt();
     });
     
@@ -669,7 +969,9 @@ function renderOptions(options) {
   });
 }
 
+// ============================================================
 // ===== КОНТАКТНЫЕ МЕТОДЫ =====
+// ============================================================
 function initContactMethods() {
   const methods = document.querySelectorAll('.contact-method');
   methods.forEach(method => {
@@ -681,48 +983,122 @@ function initContactMethods() {
   });
 }
 
+// ============================================================
+// ===== ПРОМОКОД =====
+// ============================================================
+function applyPromo() {
+  const input = document.getElementById('promoInput');
+  const status = document.getElementById('promoStatus');
+  if (!input || !status) return;
+  
+  const code = input.value.trim().toLowerCase();
+  
+  const now = new Date();
+  const day = now.getDay();
+  isWeekday = day !== 0 && day !== 6;
+  
+  if (!isWeekday) {
+    status.textContent = '❌ Промокод действует только в будние дни!';
+    status.style.color = '#ff6b6b';
+    promoApplied = false;
+    updateTotalDisplay();
+    updateReceipt();
+    return;
+  }
+  
+  if (code === 'квест10') {
+    promoApplied = true;
+    status.textContent = '✅ Промокод применён! Скидка 10%';
+    status.style.color = '#4ecdc4';
+  } else {
+    promoApplied = false;
+    status.textContent = '❌ Неверный промокод';
+    status.style.color = '#ff6b6b';
+  }
+  
+  updateTotalDisplay();
+  updateReceipt();
+}
+
+// ============================================================
 // ===== ОБНОВЛЕНИЕ КВИТАНЦИИ =====
+// ============================================================
 function updateReceipt() {
   const activeDate = document.querySelector('.date-grid .date-cell.active');
   let dateStr = 'Не выбрана';
-  let dateObj = new Date();
   if (activeDate) {
     const parts = activeDate.dataset.date.split('-');
-    dateObj = new Date(parseInt(parts[0]), parseInt(parts[1]) - 1, parseInt(parts[2]));
+    const dateObj = new Date(parseInt(parts[0]), parseInt(parts[1]) - 1, parseInt(parts[2]));
     dateStr = dateObj.toLocaleDateString('ru-RU', { day: 'numeric', month: 'long', year: 'numeric' });
   }
   
   const activeTime = document.querySelector('.time-slot.active');
   const time = activeTime ? activeTime.querySelector('.slot-time').textContent : '—';
-  const players = parseInt(document.getElementById('bookingPlayersDisplay').textContent) || 4;
+  const players = parseInt(document.getElementById('bookingPlayersDisplay').textContent) || 1;
   
   const bookingType = getBookingType(currentBookingName);
   const isPackage = bookingType === 'package';
   
-  let selectedOptions = [];
   let optionNames = '—';
   let optionTotal = 0;
-  
-  if (!isPackage) {
-    selectedOptions = document.querySelectorAll('.option-checkbox:checked');
-    optionNames = Array.from(selectedOptions).map(el => el.dataset.name).join(', ') || '—';
+  const selectedOptions = document.querySelectorAll('.option-checkbox:checked');
+  if (selectedOptions.length > 0) {
+    optionNames = Array.from(selectedOptions).map(el => el.dataset.name).join(', ');
     optionTotal = Array.from(selectedOptions).reduce((sum, el) => sum + parseInt(el.dataset.price || 0), 0);
   }
   
   const activeMethod = document.querySelector('.contact-method.active');
   const methodName = activeMethod ? activeMethod.textContent.trim() : 'WhatsApp';
   
-  document.getElementById('receiptQuest').textContent = currentBookingName;
-  document.getElementById('receiptDateTime').textContent = `${dateStr}, ${time}`;
-  document.getElementById('receiptPlayers').textContent = players;
-  document.getElementById('receiptExtras').textContent = optionNames;
-  document.getElementById('receiptMethod').textContent = methodName;
+  let basePrice = currentBookingPrice;
+  if (activeTime && currentBookingName) {
+    const selectedTime = activeTime.querySelector('.slot-time').textContent;
+    const priceByTime = getPriceByTime(currentBookingName, selectedTime);
+    if (priceByTime) basePrice = priceByTime;
+  }
   
-  const total = Math.round((currentBookingPrice + optionTotal) * 0.9);
-  document.getElementById('receiptTotal').textContent = `${total} ₽`;
+  const basePlayers = 3;
+  let extraPlayerCost = 0;
+  if (players > basePlayers) {
+    extraPlayerCost = (players - basePlayers) * 1500;
+  }
+  
+  const subtotal = basePrice + optionTotal + extraPlayerCost;
+  
+  const now = new Date();
+  const day = now.getDay();
+  const isWeekday = day !== 0 && day !== 6;
+  let discount = 0;
+  if (promoApplied && isWeekday) {
+    discount = Math.round(subtotal * 0.1);
+  }
+  
+  const total = subtotal - discount;
+  
+  const receiptQuest = document.getElementById('receiptQuest');
+  const receiptDateTime = document.getElementById('receiptDateTime');
+  const receiptPlayers = document.getElementById('receiptPlayers');
+  const receiptExtras = document.getElementById('receiptExtras');
+  const receiptMethod = document.getElementById('receiptMethod');
+  const receiptSubtotal = document.getElementById('receiptSubtotal');
+  const receiptDiscount = document.getElementById('receiptDiscount');
+  const receiptTotal = document.getElementById('receiptTotal');
+  
+  if (receiptQuest) receiptQuest.textContent = currentBookingName;
+  if (receiptDateTime) receiptDateTime.textContent = `${dateStr}, ${time}`;
+  if (receiptPlayers) receiptPlayers.textContent = players;
+  if (receiptExtras) receiptExtras.textContent = optionNames;
+  if (receiptMethod) receiptMethod.textContent = methodName;
+  if (receiptSubtotal) receiptSubtotal.textContent = `${subtotal} ₽`;
+  if (receiptDiscount) receiptDiscount.textContent = discount > 0 ? `-${discount} ₽` : '—';
+  if (receiptTotal) receiptTotal.textContent = `${total} ₽`;
+  
+  updateTotalDisplay();
 }
 
+// ============================================================
 // ===== ПОДТВЕРЖДЕНИЕ БРОНИ =====
+// ============================================================
 function confirmBooking() {
   const name = document.getElementById('bookingName').value.trim();
   const phone = document.getElementById('bookingPhone').value.trim();
@@ -743,12 +1119,12 @@ function confirmBooking() {
   }, 2000);
 }
 
-// ===== ИНИЦИАЛИЗАЦИЯ СОБЫТИЙ =====
+// ============================================================
+// ===== ИНИЦИАЛИЗАЦИЯ =====
+// ============================================================
 document.addEventListener('DOMContentLoaded', function() {
   const closeBtn = document.getElementById('closeOverlayBtn');
-  if (closeBtn) {
-    closeBtn.addEventListener('click', closeBooking);
-  }
+  if (closeBtn) closeBtn.addEventListener('click', closeBooking);
   
   const dateToggle = document.getElementById('dateToggle');
   if (dateToggle) {
@@ -788,7 +1164,26 @@ document.addEventListener('DOMContentLoaded', function() {
     packageChoice.addEventListener('change', function() {
       generateTimeSlots(this.value);
       updateBookingPhotos(this.value);
+      const quest = questsData.find(q => q.name === this.value);
+      if (quest) {
+        currentBookingPrice = quest.price;
+        document.getElementById('bookingPriceDisplay').textContent = quest.price;
+      }
+      updateTotalDisplay();
       updateReceipt();
+    });
+  }
+  
+  const promoBtn = document.getElementById('applyPromoBtn');
+  if (promoBtn) promoBtn.addEventListener('click', applyPromo);
+  
+  const promoInput = document.getElementById('promoInput');
+  if (promoInput) {
+    promoInput.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        applyPromo();
+      }
     });
   }
   
@@ -796,6 +1191,7 @@ document.addEventListener('DOMContentLoaded', function() {
     if (e.target.closest('.option-checkbox') || e.target.closest('.contact-method') ||
         e.target.closest('.time-slot') || e.target.closest('.date-cell') ||
         e.target.closest('.package-mini') || e.target.id === 'packageQuestChoice') {
+      updateTotalDisplay();
       updateReceipt();
     }
   });
@@ -803,7 +1199,6 @@ document.addEventListener('DOMContentLoaded', function() {
   document.querySelectorAll('.step-btn').forEach(btn => {
     btn.addEventListener('click', function() {
       const step = parseInt(this.dataset.step);
-      // Разрешаем переход только на предыдущие шаги или текущий + 1
       if (step <= currentStep + 1 && step >= 1) {
         goStep(step);
       }
@@ -811,9 +1206,12 @@ document.addEventListener('DOMContentLoaded', function() {
   });
   
   initBookingPhotos();
+  initContactMethods();
 });
 
-// ===== КАРУСЕЛЬ ФОТО В БРОНИРОВАНИИ =====
+// ============================================================
+// ===== КАРУСЕЛЬ ФОТО =====
+// ============================================================
 function initBookingPhotos() {
   const track = document.getElementById('bookingPhotosTrack');
   const slides = track ? track.querySelectorAll('.booking-photos-slide') : [];
@@ -822,27 +1220,41 @@ function initBookingPhotos() {
   
   if (slides.length === 0) return;
   
-  if (prevBtn) {
-    prevBtn.addEventListener('click', function() {
-      goToBookingPhoto(currentBookingPhotoIndex - 1);
-    });
-  }
-  if (nextBtn) {
-    nextBtn.addEventListener('click', function() {
-      goToBookingPhoto(currentBookingPhotoIndex + 1);
-    });
-  }
+  if (prevBtn) prevBtn.addEventListener('click', function() {
+    goToBookingPhoto(currentBookingPhotoIndex - 1);
+  });
+  if (nextBtn) nextBtn.addEventListener('click', function() {
+    goToBookingPhoto(currentBookingPhotoIndex + 1);
+  });
 }
 
+// ============================================================
 // ===== ИЗМЕНЕНИЕ КОЛИЧЕСТВА УЧАСТНИКОВ =====
+// ============================================================
 function changeBookingPlayers(delta) {
-  bookingPlayersValue = Math.max(1, Math.min(20, bookingPlayersValue + delta));
+  const minPlayers = 1;
+  const maxPlayers = 20;
+  const newValue = bookingPlayersValue + delta;
+  
+  if (newValue < minPlayers) {
+    showToast(`⚠️ Минимальное количество участников: ${minPlayers}`);
+    return;
+  }
+  if (newValue > maxPlayers) {
+    showToast(`⚠️ Максимальное количество участников: ${maxPlayers}`);
+    return;
+  }
+  
+  bookingPlayersValue = newValue;
   const display = document.getElementById('bookingPlayersDisplay');
   if (display) display.textContent = bookingPlayersValue;
+  updateTotalDisplay();
   updateReceipt();
 }
 
+// ============================================================
 // ===== ПАКЕТЫ НА ГЛАВНОЙ =====
+// ============================================================
 function bookPackage(name, price) {
   openBooking(name, `Готовый пакет "${name}" с максимальной выгодой.`, price, true);
 }
@@ -857,7 +1269,9 @@ function bookCustomPackage() {
   openBooking(name, `Персональный пакет для ${players} участников. Включено: ${items.join(', ') || 'базовый набор'}.`, finalTotal, true);
 }
 
-// ===== ИЗМЕНЕНИЕ КОЛИЧЕСТВА В КОНСТРУКТОРЕ =====
+// ============================================================
+// ===== КОНСТРУКТОР =====
+// ============================================================
 let constructorPlayersValue = 4;
 
 function changeConstructorPlayers(delta) {
@@ -888,7 +1302,9 @@ function updateConstructor() {
   }
 }
 
-// ===== ДЛЯ ВСЕХ СТРАНИЦ: КНОПКИ БРОНИРОВАНИЯ =====
+// ============================================================
+// ===== КНОПКИ БРОНИРОВАНИЯ =====
+// ============================================================
 document.addEventListener('click', function(e) {
   const btn = e.target.closest('.btn-book-sm');
   if (!btn) return;

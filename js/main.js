@@ -2,17 +2,160 @@
 
 // ===== ДАННЫЕ КВЕСТОВ =====
 const quests = [
-  { name: 'Стоматология "Новая жизнь"', tags: ['страшный', 'интерактив'], genre: 'хоррор', age: '16+', loc: 'м. Профсоюзная', time: '60 мин', players: '2–6', difficulty: '4/5', desc: 'Интересные загадки · Страшный', price: 3500, oldPrice: 4200, emoji: '🦷' },
-  { name: 'Рик и Морти', tags: ['приключения', 'семейный'], genre: 'приключения', age: '12+', loc: 'м. Профсоюзная', time: '60 мин', players: '2–6', difficulty: '3/5', desc: 'Путешествие по мультивселенной.', price: 3200, oldPrice: 3800, emoji: '🚀' },
-  { name: 'K-pop: последний стрим', tags: ['детектив', 'подростки'], genre: 'приключения', age: '14+', loc: 'м. Профсоюзная', time: '75 мин', players: '3–8', difficulty: '4/5', desc: 'Расследуйте исчезновение кумира.', price: 3700, oldPrice: 4300, emoji: '🎤' },
-  { name: 'Запретная дверь', tags: ['новинка', 'страшный'], genre: 'хоррор', age: '14+', loc: 'м. Измайловская', time: '70 мин', players: '2–5', difficulty: '5/5', desc: 'Таинственная комната с сюрпризами.', price: 3900, oldPrice: 4500, emoji: '🚪' },
-  { name: 'Изнанка в разуме Векны', tags: ['мистика', 'психология'], genre: 'хоррор', age: '16+', loc: 'м. Измайловская', time: '80 мин', players: '2–6', difficulty: '5/5', desc: 'Погружение в тёмные лабиринты сознания.', price: 4200, oldPrice: 4900, emoji: '🌀' },
-  { name: 'Невеста', tags: ['страшный', 'интерактив'], genre: 'хоррор', age: '16+', loc: 'м. Таганская', time: '60 мин', players: '2–6', difficulty: '4/5', desc: 'Мистический хоррор с живым актёром.', price: 3500, oldPrice: 4200, emoji: '👻' },
-  { name: 'Хогвартс', tags: ['фэнтези', 'для детей'], genre: 'детский', age: '8+', loc: 'м. Таганская', time: '60 мин', players: '2–7', difficulty: '3/5', desc: 'Магия и школа чародейства.', price: 3100, oldPrice: 3600, emoji: '🧙' },
-  { name: 'Лабубу: волшебный мир', tags: ['для детей', 'анимация'], genre: 'детский', age: '6+', loc: 'м. Таганская', time: '50 мин', players: '2–8', difficulty: '2/5', desc: 'Сказочное приключение для малышей.', price: 2800, oldPrice: 3300, emoji: '🧚' },
-  { name: 'Монастырь', tags: ['новинка', 'страшный'], genre: 'хоррор', age: '16+', loc: 'м. Таганская', time: '70 мин', players: '2–6', difficulty: '5/5', desc: 'Древний монастырь с мистическими тайнами.', price: 3900, oldPrice: 4500, emoji: '⛪' },
-  { name: 'Гринч', tags: ['новинка', 'приключения'], genre: 'приключения', age: '6+', loc: 'м. Таганская', time: '55 мин', players: '2–8', difficulty: '2/5', desc: 'Приключение по мотивам любимой истории.', price: 2900, oldPrice: 3400, emoji: '🎄' },
-  { name: 'Among Us', tags: ['экшен', 'игра', 'командная'], genre: 'экшен', age: '12+', loc: 'м. Таганская', time: '60 мин', players: '4–10', difficulty: '4/5', desc: 'Экшн-игра по мотивам популярной вселенной.', price: 4200, oldPrice: 4800, emoji: '🛸' }
+  {
+    name: 'Стоматология "Новая жизнь"',
+    tags: ['страшный', 'интерактив'],
+    genre: 'хоррор',
+    age: '16+',
+    loc: 'м. Профсоюзная',
+    time: '60 мин',
+    players: '3–6',
+    difficulty: '4/5',
+    desc: 'Интересные загадки · Страшный',
+    price: 6500,
+    oldPrice: 7990,
+    emoji: '🦷'
+  },
+  {
+    name: 'Рик и Морти',
+    tags: ['приключения', 'семейный'],
+    genre: 'приключения',
+    age: '12+',
+    loc: 'м. Профсоюзная',
+    time: '60 мин',
+    players: '3–6',
+    difficulty: '3/5',
+    desc: 'Путешествие по мультивселенной.',
+    price: 6500,
+    oldPrice: 7990,
+    emoji: '🚀'
+  },
+  {
+    name: 'K-pop: последний стрим',
+    tags: ['детектив', 'подростки'],
+    genre: 'приключения',
+    age: '14+',
+    loc: 'м. Профсоюзная',
+    time: '75 мин',
+    players: '3–8',
+    difficulty: '4/5',
+    desc: 'Расследуйте исчезновение кумира.',
+    price: 5500,
+    oldPrice: 8500,
+    emoji: '🎤'
+  },
+  {
+    name: 'Запретная дверь',
+    tags: ['новинка', 'страшный'],
+    genre: 'хоррор',
+    age: '14+',
+    loc: 'м. Измайловская',
+    time: '70 мин',
+    players: '3–5',
+    difficulty: '5/5',
+    desc: 'Таинственная комната с сюрпризами.',
+    price: 4990,
+    oldPrice: 6990,
+    emoji: '🚪'
+  },
+  {
+    name: 'Изнанка в разуме Векны',
+    tags: ['мистика', 'психология'],
+    genre: 'хоррор',
+    age: '16+',
+    loc: 'м. Измайловская',
+    time: '80 мин',
+    players: '3–6',
+    difficulty: '5/5',
+    desc: 'Погружение в тёмные лабиринты сознания.',
+    price: 5990,
+    oldPrice: 7500,
+    emoji: '🌀'
+  },
+  {
+    name: 'Невеста',
+    tags: ['страшный', 'интерактив'],
+    genre: 'хоррор',
+    age: '16+',
+    loc: 'м. Таганская',
+    time: '60 мин',
+    players: '3–6',
+    difficulty: '4/5',
+    desc: 'Мистический хоррор с живым актёром.',
+    price: 5500,
+    oldPrice: 7500,
+    emoji: '👻'
+  },
+  {
+    name: 'Хогвартс',
+    tags: ['фэнтези', 'для детей'],
+    genre: 'детский',
+    age: '8+',
+    loc: 'м. Таганская',
+    time: '60 мин',
+    players: '3–7',
+    difficulty: '3/5',
+    desc: 'Магия и школа чародейства.',
+    price: 5500,
+    oldPrice: 7500,
+    emoji: '🧙'
+  },
+  {
+    name: 'Лабубу: волшебный мир',
+    tags: ['для детей', 'анимация'],
+    genre: 'детский',
+    age: '6+',
+    loc: 'м. Таганская',
+    time: '50 мин',
+    players: '3–8',
+    difficulty: '2/5',
+    desc: 'Сказочное приключение для малышей.',
+    price: 5500,
+    oldPrice: 7500,
+    emoji: '🧚'
+  },
+  {
+    name: 'Монастырь',
+    tags: ['новинка', 'страшный'],
+    genre: 'хоррор',
+    age: '16+',
+    loc: 'м. Таганская',
+    time: '70 мин',
+    players: '3–6',
+    difficulty: '5/5',
+    desc: 'Древний монастырь с мистическими тайнами.',
+    price: 5990,
+    oldPrice: 7500,
+    emoji: '⛪'
+  },
+  {
+    name: 'Гринч',
+    tags: ['новинка', 'приключения'],
+    genre: 'приключения',
+    age: '6+',
+    loc: 'м. Таганская',
+    time: '55 мин',
+    players: '3–8',
+    difficulty: '2/5',
+    desc: 'Приключение по мотивам любимой истории.',
+    price: 5500,
+    oldPrice: 7500,
+    emoji: '🎄'
+  },
+  {
+    name: 'Among Us',
+    tags: ['экшен', 'игра', 'командная'],
+    genre: 'экшен',
+    age: '12+',
+    loc: 'м. Измайловская',
+    time: '60 мин',
+    players: '6–10',
+    difficulty: '4/5',
+    desc: 'Экшн-игра по мотивам популярной вселенной. Найдите предателя!',
+    price: 7990,
+    oldPrice: 8990,
+    emoji: '🛸'
+  }
 ];
 
 // ===== РЕНДЕР КВЕСТОВ =====
@@ -55,10 +198,18 @@ function createQuestCard(q) {
       <div class="card-desc">${q.desc}</div>
     </div>
     <div class="card-footer">
-      <span class="price">${q.price} ₽ <small>${q.oldPrice} ₽</small></span>
+      <span class="price">от ${q.price} ₽ <small>${q.oldPrice} ₽</small></span>
       <button class="btn-book-sm" data-quest-name="${q.name}" data-quest-desc="${q.desc}" data-quest-price="${q.price}">Забронировать</button>
     </div>
   `;
+  const btn = card.querySelector('.btn-book-sm');
+  btn.addEventListener('click', function(e) {
+    e.stopPropagation();
+    const name = this.dataset.questName;
+    const desc = this.dataset.questDesc;
+    const price = parseInt(this.dataset.questPrice);
+    openBooking(name, desc, price, false);
+  });
   return card;
 }
 
@@ -266,3 +417,55 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   }
 });
+// ===== КОПИРОВАНИЕ ПРОМОКОДА =====
+function copyPromoCode() {
+  const promoCode = 'КВЕСТ10';
+  const btn = document.querySelector('.promo-code-btn');
+  
+  // Копируем в буфер обмена
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(promoCode).then(() => {
+      showCopyTooltip(btn, '✅ Скопировано!');
+    }).catch(() => {
+      fallbackCopy(promoCode, btn);
+    });
+  } else {
+    fallbackCopy(promoCode, btn);
+  }
+}
+
+function fallbackCopy(text, btn) {
+  const textarea = document.createElement('textarea');
+  textarea.value = text;
+  textarea.style.position = 'fixed';
+  textarea.style.left = '-9999px';
+  textarea.style.top = '-9999px';
+  document.body.appendChild(textarea);
+  textarea.select();
+  try {
+    document.execCommand('copy');
+    showCopyTooltip(btn, '✅ Скопировано!');
+  } catch (e) {
+    showCopyTooltip(btn, '❌ Не удалось скопировать');
+  }
+  document.body.removeChild(textarea);
+}
+
+function showCopyTooltip(btn, message) {
+  let tooltip = btn.querySelector('.copy-tooltip');
+  if (!tooltip) {
+    tooltip = document.createElement('span');
+    tooltip.className = 'copy-tooltip';
+    btn.appendChild(tooltip);
+  }
+  tooltip.textContent = message;
+  tooltip.classList.add('show');
+  
+  clearTimeout(tooltip._hideTimer);
+  tooltip._hideTimer = setTimeout(() => {
+    tooltip.classList.remove('show');
+    setTimeout(() => {
+      tooltip.textContent = '📋 Скопировать';
+    }, 300);
+  }, 2000);
+}
