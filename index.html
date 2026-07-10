@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes" />
+  <title>Immerscape · Квесты в реальности</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800;14..32,900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/main.css" />
+  <style>
+    /* Дополнительные стили для увеличенной акции */
+    .hero-promo {
+      background: linear-gradient(135deg, #151121, #1f1830);
+      padding: 18px 24px;
+      border: 1px solid rgba(124, 77, 255, 0.15);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 14px 20px;
+      width: 100%;
+      text-align: center;
+      box-sizing: border-box;
+      margin-top: 12px;
+      border-radius: 16px;
+      min-height: 80px;
+    }
+    @media (min-width: 768px) {
+      .hero-promo {
+        padding: 24px 32px;
+        gap: 18px 28px;
+        border-radius: 20px;
+        margin-top: 16px;
+        min-height: 100px;
+      }
+    }
+    .hero-promo .promo-icon {
+      font-size: 1.8rem;
+      flex-shrink: 0;
+    }
+    @media (min-width: 768px) {
+      .hero-promo .promo-icon {
+        font-size: 2.4rem;
+      }
+    }
+    .hero-promo .promo-text {
+      font-size: 0.95rem;
+      color: #d4c8f0;
+      font-weight: 500;
+    }
+    @media (min-width: 480px) {
+      .hero-promo .promo-text {
+        font-size: 1.05rem;
+      }
+    }
+    @media (min-width: 768px) {
+      .hero-promo .promo-text {
+        font-size: 1.2rem;
+      }
+    }
+    .hero-promo .promo-text strong {
+      color: #fff;
+      font-weight: 800;
+    }
+    .hero-promo .promo-text .highlight {
+      color: #b388ff;
+      font-weight: 700;
+    }
+    .hero-promo .promo-btn {
+      background: #7c4dff;
+      border: none;
+      padding: 10px 28px;
+      border-radius: 60px;
+      font-weight: 700;
+      font-size: 0.85rem;
+      color: #fff;
+      cursor: pointer;
+      transition: 0.2s;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    @media (min-width: 768px) {
+      .hero-promo .promo-btn {
+        padding: 12px 36px;
+        font-size: 1rem;
+      }
+    }
+    .hero-promo .promo-btn:hover {
+      background: #966aff;
+      transform: scale(1.03);
+      box-shadow: 0 4px 30px rgba(124, 77, 255, 0.3);
+    }
+
+    /* Стиль для активной ссылки в шапке */
+    .nav a[href="#section-birthday"] {
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- TOAST -->
+  <div id="toast" class="toast">✓ Готово!</div>
+
+  <!-- ===== HEADER ===== -->
+  <header class="header" id="mainHeader">
+    <div class="container">
+      <a href="#top" class="logo" id="logoLink">immerscape</a>
+      <nav class="nav">
+        <a class="active" href="#section-quests">Квесты</a>
+        <!-- ИСПРАВЛЕНО: просто якорь, без перехода на другую страницу -->
+        <a href="#section-birthday" id="birthdayNavLink">День рождения под ключ</a>
+        <a href="horror.html">Хоррор вечер</a>
+        <a href="events.html">Выездные мероприятия</a>
+        <a href="action.html">Экшен игры</a>
+      </nav>
+      <div class="header-right">
+        <span class="header-phone" id="phoneBtn">+7 (495) 123-45-67</span>
+        <div class="social-icons">
+          <a href="#" title="WhatsApp">WA</a>
+          <a href="#" title="Telegram">TG</a>
+          <a href="#" title="VK">VK</a>
+        </div>
+      </div>
+    </div>
+    <div class="glow-line" id="glowLine"></div>
+  </header>
+
+  <!-- ===== HERO ===== -->
+  <section class="hero" id="top">
+    <div class="container hero-grid">
+      <div class="hero-content">
+        <h1>Создаём атмосферные <span>квесты</span> в Москве</h1>
+        <div class="sub">Проводим яркие праздники, наполненные незабываемыми эмоциями для детей и подростков.</div>
+        <div class="hero-offers">
+          <a href="#section-birthday" class="hero-offer">🎂 День рождения под ключ</a>
+          <a href="horror.html" class="hero-offer pink">❤️‍🔥 Хоррор вечер</a>
+          <a href="events.html" class="hero-offer green">🚐 Выездные мероприятия</a>
+          <a href="action.html" class="hero-offer orange">⚡ Экшен игры</a>
+        </div>
+      </div>
+      <div class="hero-right">
+        <div class="hero-photo-card" id="heroPhotoCard">
+          <div class="photo-slide active">
+            <div class="slide-bg"></div>
+            <div class="slide-content">
+              <span class="emoji">👻</span>
+              <h3>«Невеста»</h3>
+              <p>Мистический хоррор с живым актёром</p>
+              <span class="slide-tag">Страшный · Интерактив</span>
+            </div>
+          </div>
+          <div class="photo-slide">
+            <div class="slide-bg"></div>
+            <div class="slide-content">
+              <span class="emoji">🧙</span>
+              <h3>«Хогвартс»</h3>
+              <p>Магия и волшебство для всей семьи</p>
+              <span class="slide-tag">Фэнтези · Для детей</span>
+            </div>
+          </div>
+          <div class="photo-slide">
+            <div class="slide-bg"></div>
+            <div class="slide-content">
+              <span class="emoji">🚀</span>
+              <h3>«Рик и Морти»</h3>
+              <p>Путешествие по мультивселенной</p>
+              <span class="slide-tag">Приключения · Семейный</span>
+            </div>
+          </div>
+          <div class="photo-slide">
+            <div class="slide-bg"></div>
+            <div class="slide-content">
+              <span class="emoji">🔍</span>
+              <h3>«K-pop: последний стрим»</h3>
+              <p>Расследование в мире K-pop</p>
+              <span class="slide-tag">Детектив · Подростки</span>
+            </div>
+          </div>
+          <div class="photo-slide">
+            <div class="slide-bg"></div>
+            <div class="slide-content">
+              <span class="emoji">🎂</span>
+              <h3>Детский праздник</h3>
+              <p>Счастливые лица и яркие эмоции</p>
+              <span class="slide-tag">Анимация · Для детей</span>
+            </div>
+          </div>
+          <div class="photo-arrows">
+            <button class="hero-photo-prev">‹</button>
+            <button class="hero-photo-next">›</button>
+          </div>
+          <div class="photo-dots" id="heroPhotoDots">
+            <button class="photo-dot active" data-index="0"></button>
+            <button class="photo-dot" data-index="1"></button>
+            <button class="photo-dot" data-index="2"></button>
+            <button class="photo-dot" data-index="3"></button>
+            <button class="photo-dot" data-index="4"></button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- УВЕЛИЧЕННАЯ ПЛАШКА АКЦИИ -->
+    <div class="container" style="margin-top: 16px;">
+      <div class="hero-promo">
+        <span class="promo-icon">🎭</span>
+        <span class="promo-text">
+          <strong>Акция</strong> — <span class="highlight">-10%</span> скидка на все квесты для бронирования в будние дни
+        </span>
+        <button class="promo-btn" onclick="document.getElementById('section-quests').scrollIntoView({behavior:'smooth'})">Квесты</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== АТМОСФЕРА ===== -->
+  <section class="atmosphere-section">
+    <div class="container">
+      <h2 class="section-title">🌌 Атмосфера наших приключений</h2>
+      <p class="section-sub">Погрузитесь в мир эмоций и незабываемых впечатлений</p>
+      <div class="atmosphere-grid">
+        <div class="atmosphere-carousel-wrapper">
+          <div class="atmosphere-carousel-track" id="atmosphereCarouselTrack">
+            <div class="atmosphere-carousel-slide">
+              <div class="slide-bg"></div>
+              <div class="slide-content">
+                <span class="emoji">👻</span>
+                <h3>Хоррор-квест «Невеста»</h3>
+                <p>Атмосфера мистики и страха в каждой детали</p>
+              </div>
+            </div>
+            <div class="atmosphere-carousel-slide">
+              <div class="slide-bg"></div>
+              <div class="slide-content">
+                <span class="emoji">🧙</span>
+                <h3>«Приключение в Хогвартсе»</h3>
+                <p>Магия и волшебство для детей и взрослых</p>
+              </div>
+            </div>
+            <div class="atmosphere-carousel-slide">
+              <div class="slide-bg"></div>
+              <div class="slide-content">
+                <span class="emoji">🚀</span>
+                <h3>«Рик и Морти»</h3>
+                <p>Путешествие по мультивселенной</p>
+              </div>
+            </div>
+            <div class="atmosphere-carousel-slide">
+              <div class="slide-bg"></div>
+              <div class="slide-content">
+                <span class="emoji">🔍</span>
+                <h3>«K-pop: последний стрим»</h3>
+                <p>Расследование в мире K-pop культуры</p>
+              </div>
+            </div>
+            <div class="atmosphere-carousel-slide">
+              <div class="slide-bg"></div>
+              <div class="slide-content">
+                <span class="emoji">🎂</span>
+                <h3>Детский праздник</h3>
+                <p>Счастливые лица и яркие эмоции</p>
+              </div>
+            </div>
+          </div>
+          <div class="atmosphere-carousel-arrows">
+            <button class="atmo-prev">‹</button>
+            <button class="atmo-next">›</button>
+          </div>
+          <div class="atmosphere-carousel-dots" id="atmosphereCarouselDots"></div>
+        </div>
+        <div class="atmosphere-utp">
+          <div class="utp-card"><span class="icon">🎬</span><h4>Проф. актёры</h4><p>Живая игра, полное погружение</p></div>
+          <div class="utp-card"><span class="icon">🧩</span><h4>Уникальные сценарии</h4><p>Авторские сюжеты</p></div>
+          <div class="utp-card"><span class="icon">🎂</span><h4>Праздник под ключ</h4><p>Всё включено</p></div>
+          <div class="utp-card"><span class="icon">📹</span><h4>Видео-нарезка</h4><p>Сохраним моменты</p></div>
+          <div class="utp-card"><span class="icon">🎁</span><h4>Креативное поздравление</h4><p>Сюрпризы для именинников</p></div>
+          <div class="utp-card"><span class="icon">🏆</span><h4>Топ-5 Москвы</h4><p>Лучшие квесты</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== РАЗДЕЛ: КВЕСТЫ ===== -->
+  <div id="section-quests" class="section-anchor">
+    <div class="container">
+      <div class="catalog-header">
+        <h2>Выбери своё приключение</h2>
+        <div class="location-filter" id="locationFilter">
+          <span class="loc-chip all active" data-location="all">Все</span>
+          <span class="loc-chip" data-location="м. Профсоюзная">📍 Профсоюзная</span>
+          <span class="loc-chip" data-location="м. Таганская">📍 Таганская</span>
+          <span class="loc-chip" data-location="м. Измайловская">📍 Измайловская</span>
+        </div>
+      </div>
+      <div class="quest-grid" id="questGrid"></div>
+    </div>
+  </div>
+
+  <!-- ===== РАЗДЕЛ: ДЕНЬ РОЖДЕНИЯ ПОД КЛЮЧ ===== -->
+  <div id="section-birthday" class="section-anchor">
+    <div class="container">
+      <h2 class="section-title">🎂 День рождения под ключ</h2>
+      <p class="section-sub">Соберите идеальный праздник сами или выберите готовое решение</p>
+
+      <h3 style="font-size:1.2rem; margin:0 0 14px; text-align:center;">Готовые решения</h3>
+      <div class="package-grid">
+        <div class="package-card">
+          <h4>Пакет на 1 час</h4>
+          <div class="pkg-price"><small>15 500 ₽</small> 13 500 ₽</div>
+          <ul>
+            <li>Квест на выбор</li>
+            <li>Дополнительный персонаж</li>
+            <li>Креативное поздравление</li>
+            <li>Видео-нарезка</li>
+          </ul>
+          <button class="btn-book-sm" data-package="Пакет на 1 час" data-price="13500">Забронировать</button>
+        </div>
+        <div class="package-card popular">
+          <h4>⭐ Пакет на 2 часа</h4>
+          <div class="pkg-price"><small>32 000 ₽</small> 23 000 ₽</div>
+          <ul>
+            <li>Всё из пакета на 1 час</li>
+            <li>Кресло режиссёра</li>
+            <li>Украшенный банкетный зал</li>
+            <li>Фотограф (10 фото)</li>
+          </ul>
+          <button class="btn-book-sm" data-package="Пакет на 2 часа" data-price="23000">Забронировать</button>
+        </div>
+        <div class="package-card">
+          <h4>Пакет на 2.5 часа</h4>
+          <div class="pkg-price"><small>53 000 ₽</small> 34 000 ₽</div>
+          <ul>
+            <li>Всё из пакета на 2 часа</li>
+            <li>Настольная игра / мастер-класс</li>
+            <li>Личный менеджер</li>
+            <li>Шар желаний · Пиньята</li>
+          </ul>
+          <button class="btn-book-sm" data-package="Пакет на 2.5 часа" data-price="34000">Забронировать</button>
+        </div>
+        <div class="package-card">
+          <h4>Пакет на 3.5 часа</h4>
+          <div class="pkg-price"><small>73 500 ₽</small> 56 000 ₽</div>
+          <ul>
+            <li>Всё из пакета на 2.5 часа</li>
+            <li>Торт до 2 кг</li>
+            <li>Шоу-программа</li>
+            <li>Аквагрим</li>
+          </ul>
+          <button class="btn-book-sm" data-package="Пакет на 3.5 часа" data-price="56000">Забронировать</button>
+        </div>
+      </div>
+
+      <div class="constructor-section">
+        <div class="constructor-title">🧩 Собери свой пакет</div>
+        <div class="constructor-grid">
+          <div class="constructor-options">
+            <div class="option-card active" data-price="1500" data-name="Квест на выбор">
+              <div class="option-check"></div>
+              <span class="option-name">Квест на выбор</span>
+              <span class="price-tag">1 500 ₽</span>
+            </div>
+            <div class="option-card" data-price="2000" data-name="Дополнительный персонаж">
+              <div class="option-check"></div>
+              <span class="option-name">Доп. персонаж</span>
+              <span class="price-tag">2 000 ₽</span>
+            </div>
+            <div class="option-card" data-price="2500" data-name="Креативное поздравление">
+              <div class="option-check"></div>
+              <span class="option-name">Креативное поздравление</span>
+              <span class="price-tag">2 500 ₽</span>
+            </div>
+            <div class="option-card" data-price="3000" data-name="Видео-нарезка">
+              <div class="option-check"></div>
+              <span class="option-name">Видео-нарезка</span>
+              <span class="price-tag">3 000 ₽</span>
+            </div>
+            <div class="option-card" data-price="4000" data-name="Фотограф">
+              <div class="option-check"></div>
+              <span class="option-name">Фотограф</span>
+              <span class="price-tag">4 000 ₽</span>
+            </div>
+            <div class="option-card" data-price="3500" data-name="Украшение зала">
+              <div class="option-check"></div>
+              <span class="option-name">Украшение зала</span>
+              <span class="price-tag">3 500 ₽</span>
+            </div>
+            <div class="option-card" data-price="5000" data-name="Торт до 2 кг">
+              <div class="option-check"></div>
+              <span class="option-name">Торт до 2 кг</span>
+              <span class="price-tag">5 000 ₽</span>
+            </div>
+            <div class="option-card" data-price="2500" data-name="Аквагрим">
+              <div class="option-check"></div>
+              <span class="option-name">Аквагрим</span>
+              <span class="price-tag">2 500 ₽</span>
+            </div>
+            <div class="players-input">
+              <label>Участников</label>
+              <div class="quantity-control">
+                <button class="qty-btn" onclick="changeConstructorPlayers(-1)">−</button>
+                <span class="qty-value" id="constructorPlayersDisplay">4</span>
+                <button class="qty-btn" onclick="changeConstructorPlayers(1)">+</button>
+              </div>
+            </div>
+          </div>
+          <div class="constructor-preview">
+            <h4>Ваш пакет</h4>
+            <div id="constructorItems">
+              <div class="preview-item"><span>Квест на выбор</span><span>1 500 ₽</span></div>
+            </div>
+            <div class="preview-total" id="constructorTotal">
+              <small>0 ₽</small> 1 500 ₽
+            </div>
+            <button class="btn-primary" onclick="bookCustomPackage()">Забронировать свой пакет</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-col">
+        <strong>immerscape</strong>
+        <span>Квесты в реальности в Москве</span>
+        <span>© 2026 Immerscape</span>
+      </div>
+      <div class="footer-col">
+        <strong>Контакты</strong>
+        <span>+7 (495) 123-45-67</span>
+        <span>info@immerscape.ru</span>
+        <span>Ежедневно 10:00–22:00</span>
+      </div>
+      <div class="footer-col">
+        <strong>Адреса</strong>
+        <span>📍 Профсоюзная: ул. Кржижановского, 8, корп. 2</span>
+        <span>📍 Таганская: Первомайская ул., 5</span>
+        <span>📍 Измайловская: Большой Факельный пер., 2/22</span>
+      </div>
+      <div class="footer-col">
+        <strong>Соцсети</strong>
+        <div class="social-links">
+          <a href="#">Telegram</a>
+          <a href="#">VK</a>
+          <a href="#">YouTube</a>
+          <a href="#">WhatsApp</a>
+        </div>
+        <span style="margin-top:6px; font-size:0.8rem; color:#6f648a;">Будьте в курсе новостей</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ===== BOOKING OVERLAY ===== -->
+  <div class="booking-overlay" id="bookingOverlay">
+    <div class="container">
+      <button class="close-overlay" id="closeOverlayBtn">← Вернуться к выбору</button>
+      <div class="booking-title">Бронирование</div>
+
+      <div class="booking-steps">
+        <button class="step-btn active" data-step="1">1. Выбор</button>
+        <button class="step-btn" data-step="2">2. Опции</button>
+        <button class="step-btn" data-step="3">3. Контакты</button>
+        <button class="step-btn" data-step="4">4. Квитанция</button>
+      </div>
+
+      <!-- STEP 1 -->
+      <div class="step-content active" data-step="1">
+        <div class="booking-grid">
+          <div class="booking-info">
+            <h3 id="bookQuestName">Невеста</h3>
+            <div class="desc" id="bookQuestDesc">Интерактивный хоррор-квест с мистическим сюжетом.</div>
+            <div class="meta"><span>⏱ 60 мин</span><span>👥 2–6 чел.</span><span>⚡ Сложность: 4/5</span></div>
+
+            <div class="booking-photos-carousel">
+              <div class="booking-photos-track" id="bookingPhotosTrack">
+                <div class="booking-photos-slide"><div style="text-align:center;"><div>👻</div><div class="slide-label">Мистическая атмосфера</div></div></div>
+                <div class="booking-photos-slide"><div style="text-align:center;"><div>🕯️</div><div class="slide-label">Тайны и загадки</div></div></div>
+                <div class="booking-photos-slide"><div style="text-align:center;"><div>🔮</div><div class="slide-label">Магический интерьер</div></div></div>
+                <div class="booking-photos-slide"><div style="text-align:center;"><div>🪦</div><div class="slide-label">Древние тайны</div></div></div>
+              </div>
+              <button class="booking-photos-arrow prev" id="photosPrev">‹</button>
+              <button class="booking-photos-arrow next" id="photosNext">›</button>
+              <div class="booking-photos-dots" id="bookingPhotosDots">
+                <button class="booking-photos-dot active" data-index="0"></button>
+                <button class="booking-photos-dot" data-index="1"></button>
+                <button class="booking-photos-dot" data-index="2"></button>
+                <button class="booking-photos-dot" data-index="3"></button>
+              </div>
+            </div>
+          </div>
+<div id="bookingMap"></div>
+          <div class="booking-form">
+            <label>Дата и время сеанса</label>
+            <div class="datetime-selector">
+              <div class="date-selector-wrapper">
+                <div class="date-selector-toggle" id="dateToggle">
+                  <span>📅 <span class="selected-date" id="selectedDate">Выберите дату</span></span>
+                  <span class="arrow" id="dateArrow">▼</span>
+                </div>
+                <div class="date-selector-dropdown" id="dateDropdown">
+                  <div class="month-nav">
+                    <button class="month-btn" id="prevMonth">‹</button>
+                    <span class="month-label" id="monthLabel">Июль 2026</span>
+                    <button class="month-btn" id="nextMonth">›</button>
+                  </div>
+                  <div class="date-grid" id="dateGrid"></div>
+                </div>
+              </div>
+              <div class="time-grid" id="timeGrid"></div>
+            </div>
+
+            <div class="quest-select-wrapper" id="packageQuestSelect" style="display:none;">
+              <label>Выберите квест для пакета</label>
+              <select id="packageQuestChoice">
+                <option value="Невеста">Невеста</option>
+                <option value="Запретная дверь">Запретная дверь</option>
+                <option value="Рик и Морти">Рик и Морти</option>
+                <option value="Хогвартс">Хогвартс</option>
+                <option value="Лабубу: волшебный мир">Лабубу: волшебный мир</option>
+                <option value="Стоматология 'Новая жизнь'">Стоматология "Новая жизнь"</option>
+                <option value="K-pop: последний стрим">K-pop: последний стрим</option>
+                <option value="Монастырь">Монастырь</option>
+                <option value="Гринч">Гринч</option>
+                <option value="Изнанка в разуме Векны">Изнанка в разуме Векны</option>
+              </select>
+            </div>
+
+            <div style="margin-top:10px;">
+              <label>Количество участников</label>
+              <div class="quantity-control">
+                <button class="qty-btn" onclick="changeBookingPlayers(-1)">−</button>
+                <span class="qty-value" id="bookingPlayersDisplay">4</span>
+                <button class="qty-btn" onclick="changeBookingPlayers(1)">+</button>
+              </div>
+            </div>
+
+            <div style="margin-top:12px; background:#13101e; border-radius:14px; padding:12px; border:1px solid #26203a;">
+              <strong style="font-size:0.85rem;">Краткая информация</strong>
+              <div style="display:flex; justify-content:space-between; font-size:0.8rem; color:#b0a8c8; margin-top:4px;">
+                <span>Цена: <span id="bookingPriceDisplay">3 500</span> ₽</span>
+                <span>Депозит: 500 ₽</span>
+              </div>
+            </div>
+
+            <div class="btn-group">
+              <button class="btn-primary" onclick="goStep(2)">Далее →</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- STEP 2 -->
+      <div class="step-content" data-step="2">
+        <h3 style="margin-bottom:10px; font-size:1.2rem;">Опции и дополнения</h3>
+        <div class="options-grid" id="optionsGrid"></div>
+
+        <div class="packages-collapsible" id="packagesCollapsible">
+          <div class="collapsible-header" id="packagesToggle">
+            <span>🎁 Выбрать готовый пакет</span>
+            <span class="arrow" id="packagesArrow">▼</span>
+          </div>
+          <div class="collapsible-body" id="packagesBody">
+            <div class="package-mini" data-package="Пакет на 1 час" data-price="13500" data-oldprice="15500">
+              <span class="pkg-name">Пакет на 1 час</span>
+              <span class="pkg-price"><small>15 500 ₽</small> 13 500 ₽</span>
+            </div>
+            <div class="package-mini" data-package="Пакет на 2 часа" data-price="23000" data-oldprice="32000">
+              <span class="pkg-name">⭐ Пакет на 2 часа</span>
+              <span class="pkg-price"><small>32 000 ₽</small> 23 000 ₽</span>
+              <span class="pkg-badge">Популярный</span>
+            </div>
+            <div class="package-mini" data-package="Пакет на 2.5 часа" data-price="34000" data-oldprice="53000">
+              <span class="pkg-name">Пакет на 2.5 часа</span>
+              <span class="pkg-price"><small>53 000 ₽</small> 34 000 ₽</span>
+            </div>
+            <div class="package-mini" data-package="Пакет на 3.5 часа" data-price="56000" data-oldprice="73500">
+              <span class="pkg-name">Пакет на 3.5 часа</span>
+              <span class="pkg-price"><small>73 500 ₽</small> 56 000 ₽</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="btn-group">
+          <button class="btn-outline" onclick="goStep(1)">← Назад</button>
+          <button class="btn-primary" onclick="goStep(3)">Далее →</button>
+        </div>
+      </div>
+
+      <!-- STEP 3 -->
+      <div class="step-content" data-step="3">
+        <h3 style="margin-bottom:10px; font-size:1.2rem;">Контактные данные</h3>
+        <div class="booking-form" style="max-width:500px;">
+          <label>Имя *</label><input type="text" id="bookingName" placeholder="Ваше имя" />
+          <label>Телефон *</label><input type="tel" id="bookingPhone" placeholder="+7 (___) ___-__-__" />
+          <label>Email (необязательно)</label><input type="email" id="bookingEmail" placeholder="example@mail.ru" />
+
+          <label>Способ связи</label>
+          <div class="contact-methods" id="contactMethods">
+            <div class="contact-method active" data-method="whatsapp"><span class="method-icon">💬</span><span class="method-label">WhatsApp</span></div>
+            <div class="contact-method" data-method="telegram"><span class="method-icon">✈️</span><span class="method-label">Telegram</span></div>
+            <div class="contact-method" data-method="vk"><span class="method-icon">📱</span><span class="method-label">VK</span></div>
+            <div class="contact-method" data-method="sms"><span class="method-icon">📲</span><span class="method-label">SMS</span></div>
+          </div>
+
+          <label>Комментарий к заказу</label>
+          <textarea id="bookingComment" placeholder="Дополнительные пожелания..." rows="2"></textarea>
+
+          <div class="btn-group">
+            <button class="btn-outline" onclick="goStep(2)">← Назад</button>
+            <button class="btn-primary" onclick="goStep(4)">Перейти к оплате</button>
+          </div>
+          <div style="font-size:0.7rem; color:#6f648a; margin-top:6px;">* Поля с звёздочкой обязательны</div>
+        </div>
+      </div>
+
+      <!-- STEP 4 -->
+      <div class="step-content" data-step="4">
+        <h3 style="margin-bottom:12px; font-size:1.2rem;">Квитанция заказа</h3>
+        <div class="receipt-box" style="max-width:500px;" id="receiptBox">
+          <div class="row"><span>Квест/Пакет</span><span id="receiptQuest">Невеста</span></div>
+          <div class="row"><span>Дата и время</span><span id="receiptDateTime">25 июля 2026, 16:00</span></div>
+          <div class="row"><span>Количество участников</span><span id="receiptPlayers">4</span></div>
+          <div class="row"><span>Доп. услуги</span><span id="receiptExtras">—</span></div>
+          <div class="row"><span>Способ связи</span><span id="receiptMethod">WhatsApp</span></div>
+          <div class="row"><span>Скидка</span><span>-10%</span></div>
+          <div class="row total"><span>Итого</span><span id="receiptTotal">4 200 ₽</span></div>
+          <div class="btn-group">
+            <button class="btn-outline" onclick="goStep(3)">← Назад</button>
+            <button class="btn-primary" onclick="confirmBooking()">Подтвердить бронь</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/booking.js"></script>
+  <script src="js/main.js"></script>
+  
+  <script>
+    // ===== СКРОЛЛ К "ДЕНЬ РОЖДЕНИЯ ПОД КЛЮЧ" =====
+    // Просто якорь в href="#section-birthday" уже работает
+    // Но на всякий случай добавляем дополнительную обработку
+    document.addEventListener('DOMContentLoaded', function() {
+      const birthdayLink = document.getElementById('birthdayNavLink');
+      if (birthdayLink) {
+        birthdayLink.addEventListener('click', function(e) {
+          e.preventDefault();
+          const target = document.getElementById('section-birthday');
+          if (target) {
+            target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }
+        });
+      }
+    });
+  </script>
+</body>
+</html>
