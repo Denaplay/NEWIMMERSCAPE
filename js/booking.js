@@ -40,7 +40,7 @@ const questsData = [
     time: '60 мин', 
     players: '1–6', 
     difficulty: '4/5', 
-    photos: ['🦷', '🪥', '🔬'], 
+    photos: ['images/Стоматология/IMG_4943.jpg', 'images/Стоматология/IMG_4942.jpg', 'images/Стоматология/IMG_4948.jpg'], 
     loc: 'м. Профсоюзная',
     prices: {
       '00:00-01:15': 7990,
@@ -56,7 +56,7 @@ const questsData = [
     time: '60 мин', 
     players: '1–6', 
     difficulty: '3/5', 
-    photos: ['🚀', '🛸', '🌌'], 
+    photos: ['images/Рик и Морти/DSC07722.jpg', 'images/Рик и Морти/DSC07800.jpg', 'images/К-Поп/DSC06229_1.jpg'], 
     loc: 'м. Профсоюзная',
     prices: {
       '00:00-01:15': 7990,
@@ -72,7 +72,7 @@ const questsData = [
     time: '75 мин', 
     players: '1–8', 
     difficulty: '4/5', 
-    photos: ['🎤', '💿', '🌟'], 
+    photos: ['images/К-Поп/DSC06826.jpg', 'images/К-Поп/DSC06550.jpg', 'images/К-Поп/DSC06229_1.jpg'], 
     loc: 'м. Профсоюзная',
     prices: {
       '00:15-01:30': 8500,
@@ -88,7 +88,7 @@ const questsData = [
     time: '60-90 мин', 
     players: '1–8', 
     difficulty: '4/5', 
-    photos: ['👻', '🕯️', '💍'], 
+    photos: ['images/Хоррор-свидание/DSC07320.jpg', 'images/Хоррор-свидание/DSC07074.jpg', 'images/Невеста/DSC01117.jpg'], 
     loc: 'м. Профсоюзная',
     prices: {
       '00:00-01:15': 15000,
@@ -101,7 +101,7 @@ const questsData = [
     time: '70 мин', 
     players: '1–5', 
     difficulty: '5/5', 
-    photos: ['🚪', '🔑', '👁️'], 
+    photos: ['images/Монастырь/IMG_0214.JPG', 'images/Монастырь/IMG_0216.JPG', 'images/Монастырь/IMG_0206.JPG'], 
     loc: 'м. Измайловская',
     prices: {
       'Рабочие': 4990,
@@ -114,7 +114,7 @@ const questsData = [
     time: '80 мин', 
     players: '1–6', 
     difficulty: '5/5', 
-    photos: ['🌀', '🧠', '🌑'], 
+    photos: ['images/Монастырь/IMG_0213.JPG', 'images/Монастырь/IMG_0214.JPG', 'images/Хоррор-вечер/DSC01283_mk.jpg'], 
     loc: 'м. Измайловская',
     prices: {
       '09:00-11:30': 5990,
@@ -127,7 +127,7 @@ const questsData = [
     time: '60 мин', 
     players: '6–10', 
     difficulty: '4/5', 
-    photos: ['🛸', '🔍', '🎯'], 
+    photos: ['images/Рик и Морти/DSC07800.jpg', 'images/Рик и Морти/DSC07722.jpg', 'images/К-Поп/DSC06826.jpg'], 
     loc: 'м. Измайловская',
     minPlayers: 6,
     prices: { 'Всегда': 7990 }
@@ -138,7 +138,7 @@ const questsData = [
     time: '60 мин', 
     players: '1–6', 
     difficulty: '4/5', 
-    photos: ['👻', '🕯️', '💍'], 
+    photos: ['images/Невеста/DSC01254.jpg', 'images/Невеста/DSC01117.jpg', 'images/Невеста/DSC01496.jpg'], 
     loc: 'м. Таганская',
     prices: {
       '09:00-10:15': 5500,
@@ -151,7 +151,7 @@ const questsData = [
     time: '60 мин', 
     players: '1–7', 
     difficulty: '3/5', 
-    photos: ['🧙', '⚡', '📚'], 
+    photos: ['images/Хогвартс/DSC00510.jpg', 'images/Хогвартс/DSC00551.jpg', 'images/Лабубу/DSC01067.jpg'], 
     loc: 'м. Таганская',
     prices: {
       '09:00-10:15': 5500,
@@ -164,7 +164,7 @@ const questsData = [
     time: '50 мин', 
     players: '1–8', 
     difficulty: '2/5', 
-    photos: ['🧚', '🌈', '✨'], 
+    photos: ['images/Лабубу/DSC01067.jpg', 'images/Лабубу/DSC00914.jpg', 'images/Лабубу/DSC00863.jpg'], 
     loc: 'м. Таганская',
     prices: {
       '11:30-17:45': 7500,
@@ -177,7 +177,7 @@ const questsData = [
     time: '70 мин', 
     players: '1–6', 
     difficulty: '5/5', 
-    photos: ['⛪', '🕯️', '📜'], 
+    photos: ['images/Монастырь/IMG_0213.JPG', 'images/Монастырь/IMG_0214.JPG', 'images/Монастырь/IMG_0216.JPG'], 
     loc: 'м. Таганская',
     prices: {
       '09:00-11:30': 5990,
@@ -190,7 +190,7 @@ const questsData = [
     time: '55 мин', 
     players: '1–8', 
     difficulty: '2/5', 
-    photos: ['🎄', '🎁', '💚'], 
+    photos: ['images/Лабубу/DSC00914.jpg', 'images/Лабубу/DSC00863.jpg', 'images/Хогвартс/DSC00551.jpg'], 
     loc: 'м. Таганская',
     prices: {
       '09:00-10:15': 5500,
@@ -203,7 +203,7 @@ const questsData = [
     time: '60-90 мин', 
     players: '1–8', 
     difficulty: '4/5', 
-    photos: ['👻', '🕯️', '🌙'], 
+    photos: ['images/Хоррор-вечер/DSC01283_mk.jpg', 'images/Хоррор-свидание/DSC07074.jpg', 'images/Невеста/DSC01254.jpg'], 
     loc: 'м. Таганская',
     prices: {
       '09:00-10:15': 5500,
@@ -216,10 +216,10 @@ const questsData = [
 // ===== ФОТО ДЛЯ ПАКЕТОВ =====
 // ============================================================
 const packagePhotos = {
-  'Пакет на 1 час': ['🎂', '🎁', '🎈'],
-  'Пакет на 2 часа': ['🎂', '🎁', '🎈', '⭐'],
-  'Пакет на 2.5 часа': ['🎂', '🎁', '🎈', '⭐', '🎮'],
-  'Пакет на 3.5 часа': ['🎂', '🎁', '🎈', '⭐', '🎮', '🎪']
+  'Пакет на 1 час': ['images/Лабубу/DSC01067.jpg', 'images/Хогвартс/DSC00551.jpg', 'images/К-Поп/DSC06550.jpg'],
+  'Пакет на 2 часа': ['images/Лабубу/DSC00914.jpg', 'images/Невеста/DSC01496.jpg', 'images/Рик и Морти/DSC07800.jpg', 'images/Хогвартс/DSC00510.jpg'],
+  'Пакет на 2.5 часа': ['images/К-Поп/DSC06826.jpg', 'images/Лабубу/DSC00863.jpg', 'images/Монастырь/IMG_0216.JPG', 'images/Рик и Морти/DSC07722.jpg', 'images/Хоррор-свидание/DSC07320.jpg'],
+  'Пакет на 3.5 часа': ['images/Лабубу/DSC01067.jpg', 'images/К-Поп/DSC06229_1.jpg', 'images/Хогвартс/DSC00551.jpg', 'images/Невеста/DSC01117.jpg', 'images/Монастырь/IMG_0213.JPG', 'images/Рик и Морти/DSC07800.jpg']
 };
 
 // ============================================================
@@ -406,10 +406,10 @@ function getQuestPhotos(questName) {
     for (const [key, photos] of Object.entries(packagePhotos)) {
       if (questName.includes(key)) return photos;
     }
-    return ['🎂', '🎁', '🎈'];
+    return ['images/Лабубу/DSC01067.jpg', 'images/Хогвартс/DSC00551.jpg', 'images/К-Поп/DSC06550.jpg'];
   }
   const quest = questsData.find(q => q.name === questName);
-  return quest && quest.photos ? quest.photos : ['🎭', '🔮', '✨'];
+  return quest && quest.photos ? quest.photos : ['images/Невеста/DSC01254.jpg', 'images/Хогвартс/DSC00510.jpg', 'images/Рик и Морти/DSC07722.jpg'];
 }
 
 function showToast(msg, duration) {
@@ -679,12 +679,13 @@ function updateBookingPhotos(questName) {
   dotsContainer.innerHTML = '';
   
   const labels = ['Атмосфера', 'Интерьер', 'Эмоции'];
-  photos.forEach((emoji, index) => {
+  photos.forEach((photo, index) => {
     const slide = document.createElement('div');
     slide.className = 'booking-photos-slide';
+    const isImage = /\.(jpe?g|png|webp|gif|avif)$/i.test(photo);
     slide.innerHTML = `
-      <div style="text-align:center;">
-        <div style="font-size:4rem;">${emoji}</div>
+      <div class="booking-photo-frame">
+        ${isImage ? `<img src="${photo}" alt="${labels[index] || 'Фото ' + (index + 1)}" loading="lazy">` : `<div class="booking-photo-fallback">${photo}</div>`}
         <div class="slide-label">${labels[index] || 'Фото ' + (index + 1)}</div>
       </div>
     `;

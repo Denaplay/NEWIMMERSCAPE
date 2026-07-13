@@ -14,7 +14,7 @@ const quests = [
     desc: 'Интересные загадки · Страшный',
     price: 6500,
     oldPrice: 7990,
-    emoji: '🦷'
+    image: 'images/Стоматология/IMG_4943.jpg'
   },
   {
     name: 'Рик и Морти',
@@ -28,7 +28,7 @@ const quests = [
     desc: 'Путешествие по мультивселенной.',
     price: 6500,
     oldPrice: 7990,
-    emoji: '🚀'
+    image: 'images/Рик и Морти/DSC07722.jpg'
   },
   {
     name: 'K-pop: последний стрим',
@@ -42,7 +42,7 @@ const quests = [
     desc: 'Расследуйте исчезновение кумира.',
     price: 5500,
     oldPrice: 8500,
-    emoji: '🎤'
+    image: 'images/К-Поп/DSC06826.jpg'
   },
   {
     name: 'Запретная дверь',
@@ -56,7 +56,7 @@ const quests = [
     desc: 'Таинственная комната с сюрпризами.',
     price: 4990,
     oldPrice: 6990,
-    emoji: '🚪'
+    image: 'images/Монастырь/IMG_0214.JPG'
   },
   {
     name: 'Изнанка в разуме Векны',
@@ -70,7 +70,7 @@ const quests = [
     desc: 'Погружение в тёмные лабиринты сознания.',
     price: 5990,
     oldPrice: 7500,
-    emoji: '🌀'
+    image: 'images/Монастырь/IMG_0206.JPG'
   },
   {
     name: 'Невеста',
@@ -84,7 +84,7 @@ const quests = [
     desc: 'Мистический хоррор с живым актёром.',
     price: 5500,
     oldPrice: 7500,
-    emoji: '👻'
+    image: 'images/Невеста/DSC01254.jpg'
   },
   {
     name: 'Хогвартс',
@@ -98,7 +98,7 @@ const quests = [
     desc: 'Магия и школа чародейства.',
     price: 5500,
     oldPrice: 7500,
-    emoji: '🧙'
+    image: 'images/Хогвартс/DSC00510.jpg'
   },
   {
     name: 'Лабубу: волшебный мир',
@@ -112,7 +112,7 @@ const quests = [
     desc: 'Сказочное приключение для малышей.',
     price: 5500,
     oldPrice: 7500,
-    emoji: '🧚'
+    image: 'images/Лабубу/DSC01067.jpg'
   },
   {
     name: 'Монастырь',
@@ -126,7 +126,7 @@ const quests = [
     desc: 'Древний монастырь с мистическими тайнами.',
     price: 5990,
     oldPrice: 7500,
-    emoji: '⛪'
+    image: 'images/Монастырь/IMG_0213.JPG'
   },
   {
     name: 'Гринч',
@@ -140,7 +140,7 @@ const quests = [
     desc: 'Приключение по мотивам любимой истории.',
     price: 5500,
     oldPrice: 7500,
-    emoji: '🎄'
+    image: 'images/Лабубу/DSC00914.jpg'
   },
   {
     name: 'Хоррор-свидание',
@@ -154,7 +154,7 @@ const quests = [
     desc: 'Романтическое свидание с элементами хоррора.',
     price: 10000,
     oldPrice: 15000,
-    emoji: '❤️‍🔥'
+    image: 'images/Хоррор-свидание/DSC07320.jpg'
   },
   {
     name: 'Хоррор-вечер',
@@ -168,7 +168,7 @@ const quests = [
     desc: 'Хоррор вечер для смелых пар.',
     price: 5500,
     oldPrice: 7500,
-    emoji: '🌙'
+    image: 'images/Хоррор-вечер/DSC01283_mk.jpg'
   },
   {
     name: 'Among Us',
@@ -182,7 +182,7 @@ const quests = [
     desc: 'Экшн-игра по мотивам популярной вселенной. Найдите предателя!',
     price: 7990,
     oldPrice: 8990,
-    emoji: '🛸'
+    image: 'images/Рик и Морти/DSC07800.jpg'
   }
 ];
 
@@ -208,12 +208,12 @@ function createQuestCard(q) {
   const card = document.createElement('div');
   card.className = 'quest-card';
   card.innerHTML = `
-    <div class="card-image">
-      <div class="image-tags">
-        ${q.tags.map(t => `<span class="tag ${t === 'новинка' ? 'highlight' : ''}">${t}</span>`).join('')}
-      </div>
-      <span class="image-emoji">${q.emoji || '🎭'}</span>
-    </div>
+<div class="card-image" style="background-image: url('${q.image || ''}'); background-size: cover; background-position: center;">
+  <div class="image-tags" style="position:absolute; top:8px; left:8px; z-index:2;">
+    ${q.tags.map(t => `<span class="tag ${t === 'новинка' ? 'highlight' : ''}">${t}</span>`).join('')}
+  </div>
+  ${!q.image ? `<span class="image-emoji">${q.emoji || '🎭'}</span>` : ''}
+</div>
     <div class="card-body">
       <div class="card-title">${q.name}</div>
       <div class="card-location">📍 ${q.loc}</div>
