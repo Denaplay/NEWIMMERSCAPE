@@ -40,7 +40,7 @@ const questsData = [
     time: '60 мин', 
     players: '1–6', 
     difficulty: '4/5', 
-    photos: ['images/Стоматология/IMG_4943.jpg', 'images/Стоматология/IMG_4942.jpg', 'images/Стоматология/IMG_4948.jpg'], 
+    photos: ['imeges/stomatologiya/1.webp', 'imeges/stomatologiya/2.webp', 'imeges/stomatologiya/3.webp', 'imeges/stomatologiya/4.webp'], 
     loc: 'м. Профсоюзная',
     prices: {
       '00:00-01:15': 7990,
@@ -56,7 +56,7 @@ const questsData = [
     time: '60 мин', 
     players: '1–6', 
     difficulty: '3/5', 
-    photos: ['images/Рик и Морти/DSC07722.jpg', 'images/Рик и Морти/DSC07800.jpg', 'images/К-Поп/DSC06229_1.jpg'], 
+    photos: ['imeges/rick-and-morty/1.webp', 'imeges/rick-and-morty/2.webp', 'imeges/rick-and-morty/3.webp', 'imeges/rick-and-morty/4.webp'], 
     loc: 'м. Профсоюзная',
     prices: {
       '00:00-01:15': 7990,
@@ -72,7 +72,7 @@ const questsData = [
     time: '75 мин', 
     players: '1–8', 
     difficulty: '4/5', 
-    photos: ['images/К-Поп/DSC06826.jpg', 'images/К-Поп/DSC06550.jpg', 'images/К-Поп/DSC06229_1.jpg'], 
+    photos: ['imeges/k-pop/1.webp', 'imeges/k-pop/2.webp', 'imeges/k-pop/3.webp'], 
     loc: 'м. Профсоюзная',
     prices: {
       '00:15-01:30': 8500,
@@ -88,7 +88,7 @@ const questsData = [
     time: '60-90 мин', 
     players: '1–8', 
     difficulty: '4/5', 
-    photos: ['images/Хоррор-свидание/DSC07320.jpg', 'images/Хоррор-свидание/DSC07074.jpg', 'images/Невеста/DSC01117.jpg'], 
+    photos: ['imeges/horror-svidanie/1.webp', 'imeges/horror-svidanie/2.webp'], 
     loc: 'м. Профсоюзная',
     prices: {
       '00:00-01:15': 15000,
@@ -101,7 +101,7 @@ const questsData = [
     time: '70 мин', 
     players: '1–5', 
     difficulty: '5/5', 
-    photos: ['images/Монастырь/IMG_0214.JPG', 'images/Монастырь/IMG_0216.JPG', 'images/Монастырь/IMG_0206.JPG'], 
+    photos: ['imeges/zapretnaya-dver/IMG_6979.webp', 'imeges/zapretnaya-dver/2.webp', 'imeges/zapretnaya-dver/3.webp'], 
     loc: 'м. Измайловская',
     prices: {
       'Рабочие': 4990,
@@ -114,7 +114,7 @@ const questsData = [
     time: '80 мин', 
     players: '1–6', 
     difficulty: '5/5', 
-    photos: ['images/Монастырь/IMG_0213.JPG', 'images/Монастырь/IMG_0214.JPG', 'images/Хоррор-вечер/DSC01283_mk.jpg'], 
+    photos: ['imeges/iznananka/Изнанка.webp'], 
     loc: 'м. Измайловская',
     prices: {
       '09:00-11:30': 5990,
@@ -127,7 +127,7 @@ const questsData = [
     time: '60 мин', 
     players: '6–10', 
     difficulty: '4/5', 
-    photos: ['images/Рик и Морти/DSC07800.jpg', 'images/Рик и Морти/DSC07722.jpg', 'images/К-Поп/DSC06826.jpg'], 
+    photos: ['imeges/amongus/1.webp'], 
     loc: 'м. Измайловская',
     minPlayers: 6,
     prices: { 'Всегда': 7990 }
@@ -138,7 +138,7 @@ const questsData = [
     time: '60 мин', 
     players: '1–6', 
     difficulty: '4/5', 
-    photos: ['images/Невеста/DSC01254.jpg', 'images/Невеста/DSC01117.jpg', 'images/Невеста/DSC01496.jpg'], 
+    photos: ['imeges/nevesta/1.webp', 'imeges/nevesta/2.webp', 'imeges/nevesta/3.webp'], 
     loc: 'м. Таганская',
     prices: {
       '09:00-10:15': 5500,
@@ -151,7 +151,7 @@ const questsData = [
     time: '60 мин', 
     players: '1–7', 
     difficulty: '3/5', 
-    photos: ['images/Хогвартс/DSC00510.jpg', 'images/Хогвартс/DSC00551.jpg', 'images/Лабубу/DSC01067.jpg'], 
+    photos: ['imeges/rozhdestvo-v-hogvartse/1.webp', 'imeges/rozhdestvo-v-hogvartse/2.webp'], 
     loc: 'м. Таганская',
     prices: {
       '09:00-10:15': 5500,
@@ -164,7 +164,7 @@ const questsData = [
     time: '50 мин', 
     players: '1–8', 
     difficulty: '2/5', 
-    photos: ['images/Лабубу/DSC01067.jpg', 'images/Лабубу/DSC00914.jpg', 'images/Лабубу/DSC00863.jpg'], 
+    photos: ['imeges/labubu/1.webp', 'imeges/labubu/2.webp', 'imeges/labubu/3.webp'], 
     loc: 'м. Таганская',
     prices: {
       '11:30-17:45': 7500,
@@ -177,7 +177,7 @@ const questsData = [
     time: '70 мин', 
     players: '1–6', 
     difficulty: '5/5', 
-    photos: ['images/Монастырь/IMG_0213.JPG', 'images/Монастырь/IMG_0214.JPG', 'images/Монастырь/IMG_0216.JPG'], 
+    photos: ['imeges/monastyr/1.webp', 'imeges/monastyr/2.webp', 'imeges/monastyr/3.webp', 'imeges/monastyr/4.webp'], 
     loc: 'м. Таганская',
     prices: {
       '09:00-11:30': 5990,
@@ -190,7 +190,7 @@ const questsData = [
     time: '55 мин', 
     players: '1–8', 
     difficulty: '2/5', 
-    photos: ['images/Лабубу/DSC00914.jpg', 'images/Лабубу/DSC00863.jpg', 'images/Хогвартс/DSC00551.jpg'], 
+    photos: ['imeges/grinch/1.webp'], 
     loc: 'м. Таганская',
     prices: {
       '09:00-10:15': 5500,
@@ -203,7 +203,7 @@ const questsData = [
     time: '60-90 мин', 
     players: '1–8', 
     difficulty: '4/5', 
-    photos: ['images/Хоррор-вечер/DSC01283_mk.jpg', 'images/Хоррор-свидание/DSC07074.jpg', 'images/Невеста/DSC01254.jpg'], 
+    photos: ['https://downloader.disk.yandex.ru/preview/c66b427a33a69046e559d0134aea071ba28c0a9b705d8a133be18c7b1a00116d/6a558eca/qsU0Bl5d12t3jwWIpbhRRtSAdx0Gx-X5giQo3-ooRzYP3r2_Pw_LB4JERXIkF4EEryVtCtmGKl15FYrPmHFkcw%3D%3D?uid=0&filename=DSC01283_mk.jpg&disposition=inline&hash=&limit=0&content_type=image%2Fjpeg&owner_uid=0&tknv=v3&is_direct_zip_experiment=1&size=1918x920'], 
     loc: 'м. Таганская',
     prices: {
       '09:00-10:15': 5500,
@@ -216,10 +216,10 @@ const questsData = [
 // ===== ФОТО ДЛЯ ПАКЕТОВ =====
 // ============================================================
 const packagePhotos = {
-  'Пакет на 1 час': ['images/Лабубу/DSC01067.jpg', 'images/Хогвартс/DSC00551.jpg', 'images/К-Поп/DSC06550.jpg'],
-  'Пакет на 2 часа': ['images/Лабубу/DSC00914.jpg', 'images/Невеста/DSC01496.jpg', 'images/Рик и Морти/DSC07800.jpg', 'images/Хогвартс/DSC00510.jpg'],
-  'Пакет на 2.5 часа': ['images/К-Поп/DSC06826.jpg', 'images/Лабубу/DSC00863.jpg', 'images/Монастырь/IMG_0216.JPG', 'images/Рик и Морти/DSC07722.jpg', 'images/Хоррор-свидание/DSC07320.jpg'],
-  'Пакет на 3.5 часа': ['images/Лабубу/DSC01067.jpg', 'images/К-Поп/DSC06229_1.jpg', 'images/Хогвартс/DSC00551.jpg', 'images/Невеста/DSC01117.jpg', 'images/Монастырь/IMG_0213.JPG', 'images/Рик и Морти/DSC07800.jpg']
+  'Пакет на 1 час': ['imeges/birthday/1.webp', 'imeges/labubu/1.webp', 'imeges/rozhdestvo-v-hogvartse/1.webp'],
+  'Пакет на 2 часа': ['imeges/birthday/1.webp', 'imeges/nevesta/3.webp', 'imeges/rick-and-morty/4.webp', 'imeges/labubu/2.webp'],
+  'Пакет на 2.5 часа': ['imeges/k-pop/1.webp', 'imeges/labubu/3.webp', 'imeges/monastyr/4.webp', 'imeges/rick-and-morty/2.webp', 'imeges/horror-svidanie/1.webp'],
+  'Пакет на 3.5 часа': ['imeges/birthday/1.webp', 'imeges/k-pop/3.webp', 'imeges/rozhdestvo-v-hogvartse/2.webp', 'imeges/nevesta/2.webp', 'imeges/monastyr/1.webp', 'imeges/amongus/1.webp']
 };
 
 // ============================================================
@@ -406,10 +406,10 @@ function getQuestPhotos(questName) {
     for (const [key, photos] of Object.entries(packagePhotos)) {
       if (questName.includes(key)) return photos;
     }
-    return ['images/Лабубу/DSC01067.jpg', 'images/Хогвартс/DSC00551.jpg', 'images/К-Поп/DSC06550.jpg'];
+    return ['imeges/birthday/1.webp', 'imeges/labubu/1.webp', 'imeges/rozhdestvo-v-hogvartse/1.webp'];
   }
   const quest = questsData.find(q => q.name === questName);
-  return quest && quest.photos ? quest.photos : ['images/Невеста/DSC01254.jpg', 'images/Хогвартс/DSC00510.jpg', 'images/Рик и Морти/DSC07722.jpg'];
+  return quest && quest.photos ? quest.photos : ['imeges/nevesta/1.webp', 'imeges/rozhdestvo-v-hogvartse/1.webp', 'imeges/rick-and-morty/1.webp'];
 }
 
 function showToast(msg, duration) {

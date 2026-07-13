@@ -14,7 +14,7 @@ const quests = [
     desc: 'Интересные загадки · Страшный',
     price: 6500,
     oldPrice: 7990,
-    image: 'images/Стоматология/IMG_4943.jpg'
+    image: 'imeges/stomatologiya/1.webp'
   },
   {
     name: 'Рик и Морти',
@@ -28,7 +28,7 @@ const quests = [
     desc: 'Путешествие по мультивселенной.',
     price: 6500,
     oldPrice: 7990,
-    image: 'images/Рик и Морти/DSC07722.jpg'
+    image: 'imeges/rick-and-morty/1.webp'
   },
   {
     name: 'K-pop: последний стрим',
@@ -42,7 +42,7 @@ const quests = [
     desc: 'Расследуйте исчезновение кумира.',
     price: 5500,
     oldPrice: 8500,
-    image: 'images/К-Поп/DSC06826.jpg'
+    image: 'imeges/k-pop/1.webp'
   },
   {
     name: 'Запретная дверь',
@@ -56,7 +56,7 @@ const quests = [
     desc: 'Таинственная комната с сюрпризами.',
     price: 4990,
     oldPrice: 6990,
-    image: 'images/Монастырь/IMG_0214.JPG'
+    image: 'imeges/zapretnaya-dver/IMG_6979.webp'
   },
   {
     name: 'Изнанка в разуме Векны',
@@ -70,7 +70,7 @@ const quests = [
     desc: 'Погружение в тёмные лабиринты сознания.',
     price: 5990,
     oldPrice: 7500,
-    image: 'images/Монастырь/IMG_0206.JPG'
+    image: 'imeges/iznananka/Изнанка.webp'
   },
   {
     name: 'Невеста',
@@ -84,7 +84,7 @@ const quests = [
     desc: 'Мистический хоррор с живым актёром.',
     price: 5500,
     oldPrice: 7500,
-    image: 'images/Невеста/DSC01254.jpg'
+    image: 'imeges/nevesta/1.webp'
   },
   {
     name: 'Хогвартс',
@@ -98,7 +98,7 @@ const quests = [
     desc: 'Магия и школа чародейства.',
     price: 5500,
     oldPrice: 7500,
-    image: 'images/Хогвартс/DSC00510.jpg'
+    image: 'imeges/rozhdestvo-v-hogvartse/1.webp'
   },
   {
     name: 'Лабубу: волшебный мир',
@@ -112,7 +112,7 @@ const quests = [
     desc: 'Сказочное приключение для малышей.',
     price: 5500,
     oldPrice: 7500,
-    image: 'images/Лабубу/DSC01067.jpg'
+    image: 'imeges/labubu/1.webp'
   },
   {
     name: 'Монастырь',
@@ -126,7 +126,7 @@ const quests = [
     desc: 'Древний монастырь с мистическими тайнами.',
     price: 5990,
     oldPrice: 7500,
-    image: 'images/Монастырь/IMG_0213.JPG'
+    image: 'imeges/monastyr/1.webp'
   },
   {
     name: 'Гринч',
@@ -140,7 +140,7 @@ const quests = [
     desc: 'Приключение по мотивам любимой истории.',
     price: 5500,
     oldPrice: 7500,
-    image: 'images/Лабубу/DSC00914.jpg'
+    image: 'imeges/grinch/1.webp'
   },
   {
     name: 'Хоррор-свидание',
@@ -154,7 +154,7 @@ const quests = [
     desc: 'Романтическое свидание с элементами хоррора.',
     price: 10000,
     oldPrice: 15000,
-    image: 'images/Хоррор-свидание/DSC07320.jpg'
+    image: 'imeges/horror-svidanie/1.webp'
   },
   {
     name: 'Хоррор-вечер',
@@ -168,7 +168,7 @@ const quests = [
     desc: 'Хоррор вечер для смелых пар.',
     price: 5500,
     oldPrice: 7500,
-    image: 'images/Хоррор-вечер/DSC01283_mk.jpg'
+    image: 'imeges/horror-svidanie/2.webp'
   },
   {
     name: 'Among Us',
@@ -182,7 +182,7 @@ const quests = [
     desc: 'Экшн-игра по мотивам популярной вселенной. Найдите предателя!',
     price: 7990,
     oldPrice: 8990,
-    image: 'images/Рик и Морти/DSC07800.jpg'
+    image: 'imeges/amongus/1.webp'
   }
 ];
 
@@ -343,11 +343,50 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // ===== PHONE BUTTON =====
 document.addEventListener('DOMContentLoaded', function() {
-  const phoneBtn = document.getElementById('phoneBtn');
-  if (phoneBtn) {
-    phoneBtn.addEventListener('click', () => showToast('📞 Набираем номер...'));
-  }
+  // Все элементы с data-phone
+  document.querySelectorAll('[data-phone]').forEach(el => {
+    el.addEventListener('click', function(e) {
+      e.stopPropagation();
+      const phone = this.dataset.phone;
+      if (phone) {
+        copyPhoneNumber(phone);
+      }
+    });
+  });
 });
+
+// ===== КОПИРОВАНИЕ НОМЕРА ТЕЛЕФОНА =====
+function copyPhoneNumber(phone) {
+  // Убираем все лишние символы, оставляем только цифры и +
+  const cleanPhone = phone.replace(/[^0-9+]/g, '');
+  
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(cleanPhone).then(() => {
+      showToast('✅ Номер скопирован!');
+    }).catch(() => {
+      fallbackCopyPhone(cleanPhone);
+    });
+  } else {
+    fallbackCopyPhone(cleanPhone);
+  }
+}
+
+function fallbackCopyPhone(text) {
+  const textarea = document.createElement('textarea');
+  textarea.value = text;
+  textarea.style.position = 'fixed';
+  textarea.style.left = '-9999px';
+  textarea.style.top = '-9999px';
+  document.body.appendChild(textarea);
+  textarea.select();
+  try {
+    document.execCommand('copy');
+    showToast('✅ Номер скопирован!');
+  } catch (e) {
+    showToast('❌ Не удалось скопировать');
+  }
+  document.body.removeChild(textarea);
+}
 
 // ===== MOBILE HEADER =====
 document.addEventListener('DOMContentLoaded', function() {

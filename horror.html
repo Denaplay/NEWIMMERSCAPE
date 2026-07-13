@@ -116,6 +116,7 @@
       font-size: 8rem;
       position: relative;
       box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+      transition: background-image 0.3s ease, filter 0.3s ease;
     }
     @media (min-width: 768px) {
       .horror-hero-visual .hero-image { border-radius: 32px; font-size: 10rem; }
@@ -398,13 +399,12 @@
       <nav class="nav">
         <a href="index.html">Квесты</a>
         <a href="index.html#section-birthday">День рождения под ключ</a>
-        <a href="booking.html">Бронирование</a>
         <a href="horror.html" class="active">Хоррор вечер</a>
         <a href="events.html">Выездные мероприятия</a>
         <a href="action.html">Экшен игры</a>
       </nav>
       <div class="header-right">
-        <span class="header-phone" id="phoneBtn">+7 (495) 123-45-67</span>
+        <span class="header-phone" id="phoneBtn" data-phone="+74951234567">+7 (495) 123-45-67</span>
         <div class="social-icons">
           <a href="#" title="WhatsApp">WA</a>
           <a href="#" title="Telegram">TG</a>
@@ -446,7 +446,7 @@
         </div>
       </div>
       <div class="horror-hero-visual">
-        <div class="hero-image" style="background-image:linear-gradient(180deg,rgba(12,10,20,.08),rgba(12,10,20,.46)),url('images/Хоррор-свидание/DSC07320.jpg');background-size:cover;background-position:center;">
+        <div class="hero-image" id="horrorHeroImage" style="background-image:linear-gradient(180deg,rgba(12,10,20,.08),rgba(12,10,20,.46)),url('imeges/horror-svidanie/1.webp');background-size:cover;background-position:center;">
           <div class="floating-tag">Свечи и атмосфера</div>
           <div class="floating-tag">Живые актёры</div>
           <div class="floating-tag">Романтика + экстрим</div>
@@ -548,17 +548,23 @@
     </div>
   </section>
 
-  <!-- ===== КАРТА ===== -->
-  <section class="map-section">
-    <div class="container">
-      <h2 class="section-title">📍 Как нас <span class="highlight">найти</span></h2>
-      <p class="section-sub">Приходите к нам по адресу или свяжитесь для выездного мероприятия</p>
-      <div class="map-wrapper">
-        <iframe src="https://yandex.ru/map-widget/v1/?um=constructor%3A1a2b3c4d5e6f7g8h9i0j&source=constructor&lang=ru_RU&scroll=true" allowfullscreen></iframe>
-      </div>
+<!-- ===== КАРТА ===== -->
+<section class="map-section">
+  <div class="container">
+    <h2 class="section-title">📍 Как нас <span class="highlight">найти</span></h2>
+    <p class="section-sub" id="mapAddress">📍 Профсоюзная: ул. Кржижановского, 8, корп. 2</p>
+    <div class="map-wrapper" id="horrorMapWrapper">
+      <iframe 
+        id="horrorMapFrame"
+        src="https://yandex.ru/map-widget/v1/?ll=37.563117%2C55.681585&mode=whatshere&utm_source=share&whatshere%5Bpoint%5D=37.563116%2C55.681585&whatshere%5Bzoom%5D=17&z=16"
+        width="100%" 
+        height="100%" 
+        style="border:none; display:block;"
+        allowfullscreen
+      ></iframe>
     </div>
-  </section>
-
+  </div>
+</section>
   <!-- ===== CTA ===== -->
   <section class="cta-section">
     <div class="container">
@@ -613,12 +619,22 @@
         'profsoyuznaya': document.getElementById('content-profsoyuznaya'),
         'taganskaya': document.getElementById('content-taganskaya')
       };
+      const heroImage = document.getElementById('horrorHeroImage');
+      const heroPhotos = {
+        'profsoyuznaya': 'imeges/horror-svidanie/1.webp',
+        'taganskaya': 'https://downloader.disk.yandex.ru/preview/c66b427a33a69046e559d0134aea071ba28c0a9b705d8a133be18c7b1a00116d/6a558eca/qsU0Bl5d12t3jwWIpbhRRtSAdx0Gx-X5giQo3-ooRzYP3r2_Pw_LB4JERXIkF4EEryVtCtmGKl15FYrPmHFkcw%3D%3D?uid=0&filename=DSC01283_mk.jpg&disposition=inline&hash=&limit=0&content_type=image%2Fjpeg&owner_uid=0&tknv=v3&is_direct_zip_experiment=1&size=1918x920'
+      };
       const bookBtns = document.querySelectorAll('#horrorBookBtn, #ctaBookBtn');
+      function setHorrorHeroPhoto(location) {
+        if (!heroImage || !heroPhotos[location]) return;
+        heroImage.style.backgroundImage = `linear-gradient(180deg,rgba(12,10,20,.08),rgba(12,10,20,.46)),url('${heroPhotos[location]}')`;
+      }
       locBtns.forEach(btn => {
         btn.addEventListener('click', function() {
           locBtns.forEach(b => b.classList.remove('active'));
           this.classList.add('active');
           const location = this.dataset.location;
+          setHorrorHeroPhoto(location);
           Object.keys(contents).forEach(key => {
             if (contents[key]) {
               contents[key].classList.toggle('active', key === location);
@@ -639,6 +655,7 @@
       const activeBtn = document.querySelector('.horror-location-selector .loc-btn.active');
       if (activeBtn) {
         const location = activeBtn.dataset.location;
+        setHorrorHeroPhoto(location);
         Object.keys(contents).forEach(key => {
           if (contents[key]) {
             contents[key].classList.toggle('active', key === location);
@@ -652,5 +669,52 @@
       });
     });
   </script>
+  <script>
+  // ===== КАРТЫ ДЛЯ ХОРРОР-СТРАНИЦЫ =====
+  const horrorMaps = {
+    'profsoyuznaya': {
+      url: 'https://yandex.ru/map-widget/v1/?ll=37.563117%2C55.681585&mode=whatshere&utm_source=share&whatshere%5Bpoint%5D=37.563116%2C55.681585&whatshere%5Bzoom%5D=17&z=16',
+      address: '📍 Профсоюзная: ул. Кржижановского, 8, корп. 2'
+    },
+    'taganskaya': {
+      url: 'https://yandex.ru/map-widget/v1/?ll=37.661444%2C55.743230&mode=search&ol=geo&ouri=ymapsbm1%3A%2F%2Fgeo%3Fdata%3DCgg1NjcwNTI4ORJm0KDQvtGB0YHQuNGPLCDQnNC-0YHQutCy0LAsINCR0L7Qu9GM0YjQvtC5INCk0LDQutC10LvRjNC90YvQuSDQv9C10YDQtdGD0LvQvtC6LCAyLzIyLCDQv9C-0LTRitC10LfQtCAzIgoNlKUWQhUI-V5CMMHmwu0M&rtext=55.743162%2C37.661588~55.743224%2C37.661494&rtt=mt&ruri=~&utm_source=share&z=19',
+      address: '📍 Таганская: Первомайская ул., 5'
+    }
+  };
+
+  // Функция обновления карты
+  function updateHorrorMap(location) {
+    const mapData = horrorMaps[location];
+    if (!mapData) return;
+    
+    const iframe = document.getElementById('horrorMapFrame');
+    const addressEl = document.getElementById('mapAddress');
+    
+    if (iframe) {
+      iframe.src = mapData.url;
+    }
+    if (addressEl) {
+      addressEl.textContent = mapData.address;
+    }
+  }
+
+  // Слушаем изменения выбора локации
+  document.addEventListener('DOMContentLoaded', function() {
+    const locBtns = document.querySelectorAll('.horror-location-selector .loc-btn');
+    
+    locBtns.forEach(btn => {
+      btn.addEventListener('click', function() {
+        const location = this.dataset.location;
+        updateHorrorMap(location);
+      });
+    });
+    
+    // При загрузке — показываем карту для активной локации
+    const activeBtn = document.querySelector('.horror-location-selector .loc-btn.active');
+    if (activeBtn) {
+      updateHorrorMap(activeBtn.dataset.location);
+    }
+  });
+</script>
 </body>
 </html>

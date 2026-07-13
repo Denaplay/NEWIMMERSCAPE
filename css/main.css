@@ -4089,3 +4089,43 @@ body.page-transition {
   border: 6px solid transparent;
   border-top-color: #1e1b2b;
 }
+/* Копирование номера */
+.header-phone {
+  cursor: pointer;
+  transition: 0.2s;
+  position: relative;
+}
+
+.header-phone:hover {
+  background: rgba(124, 77, 255, 0.12);
+  border-color: #7c4dff;
+  color: #fff;
+}
+
+.header-phone:active {
+  transform: scale(0.95);
+}
+
+/* Добавляем подсказку при наведении */
+.header-phone::after {
+  content: '📋 Нажмите чтобы скопировать';
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%);
+  background: #1e1b2b;
+  color: #f0edf7;
+  padding: 4px 12px;
+  border-radius: 8px;
+  font-size: 0.6rem;
+  font-weight: 500;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: 0.3s;
+  border: 1px solid rgba(124, 77, 255, 0.15);
+}
+
+.header-phone:hover::after {
+  opacity: 1;
+}
