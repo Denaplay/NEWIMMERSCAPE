@@ -525,16 +525,21 @@ function updateTotalDisplay() {
   const subtotal = basePrice + optionTotal + extraPlayerCost;
   
   // === СКИДКА ПО ПРОМОКОДУ ===
-  const now = new Date();
-  const day = now.getDay();
-  const isWeekday = day !== 0 && day !== 6;
+  // Будни/выходные определяем по выбранной дате бронирования
+  const day = selectedDate ? selectedDate.getDay() : null;
+  const isWeekdayNow = day !== null && day !== 0 && day !== 6;
   let discount = 0;
-  if (promoApplied && isWeekday) {
+  if (promoApplied && isWeekdayNow) {
     discount = Math.round(subtotal * 0.1);
   }
+
   
   const total = subtotal - discount;
   const deposit = 1500; // Предоплата
+  
+  // Для UI: показываем цену квеста со скидкой так, чтобы пользователь видел скидку в блоке "Цена квеста"
+  // (распределяем скидку пропорционально всей сумме, а не только на basePrice)
+  const discountedBasePrice = subtotal > 0 ? Math.round(basePrice - (basePrice / subtotal) * discount) : basePrice;
   
   // === ОБНОВЛЯЕМ ОТОБРАЖЕНИЕ ===
   // Шаг 1
@@ -561,25 +566,24 @@ function updateTotalDisplay() {
     totalDisplayStep4.textContent = `${total} ₽`;
   }
   
-  // Обновляем цену квеста во всех местах
+  // Цена квеста (со скидкой)
   const priceDisplay = document.getElementById('bookingPriceDisplay');
   if (priceDisplay) {
-    priceDisplay.textContent = basePrice;
+    priceDisplay.textContent = discountedBasePrice;
   }
   
   const priceDisplay2 = document.getElementById('bookingPriceDisplay2');
   if (priceDisplay2) {
-    priceDisplay2.textContent = basePrice;
+    priceDisplay2.textContent = discountedBasePrice;
   }
-  
   const priceDisplay3 = document.getElementById('bookingPriceDisplay3');
   if (priceDisplay3) {
-    priceDisplay3.textContent = basePrice;
+    priceDisplay3.textContent = discountedBasePrice;
   }
   
   const priceDisplay4 = document.getElementById('bookingPriceDisplay4');
   if (priceDisplay4) {
-    priceDisplay4.textContent = basePrice;
+    priceDisplay4.textContent = discountedBasePrice;
   }
   
   const depositDisplay = document.getElementById('bookingDepositDisplay');
@@ -603,9 +607,12 @@ function updateTotalDisplay() {
   }
 }
 
+
+
 // ============================================================
 // ===== ОТКРЫТИЕ / ЗАКРЫТИЕ БРОНИРОВАНИЯ =====
 // ============================================================
+
 function openBooking(name, desc, price, isPackage) {
   resetBookingData();
   
@@ -1061,12 +1068,19 @@ function applyPromo() {
   
   const code = input.value.trim().toLowerCase();
   
-  const now = new Date();
-  const day = now.getDay();
-  isWeekday = day !== 0 && day !== 6;
-  
-  if (!isWeekday) {
-    status.textContent = '❌ Промокод действует только в будние дни!';
+  // Проверяем будни/выходные по ВЫБРАННОЙ ДАТЕ бронирования,
+  // а не по текущему дню на устройстве.
+  let isWeekdaySelected = false;
+  if (selectedDate) {
+    const day = selectedDate.getDay();
+    isWeekdaySelected = day !== 0 && day !== 6;
+  }
+  isWeekday = isWeekdaySelected;
+
+  if (!isWeekdaySelected) {
+    status.textContent = selectedDate
+      ? '❌ Промокод действует только в будние дни!'
+      : '❌ Выберите дату, чтобы применить промокод!';
     status.style.color = '#ff6b6b';
     promoApplied = false;
     updateTotalDisplay();
@@ -1074,15 +1088,20 @@ function applyPromo() {
     return;
   }
   
-  if (code === 'квест10') {
+  if (code === 'квест10' || code === 'тест10') {
     promoApplied = true;
     status.textContent = '✅ Промокод применён! Скидка 10%';
     status.style.color = '#4ecdc4';
   } else {
+    // Не сбрасываем выборы/шаги: просто выключаем скидку.
     promoApplied = false;
     status.textContent = '❌ Неверный промокод';
     status.style.color = '#ff6b6b';
   }
+
+  // Важно: не вызывать resetBookingData() и не трогать selectedDate/selectedTime здесь.
+
+
   
   updateTotalDisplay();
   updateReceipt();
@@ -1133,13 +1152,14 @@ function updateReceipt() {
   
   const subtotal = basePrice + optionTotal + extraPlayerCost;
   
-  const now = new Date();
-  const day = now.getDay();
-  const isWeekday = day !== 0 && day !== 6;
+  // Будни/выходные определяем по ВЫБРАННОЙ ДАТЕ бронирования
+  const day = selectedDate ? selectedDate.getDay() : null;
+  const isWeekday = day !== null && day !== 0 && day !== 6;
   let discount = 0;
   if (promoApplied && isWeekday) {
     discount = Math.round(subtotal * 0.1);
   }
+
   
   const total = subtotal - discount;
   
