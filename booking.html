@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes" />
+  <title>Immerscape · Бронирование</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800;14..32,900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/main.css" />
+</head>
+<body class="standalone-booking-page">
+  <div id="toast" class="toast">Готово!</div>
+
+  <div class="booking-overlay open" id="bookingOverlay">
+    <div class="container">
+      <button type="button" class="close-overlay" id="closeOverlayBtn">← Вернуться на сайт</button>
+      <div class="booking-title">Бронирование</div>
+
+      <div class="booking-steps">
+        <button type="button" class="step-btn active" data-step="1">1. Выбор</button>
+        <button type="button" class="step-btn" data-step="2">2. Опции</button>
+        <button type="button" class="step-btn" data-step="3">3. Контакты</button>
+        <button type="button" class="step-btn" data-step="4">4. Квитанция</button>
+      </div>
+
+      <div class="step-content active" data-step="1">
+        <div class="booking-grid">
+          <div class="booking-info">
+            <h3 id="bookQuestName">Невеста</h3>
+            <div class="desc" id="bookQuestDesc">Погрузитесь в атмосферу приключения!</div>
+            <div class="meta">
+              <span>⏱ <span id="bookQuestMetaTime">60 мин</span></span>
+              <span>👥 <span id="bookQuestMetaPlayers">1–6</span> чел.</span>
+              <span>⚡ Сложность: <span id="bookQuestMetaDifficulty">4/5</span></span>
+            </div>
+
+            <div class="booking-photos-carousel">
+              <div class="booking-photos-track" id="bookingPhotosTrack">
+                <div class="booking-photos-slide"><div style="text-align:center;"><div>👻</div><div class="slide-label">Атмосфера</div></div></div>
+                <div class="booking-photos-slide"><div style="text-align:center;"><div>🕯️</div><div class="slide-label">Интерьер</div></div></div>
+                <div class="booking-photos-slide"><div style="text-align:center;"><div>🔮</div><div class="slide-label">Эмоции</div></div></div>
+              </div>
+              <button type="button" class="booking-photos-arrow prev" id="photosPrev">‹</button>
+              <button type="button" class="booking-photos-arrow next" id="photosNext">›</button>
+              <div class="booking-photos-dots" id="bookingPhotosDots"></div>
+            </div>
+          </div>
+
+          <div id="bookingMap"></div>
+
+          <div class="booking-form">
+            <label>Дата и время сеанса</label>
+            <div class="datetime-selector">
+              <div class="date-selector-wrapper">
+                <div class="date-selector-toggle" id="dateToggle">
+                  <span>📅 <span class="selected-date" id="selectedDate">Выберите дату</span></span>
+                  <span class="arrow" id="dateArrow">▼</span>
+                </div>
+                <div class="date-selector-dropdown" id="dateDropdown">
+                  <div class="month-nav">
+                    <button type="button" class="month-btn" id="prevMonth">‹</button>
+                    <span class="month-label" id="monthLabel">Июль 2026</span>
+                    <button type="button" class="month-btn" id="nextMonth">›</button>
+                  </div>
+                  <div class="date-grid" id="dateGrid"></div>
+                </div>
+              </div>
+              <div class="time-grid" id="timeGrid"></div>
+            </div>
+
+            <div class="quest-select-wrapper" id="packageQuestSelect" style="display:none;">
+              <label>Квест внутри пакета</label>
+              <select id="packageQuestChoice"></select>
+              <div class="field-hint">Можно выбрать квест сейчас или оставить пакет без привязки к квесту.</div>
+            </div>
+
+            <div style="margin-top:10px;">
+              <label>Количество участников</label>
+              <div class="quantity-control">
+                <button type="button" class="qty-btn" onclick="changeBookingPlayers(-1)">−</button>
+                <span class="qty-value" id="bookingPlayersDisplay">1</span>
+                <button type="button" class="qty-btn" onclick="changeBookingPlayers(1)">+</button>
+              </div>
+            </div>
+
+            <div class="booking-summary-card">
+              <div class="row-between">
+                <span class="summary-label">Итого к оплате:</span>
+                <span class="summary-total" id="bookingTotalDisplay">0 ₽</span>
+              </div>
+              <div class="row-between summary-subrow">
+                <span>Цена квеста: <span id="bookingPriceDisplay">0</span> ₽</span>
+                <span>Предоплата: <span id="bookingDepositDisplay">1 500</span> ₽</span>
+              </div>
+            </div>
+
+            <div class="btn-group">
+              <button type="button" class="btn-primary" onclick="goStep(2)">Далее →</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="step-content" data-step="2">
+        <h3 style="margin-bottom:10px; font-size:1.2rem;">Опции и дополнения</h3>
+        <div class="options-grid" id="optionsGrid"></div>
+
+        <div class="booking-summary-card">
+          <div class="row-between">
+            <span class="summary-label">Итого к оплате:</span>
+            <span class="summary-total" id="bookingTotalDisplayStep2">0 ₽</span>
+          </div>
+          <div class="row-between summary-subrow">
+            <span>Цена квеста: <span id="bookingPriceDisplay2">0</span> ₽</span>
+            <span>Предоплата: <span id="bookingDepositDisplay2">1 500</span> ₽</span>
+          </div>
+        </div>
+
+        <div class="packages-collapsible" id="packagesCollapsible">
+          <div class="collapsible-header" id="packagesToggle">
+            <span>🎁 Выбрать готовый пакет</span>
+            <span class="arrow" id="packagesArrow">▼</span>
+          </div>
+          <div class="collapsible-body" id="packagesBody">
+            <div class="package-mini" data-package="Пакет на 1 час" data-price="13500" data-oldprice="15500">
+              <span class="pkg-name">Пакет на 1 час</span>
+              <span class="pkg-price"><small>15 500 ₽</small> 13 500 ₽</span>
+            </div>
+            <div class="package-mini" data-package="Пакет на 2 часа" data-price="23000" data-oldprice="32000">
+              <span class="pkg-name">⭐ Пакет на 2 часа</span>
+              <span class="pkg-price"><small>32 000 ₽</small> 23 000 ₽</span>
+              <span class="pkg-badge">Популярный</span>
+            </div>
+            <div class="package-mini" data-package="Пакет на 2.5 часа" data-price="34000" data-oldprice="53000">
+              <span class="pkg-name">Пакет на 2.5 часа</span>
+              <span class="pkg-price"><small>53 000 ₽</small> 34 000 ₽</span>
+            </div>
+            <div class="package-mini" data-package="Пакет на 3.5 часа" data-price="56000" data-oldprice="73500">
+              <span class="pkg-name">Пакет на 3.5 часа</span>
+              <span class="pkg-price"><small>73 500 ₽</small> 56 000 ₽</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="btn-group">
+          <button type="button" class="btn-outline" onclick="goStep(1)">← Назад</button>
+          <button type="button" class="btn-primary" onclick="goStep(3)">Далее →</button>
+        </div>
+      </div>
+
+      <div class="step-content" data-step="3">
+        <h3 style="margin-bottom:10px; font-size:1.2rem;">Контактные данные</h3>
+        <div class="booking-form" style="max-width:500px;">
+          <label>Имя *</label><input type="text" id="bookingName" placeholder="Ваше имя" />
+          <label>Телефон *</label><input type="tel" id="bookingPhone" placeholder="+7 (___) ___-__-__" />
+          <label>Email (необязательно)</label><input type="email" id="bookingEmail" placeholder="example@mail.ru" />
+
+          <label>Способ связи</label>
+          <div class="contact-methods" id="contactMethods">
+            <div class="contact-method active" data-method="whatsapp"><span class="method-icon">💬</span><span class="method-label">WhatsApp</span></div>
+            <div class="contact-method" data-method="telegram"><span class="method-icon">✈️</span><span class="method-label">Telegram</span></div>
+            <div class="contact-method" data-method="vk"><span class="method-icon">📱</span><span class="method-label">VK</span></div>
+            <div class="contact-method" data-method="sms"><span class="method-icon">📲</span><span class="method-label">SMS</span></div>
+          </div>
+
+          <div class="promo-field">
+            <label>Промокод</label>
+            <div class="promo-field-row">
+              <input type="text" id="promoInput" placeholder="Введите промокод" />
+              <button type="button" id="applyPromoBtn" class="btn-book-sm">Применить</button>
+            </div>
+            <div id="promoStatus" class="promo-status"></div>
+          </div>
+
+          <label>Комментарий к заказу</label>
+          <textarea id="bookingComment" placeholder="Дополнительные пожелания..." rows="2"></textarea>
+
+          <div class="booking-summary-card">
+            <div class="row-between">
+              <span class="summary-label">Итого к оплате:</span>
+              <span class="summary-total" id="bookingTotalDisplayStep3">0 ₽</span>
+            </div>
+            <div class="row-between summary-subrow">
+              <span>Цена квеста: <span id="bookingPriceDisplay3">0</span> ₽</span>
+              <span>Предоплата: <span id="bookingDepositDisplay3">1 500</span> ₽</span>
+            </div>
+          </div>
+
+          <div class="btn-group">
+            <button type="button" class="btn-outline" onclick="goStep(2)">← Назад</button>
+            <button type="button" class="btn-primary" onclick="goStep(4)">Перейти к оплате</button>
+          </div>
+          <div style="font-size:0.7rem; color:#6f648a; margin-top:6px;">* Поля с звёздочкой обязательны</div>
+        </div>
+      </div>
+
+      <div class="step-content" data-step="4">
+        <h3 style="margin-bottom:12px; font-size:1.2rem;">Квитанция заказа</h3>
+        <div class="receipt-box" style="max-width:500px;" id="receiptBox">
+          <div class="row"><span>Квест/Пакет</span><span id="receiptQuest">Невеста</span></div>
+          <div class="row"><span>Дата и время</span><span id="receiptDateTime">Не выбрана</span></div>
+          <div class="row"><span>Количество участников</span><span id="receiptPlayers">1</span></div>
+          <div class="row"><span>Доп. услуги</span><span id="receiptExtras">—</span></div>
+          <div class="row"><span>Способ связи</span><span id="receiptMethod">WhatsApp</span></div>
+          <div class="row"><span>Сумма</span><span id="receiptSubtotal">0 ₽</span></div>
+          <div class="row"><span>Скидка</span><span id="receiptDiscount">—</span></div>
+          <div class="row total"><span>Итого</span><span id="receiptTotal">0 ₽</span></div>
+
+          <div class="booking-summary-card">
+            <div class="row-between">
+              <span class="summary-label">Итого к оплате:</span>
+              <span class="summary-total" id="bookingTotalDisplayStep4">0 ₽</span>
+            </div>
+            <div class="row-between summary-subrow">
+              <span>Цена квеста: <span id="bookingPriceDisplay4">0</span> ₽</span>
+              <span>Предоплата: <span id="bookingDepositDisplay4">1 500</span> ₽</span>
+            </div>
+          </div>
+
+          <div class="btn-group">
+            <button type="button" class="btn-outline" onclick="goStep(3)">← Назад</button>
+            <button type="button" class="btn-primary" onclick="confirmBooking()">Подтвердить бронь</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/booking.js"></script>
+</body>
+</html>

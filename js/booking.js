@@ -8,6 +8,7 @@ let isPackageBooking = false;
 let bookingPlayersValue = 1;
 let selectedDate = null;
 let selectedTime = null;
+let selectedPackageQuest = '';
 let currentMonth = new Date().getMonth();
 let currentYear = new Date().getFullYear();
 const today = new Date();
@@ -423,6 +424,247 @@ function showToast(msg, duration) {
   t._timer = setTimeout(() => t.classList.remove('show'), duration || 2800);
 }
 
+function formatMoney(amount) {
+  return `${Math.round(Number(amount) || 0)} ₽`;
+}
+
+function isCurrentPackageBooking() {
+  return isPackageBooking || getBookingType(currentBookingName) === 'package';
+}
+
+function getSelectedPackageQuest() {
+  const select = document.getElementById('packageQuestChoice');
+  if (!select || !isCurrentPackageBooking()) return '';
+  return select.value || '';
+}
+
+function getScheduleQuestName() {
+  return getSelectedPackageQuest() || currentBookingName;
+}
+
+function getBasePriceForBooking(activeTime) {
+  if (isCurrentPackageBooking()) {
+    return currentBookingPrice || 0;
+  }
+
+  if (activeTime && currentBookingName) {
+    const time = activeTime.querySelector('.slot-time')?.textContent;
+    const priceByTime = getPriceByTime(currentBookingName, time);
+    if (priceByTime) {
+      currentBookingPrice = priceByTime;
+      return priceByTime;
+    }
+  }
+
+  const quest = questsData.find(q => q.name === currentBookingName);
+  if (quest) {
+    currentBookingPrice = quest.price;
+    return quest.price;
+  }
+
+  return currentBookingPrice || 0;
+}
+
+function calculateBookingTotals() {
+  const playersEl = document.getElementById('bookingPlayersDisplay');
+  const players = parseInt(playersEl ? playersEl.textContent : bookingPlayersValue) || 1;
+  const activeTime = document.querySelector('.time-slot.active');
+  const selectedOptions = document.querySelectorAll('.option-checkbox:checked');
+  const basePrice = getBasePriceForBooking(activeTime);
+
+  let optionTotal = 0;
+  selectedOptions.forEach(el => {
+    optionTotal += parseInt(el.dataset.price || 0);
+  });
+
+  const basePlayers = 3;
+  const extraPlayerCost = players > basePlayers ? (players - basePlayers) * 1500 : 0;
+  const subtotal = basePrice + optionTotal + extraPlayerCost;
+  const discount = promoApplied && isSelectedBookingWeekday() ? Math.round(subtotal * 0.1) : 0;
+  const total = subtotal - discount;
+
+  return { players, activeTime, basePrice, optionTotal, extraPlayerCost, subtotal, discount, total, deposit: 1500 };
+}
+
+function renderTotalAmount(el, subtotal, total, discount) {
+  if (!el) return;
+  if (discount > 0) {
+    el.classList.add('has-discount');
+    el.innerHTML = `<span class="booking-total-old">${formatMoney(subtotal)}</span><span class="booking-total-current">${formatMoney(total)}</span>`;
+  } else {
+    el.classList.remove('has-discount');
+    el.textContent = formatMoney(total);
+  }
+}
+
+function ensurePackageQuestSelect() {
+  let wrapper = document.getElementById('packageQuestSelect');
+  let select = document.getElementById('packageQuestChoice');
+  const timeGrid = document.getElementById('timeGrid');
+  const form = timeGrid ? timeGrid.closest('.booking-form') : null;
+  const quantityBlock = form ? form.querySelector('.quantity-control')?.parentElement : null;
+
+  if (!wrapper && form) {
+    wrapper = document.createElement('div');
+    wrapper.className = 'quest-select-wrapper';
+    wrapper.id = 'packageQuestSelect';
+    wrapper.style.display = 'none';
+    wrapper.innerHTML = `
+      <label>Квест внутри пакета</label>
+      <select id="packageQuestChoice"></select>
+      <div class="field-hint">Можно выбрать квест сейчас или оставить пакет без привязки к квесту.</div>
+    `;
+    form.insertBefore(wrapper, quantityBlock || form.querySelector('.btn-group') || null);
+    select = wrapper.querySelector('#packageQuestChoice');
+  }
+
+  if (!select) return;
+
+  const currentValue = select.value || '';
+  select.innerHTML = '<option value="">Без выбора квеста</option>' + questsData
+    .map(q => `<option value="${escapeAttr(q.name)}">${q.name}</option>`)
+    .join('');
+  select.value = questsData.some(q => q.name === currentValue) ? currentValue : '';
+}
+
+function ensurePromoField() {
+  if (document.getElementById('promoInput')) return;
+
+  const methods = document.getElementById('contactMethods');
+  const form = methods ? methods.closest('.booking-form') : null;
+  const comment = document.getElementById('bookingComment');
+  if (!form) return;
+
+  const block = document.createElement('div');
+  block.className = 'promo-field';
+  block.innerHTML = `
+    <label>Промокод</label>
+    <div class="promo-field-row">
+      <input type="text" id="promoInput" placeholder="Введите промокод" />
+      <button type="button" id="applyPromoBtn" class="btn-book-sm">Применить</button>
+    </div>
+    <div id="promoStatus" class="promo-status"></div>
+  `;
+
+  if (comment) {
+    const commentLabel = Array.from(form.querySelectorAll('label')).find(label => label.nextElementSibling === comment);
+    form.insertBefore(block, commentLabel || comment);
+  } else {
+    form.appendChild(block);
+  }
+}
+
+function ensureBookingUi() {
+  ensurePackageQuestSelect();
+  ensurePromoField();
+  ensurePackagesCollapsible();
+  initPackagesCollapsible();
+}
+
+function ensurePackagesCollapsible() {
+  if (document.getElementById('packagesCollapsible')) return;
+
+  const step2 = document.querySelector('.step-content[data-step="2"]');
+  const summary = step2 ? step2.querySelector('.booking-summary-card') : null;
+  const btnGroup = step2 ? step2.querySelector('.btn-group') : null;
+  if (!step2) return;
+
+  const block = document.createElement('div');
+  block.className = 'packages-collapsible';
+  block.id = 'packagesCollapsible';
+  block.innerHTML = `
+    <div class="collapsible-header" id="packagesToggle">
+      <span>🎁 Выбрать готовый пакет</span>
+      <span class="arrow" id="packagesArrow">▼</span>
+    </div>
+    <div class="collapsible-body" id="packagesBody">
+      <div class="package-mini" data-package="Пакет на 1 час" data-price="13500" data-oldprice="15500">
+        <span class="pkg-name">Пакет на 1 час</span>
+        <span class="pkg-price"><small>15 500 ₽</small> 13 500 ₽</span>
+      </div>
+      <div class="package-mini" data-package="Пакет на 2 часа" data-price="23000" data-oldprice="32000">
+        <span class="pkg-name">⭐ Пакет на 2 часа</span>
+        <span class="pkg-price"><small>32 000 ₽</small> 23 000 ₽</span>
+        <span class="pkg-badge">Популярный</span>
+      </div>
+      <div class="package-mini" data-package="Пакет на 2.5 часа" data-price="34000" data-oldprice="53000">
+        <span class="pkg-name">Пакет на 2.5 часа</span>
+        <span class="pkg-price"><small>53 000 ₽</small> 34 000 ₽</span>
+      </div>
+      <div class="package-mini" data-package="Пакет на 3.5 часа" data-price="56000" data-oldprice="73500">
+        <span class="pkg-name">Пакет на 3.5 часа</span>
+        <span class="pkg-price"><small>73 500 ₽</small> 56 000 ₽</span>
+      </div>
+    </div>
+  `;
+
+  step2.insertBefore(block, btnGroup || (summary ? summary.nextSibling : null));
+}
+
+function initPackagesCollapsible() {
+  const toggle = document.getElementById('packagesToggle');
+  const body = document.getElementById('packagesBody');
+  const arrow = document.getElementById('packagesArrow');
+
+  if (toggle && body && !toggle.dataset.initialized) {
+    toggle.dataset.initialized = '1';
+    toggle.addEventListener('click', function() {
+      body.classList.toggle('open');
+      if (arrow) arrow.classList.toggle('open');
+    });
+  }
+
+  document.querySelectorAll('.package-mini').forEach(item => {
+    if (item.dataset.initialized) return;
+    item.dataset.initialized = '1';
+    item.addEventListener('click', function() {
+      const packageName = this.dataset.package || 'Пакет';
+      const packagePrice = parseInt(this.dataset.price || 0, 10);
+      selectReadyPackage(packageName, packagePrice, this);
+    });
+  });
+}
+
+function selectReadyPackage(packageName, packagePrice, activeItem) {
+  isPackageBooking = true;
+  selectedPackageQuest = '';
+  currentBookingName = packageName;
+  currentBookingDesc = `Готовый пакет "${packageName}" с максимальной выгодой.`;
+  currentBookingPrice = packagePrice || 0;
+
+  document.querySelectorAll('.package-mini').forEach(item => {
+    item.classList.toggle('active', item === activeItem || item.dataset.package === packageName);
+  });
+
+  const title = document.getElementById('bookQuestName');
+  const desc = document.getElementById('bookQuestDesc');
+  const metaTime = document.getElementById('bookQuestMetaTime');
+  const metaPlayers = document.getElementById('bookQuestMetaPlayers');
+  const metaDifficulty = document.getElementById('bookQuestMetaDifficulty');
+  if (title) title.textContent = packageName;
+  if (desc) desc.textContent = currentBookingDesc;
+  if (metaTime) metaTime.textContent = '1-3.5 часа';
+  if (metaPlayers) metaPlayers.textContent = '1-20';
+  if (metaDifficulty) metaDifficulty.textContent = 'по выбору';
+
+  const packageQuestSelect = document.getElementById('packageQuestSelect');
+  const packageChoice = document.getElementById('packageQuestChoice');
+  if (packageQuestSelect) packageQuestSelect.style.display = 'block';
+  if (packageChoice) packageChoice.value = '';
+
+  const optionsTitle = document.querySelector('.step-content[data-step="2"] h3');
+  if (optionsTitle) optionsTitle.textContent = '🎁 Опции для вашего пакета';
+
+  document.querySelectorAll('.option-checkbox').forEach(cb => {
+    cb.checked = false;
+    cb.closest('.option-card')?.classList.remove('active');
+  });
+  renderOptions(getOptionsByType('package'));
+  updateBookingPhotos(packageName);
+  updateTotalDisplay();
+  updateReceipt();
+}
+
 // ============================================================
 // ===== ОБНОВЛЕНИЕ ФОТО =====
 // ============================================================
@@ -486,124 +728,59 @@ function updateBookingPhotoPosition() {
 // ===== ОСНОВНАЯ ФУНКЦИЯ: ОБНОВЛЕНИЕ ИТОГОВОЙ СУММЫ =====
 // ============================================================
 function updateTotalDisplay() {
-  const players = parseInt(document.getElementById('bookingPlayersDisplay').textContent) || 1;
-  const activeTime = document.querySelector('.time-slot.active');
-  const selectedOptions = document.querySelectorAll('.option-checkbox:checked');
-  
-  // === ОПРЕДЕЛЯЕМ БАЗОВУЮ ЦЕНУ ===
-  let basePrice = 0;
-  
-  if (activeTime && currentBookingName) {
-    const time = activeTime.querySelector('.slot-time').textContent;
-    const priceByTime = getPriceByTime(currentBookingName, time);
-    if (priceByTime) {
-      basePrice = priceByTime;
-      currentBookingPrice = priceByTime;
-    }
-  } else {
-    const quest = questsData.find(q => q.name === currentBookingName);
-    if (quest) {
-      basePrice = quest.price;
-      currentBookingPrice = quest.price;
-    }
-  }
-  
-  // === СЧИТАЕМ ОПЦИИ ===
-  let optionTotal = 0;
-  selectedOptions.forEach(el => {
-    optionTotal += parseInt(el.dataset.price || 0);
-  });
-  
-  // === УЧАСТНИКИ (база 3 человека) ===
-  const basePlayers = 3;
-  let extraPlayerCost = 0;
-  if (players > basePlayers) {
-    extraPlayerCost = (players - basePlayers) * 1500;
-  }
-  
-  // === ПОДСЧЁТ ИТОГО ===
-  const subtotal = basePrice + optionTotal + extraPlayerCost;
-  
-  // === СКИДКА ПО ПРОМОКОДУ ===
-  // Будни/выходные определяем по выбранной дате бронирования
-  const day = selectedDate ? selectedDate.getDay() : null;
-  const isWeekdayNow = day !== null && day !== 0 && day !== 6;
-  let discount = 0;
-  if (promoApplied && isWeekdayNow) {
-    discount = Math.round(subtotal * 0.1);
-  }
-
-  
-  const total = subtotal - discount;
-  const deposit = 1500; // Предоплата
-  
-  // Для UI: показываем цену квеста со скидкой так, чтобы пользователь видел скидку в блоке "Цена квеста"
-  // (распределяем скидку пропорционально всей сумме, а не только на basePrice)
-  const discountedBasePrice = subtotal > 0 ? Math.round(basePrice - (basePrice / subtotal) * discount) : basePrice;
+  const totals = calculateBookingTotals();
   
   // === ОБНОВЛЯЕМ ОТОБРАЖЕНИЕ ===
   // Шаг 1
-  const totalDisplay = document.getElementById('bookingTotalDisplay');
-  if (totalDisplay) {
-    totalDisplay.textContent = `${total} ₽`;
-  }
+  renderTotalAmount(document.getElementById('bookingTotalDisplay'), totals.subtotal, totals.total, totals.discount);
   
   // Шаг 2
-  const totalDisplayStep2 = document.getElementById('bookingTotalDisplayStep2');
-  if (totalDisplayStep2) {
-    totalDisplayStep2.textContent = `${total} ₽`;
-  }
+  renderTotalAmount(document.getElementById('bookingTotalDisplayStep2'), totals.subtotal, totals.total, totals.discount);
   
   // Шаг 3
-  const totalDisplayStep3 = document.getElementById('bookingTotalDisplayStep3');
-  if (totalDisplayStep3) {
-    totalDisplayStep3.textContent = `${total} ₽`;
-  }
+  renderTotalAmount(document.getElementById('bookingTotalDisplayStep3'), totals.subtotal, totals.total, totals.discount);
   
   // Шаг 4
-  const totalDisplayStep4 = document.getElementById('bookingTotalDisplayStep4');
-  if (totalDisplayStep4) {
-    totalDisplayStep4.textContent = `${total} ₽`;
-  }
+  renderTotalAmount(document.getElementById('bookingTotalDisplayStep4'), totals.subtotal, totals.total, totals.discount);
   
-  // Цена квеста (со скидкой)
+  // Цена базовой услуги без промокода. Скидка видна в блоке "Итого к оплате".
   const priceDisplay = document.getElementById('bookingPriceDisplay');
   if (priceDisplay) {
-    priceDisplay.textContent = discountedBasePrice;
+    priceDisplay.textContent = totals.basePrice;
   }
   
   const priceDisplay2 = document.getElementById('bookingPriceDisplay2');
   if (priceDisplay2) {
-    priceDisplay2.textContent = discountedBasePrice;
+    priceDisplay2.textContent = totals.basePrice;
   }
   const priceDisplay3 = document.getElementById('bookingPriceDisplay3');
   if (priceDisplay3) {
-    priceDisplay3.textContent = discountedBasePrice;
+    priceDisplay3.textContent = totals.basePrice;
   }
   
   const priceDisplay4 = document.getElementById('bookingPriceDisplay4');
   if (priceDisplay4) {
-    priceDisplay4.textContent = discountedBasePrice;
+    priceDisplay4.textContent = totals.basePrice;
   }
   
   const depositDisplay = document.getElementById('bookingDepositDisplay');
   if (depositDisplay) {
-    depositDisplay.textContent = `${deposit} ₽`;
+    depositDisplay.textContent = formatMoney(totals.deposit);
   }
   
   const depositDisplay2 = document.getElementById('bookingDepositDisplay2');
   if (depositDisplay2) {
-    depositDisplay2.textContent = `${deposit} ₽`;
+    depositDisplay2.textContent = formatMoney(totals.deposit);
   }
   
   const depositDisplay3 = document.getElementById('bookingDepositDisplay3');
   if (depositDisplay3) {
-    depositDisplay3.textContent = `${deposit} ₽`;
+    depositDisplay3.textContent = formatMoney(totals.deposit);
   }
   
   const depositDisplay4 = document.getElementById('bookingDepositDisplay4');
   if (depositDisplay4) {
-    depositDisplay4.textContent = `${deposit} ₽`;
+    depositDisplay4.textContent = formatMoney(totals.deposit);
   }
 }
 
@@ -614,11 +791,24 @@ function updateTotalDisplay() {
 // ============================================================
 
 function openBooking(name, desc, price, isPackage) {
+  if (!document.body.classList.contains('standalone-booking-page')) {
+    const params = new URLSearchParams({
+      name: name || 'Квест',
+      desc: desc || '',
+      price: String(price || 0),
+      package: isPackage ? '1' : '0'
+    });
+    window.location.href = `booking.html?${params.toString()}`;
+    return;
+  }
+
+  ensureBookingUi();
   resetBookingData();
   
   document.querySelectorAll('.page-overlay').forEach(el => el.classList.remove('open'));
   
   isPackageBooking = isPackage || false;
+  selectedPackageQuest = '';
   currentBookingName = name;
   currentBookingDesc = desc || '';
   currentBookingPrice = price || 0;
@@ -658,14 +848,17 @@ function openBooking(name, desc, price, isPackage) {
   const promoInput = document.getElementById('promoInput');
   if (promoInput) promoInput.value = '';
   
-  const bookingType = getBookingType(name);
-  const isPackageBookingNow = bookingType === 'package';
+  const bookingType = isPackageBooking ? 'package' : getBookingType(name);
+  const isPackageBookingNow = isPackageBooking || bookingType === 'package';
   const optionsForType = getOptionsByType(bookingType);
   
   const optionsGrid = document.getElementById('optionsGrid');
   const packagesCollapsible = document.getElementById('packagesCollapsible');
   const packageQuestSelect = document.getElementById('packageQuestSelect');
   const optionsTitle = document.querySelector('.step-content[data-step="2"] h3');
+  document.querySelectorAll('.package-mini').forEach(item => {
+    item.classList.toggle('active', item.dataset.package === name);
+  });
   
   let location = quest ? quest.loc : '';
   const address = getLocationAddress(location);
@@ -699,7 +892,7 @@ function openBooking(name, desc, price, isPackage) {
       optionsTitle.style.display = 'block';
     }
     if (packagesCollapsible) packagesCollapsible.style.display = 'none';
-    if (packageQuestSelect) packageQuestSelect.style.display = 'none';
+    if (packageQuestSelect) packageQuestSelect.style.display = 'block';
     
   } else {
     if (packageQuestSelect) packageQuestSelect.style.display = 'none';
@@ -719,11 +912,15 @@ function openBooking(name, desc, price, isPackage) {
       optionsTitle.style.display = 'block';
     }
     
-    if (packagesCollapsible) packagesCollapsible.style.display = 'none';
+    if (packagesCollapsible) packagesCollapsible.style.display = 'block';
   }
   
   overlay.classList.add('open');
-  document.body.style.overflow = 'hidden';
+  if (!document.body.classList.contains('standalone-booking-page')) {
+    document.body.style.overflow = 'hidden';
+  } else {
+    document.body.style.overflow = '';
+  }
   currentStep = 1;
   goStep(1);
   updateTotalDisplay();
@@ -731,10 +928,30 @@ function openBooking(name, desc, price, isPackage) {
 }
 
 function closeBooking() {
+  if (document.body.classList.contains('standalone-booking-page')) {
+    window.location.href = 'index.html';
+    return;
+  }
+
   const overlay = document.getElementById('bookingOverlay');
   if (overlay) overlay.classList.remove('open');
   document.body.style.overflow = '';
   resetBookingData();
+}
+
+function initStandaloneBookingPage() {
+  if (!document.body.classList.contains('standalone-booking-page')) return;
+
+  const params = new URLSearchParams(window.location.search);
+  const name = params.get('name') || 'Невеста';
+  const quest = questsData.find(q => q.name === name);
+  const desc = params.get('desc') || (quest ? 'Погрузитесь в атмосферу приключения!' : 'Погрузитесь в атмосферу приключения!');
+  const price = parseInt(params.get('price') || (quest ? quest.price : 5500), 10);
+  const isPackage = params.get('package') === '1' || getBookingType(name) === 'package';
+
+  openBooking(name, desc, price, isPackage);
+  const overlay = document.getElementById('bookingOverlay');
+  if (overlay) overlay.classList.add('standalone-open');
 }
 
 // ============================================================
@@ -802,9 +1019,11 @@ function goStep(n) {
       }
       
       selectedTime = activeTime.querySelector('.slot-time').textContent;
-      const questName = getCurrentQuestName();
-      const price = getPriceByTime(questName, selectedTime);
-      currentBookingPrice = price;
+      if (!isCurrentPackageBooking()) {
+        const questName = getCurrentQuestName();
+        const price = getPriceByTime(questName, selectedTime);
+        currentBookingPrice = price;
+      }
       updateTotalDisplay();
       updateReceipt();
     }
@@ -976,9 +1195,11 @@ function generateTimeSlots(questName) {
         if (!this.classList.contains('busy') && !this.classList.contains('disabled')) {
           this.classList.add('active');
           selectedTime = this.querySelector('.slot-time').textContent;
-          const questName = getCurrentQuestName();
-          const price = getPriceByTime(questName, selectedTime);
-          currentBookingPrice = price;
+          if (!isCurrentPackageBooking()) {
+            const questName = getCurrentQuestName();
+            const price = getPriceByTime(questName, selectedTime);
+            currentBookingPrice = price;
+          }
           updateTotalDisplay();
           updateReceipt();
         }
@@ -989,10 +1210,8 @@ function generateTimeSlots(questName) {
 }
 
 function getCurrentQuestName() {
-  const select = document.getElementById('packageQuestChoice');
-  if (select && document.getElementById('packageQuestSelect').style.display !== 'none') {
-    return select.value;
-  }
+  const scheduleQuest = getScheduleQuestName();
+  if (scheduleQuest) return scheduleQuest;
   return currentBookingName;
 }
 
@@ -1061,7 +1280,18 @@ function initContactMethods() {
 // ============================================================
 // ===== ПРОМОКОД =====
 // ============================================================
-function applyPromo() {
+function isSelectedBookingWeekday() {
+  if (!selectedDate) return false;
+  const day = selectedDate.getDay();
+  return day !== 0 && day !== 6;
+}
+
+function applyPromo(event) {
+  if (event) {
+    event.preventDefault();
+    event.stopPropagation();
+  }
+
   const input = document.getElementById('promoInput');
   const status = document.getElementById('promoStatus');
   if (!input || !status) return;
@@ -1070,11 +1300,7 @@ function applyPromo() {
   
   // Проверяем будни/выходные по ВЫБРАННОЙ ДАТЕ бронирования,
   // а не по текущему дню на устройстве.
-  let isWeekdaySelected = false;
-  if (selectedDate) {
-    const day = selectedDate.getDay();
-    isWeekdaySelected = day !== 0 && day !== 6;
-  }
+  const isWeekdaySelected = isSelectedBookingWeekday();
   isWeekday = isWeekdaySelected;
 
   if (!isWeekdaySelected) {
@@ -1088,9 +1314,9 @@ function applyPromo() {
     return;
   }
   
-  if (code === 'квест10' || code === 'тест10') {
+  if (code === promoCode || code === 'тест10') {
     promoApplied = true;
-    status.textContent = '✅ Промокод применён! Скидка 10%';
+    status.textContent = '✅ Ваш промокод применён! Скидка 10%';
     status.style.color = '#4ecdc4';
   } else {
     // Не сбрасываем выборы/шаги: просто выключаем скидку.
@@ -1119,49 +1345,24 @@ function updateReceipt() {
     dateStr = dateObj.toLocaleDateString('ru-RU', { day: 'numeric', month: 'long', year: 'numeric' });
   }
   
-  const activeTime = document.querySelector('.time-slot.active');
-  const time = activeTime ? activeTime.querySelector('.slot-time').textContent : '—';
-  const players = parseInt(document.getElementById('bookingPlayersDisplay').textContent) || 1;
-  
-  const bookingType = getBookingType(currentBookingName);
-  const isPackage = bookingType === 'package';
+  const totals = calculateBookingTotals();
+  const time = totals.activeTime ? totals.activeTime.querySelector('.slot-time').textContent : '—';
   
   let optionNames = '—';
-  let optionTotal = 0;
   const selectedOptions = document.querySelectorAll('.option-checkbox:checked');
   if (selectedOptions.length > 0) {
     optionNames = Array.from(selectedOptions).map(el => el.dataset.name).join(', ');
-    optionTotal = Array.from(selectedOptions).reduce((sum, el) => sum + parseInt(el.dataset.price || 0), 0);
+  }
+
+  if (isCurrentPackageBooking()) {
+    const packageQuest = getSelectedPackageQuest();
+    optionNames = packageQuest
+      ? `${optionNames === '—' ? '' : `${optionNames}; `}Квест в пакете: ${packageQuest}`
+      : `${optionNames === '—' ? '' : `${optionNames}; `}Квест в пакете: выбрать позже`;
   }
   
   const activeMethod = document.querySelector('.contact-method.active');
   const methodName = activeMethod ? activeMethod.textContent.trim() : 'WhatsApp';
-  
-  let basePrice = currentBookingPrice;
-  if (activeTime && currentBookingName) {
-    const selectedTime = activeTime.querySelector('.slot-time').textContent;
-    const priceByTime = getPriceByTime(currentBookingName, selectedTime);
-    if (priceByTime) basePrice = priceByTime;
-  }
-  
-  const basePlayers = 3;
-  let extraPlayerCost = 0;
-  if (players > basePlayers) {
-    extraPlayerCost = (players - basePlayers) * 1500;
-  }
-  
-  const subtotal = basePrice + optionTotal + extraPlayerCost;
-  
-  // Будни/выходные определяем по ВЫБРАННОЙ ДАТЕ бронирования
-  const day = selectedDate ? selectedDate.getDay() : null;
-  const isWeekday = day !== null && day !== 0 && day !== 6;
-  let discount = 0;
-  if (promoApplied && isWeekday) {
-    discount = Math.round(subtotal * 0.1);
-  }
-
-  
-  const total = subtotal - discount;
   
   const receiptQuest = document.getElementById('receiptQuest');
   const receiptDateTime = document.getElementById('receiptDateTime');
@@ -1174,12 +1375,12 @@ function updateReceipt() {
   
   if (receiptQuest) receiptQuest.textContent = currentBookingName;
   if (receiptDateTime) receiptDateTime.textContent = `${dateStr}, ${time}`;
-  if (receiptPlayers) receiptPlayers.textContent = players;
+  if (receiptPlayers) receiptPlayers.textContent = totals.players;
   if (receiptExtras) receiptExtras.textContent = optionNames;
   if (receiptMethod) receiptMethod.textContent = methodName;
-  if (receiptSubtotal) receiptSubtotal.textContent = `${subtotal} ₽`;
-  if (receiptDiscount) receiptDiscount.textContent = discount > 0 ? `-${discount} ₽` : '—';
-  if (receiptTotal) receiptTotal.textContent = `${total} ₽`;
+  if (receiptSubtotal) receiptSubtotal.textContent = formatMoney(totals.subtotal);
+  if (receiptDiscount) receiptDiscount.textContent = totals.discount > 0 ? `-${formatMoney(totals.discount)}` : '—';
+  if (receiptTotal) receiptTotal.textContent = formatMoney(totals.total);
   
   updateTotalDisplay();
 }
@@ -1211,6 +1412,8 @@ function confirmBooking() {
 // ===== ИНИЦИАЛИЗАЦИЯ =====
 // ============================================================
 document.addEventListener('DOMContentLoaded', function() {
+  ensureBookingUi();
+
   const closeBtn = document.getElementById('closeOverlayBtn');
   if (closeBtn) closeBtn.addEventListener('click', closeBooking);
   
@@ -1250,12 +1453,9 @@ document.addEventListener('DOMContentLoaded', function() {
   const packageChoice = document.getElementById('packageQuestChoice');
   if (packageChoice) {
     packageChoice.addEventListener('change', function() {
-      generateTimeSlots(this.value);
-      updateBookingPhotos(this.value);
-      const quest = questsData.find(q => q.name === this.value);
-      if (quest) {
-        currentBookingPrice = quest.price;
-      }
+      selectedPackageQuest = this.value || '';
+      generateTimeSlots(getScheduleQuestName());
+      updateBookingPhotos(selectedPackageQuest || currentBookingName);
       updateTotalDisplay();
       updateReceipt();
     });
@@ -1294,6 +1494,7 @@ document.addEventListener('DOMContentLoaded', function() {
   
   initBookingPhotos();
   initContactMethods();
+  initStandaloneBookingPage();
 });
 
 // ============================================================
