@@ -10,18 +10,78 @@
       tariff: '/api/my-erp/get_tariff/4893',
       tariffWithPlayers: '/api/my-erp/get_tariff_with_players/4893'
     },
-    'Рик и Морти': null,
-    'K-pop: последний стрим': null,
-    'Хоррор-свидание': null,
-    'Запретная дверь': null,
-    'Изнанка в разуме Векны': null,
-    'Among Us': null,
-    'Невеста': null,
-    'Хогвартс': null,
-    'Лабубу: волшебный мир': null,
-    'Монастырь': null,
-    'Гринч': null,
-    'Хоррор-вечер': null
+    'Рик и Морти': {
+      timetable: '/api/timetable/5157.json',
+      book: '/api/my-erp/book/5157',
+      tariff: '/api/my-erp/get_tariff/5157',
+      tariffWithPlayers: '/api/my-erp/get_tariff_with_players/5157'
+    },
+    'K-pop: последний стрим': {
+      timetable: '/api/my-erp/timetable/5269.json',
+      book: '/api/my-erp/book/5269',
+      tariff: '/api/my-erp/get_tariff/5269',
+      tariffWithPlayers: '/api/my-erp/get_tariff_with_players/5269'
+    },
+    'Хоррор-свидание': {
+      timetable: '/api/my-erp/timetable/5362.json',
+      book: '/api/my-erp/book/5362',
+      tariff: '/api/my-erp/get_tariff/5362',
+      tariffWithPlayers: '/api/my-erp/get_tariff_with_players/5362'
+    },
+    'Запретная дверь': {
+      timetable: '/api/my-erp/timetable/4610.json',
+      book: '/api/my-erp/book/4610',
+      tariff: '/api/my-erp/get_tariff/4610',
+      tariffWithPlayers: '/api/my-erp/get_tariff_with_players/4610'
+    },
+    'Изнанка в разуме Векны': {
+      timetable: '/api/my-erp/timetable/5774.json',
+      book: '/api/my-erp/book/5774',
+      tariff: '/api/my-erp/get_tariff/5774',
+      tariffWithPlayers: '/api/my-erp/get_tariff_with_players/5774'
+    },
+    'Among Us': {
+      timetable: '/api/my-erp/timetable/5809.json',
+      book: '/api/my-erp/book/5809',
+      tariff: '/api/my-erp/get_tariff/5809',
+      tariffWithPlayers: '/api/my-erp/get_tariff_with_players/5809'
+    },
+    'Невеста': {
+      timetable: '/api/my-erp/timetable/5402.json',
+      book: '/api/my-erp/book/5402',
+      tariff: '/api/my-erp/get_tariff/5402',
+      tariffWithPlayers: '/api/my-erp/get_tariff_with_players/5402'
+    },
+    'Хогвартс': {
+      timetable: '/api/my-erp/timetable/5469.json',
+      book: '/api/my-erp/book/5469',
+      tariff: '/api/my-erp/get_tariff/5469',
+      tariffWithPlayers: '/api/my-erp/get_tariff_with_players/5469'
+    },
+    'Лабубу: волшебный мир': {
+      timetable: '/api/my-erp/timetable/5397.json',
+      book: '/api/my-erp/book/5397',
+      tariff: '/api/my-erp/get_tariff/5397',
+      tariffWithPlayers: '/api/my-erp/get_tariff_with_players/5397'
+    },
+    'Монастырь': {
+      timetable: '/api/my-erp/timetable/5741.json',
+      book: '/api/my-erp/book/5741',
+      tariff: '/api/my-erp/get_tariff/5741',
+      tariffWithPlayers: '/api/my-erp/get_tariff_with_players/5741'
+    },
+    'Гринч': {
+      timetable: '/api/my-erp/timetable/5468.json',
+      book: '/api/my-erp/book/5468',
+      tariff: '/api/my-erp/get_tariff/5468',
+      tariffWithPlayers: '/api/my-erp/get_tariff_with_players/5468'
+    },
+    'Хоррор-вечер': {
+      timetable: '/api/my-erp/timetable/5808.json',
+      book: '/api/my-erp/book/5808',
+      tariff: '/api/my-erp/get_tariff/5808',
+      tariffWithPlayers: '/api/my-erp/get_tariff_with_players/5808'
+    }
   };
 
   const schedules = new Map();
