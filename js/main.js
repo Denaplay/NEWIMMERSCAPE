@@ -232,7 +232,8 @@ function createQuestCard(q) {
   `;
   const btn = card.querySelector('.btn-book-sm');
   btn.addEventListener('click', function(e) {
-    e.stopPropagation();
+    e.preventDefault();
+    e.stopImmediatePropagation();
     const name = this.dataset.questName;
     const desc = this.dataset.questDesc;
     const price = parseInt(this.dataset.questPrice);

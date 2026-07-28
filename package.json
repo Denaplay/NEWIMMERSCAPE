@@ -1,0 +1,8 @@
+{
+  "name": "immerscape-booking",
+  "private": true,
+  "scripts": {
+    "start": "node server.js",
+    "check": "node --check server.js && node --check js/quest-booking-api.js && node --check js/booking.js"
+  }
+}

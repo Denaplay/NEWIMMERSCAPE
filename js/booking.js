@@ -17,6 +17,15 @@ let promoApplied = false;
 let promoCode = 'квест10';
 let isWeekday = true;
 
+function selectedDateKey() {
+  if (!selectedDate) return '';
+  return `${selectedDate.getFullYear()}-${String(selectedDate.getMonth() + 1).padStart(2, '0')}-${String(selectedDate.getDate()).padStart(2, '0')}`;
+}
+
+function externalBookingApi() {
+  return window.QuestBookingApi || null;
+}
+
 // ============================================================
 // ===== ЭКРАНИРОВАНИЕ ДЛЯ HTML-АТРИБУТОВ =====
 // (защищает от поломки вёрстки, если в названии/описании есть кавычки —
@@ -337,6 +346,8 @@ function getMapUrl(location) {
 // ===== ПОЛУЧЕНИЕ ЦЕНЫ ПО ВРЕМЕНИ =====
 // ============================================================
 function getPriceByTime(questName, timeSlot) {
+  const apiPrice = externalBookingApi()?.getSlot(questName, selectedDateKey(), timeSlot)?.price;
+  if (apiPrice) return apiPrice;
   const quest = questsData.find(q => q.name === questName);
   if (!quest || !quest.prices) return quest ? quest.price : 0;
   
@@ -793,11 +804,18 @@ function updateTotalDisplay() {
 
 function openBooking(name, desc, price, isPackage) {
   if (!document.body.classList.contains('standalone-booking-page')) {
-    const params = new URLSearchParams({
+    const bookingSelection = {
       name: name || 'Квест',
       desc: desc || '',
-      price: String(price || 0),
-      package: isPackage ? '1' : '0'
+      price: Number(price) || 0,
+      isPackage: Boolean(isPackage)
+    };
+    sessionStorage.setItem('immerscapeBookingSelection', JSON.stringify(bookingSelection));
+    const params = new URLSearchParams({
+      name: bookingSelection.name,
+      desc: bookingSelection.desc,
+      price: String(bookingSelection.price),
+      package: bookingSelection.isPackage ? '1' : '0'
     });
     window.location.href = `booking.html?${params.toString()}`;
     return;
@@ -841,6 +859,16 @@ function openBooking(name, desc, price, isPackage) {
   selectedTime = null;
   
   renderCalendar(currentMonth, currentYear);
+
+  const api = externalBookingApi();
+  if (api?.getConfig(name)) {
+    api.load(name).then(() => {
+      if (currentBookingName !== name) return;
+      renderCalendar(currentMonth, currentYear);
+      generateTimeSlots(name);
+      updateTotalDisplay();
+    });
+  }
   
   bookingPlayersValue = (quest && quest.minPlayers) || 1;
   document.getElementById('bookingPlayersDisplay').textContent = String(bookingPlayersValue);
@@ -944,11 +972,14 @@ function initStandaloneBookingPage() {
   if (!document.body.classList.contains('standalone-booking-page')) return;
 
   const params = new URLSearchParams(window.location.search);
-  const name = params.get('name') || 'Невеста';
+  const storedSelection = JSON.parse(sessionStorage.getItem('immerscapeBookingSelection') || 'null');
+  const name = params.get('name') || storedSelection?.name || 'Невеста';
   const quest = questsData.find(q => q.name === name);
-  const desc = params.get('desc') || (quest ? 'Погрузитесь в атмосферу приключения!' : 'Погрузитесь в атмосферу приключения!');
-  const price = parseInt(params.get('price') || (quest ? quest.price : 5500), 10);
-  const isPackage = params.get('package') === '1' || getBookingType(name) === 'package';
+  const desc = params.get('desc') || storedSelection?.desc || 'Погрузитесь в атмосферу приключения!';
+  const price = parseInt(params.get('price') || storedSelection?.price || (quest ? quest.price : 5500), 10);
+  const isPackage = params.has('package')
+    ? params.get('package') === '1'
+    : Boolean(storedSelection?.isPackage) || getBookingType(name) === 'package';
 
   openBooking(name, desc, price, isPackage);
   const overlay = document.getElementById('bookingOverlay');
@@ -1102,6 +1133,12 @@ function renderCalendar(month, year) {
     if (cellDate < today) {
       cell.classList.add('disabled');
     }
+    const api = externalBookingApi();
+    const apiState = api?.getState(getCurrentQuestName());
+    const cellKey = `${year}-${String(month + 1).padStart(2, '0')}-${String(i).padStart(2, '0')}`;
+    if (apiState?.loaded && api.getSlots(getCurrentQuestName(), cellKey).length === 0) {
+      cell.classList.add('disabled');
+    }
     
     if (i === today.getDate() && month === today.getMonth() && year === today.getFullYear()) {
       cell.style.borderColor = '#7c4dff';
@@ -1160,9 +1197,24 @@ function generateTimeSlots(questName) {
   const grid = document.getElementById('timeGrid');
   if (!grid) return;
   grid.innerHTML = '';
+
+  const api = externalBookingApi();
+  const apiState = api?.getState(questName);
+  if (apiState?.loading) {
+    grid.innerHTML = '<div class="schedule-message">Загружаем актуальное расписание…</div>';
+    return;
+  }
+  if (apiState?.error) {
+    grid.innerHTML = `<div class="schedule-message schedule-message-error">${apiState.error}</div>`;
+  }
   
-  const times = questTimes[questName] || ['09:00', '10:15', '11:30', '12:45', '14:00', '15:15', '16:30', '17:45', '19:00', '20:15', '21:30'];
+  const apiSlots = apiState?.loaded ? api.getSlots(questName, selectedDateKey()) : null;
+  const times = apiSlots ? apiSlots.map(slot => slot.time) : (questTimes[questName] || ['09:00', '10:15', '11:30', '12:45', '14:00', '15:15', '16:30', '17:45', '19:00', '20:15', '21:30']);
   const busySlots = ['12:45', '14:00', '18:00', '20:15'];
+  if (apiState?.loaded && times.length === 0) {
+    grid.innerHTML = '<div class="schedule-message">На выбранную дату свободных сеансов нет.</div>';
+    return;
+  }
   
   const now = new Date();
   const currentHour = now.getHours();
@@ -1173,7 +1225,8 @@ function generateTimeSlots(questName) {
   sortedTimes.forEach(time => {
     const slot = document.createElement('div');
     slot.className = 'time-slot';
-    const isBusy = busySlots.includes(time);
+    const apiSlot = apiSlots?.find(item => item.time === time);
+    const isBusy = apiSlot ? !apiSlot.available : busySlots.includes(time);
     
     const [hour, minute] = time.split(':').map(Number);
     const isPast = (selectedDate && selectedDate.toDateString() === now.toDateString() &&
@@ -1182,7 +1235,7 @@ function generateTimeSlots(questName) {
     if (isBusy) slot.classList.add('busy');
     if (isPast && !isBusy) slot.classList.add('disabled');
     
-    const price = getPriceByTime(questName, time);
+    const price = apiSlot?.price || getPriceByTime(questName, time);
     const priceText = price ? ` ${price} ₽` : '';
     
     slot.innerHTML = `
@@ -1389,7 +1442,7 @@ function updateReceipt() {
 // ============================================================
 // ===== ПОДТВЕРЖДЕНИЕ БРОНИ =====
 // ============================================================
-function confirmBooking() {
+async function confirmBooking() {
   const name = document.getElementById('bookingName').value.trim();
   const phone = document.getElementById('bookingPhone').value.trim();
   if (!name || !phone) {
@@ -1401,6 +1454,28 @@ function confirmBooking() {
   const dateTime = document.getElementById('receiptDateTime').textContent;
   const players = document.getElementById('receiptPlayers').textContent;
   const total = document.getElementById('receiptTotal').textContent;
+
+  const api = externalBookingApi();
+  if (api?.getConfig(currentBookingName)) {
+    const button = document.querySelector('#receiptBox .btn-primary');
+    if (button) button.disabled = true;
+    try {
+      await api.book(currentBookingName, {
+        date: selectedDateKey(),
+        time: selectedTime || '',
+        name,
+        phone,
+        email: document.getElementById('bookingEmail')?.value.trim() || '',
+        players: String(bookingPlayersValue),
+        persons: String(bookingPlayersValue),
+        comment: document.getElementById('bookingComment')?.value.trim() || ''
+      });
+    } catch (error) {
+      showToast(`❌ Не удалось создать бронь: ${error.message}`, 5000);
+      if (button) button.disabled = false;
+      return;
+    }
+  }
   
   showToast(`✅ Бронирование подтверждено! ${questName} на ${dateTime} для ${players} чел. Итого: ${total}`);
   
