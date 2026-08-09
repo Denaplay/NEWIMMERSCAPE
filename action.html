@@ -353,12 +353,13 @@
         <a href="action.html" class="active">Экшен игры</a>
       </nav>
       <div class="header-right">
-        <span class="header-phone" id="phoneBtn" data-phone="+74951234567">+7 (495) 123-45-67</span>
+        <span class="header-phone" data-phone="+74951234567">+7 (495) 123-45-67</span>
         <div class="social-icons">
           <a href="#" title="WhatsApp">WA</a>
           <a href="#" title="Telegram">TG</a>
           <a href="#" title="VK">VK</a>
         </div>
+        <button class="account-button auth-trigger" type="button" onclick="window.openImmerscapeAuth?.()">Войти</button>
       </div>
     </div>
     <div class="glow-line"></div>
@@ -513,7 +514,10 @@
     </div>
   </footer>
   <script src="js/quest-booking-api.js"></script>
-  <script src="js/booking.js"></script>
+  <script src="js/booking.js?v=20260809-3"></script>
   <script src="js/main.js"></script>
+  <script src="js/supabase-auth-client.js"></script>
+  <script src="js/supabase-config.js"></script>
+  <script src="js/auth.js"></script>
 </body>
 </html>

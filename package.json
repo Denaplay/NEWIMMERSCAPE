@@ -3,6 +3,7 @@
   "private": true,
   "scripts": {
     "start": "node server.js",
-    "check": "node --check server.js && node --check js/quest-booking-api.js && node --check js/booking.js"
+    "check": "node --check server.js && node --check js/quest-booking-api.js && node --check js/booking.js && node --check js/supabase-config.js && node --check js/supabase-auth-client.js && node --check js/auth.js && node --check js/profile.js && node --check js/staff.js",
+    "test": "node --test tests/local-booking.test.js"
   }
 }

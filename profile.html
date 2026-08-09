@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Личный профиль · Immerscape</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/main.css">
+</head>
+<body>
+  <header class="header">
+    <div class="container">
+      <a href="index.html" class="logo">immerscape</a>
+      <nav class="nav"><a href="index.html">Квесты</a><a href="index.html#section-birthday">День рождения</a><a class="active" href="profile.html">Профиль</a></nav>
+      <div class="header-right"><span class="header-phone" data-phone="+74951234567">+7 (495) 123-45-67</span></div>
+    </div>
+  </header>
+
+  <main class="profile-page">
+    <div class="container">
+      <p id="profileLoading" class="profile-loading">Загружаем профиль…</p>
+      <section id="profileContent" class="profile-shell" hidden>
+        <aside class="profile-summary">
+          <div id="profileAvatar" class="profile-avatar">И</div>
+          <h1>Личный профиль</h1>
+          <p>Ваши данные и история приключений</p>
+          <div class="profile-visits"><strong id="profileVisits">0</strong><span>посещений квестов</span></div>
+          <div id="staffActions" class="staff-actions" hidden>
+            <a class="btn-primary" href="staff-bookings.html">Сетка броней</a>
+            <a id="staffClientsLink" class="btn-outline" href="staff-clients.html">Список клиентов</a>
+          </div>
+          <button id="profileLogout" class="btn-outline" type="button">Выйти из аккаунта</button>
+        </aside>
+        <div class="profile-details">
+          <h2>Информация об аккаунте</h2>
+          <form id="profileForm" class="profile-form">
+            <label>Имя и фамилия<input name="fullName" type="text" autocomplete="name" maxlength="100" required></label>
+            <label>Номер телефона<input name="phone" type="tel" readonly></label>
+            <label>Электронная почта<span id="profileEmail" class="profile-readonly">—</span></label>
+            <p id="profileMessage" class="profile-message" role="status"></p>
+            <button class="btn-primary" type="submit">Сохранить изменения</button>
+          </form>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <script src="js/supabase-auth-client.js"></script>
+  <script src="js/supabase-config.js"></script>
+  <script src="js/profile.js"></script>
+</body>
+</html>

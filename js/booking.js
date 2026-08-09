@@ -435,6 +435,22 @@ function showToast(msg, duration) {
   t._timer = setTimeout(() => t.classList.remove('show'), duration || 2800);
 }
 
+function openOfficialBookingWidget(url) {
+  let overlay = document.getElementById('officialBookingWidget');
+  if (!overlay) {
+    overlay = document.createElement('div');
+    overlay.id = 'officialBookingWidget';
+    overlay.className = 'official-booking-widget';
+    overlay.innerHTML = '<div class="official-widget-backdrop"></div><section><button type="button" aria-label="Закрыть">×</button><iframe title="Официальное бронирование my-ERP"></iframe></section>';
+    document.body.appendChild(overlay);
+    const close = () => overlay.hidden = true;
+    overlay.querySelector('button').addEventListener('click', close);
+    overlay.querySelector('.official-widget-backdrop').addEventListener('click', close);
+  }
+  overlay.querySelector('iframe').src = url;
+  overlay.hidden = false;
+}
+
 function formatMoney(amount) {
   return `${Math.round(Number(amount) || 0)} ₽`;
 }
@@ -1290,7 +1306,7 @@ function renderOptions(options) {
       <div class="option-price">${opt.price} ₽</div>
       <div style="font-size:0.7rem; color:#9288b0; margin-top:4px; max-width:100%; display:block; line-height:1.4; padding:4px 8px; background:rgba(124,77,255,0.05); border-radius:8px;" class="option-desc">${opt.desc}</div>
       <button class="option-desc-toggle" style="background:rgba(124,77,255,0.15); border:1px solid rgba(124,77,255,0.2); color:#b388ff; font-size:0.6rem; cursor:pointer; margin-top:4px; padding:4px 12px; border-radius:40px; font-weight:600; transition:0.2s;">Скрыть описание</button>
-      <input type="checkbox" class="option-checkbox" data-price="${opt.price}" data-name="${escapeAttr(opt.name)}" />
+      <input type="checkbox" class="option-checkbox" data-price="${opt.price}" data-name="${escapeAttr(opt.name)}" data-description="${escapeAttr(opt.desc || '')}" />
     `;
     
     const desc = card.querySelector('.option-desc');
@@ -1454,33 +1470,56 @@ async function confirmBooking() {
   const dateTime = document.getElementById('receiptDateTime').textContent;
   const players = document.getElementById('receiptPlayers').textContent;
   const total = document.getElementById('receiptTotal').textContent;
+  const email = document.getElementById('bookingEmail')?.value.trim() || '';
+  const clientComment = document.getElementById('bookingComment')?.value.trim() || '';
+  const selectedServices = Array.from(document.querySelectorAll('.option-checkbox:checked')).map(option => ({
+    name: option.dataset.name || '',
+    price: Number(option.dataset.price) || 0
+  }));
+  const servicesText = selectedServices.map(service => `${service.name} — ${service.price} ₽`).join('; ');
+  const integrationComment = clientComment;
 
-  const api = externalBookingApi();
-  if (api?.getConfig(currentBookingName)) {
-    const button = document.querySelector('#receiptBox .btn-primary');
-    if (button) button.disabled = true;
-    try {
-      await api.book(currentBookingName, {
-        date: selectedDateKey(),
-        time: selectedTime || '',
-        name,
-        phone,
-        email: document.getElementById('bookingEmail')?.value.trim() || '',
-        players: String(bookingPlayersValue),
-        persons: String(bookingPlayersValue),
-        comment: document.getElementById('bookingComment')?.value.trim() || ''
-      });
-    } catch (error) {
-      showToast(`❌ Не удалось создать бронь: ${error.message}`, 5000);
-      if (button) button.disabled = false;
-      return;
-    }
+  const button = document.querySelector('#receiptBox .btn-primary');
+  if (button) button.disabled = true;
+
+  // Бронь и карточка клиента создаются одной транзакцией только в Supabase.
+  // Расписание my-ERP по-прежнему доступно для просмотра, но новые брони туда не отправляются.
+  try {
+    const config = window.IMMERSCAPE_SUPABASE_CONFIG;
+    const staffClient = window.ImmerscapeSupabaseAuth?.createClient(config?.url, config?.publishableKey);
+    if (!staffClient) throw new Error('Локальная база бронирований недоступна. Обновите страницу и попробуйте снова.');
+    const { data: { session } } = staffClient ? await staffClient.auth.getSession() : { data: { session: null } };
+    const idempotencyKey = window.crypto?.randomUUID?.() || `${Date.now()}-${Math.random().toString(16).slice(2)}`;
+    const gridResult = await staffClient.staff.rpc('create_site_booking', {
+      p_idempotency_key: idempotencyKey,
+      p_booking: {
+        user_id: session?.user?.id || null,
+        quest_name: currentBookingName,
+        booking_date: selectedDateKey(),
+        booking_time: selectedTime || '00:00',
+        client_name: name,
+        client_phone: phone,
+        client_email: email || session?.user?.email || '',
+        players: bookingPlayersValue,
+        comment: integrationComment,
+        extra_services: servicesText,
+        total_amount: total
+      }
+    });
+    if (gridResult?.error) throw gridResult.error;
+    console.info('Локальная бронь и клиент созданы', { idempotencyKey, bookingId: gridResult.data });
+  } catch (error) {
+    console.error('Не удалось создать локальную бронь и клиента:', error);
+    showToast(`❌ Не удалось создать бронь: ${error.message}`, 5000);
+    if (button) button.disabled = false;
+    return;
   }
   
   showToast(`✅ Бронирование подтверждено! ${questName} на ${dateTime} для ${players} чел. Итого: ${total}`);
   
   setTimeout(() => {
     closeBooking();
+    if (button) button.disabled = false;
   }, 2000);
 }
 

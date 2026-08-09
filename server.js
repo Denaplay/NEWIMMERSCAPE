@@ -49,8 +49,11 @@ function proxyMyErp(request, response, pathname) {
 }
 
 function sendStaticFile(response, filePath) {
+  const extension = path.extname(filePath).toLowerCase();
   response.writeHead(200, {
-    'content-type': mimeTypes[path.extname(filePath).toLowerCase()] || 'application/octet-stream'
+    'content-type': mimeTypes[extension] || 'application/octet-stream',
+    // Не отдаём устаревшие HTML/JS/CSS после применения нового патча локально.
+    'cache-control': ['.html', '.js', '.css'].includes(extension) ? 'no-store' : 'public, max-age=3600'
   });
   fs.createReadStream(filePath).pipe(response);
 }
