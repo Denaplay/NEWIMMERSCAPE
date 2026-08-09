@@ -5,6 +5,7 @@ const fs = require('node:fs');
 const bookingSource = fs.readFileSync('js/booking.js', 'utf8');
 const schemaSource = fs.readFileSync('supabase/schema.sql', 'utf8');
 const staffSource = fs.readFileSync('js/staff.js', 'utf8');
+const { getUpstreamPath } = require('../netlify/functions/my-erp');
 
 test('confirmation does not send a booking to my-ERP', () => {
   const confirmation = bookingSource.slice(
@@ -38,6 +39,18 @@ test('ERP fallback slots, including Dentistry, always have editable booking data
   assert.match(staffSource, /booking: \{\}/);
   assert.match(staffSource, /const booking = \(isErp \? item\.booking : item\) \|\| \{\}/);
   assert.match(staffSource, /const key = `erp-\$\{questIndex\}-\$\{slotIndex\}`/);
+});
+
+test('Netlify proxy maps only supported my-ERP endpoints', () => {
+  assert.equal(
+    getUpstreamPath({ rawPath: '/.netlify/functions/my-erp/timetable/4893.json', rawQuery: '' }),
+    '/booking_api/timetable/4893.json'
+  );
+  assert.equal(
+    getUpstreamPath({ path: '/api/my-erp/get_tariff_with_players/4893', rawQuery: 'date=2026-08-09' }),
+    '/booking_api/get_tariff_with_players/4893?date=2026-08-09'
+  );
+  assert.equal(getUpstreamPath({ path: '/api/my-erp/../../admin' }), null);
 });
 
 test('database function atomically creates a new booking and client', () => {

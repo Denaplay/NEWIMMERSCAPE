@@ -1,5 +1,21 @@
 # Immerscape
 
+## Публикация на Netlify
+
+Сетка броней получает расписание my-ERP через адреса `/api/my-erp/*`. На Netlify
+их обслуживает функция `netlify/functions/my-erp.js`, а правило маршрутизации
+находится в `netlify.toml`. Поэтому для публикации нужно загружать весь репозиторий,
+включая папку `netlify` и файл `netlify.toml`, а не только HTML/CSS/JS-файлы.
+
+В настройках сайта Netlify укажите:
+
+- Build command — оставить пустым;
+- Publish directory — `.`;
+- Functions directory — `netlify/functions` (также задано в `netlify.toml`).
+
+После нового deploy адрес `/api/my-erp/timetable/4893.json` должен возвращать JSON,
+а не страницу Netlify `Page not found`.
+
 ## Локальный запуск
 
 Для интеграции с my-ERP сайт необходимо запускать через встроенный сервер-прокси:

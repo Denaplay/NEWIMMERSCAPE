@@ -1,0 +1,10 @@
+[build]
+  publish = "."
+  functions = "netlify/functions"
+
+[[redirects]]
+  from = "/api/my-erp/*"
+  to = "/.netlify/functions/my-erp/:splat"
+  status = 200
+  force = true
+
