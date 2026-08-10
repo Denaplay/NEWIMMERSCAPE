@@ -27,6 +27,8 @@
     const { data, error } = await client.staff.list('staff_clients', 'select=*&order=created_at.desc');
     if (error) return deny(error.message);
     status.hidden = true;
+    const clientCount = document.getElementById('clientCount');
+    if (clientCount) clientCount.textContent = String(data.length);
     const clientById = new Map(data.map(item => [String(item.id), item]));
     const extrasList = value => {
       const entries = String(value || '').split(';').map(entry => entry.trim().replace(/\s+\([^)]*\)\s*$/, '')).filter(Boolean);
@@ -57,6 +59,7 @@
   const calendar = document.getElementById('staffCalendar');
   if (calendar) {
     const month = document.getElementById('staffMonth');
+    const monthLabel = document.getElementById('staffMonthLabel');
     const grid = document.getElementById('staffBookingGrid');
     const infoModal = document.getElementById('bookingInfoModal');
     const infoContent = document.getElementById('bookingInfoContent');
@@ -71,6 +74,7 @@
 
     function renderMonth() {
       const [year, monthNumber] = month.value.split('-').map(Number);
+      if (monthLabel) monthLabel.textContent = new Date(year, monthNumber - 1, 1).toLocaleDateString('ru-RU', { month: 'long', year: 'numeric' });
       const days = new Date(year, monthNumber, 0).getDate();
       calendar.innerHTML = Array.from({ length: days }, (_, i) => `<button data-date="${month.value}-${String(i + 1).padStart(2, '0')}">${i + 1}</button>`).join('');
     }
@@ -118,7 +122,14 @@
       });
     }
 
-    month.addEventListener('change', renderMonth); renderMonth(); status.hidden = true;
+    month.addEventListener('change', renderMonth);
+    document.querySelectorAll('[data-month-step]').forEach(button => button.addEventListener('click', () => {
+      const [year, monthNumber] = month.value.split('-').map(Number);
+      const nextMonth = new Date(year, monthNumber - 1 + Number(button.dataset.monthStep), 1);
+      month.value = `${nextMonth.getFullYear()}-${String(nextMonth.getMonth() + 1).padStart(2, '0')}`;
+      renderMonth();
+    }));
+    renderMonth(); status.hidden = true;
     calendar.addEventListener('click', async event => {
       const date = event.target.dataset.date; if (!date) return;
       document.getElementById('staffSelectedDate').textContent = new Date(`${date}T12:00:00`).toLocaleDateString('ru-RU', { day: 'numeric', month: 'long', year: 'numeric' });
