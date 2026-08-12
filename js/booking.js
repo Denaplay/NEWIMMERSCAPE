@@ -605,22 +605,30 @@ function ensurePackagesCollapsible() {
       <span class="arrow" id="packagesArrow">▼</span>
     </div>
     <div class="collapsible-body" id="packagesBody">
-      <div class="package-mini" data-package="Пакет на 1 час" data-price="13500" data-oldprice="15500">
+      <div class="package-mini" data-package="Пакет на 1 час" data-price="12000" data-oldprice="15500">
         <span class="pkg-name">Пакет на 1 час</span>
-        <span class="pkg-price"><small>15 500 ₽</small> 13 500 ₽</span>
+        <span class="pkg-price"><small>15 500 ₽</small> 12000 ₽</span>
+        <button type="button" class="package-desc-toggle" aria-expanded="false">Состав пакета</button>
+        <div class="package-description"><ul><li>Квест на выбор</li><li>Дополнительный персонаж</li><li>Креативное поздравление</li><li>3 фотографии в обработке</li><li>Кресло режиссёра</li></ul></div>
       </div>
       <div class="package-mini" data-package="Пакет на 2 часа" data-price="23000" data-oldprice="32000">
         <span class="pkg-name">⭐ Пакет на 2 часа</span>
         <span class="pkg-price"><small>32 000 ₽</small> 23 000 ₽</span>
         <span class="pkg-badge">Популярный</span>
+        <button type="button" class="package-desc-toggle" aria-expanded="false">Состав пакета</button>
+        <div class="package-description"><ul><li>Всё из пакета на 1 час</li><li>Мастер-класс на выбор</li><li>Украшенный банкетный зал</li></ul></div>
       </div>
       <div class="package-mini" data-package="Пакет на 2.5 часа" data-price="34000" data-oldprice="53000">
         <span class="pkg-name">Пакет на 2.5 часа</span>
         <span class="pkg-price"><small>53 000 ₽</small> 34 000 ₽</span>
+        <button type="button" class="package-desc-toggle" aria-expanded="false">Состав пакета</button>
+        <div class="package-description"><ul><li>Всё из пакета на 2 часа</li><li>Настольная игра или мастер-класс</li><li>Личный менеджер</li><li>Шар желаний или пиньята</li></ul></div>
       </div>
       <div class="package-mini" data-package="Пакет на 3.5 часа" data-price="56000" data-oldprice="73500">
         <span class="pkg-name">Пакет на 3.5 часа</span>
         <span class="pkg-price"><small>73 500 ₽</small> 56 000 ₽</span>
+        <button type="button" class="package-desc-toggle" aria-expanded="false">Состав пакета</button>
+        <div class="package-description"><ul><li>Всё из пакета на 2.5 часа</li><li>Торт до 2 кг</li><li>Шоу-программа</li><li>Аквагрим</li></ul></div>
       </div>
     </div>
   `;
@@ -649,6 +657,17 @@ function initPackagesCollapsible() {
       const packagePrice = parseInt(this.dataset.price || 0, 10);
       selectReadyPackage(packageName, packagePrice, this);
     });
+
+    const descriptionToggle = item.querySelector('.package-desc-toggle');
+    const description = item.querySelector('.package-description');
+    if (descriptionToggle && description) {
+      descriptionToggle.addEventListener('click', function(event) {
+        event.stopPropagation();
+        const isOpen = description.classList.toggle('open');
+        this.setAttribute('aria-expanded', String(isOpen));
+        this.textContent = isOpen ? 'Скрыть состав' : 'Состав пакета';
+      });
+    }
   });
 }
 
@@ -679,17 +698,24 @@ function selectReadyPackage(packageName, packagePrice, activeItem) {
   if (packageQuestSelect) packageQuestSelect.style.display = 'block';
   if (packageChoice) packageChoice.value = '';
 
-  const optionsTitle = document.querySelector('.step-content[data-step="2"] h3');
-  if (optionsTitle) optionsTitle.textContent = '🎁 Опции для вашего пакета';
-
   document.querySelectorAll('.option-checkbox').forEach(cb => {
     cb.checked = false;
     cb.closest('.option-card')?.classList.remove('active');
   });
-  renderOptions(getOptionsByType('package'));
+  setPackageOptionsVisibility(false);
   updateBookingPhotos(packageName);
   updateTotalDisplay();
   updateReceipt();
+}
+
+function setPackageOptionsVisibility(visible) {
+  const optionsGrid = document.getElementById('optionsGrid');
+  const optionsTitle = document.querySelector('.step-content[data-step="2"] h3');
+  if (optionsGrid) {
+    optionsGrid.innerHTML = '';
+    optionsGrid.style.display = visible ? 'grid' : 'none';
+  }
+  if (optionsTitle) optionsTitle.style.display = visible ? 'block' : 'none';
 }
 
 // ============================================================
@@ -928,14 +954,7 @@ function openBooking(name, desc, price, isPackage) {
   }
   
   if (isPackageBookingNow) {
-    if (optionsGrid) {
-      optionsGrid.style.display = 'grid';
-      renderOptions(optionsForType);
-    }
-    if (optionsTitle) {
-      optionsTitle.textContent = '🎁 Опции для вашего пакета';
-      optionsTitle.style.display = 'block';
-    }
+    setPackageOptionsVisibility(false);
     if (packagesCollapsible) packagesCollapsible.style.display = 'none';
     if (packageQuestSelect) packageQuestSelect.style.display = 'block';
     
@@ -1667,10 +1686,10 @@ function bookCustomPackage() {
   const selected = document.querySelectorAll('.constructor-options .option-card.active');
   const items = Array.from(selected).map(el => el.dataset.name);
   const players = parseInt(document.getElementById('constructorPlayersDisplay').textContent) || 4;
-  const total = Array.from(selected).reduce((sum, el) => sum + parseInt(el.dataset.price), 0);
-  const finalTotal = Math.round(total * 0.9);
-  const name = `Свой пакет (${items.join(', ') || 'базовый'})`;
-  openBooking(name, `Персональный пакет для ${players} участников. Включено: ${items.join(', ') || 'базовый набор'}.`, finalTotal, true);
+  const optionsTotal = Array.from(selected).reduce((sum, el) => sum + parseInt(el.dataset.price), 0);
+  const finalTotal = 13500 + optionsTotal;
+  const name = `Свой пакет на 1 час${items.length ? ` (${items.join(', ')})` : ''}`;
+  openBooking(name, `Персональный пакет на 1 час для ${players} участников. Дополнения: ${items.join(', ') || 'без дополнений'}.`, finalTotal, true);
 }
 
 // ============================================================
@@ -1691,18 +1710,13 @@ function updateConstructor() {
   const container = document.getElementById('constructorItems');
   if (!container) return;
   
-  container.innerHTML = items.map(item =>
+  container.innerHTML = `<div class="preview-item"><span>Пакет на 1 час</span><span>12000 ₽</span></div>` + items.map(item =>
     `<div class="preview-item"><span>${item.name}</span><span>${item.price} ₽</span></div>`
   ).join('');
-  if (items.length === 0) {
-    container.innerHTML = `<div class="preview-item" style="color:#6f648a;">Выберите опции</div>`;
-  }
-  const total = items.reduce((sum, i) => sum + i.price, 0);
-  const discount = Math.round(total * 0.1);
-  const finalTotal = total - discount;
+  const total = 12000 + items.reduce((sum, i) => sum + i.price, 0);
   const totalEl = document.getElementById('constructorTotal');
   if (totalEl) {
-    totalEl.innerHTML = total > 0 ? `<small>${total} ₽</small> ${finalTotal} ₽ (скидка -10%)` : `0 ₽`;
+    totalEl.textContent = `${total.toLocaleString('ru-RU')} ₽`;
   }
 }
 
