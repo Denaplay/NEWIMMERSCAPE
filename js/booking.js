@@ -663,17 +663,24 @@ function selectReadyPackage(packageName, packagePrice, activeItem) {
   if (packageQuestSelect) packageQuestSelect.style.display = 'block';
   if (packageChoice) packageChoice.value = '';
 
-  const optionsTitle = document.querySelector('.step-content[data-step="2"] h3');
-  if (optionsTitle) optionsTitle.textContent = '🎁 Опции для вашего пакета';
-
   document.querySelectorAll('.option-checkbox').forEach(cb => {
     cb.checked = false;
     cb.closest('.option-card')?.classList.remove('active');
   });
-  renderOptions(getOptionsByType('package'));
+  setPackageOptionsVisibility(false);
   updateBookingPhotos(packageName);
   updateTotalDisplay();
   updateReceipt();
+}
+
+function setPackageOptionsVisibility(visible) {
+  const optionsGrid = document.getElementById('optionsGrid');
+  const optionsTitle = document.querySelector('.step-content[data-step="2"] h3');
+  if (optionsGrid) {
+    optionsGrid.innerHTML = '';
+    optionsGrid.style.display = visible ? 'grid' : 'none';
+  }
+  if (optionsTitle) optionsTitle.style.display = visible ? 'block' : 'none';
 }
 
 // ============================================================
@@ -912,14 +919,7 @@ function openBooking(name, desc, price, isPackage) {
   }
   
   if (isPackageBookingNow) {
-    if (optionsGrid) {
-      optionsGrid.style.display = 'grid';
-      renderOptions(optionsForType);
-    }
-    if (optionsTitle) {
-      optionsTitle.textContent = '🎁 Опции для вашего пакета';
-      optionsTitle.style.display = 'block';
-    }
+    setPackageOptionsVisibility(false);
     if (packagesCollapsible) packagesCollapsible.style.display = 'none';
     if (packageQuestSelect) packageQuestSelect.style.display = 'block';
     
@@ -1628,10 +1628,10 @@ function bookCustomPackage() {
   const selected = document.querySelectorAll('.constructor-options .option-card.active');
   const items = Array.from(selected).map(el => el.dataset.name);
   const players = parseInt(document.getElementById('constructorPlayersDisplay').textContent) || 4;
-  const total = Array.from(selected).reduce((sum, el) => sum + parseInt(el.dataset.price), 0);
-  const finalTotal = Math.round(total * 0.9);
-  const name = `Свой пакет (${items.join(', ') || 'базовый'})`;
-  openBooking(name, `Персональный пакет для ${players} участников. Включено: ${items.join(', ') || 'базовый набор'}.`, finalTotal, true);
+  const optionsTotal = Array.from(selected).reduce((sum, el) => sum + parseInt(el.dataset.price), 0);
+  const finalTotal = 13500 + optionsTotal;
+  const name = `Свой пакет на 1 час${items.length ? ` (${items.join(', ')})` : ''}`;
+  openBooking(name, `Персональный пакет на 1 час для ${players} участников. Дополнения: ${items.join(', ') || 'без дополнений'}.`, finalTotal, true);
 }
 
 // ============================================================
@@ -1652,18 +1652,13 @@ function updateConstructor() {
   const container = document.getElementById('constructorItems');
   if (!container) return;
   
-  container.innerHTML = items.map(item =>
+  container.innerHTML = `<div class="preview-item"><span>Пакет на 1 час</span><span>13 500 ₽</span></div>` + items.map(item =>
     `<div class="preview-item"><span>${item.name}</span><span>${item.price} ₽</span></div>`
   ).join('');
-  if (items.length === 0) {
-    container.innerHTML = `<div class="preview-item" style="color:#6f648a;">Выберите опции</div>`;
-  }
-  const total = items.reduce((sum, i) => sum + i.price, 0);
-  const discount = Math.round(total * 0.1);
-  const finalTotal = total - discount;
+  const total = 13500 + items.reduce((sum, i) => sum + i.price, 0);
   const totalEl = document.getElementById('constructorTotal');
   if (totalEl) {
-    totalEl.innerHTML = total > 0 ? `<small>${total} ₽</small> ${finalTotal} ₽ (скидка -10%)` : `0 ₽`;
+    totalEl.textContent = `${total.toLocaleString('ru-RU')} ₽`;
   }
 }
 

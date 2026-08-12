@@ -11,7 +11,7 @@ const quests = [
     time: '60 мин',
     players: '1–6',
     difficulty: '4/5',
-    desc: 'Интересные загадки · Страшный',
+    desc: 'Вы приходите в клинику на обычное обследование. Привычная стерильность, ровный свет, успокаивающий голос администратора. Но что-то не так.',
     price: 6500,
     oldPrice: 7990,
     image: 'imeges/stomatologiya/1.webp'
@@ -25,7 +25,7 @@ const quests = [
     time: '60 мин',
     players: '1–6',
     difficulty: '3/5',
-    desc: 'Путешествие по мультивселенной.',
+    desc: 'Мир снова на грани разрушения! В этот раз Рик Санчез, сумасшедший ученый, затеял опасный эксперимент, который пошел не так, как планировалось.',
     price: 6500,
     oldPrice: 7990,
     image: 'imeges/rick-and-morty/1.webp'
@@ -39,7 +39,7 @@ const quests = [
     time: '75 мин',
     players: '1–8',
     difficulty: '4/5',
-    desc: 'Расследуйте исчезновение кумира.',
+    desc: 'Поклонники, фанаты и даже продюсер Шин Юны в замешательстве. Накануне долгожданного концерта Юна сбегает к любимому в Китай — так утверждают новости и полиция.',
     price: 5500,
     oldPrice: 8500,
     image: 'imeges/k-pop/1.webp'
@@ -53,7 +53,7 @@ const quests = [
     time: '70 мин',
     players: '1–5',
     difficulty: '5/5',
-    desc: 'Таинственная комната с сюрпризами.',
+    desc: 'Взявшись за руки с тьмой, вы входите в заброшенный дом, где каждое эхо за вами напоминает о зловещих тайнах прошлого. Легенды гласят, что однажды за дверью этого места произошла трагедия.',
     price: 4990,
     oldPrice: 6990,
     image: 'imeges/zapretnaya-dver/IMG_6979.webp'
@@ -67,7 +67,7 @@ const quests = [
     time: '80 мин',
     players: '1–6',
     difficulty: '5/5',
-    desc: 'Погружение в тёмные лабиринты сознания.',
+    desc: 'Хокинс, 1986 год. Город до сих пор не оправился от событий в торговом центре «Старкорт», но тишина обманчива.',
     price: 5990,
     oldPrice: 7500,
     image: 'imeges/iznananka/Изнанка.webp'
@@ -81,7 +81,7 @@ const quests = [
     time: '60 мин',
     players: '1–6',
     difficulty: '4/5',
-    desc: 'Мистический хоррор с живым актёром.',
+    desc: 'В погоне за новой жизнью вы приобрели старинное поместье, овеянное романтичной легендой о великой любви.',
     price: 5500,
     oldPrice: 7500,
     image: 'imeges/nevesta/1.webp'
@@ -95,7 +95,7 @@ const quests = [
     time: '60 мин',
     players: '1–7',
     difficulty: '3/5',
-    desc: 'Магия и школа чародейства.',
+    desc: 'Вы получили приглашение на бал в Хогвартс, но празднику грозит опасность. Чтобы спасти волшебство, вы должны пройти квест по замку.',
     price: 5500,
     oldPrice: 7500,
     image: 'imeges/rozhdestvo-v-hogvartse/1.webp'
@@ -109,7 +109,7 @@ const quests = [
     time: '50 мин',
     players: '1–8',
     difficulty: '2/5',
-    desc: 'Сказочное приключение для малышей.',
+    desc: 'Вас приглашают в путешествие в самое сердце страны Лабубу! Когда-то здесь царили смех и веселье, но однажды король Лабубу пропал, а в замке появился волшебник, который вовсе не хочет, чтобы вы помогали отыскать короля…',
     price: 5500,
     oldPrice: 7500,
     image: 'imeges/labubu/1.webp'
@@ -123,7 +123,7 @@ const quests = [
     time: '70 мин',
     players: '1–6',
     difficulty: '5/5',
-    desc: 'Древний монастырь с мистическими тайнами.',
+    desc: '«Я боюсь. Я нас самих боюсь. Я хочу домой. Господи, как я хочу домой». Брат Иеремия — главный монах. Он обещает помочь покаяться и уже ждет в своей келье накануне вашего последнего дня. Его цель: уничтожить зло и освободить ваши души.',
     price: 5990,
     oldPrice: 7500,
     image: 'imeges/monastyr/1.webp'
@@ -151,7 +151,7 @@ const quests = [
     time: '60-90 мин',
     players: '1–8',
     difficulty: '4/5',
-    desc: 'Романтическое свидание с элементами хоррора.',
+    desc: 'Уникальное хоррор-свидание — адреналин и романтика! Вы просто пришли посмотреть кино... но что-то пошло не так.',
     price: 10000,
     oldPrice: 15000,
     image: 'imeges/horror-svidanie/1.webp'
@@ -165,7 +165,7 @@ const quests = [
     time: '60-90 мин',
     players: '1–8',
     difficulty: '4/5',
-    desc: 'Хоррор вечер для смелых пар.',
+    desc: 'Уникальный хоррор-вечер — адреналин и мистика! Вы просто пришли посмотреть кино... но что-то пошло не так.',
     price: 5500,
     oldPrice: 7500,
     image: 'imeges/horror-svidanie/2.webp'
@@ -179,7 +179,7 @@ const quests = [
     time: '60 мин',
     players: '6–10',
     difficulty: '4/5',
-    desc: 'Экшн-игра по мотивам популярной вселенной. Найдите предателя!',
+    desc: 'Вы — члены экипажа космического корабля. Но среди вас есть предатель! Вам предстоит выполнять задания, общаться, искать улики и вычислять самозванца.',
     price: 7990,
     oldPrice: 8990,
     image: 'imeges/amongus/1.webp'
@@ -204,8 +204,17 @@ function renderQuests() {
   filtered.forEach(q => grid.appendChild(createQuestCard(q)));
 }
 
+function getQuestCardDescription(description, maxLength = 90) {
+  const text = String(description || '').trim();
+  if (text.length <= maxLength) return text;
+  const shortened = text.slice(0, maxLength + 1);
+  const lastSpace = shortened.lastIndexOf(' ');
+  return `${shortened.slice(0, lastSpace > maxLength * 0.6 ? lastSpace : maxLength).trim()}…`;
+}
+
 function createQuestCard(q) {
   const card = document.createElement('div');
+  const discountPercent = q.oldPrice > q.price ? Math.round((1 - q.price / q.oldPrice) * 100) : 0;
   card.className = 'quest-card';
   card.innerHTML = `
 <div class="card-image" style="background-image: url('${q.image || ''}'); background-size: cover; background-position: center;">
@@ -223,10 +232,14 @@ function createQuestCard(q) {
         <span>⚡ ${q.difficulty}</span>
         <span>🎂 ${q.age}</span>
       </div>
-      <div class="card-desc">${q.desc}</div>
+      <div class="card-desc">${getQuestCardDescription(q.desc)}</div>
     </div>
     <div class="card-footer">
-      <span class="price">от ${q.price} ₽ <small>${q.oldPrice} ₽</small></span>
+      <div class="card-price-block">
+        <span class="price-label">Цена от</span>
+        <span class="price">${Number(q.price).toLocaleString('ru-RU')} ₽</span>
+        ${discountPercent ? `<span class="old-price">${Number(q.oldPrice).toLocaleString('ru-RU')} ₽</span><span class="discount-badge">−${discountPercent}%</span>` : ''}
+      </div>
       <button class="btn-book-sm" data-quest-name="${escapeAttr(q.name)}" data-quest-desc="${escapeAttr(q.desc)}" data-quest-price="${q.price}">Забронировать</button>
     </div>
   `;

@@ -1467,6 +1467,10 @@ body.page-transition {
   gap: 3px;
 }
 .quest-card .card-body .card-desc {
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
   font-size: 0.65rem;
   color: #bdb4d4;
   margin-bottom: 6px;
@@ -1485,45 +1489,49 @@ body.page-transition {
   }
 }
 .quest-card .card-footer {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
   padding: 8px 12px 12px;
   border-top: 1px solid #1f1a2e;
+  gap: 8px;
 }
 @media (min-width: 768px) {
   .quest-card .card-footer {
     padding: 12px 18px 16px;
   }
 }
+.quest-card .card-price-block { display: flex; flex-wrap: wrap; align-items: baseline; gap: 3px 8px; min-width: 0; }
+.quest-card .price-label { flex-basis: 100%; color: #9288b0; font-size: 0.65rem; font-weight: 600; }
 .quest-card .card-footer .price {
-  font-size: 1.1rem;
+  white-space: nowrap;
+  font-size: 0.95rem;
   font-weight: 800;
   color: #fff;
 }
 @media (min-width: 480px) {
   .quest-card .card-footer .price {
-    font-size: 1.3rem;
+    font-size: 1.05rem;
   }
 }
 @media (min-width: 768px) {
   .quest-card .card-footer .price {
-    font-size: 1.5rem;
+    font-size: 1.15rem;
   }
 }
-.quest-card .card-footer .price small {
-  font-size: 0.6rem;
+.quest-card .card-footer .old-price {
+  white-space: nowrap;
+  font-size: 0.65rem;
   font-weight: 400;
   color: #7a6e96;
   text-decoration: line-through;
-  margin-left: 4px;
 }
 @media (min-width: 768px) {
-  .quest-card .card-footer .price small {
-    font-size: 0.8rem;
-    margin-left: 8px;
+  .quest-card .card-footer .old-price {
+    font-size: 0.75rem;
   }
 }
+.quest-card .discount-badge { padding: 2px 6px; border-radius: 4px; background: rgba(76, 175, 80, 0.16); color: #7ee787; font-size: 0.65rem; font-weight: 800; white-space: nowrap; }
+.quest-card .card-footer .btn-book-sm { width: 100%; min-height: 34px; }
 .btn-book-sm {
   background: #7c4dff;
   border: none;
@@ -1763,6 +1771,10 @@ body.page-transition {
   flex-direction: column;
   gap: 6px;
 }
+.constructor-base { display: grid; grid-template-columns: 1fr auto; gap: 4px 12px; align-items: center; padding: 14px 16px; border: 1px solid #7c4dff; border-radius: 12px; background: rgba(124, 77, 255, 0.1); color: #fff; }
+.constructor-base-label { grid-column: 1 / -1; color: #9288b0; font-size: 0.72rem; }
+.constructor-base .price-tag { color: #b388ff; font-weight: 700; white-space: nowrap; }
+.constructor-options-title { margin: 8px 2px 2px; color: #9288b0; font-size: 0.78rem; font-weight: 600; }
 @media (min-width: 768px) {
   .constructor-options {
     gap: 10px;
