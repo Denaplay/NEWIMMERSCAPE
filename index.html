@@ -6,64 +6,8 @@
   <title>Immerscape · Квесты в реальности</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800;14..32,900&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="css/main.css" />
-  <style>
-    .hero-promo {
-      background: linear-gradient(135deg, #151121, #1f1830);
-      padding: 18px 24px;
-      border: 1px solid rgba(124, 77, 255, 0.15);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-wrap: wrap;
-      gap: 14px 20px;
-      width: 100%;
-      text-align: center;
-      box-sizing: border-box;
-      margin-top: 12px;
-      border-radius: 16px;
-      min-height: 80px;
-    }
-    @media (min-width: 768px) {
-      .hero-promo {
-        padding: 24px 32px;
-        gap: 18px 28px;
-        border-radius: 20px;
-        margin-top: 16px;
-        min-height: 100px;
-      }
-    }
-    .hero-promo .promo-icon { font-size: 1.8rem; flex-shrink: 0; }
-    @media (min-width: 768px) { .hero-promo .promo-icon { font-size: 2.4rem; } }
-    .hero-promo .promo-text { font-size: 0.95rem; color: #d4c8f0; font-weight: 500; }
-    @media (min-width: 480px) { .hero-promo .promo-text { font-size: 1.05rem; } }
-    @media (min-width: 768px) { .hero-promo .promo-text { font-size: 1.2rem; } }
-    .hero-promo .promo-text strong { color: #fff; font-weight: 800; }
-    .hero-promo .promo-text .highlight { color: #b388ff; font-weight: 700; }
-    .hero-promo .promo-btn {
-      background: #7c4dff;
-      border: none;
-      padding: 10px 28px;
-      border-radius: 60px;
-      font-weight: 700;
-      font-size: 0.85rem;
-      color: #fff;
-      cursor: pointer;
-      transition: 0.2s;
-      white-space: nowrap;
-      flex-shrink: 0;
-    }
-    @media (min-width: 768px) {
-      .hero-promo .promo-btn { padding: 12px 36px; font-size: 1rem; }
-    }
-    .hero-promo .promo-btn:hover {
-      background: #966aff;
-      transform: scale(1.03);
-      box-shadow: 0 4px 30px rgba(124, 77, 255, 0.3);
-    }
-    .nav a[href="#section-birthday"] { cursor: pointer; }
-  </style>
 </head>
 <body>
 
@@ -71,97 +15,49 @@
   <div id="toast" class="toast">✓ Готово!</div>
 
   <!-- ===== HEADER ===== -->
-  <header class="header" id="mainHeader">
+  <header class="header neo-header" id="mainHeader">
     <div class="container">
-      <a href="#top" class="logo" id="logoLink">immerscape</a>
+      <a href="#top" class="logo" id="logoLink"><span>immerscape</span><i>EST. 2026</i></a>
       <nav class="nav">
-        <a class="active" href="#section-quests">Квесты</a>
-        <a href="#section-birthday" id="birthdayNavLink">День рождения под ключ</a>
-        <a href="events.html">Выездные мероприятия</a>
-        <a href="action.html">Экшен игры</a>
+        <a class="active" href="#section-quests"><em>01</em> Квесты</a>
+        <a href="#section-birthday" id="birthdayNavLink"><em>02</em> Праздники</a>
+        <a href="events.html"><em>03</em> Выезды</a>
+        <a href="action.html"><em>04</em> Экшен</a>
       </nav>
       <div class="header-right">
         <span class="header-phone" data-phone="+74951234567">+7 (495) 123-45-67</span>
-        <div class="social-icons">
-          <a href="#" title="WhatsApp">WA</a>
-          <a href="#" title="Telegram">TG</a>
-          <a href="#" title="VK">VK</a>
-        </div>
-        <button class="account-button auth-trigger" type="button" onclick="window.openImmerscapeAuth?.()">Войти</button>
+        <button class="account-button auth-trigger" type="button" onclick="window.openImmerscapeAuth?.()">Профиль</button>
       </div>
     </div>
     <div class="glow-line" id="glowLine"></div>
   </header>
 
   <!-- ===== HERO ===== -->
-  <section class="hero" id="top">
+  <section class="hero neo-hero" id="top">
+    <div class="hero-gridlines" aria-hidden="true"></div>
+    <div class="hero-orbit" aria-hidden="true"><span></span><span></span><span></span></div>
+    <div class="hero-object" id="heroObject" aria-hidden="true">
+      <div class="hero-object-image" style="background-image:url('imeges/nevesta/1.webp');"></div>
+      <div class="hero-object-frame"></div>
+      <div class="object-scan"></div>
+    </div>
     <div class="container hero-grid">
       <div class="hero-content">
-        <h1>Создаём атмосферные <span>квесты</span> в Москве</h1>
-        <div class="sub">Проводим яркие праздники, наполненные незабываемыми эмоциями для детей и подростков.</div>
-        <div class="hero-offers">
-          <a href="#section-birthday" class="hero-offer">🎂 День рождения под ключ</a>
-          <a href="events.html" class="hero-offer green">🚐 Выездные мероприятия</a>
-          <a href="action.html" class="hero-offer orange">⚡ Экшен игры</a>
+        <div class="eyebrow"><i></i> IMMERSIVE QUEST SYSTEM / MOSCOW</div>
+        <h1><span>Войди</span><strong>В ИСТОРИЮ</strong></h1>
+        <p class="sub">Квесты, где привычная реальность остаётся за дверью. Живые актёры, сценарии и праздники, которые нельзя пересказать.</p>
+        <div class="hero-actions">
+          <a href="#section-quests" class="hero-cta">Выбрать квест <b>→</b></a>
+          <a href="#section-birthday" class="hero-text-link">Собрать праздник <b>↗</b></a>
         </div>
       </div>
-      <div class="hero-right">
-        <div class="hero-photo-card" id="heroPhotoCard">
-          <div class="photo-slide active">
-            <div class="slide-bg" style="background-image:url('imeges/nevesta/1.webp');"></div>
-            <div class="slide-content">
-              <h3>«Невеста»</h3>
-              <p>Мистический хоррор с живым актёром</p>
-              <span class="slide-tag">Страшный · Интерактив</span>
-            </div>
-          </div>
-          <div class="photo-slide">
-            <div class="slide-bg" style="background-image:url('imeges/rozhdestvo-v-hogvartse/1.webp');"></div>
-            <div class="slide-content">
-              <h3>«Хогвартс»</h3>
-              <p>Магия и волшебство для всей семьи</p>
-              <span class="slide-tag">Фэнтези · Для детей</span>
-            </div>
-          </div>
-          <div class="photo-slide">
-            <div class="slide-bg" style="background-image:url('imeges/rick-and-morty/1.webp');"></div>
-            <div class="slide-content">
-              <h3>«Рик и Морти»</h3>
-              <p>Путешествие по мультивселенной</p>
-              <span class="slide-tag">Приключения · Семейный</span>
-            </div>
-          </div>
-          <div class="photo-slide">
-            <div class="slide-bg" style="background-image:url('imeges/k-pop/1.webp');"></div>
-            <div class="slide-content">
-              <h3>«K-pop: последний стрим»</h3>
-              <p>Расследование в мире K-pop</p>
-              <span class="slide-tag">Детектив · Подростки</span>
-            </div>
-          </div>
-          <div class="photo-slide">
-            <div class="slide-bg" style="background-image:url('imeges/birthday/1.webp');"></div>
-            <div class="slide-content">
-              <h3>Детский праздник</h3>
-              <p>Счастливые лица и яркие эмоции</p>
-              <span class="slide-tag">Анимация · Для детей</span>
-            </div>
-          </div>
-          <div class="photo-arrows">
-            <button class="hero-photo-prev">‹</button>
-            <button class="hero-photo-next">›</button>
-          </div>
-          <div class="photo-dots" id="heroPhotoDots">
-            <button class="photo-dot active" data-index="0"></button>
-            <button class="photo-dot" data-index="1"></button>
-            <button class="photo-dot" data-index="2"></button>
-            <button class="photo-dot" data-index="3"></button>
-            <button class="photo-dot" data-index="4"></button>
-          </div>
-        </div>
+      <div class="hero-status">
+        <span>01 / 04</span><span>LIVE SCENE</span><span class="status-live"><i></i> ONLINE</span>
       </div>
     </div>
-
+    <div class="hero-bottom container">
+      <span>SCROLL TO ENTER</span><i></i><span>СЦЕНАРИИ ДЛЯ ДЕТЕЙ, ПОДРОСТКОВ И ВЗРОСЛЫХ</span>
+    </div>
   </section>
 
   <!-- ===== АТМОСФЕРА ===== -->

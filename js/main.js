@@ -619,3 +619,21 @@ function showCopyTooltip(btn, message) {
     }, 300);
   }, 2000);
 }
+
+// ===== NEO-NOIR HERO INTERACTION =====
+document.addEventListener('DOMContentLoaded', function() {
+  const hero = document.querySelector('.neo-hero');
+  const object = document.getElementById('heroObject');
+  if (!hero || !object || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  hero.addEventListener('pointermove', function(event) {
+    const rect = hero.getBoundingClientRect();
+    const x = (event.clientX - rect.left) / rect.width - 0.5;
+    const y = (event.clientY - rect.top) / rect.height - 0.5;
+    object.style.transform = `translate3d(${x * -14}px, ${y * -10}px, 0)`;
+  });
+
+  hero.addEventListener('pointerleave', function() {
+    object.style.transform = '';
+  });
+});
