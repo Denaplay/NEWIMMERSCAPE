@@ -6,7 +6,7 @@ const bookingSource = fs.readFileSync('js/booking.js', 'utf8');
 const schemaSource = fs.readFileSync('supabase/schema.sql', 'utf8');
 const staffSource = fs.readFileSync('js/staff.js', 'utf8');
 const { getUpstreamPath } = require('../netlify/functions/my-erp');
-const { formatBookingMessage } = require('../netlify/functions/telegram-booking');
+const { formatBookingMessage, cleanEnvironmentValue } = require('../netlify/functions/telegram-booking');
 
 test('confirmation does not send a booking to my-ERP', () => {
   const confirmation = bookingSource.slice(
@@ -104,4 +104,10 @@ test('Telegram message contains complete booking details and escapes HTML', () =
   assert.match(message, /Итого:<\/b> 6500 ₽/);
   assert.match(message, /&lt;Квест&gt;/);
   assert.doesNotMatch(message, /<Квест>/);
+});
+
+test('Telegram environment values tolerate whitespace and accidental quotes', () => {
+  assert.equal(cleanEnvironmentValue('  123:token  '), '123:token');
+  assert.equal(cleanEnvironmentValue('"123:token"'), '123:token');
+  assert.equal(cleanEnvironmentValue(" '-100123' "), '-100123');
 });

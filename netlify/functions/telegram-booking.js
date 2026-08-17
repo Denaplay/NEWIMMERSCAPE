@@ -16,6 +16,15 @@ function clean(value, maxLength = 500) {
   return String(value == null ? '' : value).trim().slice(0, maxLength);
 }
 
+function cleanEnvironmentValue(value) {
+  const trimmed = String(value == null ? '' : value).trim();
+  const quote = trimmed[0];
+  if ((quote === '"' || quote === "'") && trimmed.endsWith(quote)) {
+    return trimmed.slice(1, -1).trim();
+  }
+  return trimmed;
+}
+
 function escapeHtml(value) {
   return clean(value)
     .replace(/&/g, '&amp;')
@@ -86,11 +95,19 @@ exports.handler = async function handler(event) {
     return jsonResponse(400, { error: 'Missing required booking fields' });
   }
 
-  const botToken = process.env.TELEGRAM_BOT_TOKEN;
-  const chatId = process.env.TELEGRAM_CHAT_ID;
+  const botToken = cleanEnvironmentValue(process.env.TELEGRAM_BOT_TOKEN);
+  const chatId = cleanEnvironmentValue(process.env.TELEGRAM_CHAT_ID);
   if (!botToken || !chatId) {
     console.error('Telegram booking notification is not configured');
     return jsonResponse(503, { error: 'Telegram is not configured' });
+  }
+
+  if (!/^\d+:[A-Za-z0-9_-]+$/.test(botToken)) {
+    console.error('Telegram bot token has an invalid format', {
+      botId: botToken.split(':')[0] || 'missing',
+      tokenLength: botToken.length
+    });
+    return jsonResponse(503, { error: 'Telegram token has an invalid format' });
   }
 
   try {
@@ -111,9 +128,14 @@ exports.handler = async function handler(event) {
     }
     return jsonResponse(200, { sent: true });
   } catch (error) {
-    console.error('Telegram booking notification failed:', error?.message || error);
+    console.error('Telegram booking notification failed:', error?.message || error, {
+      botId: botToken.split(':')[0],
+      tokenLength: botToken.length,
+      chatId
+    });
     return jsonResponse(502, { error: 'Telegram notification failed' });
   }
 };
 
 exports.formatBookingMessage = formatBookingMessage;
+exports.cleanEnvironmentValue = cleanEnvironmentValue;
