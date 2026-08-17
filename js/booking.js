@@ -1572,8 +1572,6 @@ async function confirmBooking() {
       comment: clientComment,
       promoCode: promoApplied ? promoCode : '',
       basePrice: formatMoney(totals.basePrice),
-      extraPlayerCost: formatMoney(totals.extraPlayerCost),
-      subtotal: formatMoney(totals.subtotal),
       discount: totals.discount > 0 ? `-${formatMoney(totals.discount)}` : '',
       deposit: formatMoney(totals.deposit),
       total

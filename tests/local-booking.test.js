@@ -93,15 +93,15 @@ test('Telegram message contains complete booking details and escapes HTML', () =
     comment: 'Позвонить',
     promoCode: 'квест10',
     basePrice: '6000 ₽',
-    extraPlayerCost: '500 ₽',
-    subtotal: '7000 ₽',
     discount: '-500 ₽',
     deposit: '1500 ₽',
     total: '6500 ₽'
   });
-  assert.match(message, /ID брони:<\/b> 42/);
-  assert.match(message, /Предоплата:<\/b> 1500 ₽/);
-  assert.match(message, /Итого:<\/b> 6500 ₽/);
+  assert.match(message, /^<b>💥НОВАЯ БРОНЬ🛐<\/b>/);
+  assert.match(message, /<b>Дата: 2026-08-20<\/b>/);
+  assert.match(message, /<b>Предоплата: 1500 ₽<\/b>/);
+  assert.match(message, /<b>Сколько взять: <tg-spoiler>6500 ₽<\/tg-spoiler><\/b>/);
+  assert.doesNotMatch(message, /ID брони|Локация|Адрес|Сумма до скидки|Доплата за игроков/);
   assert.match(message, /&lt;Квест&gt;/);
   assert.doesNotMatch(message, /<Квест>/);
 });

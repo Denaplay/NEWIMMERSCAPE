@@ -33,17 +33,18 @@ function escapeHtml(value) {
 }
 
 function addLine(lines, label, value, fallback = '—') {
-  lines.push(`<b>${label}:</b> ${escapeHtml(value) || fallback}`);
+  lines.push(`<b>${label}: ${escapeHtml(value) || fallback}</b>`);
+}
+
+function addSpoilerLine(lines, label, value, fallback = '—') {
+  lines.push(`<b>${label}: <tg-spoiler>${escapeHtml(value) || fallback}</tg-spoiler></b>`);
 }
 
 function formatBookingMessage(booking) {
-  const lines = ['<b>🟣 Новая бронь · Профсоюзная</b>', ''];
+  const lines = ['<b>💥НОВАЯ БРОНЬ🛐</b>', ''];
 
-  addLine(lines, 'ID брони', booking.bookingId);
   addLine(lines, 'Квест / пакет', booking.bookingName);
   if (booking.packageQuest) addLine(lines, 'Квест в пакете', booking.packageQuest);
-  addLine(lines, 'Локация', booking.location);
-  addLine(lines, 'Адрес', booking.address);
   addLine(lines, 'Дата', booking.date);
   addLine(lines, 'Время', booking.time);
   addLine(lines, 'Игроков', booking.players);
@@ -57,11 +58,9 @@ function formatBookingMessage(booking) {
   addLine(lines, 'Комментарий', booking.comment);
   addLine(lines, 'Промокод', booking.promoCode);
   addLine(lines, 'Базовая цена', booking.basePrice);
-  addLine(lines, 'Доплата за игроков', booking.extraPlayerCost);
-  addLine(lines, 'Сумма до скидки', booking.subtotal);
   addLine(lines, 'Скидка', booking.discount);
   addLine(lines, 'Предоплата', booking.deposit);
-  addLine(lines, 'Итого', booking.total);
+  addSpoilerLine(lines, 'Сколько взять', booking.total);
 
   return lines.join('\n');
 }
