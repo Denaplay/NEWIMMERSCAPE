@@ -6,6 +6,7 @@ const bookingSource = fs.readFileSync('js/booking.js', 'utf8');
 const schemaSource = fs.readFileSync('supabase/schema.sql', 'utf8');
 const staffSource = fs.readFileSync('js/staff.js', 'utf8');
 const { getUpstreamPath } = require('../netlify/functions/my-erp');
+const { formatBookingMessage } = require('../netlify/functions/telegram-booking');
 
 test('confirmation does not send a booking to my-ERP', () => {
   const confirmation = bookingSource.slice(
@@ -63,4 +64,44 @@ test('database function atomically creates a new booking and client', () => {
   assert.doesNotMatch(schemaSource, /declare\s+booking_id bigint/);
   assert.match(schemaSource, /on conflict on constraint staff_clients_booking_id_key/);
   assert.match(schemaSource, /set comment = booking\.comment/);
+});
+
+test('Profsoyuznaya bookings notify Telegram only after database success', () => {
+  const confirmation = bookingSource.slice(
+    bookingSource.indexOf('async function confirmBooking()'),
+    bookingSource.indexOf('// ===== ИНИЦИАЛИЗАЦИЯ =====')
+  );
+  assert.match(bookingSource, /booking\.location !== 'м\. Профсоюзная'/);
+  assert.ok(confirmation.indexOf('await notifyTelegramAboutBooking') > confirmation.indexOf("staff.rpc('create_site_booking'"));
+});
+
+test('Telegram message contains complete booking details and escapes HTML', () => {
+  const message = formatBookingMessage({
+    bookingId: 42,
+    bookingName: '<Квест>',
+    packageQuest: 'Рик и Морти',
+    location: 'м. Профсоюзная',
+    address: 'ул. Кржижановского, 8',
+    date: '2026-08-20',
+    time: '18:00',
+    players: 4,
+    clientName: 'Иван',
+    clientPhone: '+79990000000',
+    clientEmail: 'ivan@example.com',
+    contactMethod: 'Telegram',
+    extraServices: 'Актёр — 1000 ₽',
+    comment: 'Позвонить',
+    promoCode: 'квест10',
+    basePrice: '6000 ₽',
+    extraPlayerCost: '500 ₽',
+    subtotal: '7000 ₽',
+    discount: '-500 ₽',
+    deposit: '1500 ₽',
+    total: '6500 ₽'
+  });
+  assert.match(message, /ID брони:<\/b> 42/);
+  assert.match(message, /Предоплата:<\/b> 1500 ₽/);
+  assert.match(message, /Итого:<\/b> 6500 ₽/);
+  assert.match(message, /&lt;Квест&gt;/);
+  assert.doesNotMatch(message, /<Квест>/);
 });

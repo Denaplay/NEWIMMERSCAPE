@@ -8,3 +8,8 @@
   status = 200
   force = true
 
+[[redirects]]
+  from = "/api/telegram-booking"
+  to = "/.netlify/functions/telegram-booking"
+  status = 200
+  force = true
