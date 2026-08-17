@@ -475,7 +475,12 @@ function getCurrentBookingLocation() {
 }
 
 async function notifyTelegramAboutBooking(booking) {
-  if (booking.location !== 'м. Профсоюзная') return;
+  const notificationLocations = new Set([
+    'м. Профсоюзная',
+    'м. Измайловская',
+    'м. Таганская'
+  ]);
+  if (!notificationLocations.has(booking.location)) return;
 
   try {
     const response = await fetch('/api/telegram-booking', {

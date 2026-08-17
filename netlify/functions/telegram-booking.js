@@ -1,5 +1,9 @@
 const TELEGRAM_API_ORIGIN = 'https://api.telegram.org';
-const PROFSOYUZNAYA_LOCATION = 'м. Профсоюзная';
+const CHAT_ENV_BY_LOCATION = Object.freeze({
+  'м. Профсоюзная': 'TELEGRAM_CHAT_ID_PROFSOYUZNAYA',
+  'м. Измайловская': 'TELEGRAM_CHAT_ID_IZMAYLOVSKAYA',
+  'м. Таганская': 'TELEGRAM_CHAT_ID_TAGANSKAYA'
+});
 
 function jsonResponse(statusCode, body) {
   return {
@@ -23,6 +27,18 @@ function cleanEnvironmentValue(value) {
     return trimmed.slice(1, -1).trim();
   }
   return trimmed;
+}
+
+function getChatIdForLocation(location, environment = process.env) {
+  const environmentKey = CHAT_ENV_BY_LOCATION[clean(location, 100)];
+  if (!environmentKey) return '';
+
+  // Keep the original variable working for the already configured
+  // Profsoyuznaya chat while allowing an explicit per-location name.
+  const fallback = environmentKey === 'TELEGRAM_CHAT_ID_PROFSOYUZNAYA'
+    ? environment.TELEGRAM_CHAT_ID
+    : '';
+  return cleanEnvironmentValue(environment[environmentKey] || fallback);
 }
 
 function escapeHtml(value) {
@@ -85,7 +101,7 @@ exports.handler = async function handler(event) {
     return jsonResponse(400, { error: 'Invalid JSON' });
   }
 
-  if (!booking || clean(booking.location, 100) !== PROFSOYUZNAYA_LOCATION) {
+  if (!booking || !CHAT_ENV_BY_LOCATION[clean(booking.location, 100)]) {
     return jsonResponse(200, { skipped: true });
   }
 
@@ -95,9 +111,12 @@ exports.handler = async function handler(event) {
   }
 
   const botToken = cleanEnvironmentValue(process.env.TELEGRAM_BOT_TOKEN);
-  const chatId = cleanEnvironmentValue(process.env.TELEGRAM_CHAT_ID);
+  const chatId = getChatIdForLocation(booking.location);
   if (!botToken || !chatId) {
-    console.error('Telegram booking notification is not configured');
+    console.error('Telegram booking notification is not configured', {
+      location: clean(booking.location, 100),
+      chatEnvironmentKey: CHAT_ENV_BY_LOCATION[clean(booking.location, 100)]
+    });
     return jsonResponse(503, { error: 'Telegram is not configured' });
   }
 
@@ -138,3 +157,4 @@ exports.handler = async function handler(event) {
 
 exports.formatBookingMessage = formatBookingMessage;
 exports.cleanEnvironmentValue = cleanEnvironmentValue;
+exports.getChatIdForLocation = getChatIdForLocation;

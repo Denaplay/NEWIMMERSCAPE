@@ -6,7 +6,11 @@ const bookingSource = fs.readFileSync('js/booking.js', 'utf8');
 const schemaSource = fs.readFileSync('supabase/schema.sql', 'utf8');
 const staffSource = fs.readFileSync('js/staff.js', 'utf8');
 const { getUpstreamPath } = require('../netlify/functions/my-erp');
-const { formatBookingMessage, cleanEnvironmentValue } = require('../netlify/functions/telegram-booking');
+const {
+  formatBookingMessage,
+  cleanEnvironmentValue,
+  getChatIdForLocation
+} = require('../netlify/functions/telegram-booking');
 
 test('confirmation does not send a booking to my-ERP', () => {
   const confirmation = bookingSource.slice(
@@ -66,12 +70,15 @@ test('database function atomically creates a new booking and client', () => {
   assert.match(schemaSource, /set comment = booking\.comment/);
 });
 
-test('Profsoyuznaya bookings notify Telegram only after database success', () => {
+test('supported location bookings notify Telegram only after database success', () => {
   const confirmation = bookingSource.slice(
     bookingSource.indexOf('async function confirmBooking()'),
     bookingSource.indexOf('// ===== ИНИЦИАЛИЗАЦИЯ =====')
   );
-  assert.match(bookingSource, /booking\.location !== 'м\. Профсоюзная'/);
+  assert.match(bookingSource, /notificationLocations\.has\(booking\.location\)/);
+  assert.match(bookingSource, /м\. Профсоюзная/);
+  assert.match(bookingSource, /м\. Измайловская/);
+  assert.match(bookingSource, /м\. Таганская/);
   assert.ok(confirmation.indexOf('await notifyTelegramAboutBooking') > confirmation.indexOf("staff.rpc('create_site_booking'"));
 });
 
@@ -110,4 +117,16 @@ test('Telegram environment values tolerate whitespace and accidental quotes', ()
   assert.equal(cleanEnvironmentValue('  123:token  '), '123:token');
   assert.equal(cleanEnvironmentValue('"123:token"'), '123:token');
   assert.equal(cleanEnvironmentValue(" '-100123' "), '-100123');
+});
+
+test('Telegram chat is selected by booking location', () => {
+  const environment = {
+    TELEGRAM_CHAT_ID: '-1001',
+    TELEGRAM_CHAT_ID_IZMAYLOVSKAYA: '-1002',
+    TELEGRAM_CHAT_ID_TAGANSKAYA: '-1003'
+  };
+  assert.equal(getChatIdForLocation('м. Профсоюзная', environment), '-1001');
+  assert.equal(getChatIdForLocation('м. Измайловская', environment), '-1002');
+  assert.equal(getChatIdForLocation('м. Таганская', environment), '-1003');
+  assert.equal(getChatIdForLocation('м. Неизвестная', environment), '');
 });
