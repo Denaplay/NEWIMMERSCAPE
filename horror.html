@@ -405,6 +405,7 @@
       </nav>
       <div class="header-right">
         <span class="header-phone" data-phone="+74951234567">+7 (495) 123-45-67</span>
+        <button class="horror-header-tab" type="button" data-horror-header-tab>Хоррор вечер</button>
         <div class="social-icons">
           <a href="#" title="WhatsApp">WA</a>
           <a href="#" title="Telegram">TG</a>
@@ -557,11 +558,13 @@
     <div class="map-wrapper" id="horrorMapWrapper">
       <iframe 
         id="horrorMapFrame"
-        src="https://yandex.ru/map-widget/v1/?ll=37.563117%2C55.681585&mode=whatshere&utm_source=share&whatshere%5Bpoint%5D=37.563116%2C55.681585&whatshere%5Bzoom%5D=17&z=16"
+        src="https://yandex.ru/map-widget/v1/?ll=37.563116%2C55.681585&mode=search&text=%D0%9C%D0%BE%D1%81%D0%BA%D0%B2%D0%B0%2C%20%D1%83%D0%BB.%20%D0%9A%D1%80%D0%B6%D0%B8%D0%B6%D0%B0%D0%BD%D0%BE%D0%B2%D1%81%D0%BA%D0%BE%D0%B3%D0%BE%2C%208%2C%20%D0%BA%D0%BE%D1%80%D0%BF.%202&z=17"
         width="100%" 
         height="100%" 
         style="border:none; display:block;"
         allowfullscreen
+        loading="lazy"
+        title="Яндекс Карта: Профсоюзная, ул. Кржижановского, 8, корп. 2"
       ></iframe>
     </div>
   </div>
@@ -595,8 +598,8 @@
       <div class="footer-col">
         <strong>Адреса</strong>
         <span>📍 Профсоюзная: ул. Кржижановского, 8, корп. 2</span>
-        <span>📍 Таганская: Первомайская ул., 5</span>
-        <span>📍 Измайловская: Большой Факельный пер., 2/22</span>
+        <span>📍 Таганская: Большой Факельный пер., 2/22</span>
+        <span>📍 Измайловская: ул. Первомайская, 5</span>
       </div>
       <div class="footer-col">
         <strong>Соцсети</strong>
@@ -678,12 +681,12 @@
   // ===== КАРТЫ ДЛЯ ХОРРОР-СТРАНИЦЫ =====
   const horrorMaps = {
     'profsoyuznaya': {
-      url: 'https://yandex.ru/map-widget/v1/?ll=37.563117%2C55.681585&mode=whatshere&utm_source=share&whatshere%5Bpoint%5D=37.563116%2C55.681585&whatshere%5Bzoom%5D=17&z=16',
+      url: 'https://yandex.ru/map-widget/v1/?ll=37.563116%2C55.681585&mode=search&text=%D0%9C%D0%BE%D1%81%D0%BA%D0%B2%D0%B0%2C%20%D1%83%D0%BB.%20%D0%9A%D1%80%D0%B6%D0%B8%D0%B6%D0%B0%D0%BD%D0%BE%D0%B2%D1%81%D0%BA%D0%BE%D0%B3%D0%BE%2C%208%2C%20%D0%BA%D0%BE%D1%80%D0%BF.%202&z=17',
       address: '📍 Профсоюзная: ул. Кржижановского, 8, корп. 2'
     },
     'taganskaya': {
-      url: 'https://yandex.ru/map-widget/v1/?ll=37.661444%2C55.743230&mode=search&ol=geo&ouri=ymapsbm1%3A%2F%2Fgeo%3Fdata%3DCgg1NjcwNTI4ORJm0KDQvtGB0YHQuNGPLCDQnNC-0YHQutCy0LAsINCR0L7Qu9GM0YjQvtC5INCk0LDQutC10LvRjNC90YvQuSDQv9C10YDQtdGD0LvQvtC6LCAyLzIyLCDQv9C-0LTRitC10LfQtCAzIgoNlKUWQhUI-V5CMMHmwu0M&rtext=55.743162%2C37.661588~55.743224%2C37.661494&rtt=mt&ruri=~&utm_source=share&z=19',
-      address: '📍 Таганская: Первомайская ул., 5'
+      url: 'https://yandex.ru/map-widget/v1/?ll=37.661444%2C55.743230&mode=search&text=%D0%9C%D0%BE%D1%81%D0%BA%D0%B2%D0%B0%2C%20%D0%91%D0%BE%D0%BB%D1%8C%D1%88%D0%BE%D0%B9%20%D0%A4%D0%B0%D0%BA%D0%B5%D0%BB%D1%8C%D0%BD%D1%8B%D0%B9%20%D0%BF%D0%B5%D1%80.%2C%202%2F22&z=17',
+      address: '📍 Таганская: Большой Факельный пер., 2/22'
     }
   };
 
@@ -706,18 +709,29 @@
   // Слушаем изменения выбора локации
   document.addEventListener('DOMContentLoaded', function() {
     const locBtns = document.querySelectorAll('.horror-location-selector .loc-btn');
+    const headerTab = document.querySelector('[data-horror-header-tab]');
+    const taganskayaBtn = document.querySelector('.horror-location-selector .loc-btn[data-location="taganskaya"]');
     
     locBtns.forEach(btn => {
       btn.addEventListener('click', function() {
         const location = this.dataset.location;
         updateHorrorMap(location);
+        if (headerTab) headerTab.classList.toggle('active', location === 'taganskaya');
       });
     });
+
+    if (headerTab && taganskayaBtn) {
+      headerTab.addEventListener('click', function() {
+        taganskayaBtn.click();
+        document.getElementById('content-taganskaya')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+    }
     
     // При загрузке — показываем карту для активной локации
     const activeBtn = document.querySelector('.horror-location-selector .loc-btn.active');
     if (activeBtn) {
       updateHorrorMap(activeBtn.dataset.location);
+      if (headerTab) headerTab.classList.toggle('active', activeBtn.dataset.location === 'taganskaya');
     }
   });
 </script>

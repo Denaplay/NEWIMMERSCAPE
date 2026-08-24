@@ -225,10 +225,9 @@ const questsData = [
 // ===== ФОТО ДЛЯ ПАКЕТОВ =====
 // ============================================================
 const packagePhotos = {
-  'Пакет на 1 час': ['imeges/birthday/1.webp', 'imeges/labubu/1.webp', 'imeges/rozhdestvo-v-hogvartse/1.webp'],
-  'Пакет на 2 часа': ['imeges/birthday/1.webp', 'imeges/nevesta/3.webp', 'imeges/rick-and-morty/4.webp', 'imeges/labubu/2.webp'],
-  'Пакет на 2.5 часа': ['imeges/k-pop/1.webp', 'imeges/labubu/3.webp', 'imeges/monastyr/4.webp', 'imeges/rick-and-morty/2.webp', 'imeges/horror-svidanie/1.webp'],
-  'Пакет на 3.5 часа': ['imeges/birthday/1.webp', 'imeges/k-pop/3.webp', 'imeges/rozhdestvo-v-hogvartse/2.webp', 'imeges/nevesta/2.webp', 'imeges/monastyr/1.webp', 'imeges/amongus/1.webp']
+  'Пакет на 2 часа': ['imeges/birthday/1.webp', 'imeges/labubu/1.webp', 'imeges/rozhdestvo-v-hogvartse/1.webp'],
+  'Пакет на 3 часа': ['imeges/birthday/1.webp', 'imeges/nevesta/3.webp', 'imeges/rick-and-morty/4.webp', 'imeges/labubu/2.webp'],
+  'Пакет на 4.5 часа': ['imeges/k-pop/1.webp', 'imeges/labubu/3.webp', 'imeges/monastyr/4.webp', 'imeges/rick-and-morty/2.webp', 'imeges/horror-svidanie/1.webp', 'imeges/amongus/1.webp']
 };
 
 // ============================================================
@@ -321,25 +320,25 @@ const bookingOptions = {
 function getLocationAddress(location) {
   const addresses = {
     'м. Профсоюзная': 'ул. Кржижановского, 8, корп. 2',
-    'м. Таганская': 'Первомайская ул., 5',
-    'м. Измайловская': 'Большой Факельный пер., 2/22',
+    'м. Таганская': 'Большой Факельный пер., 2/22',
+    'м. Измайловская': 'ул. Первомайская, 5',
     'Профсоюзная': 'ул. Кржижановского, 8, корп. 2',
-    'Таганская': 'Первомайская ул., 5',
-    'Измайловская': 'Большой Факельный пер., 2/22'
+    'Таганская': 'Большой Факельный пер., 2/22',
+    'Измайловская': 'ул. Первомайская, 5'
   };
   return addresses[location] || 'Москва';
 }
 
 function getMapUrl(location) {
   const maps = {
-    'м. Профсоюзная': 'https://yandex.ru/maps/-/CTuYB071',
-    'Профсоюзная': 'https://yandex.ru/maps/-/CTuYB071',
-    'м. Таганская': 'https://yandex.ru/maps/-/CTuYBOz0',
-    'Таганская': 'https://yandex.ru/maps/-/CTuYBOz0',
-    'м. Измайловская': 'https://yandex.ru/maps/-/CTuYi68-',
-    'Измайловская': 'https://yandex.ru/maps/-/CTuYi68-'
+    'м. Профсоюзная': 'https://yandex.ru/map-widget/v1/?ll=37.563116%2C55.681585&mode=search&text=%D0%9C%D0%BE%D1%81%D0%BA%D0%B2%D0%B0%2C%20%D1%83%D0%BB.%20%D0%9A%D1%80%D0%B6%D0%B8%D0%B6%D0%B0%D0%BD%D0%BE%D0%B2%D1%81%D0%BA%D0%BE%D0%B3%D0%BE%2C%208%2C%20%D0%BA%D0%BE%D1%80%D0%BF.%202&z=17',
+    'Профсоюзная': 'https://yandex.ru/map-widget/v1/?ll=37.563116%2C55.681585&mode=search&text=%D0%9C%D0%BE%D1%81%D0%BA%D0%B2%D0%B0%2C%20%D1%83%D0%BB.%20%D0%9A%D1%80%D0%B6%D0%B8%D0%B6%D0%B0%D0%BD%D0%BE%D0%B2%D1%81%D0%BA%D0%BE%D0%B3%D0%BE%2C%208%2C%20%D0%BA%D0%BE%D1%80%D0%BF.%202&z=17',
+    'м. Таганская': 'https://yandex.ru/map-widget/v1/?ll=37.661444%2C55.743230&mode=search&text=%D0%9C%D0%BE%D1%81%D0%BA%D0%B2%D0%B0%2C%20%D0%91%D0%BE%D0%BB%D1%8C%D1%88%D0%BE%D0%B9%20%D0%A4%D0%B0%D0%BA%D0%B5%D0%BB%D1%8C%D0%BD%D1%8B%D0%B9%20%D0%BF%D0%B5%D1%80.%2C%202%2F22&z=17',
+    'Таганская': 'https://yandex.ru/map-widget/v1/?ll=37.661444%2C55.743230&mode=search&text=%D0%9C%D0%BE%D1%81%D0%BA%D0%B2%D0%B0%2C%20%D0%91%D0%BE%D0%BB%D1%8C%D1%88%D0%BE%D0%B9%20%D0%A4%D0%B0%D0%BA%D0%B5%D0%BB%D1%8C%D0%BD%D1%8B%D0%B9%20%D0%BF%D0%B5%D1%80.%2C%202%2F22&z=17',
+    'м. Измайловская': 'https://yandex.ru/map-widget/v1/?ll=37.773053%2C55.791071&mode=search&text=%D0%9C%D0%BE%D1%81%D0%BA%D0%B2%D0%B0%2C%20%D1%83%D0%BB.%20%D0%9F%D0%B5%D1%80%D0%B2%D0%BE%D0%BC%D0%B0%D0%B9%D1%81%D0%BA%D0%B0%D1%8F%2C%205&z=17',
+    'Измайловская': 'https://yandex.ru/map-widget/v1/?ll=37.773053%2C55.791071&mode=search&text=%D0%9C%D0%BE%D1%81%D0%BA%D0%B2%D0%B0%2C%20%D1%83%D0%BB.%20%D0%9F%D0%B5%D1%80%D0%B2%D0%BE%D0%BC%D0%B0%D0%B9%D1%81%D0%BA%D0%B0%D1%8F%2C%205&z=17'
   };
-  return maps[location] || 'https://yandex.ru/maps/-/CTuYB071';
+  return maps[location] || maps['м. Профсоюзная'];
 }
 
 // ============================================================
@@ -471,7 +470,7 @@ function getScheduleQuestName() {
 
 function getBasePriceForBooking(activeTime) {
   if (isCurrentPackageBooking()) {
-    return currentBookingPrice || 0;
+    return (currentBookingPrice || 0) + getSelectedPackageQuestPrice(activeTime);
   }
 
   if (activeTime && currentBookingName) {
@@ -492,6 +491,21 @@ function getBasePriceForBooking(activeTime) {
   return currentBookingPrice || 0;
 }
 
+function getSelectedPackageQuestPrice(activeTime) {
+  const packageQuest = getSelectedPackageQuest();
+  if (!packageQuest || !activeTime) return 0;
+  const time = activeTime.querySelector('.slot-time')?.textContent || selectedTime;
+  return getPriceByTime(packageQuest, time) || 0;
+}
+
+function getPackageParticipantRule() {
+  if (!isCurrentPackageBooking()) return null;
+  if (currentBookingName.includes('4.5')) {
+    return { basePlayers: 5, extraPlayerPrice: 2500 };
+  }
+  return { basePlayers: 3, extraPlayerPrice: 1500 };
+}
+
 function calculateBookingTotals() {
   const playersEl = document.getElementById('bookingPlayersDisplay');
   const players = parseInt(playersEl ? playersEl.textContent : bookingPlayersValue) || 1;
@@ -504,13 +518,18 @@ function calculateBookingTotals() {
     optionTotal += parseInt(el.dataset.price || 0);
   });
 
-  const basePlayers = 3;
-  const extraPlayerCost = players > basePlayers ? (players - basePlayers) * 1500 : 0;
+  const packageRule = getPackageParticipantRule();
+  const basePlayers = packageRule ? packageRule.basePlayers : 3;
+  const extraPlayerPrice = packageRule ? packageRule.extraPlayerPrice : 1500;
+  const extraPlayerCost = players > basePlayers ? (players - basePlayers) * extraPlayerPrice : 0;
   const subtotal = basePrice + optionTotal + extraPlayerCost;
   const discount = promoApplied && isSelectedBookingWeekday() ? Math.round(subtotal * 0.1) : 0;
   const total = subtotal - discount;
 
-  return { players, activeTime, basePrice, optionTotal, extraPlayerCost, subtotal, discount, total, deposit: 1500 };
+  const packageQuestPrice = isCurrentPackageBooking() ? getSelectedPackageQuestPrice(activeTime) : 0;
+  const packageServicePrice = isCurrentPackageBooking() ? (currentBookingPrice || 0) : basePrice;
+
+  return { players, activeTime, basePrice, packageServicePrice, packageQuestPrice, optionTotal, extraPlayerCost, subtotal, discount, total, deposit: 1500 };
 }
 
 function renderTotalAmount(el, subtotal, total, discount) {
@@ -539,7 +558,7 @@ function ensurePackageQuestSelect() {
     wrapper.innerHTML = `
       <label>Квест внутри пакета</label>
       <select id="packageQuestChoice"></select>
-      <div class="field-hint">Можно выбрать квест сейчас или оставить пакет без привязки к квесту.</div>
+      <div class="field-hint">Цена выбранного квеста добавится к пакету после выбора даты и времени.</div>
     `;
     form.insertBefore(wrapper, quantityBlock || form.querySelector('.btn-group') || null);
     select = wrapper.querySelector('#packageQuestChoice');
@@ -605,30 +624,24 @@ function ensurePackagesCollapsible() {
       <span class="arrow" id="packagesArrow">▼</span>
     </div>
     <div class="collapsible-body" id="packagesBody">
-      <div class="package-mini" data-package="Пакет на 1 час" data-price="12000" data-oldprice="15500">
-        <span class="pkg-name">Пакет на 1 час</span>
-        <span class="pkg-price"><small>15 500 ₽</small> 12000 ₽</span>
+      <div class="package-mini" data-package="Пакет на 2 часа" data-price="23500" data-base-players="3" data-extra-player-price="1500">
+        <span class="pkg-name">Пакет на 2 часа</span>
+        <span class="pkg-price">23 500 ₽ <small>за 3х, доп. 1 500 ₽; + квест по слоту</small></span>
         <button type="button" class="package-desc-toggle" aria-expanded="false">Состав пакета</button>
-        <div class="package-description"><ul><li>Квест на выбор</li><li>Дополнительный персонаж</li><li>Креативное поздравление</li><li>3 фотографии в обработке</li><li>Кресло режиссёра</li></ul></div>
+        <div class="package-description"><ul><li>Квест/анимационная программа на выбор</li><li>Дополнительный актёр</li><li>Украшенная лофт зона</li><li>Сервировка стола</li><li>Креативное поздравление</li><li>Треш коробка</li></ul></div>
       </div>
-      <div class="package-mini" data-package="Пакет на 2 часа" data-price="23000" data-oldprice="32000">
-        <span class="pkg-name">⭐ Пакет на 2 часа</span>
-        <span class="pkg-price"><small>32 000 ₽</small> 23 000 ₽</span>
+      <div class="package-mini" data-package="Пакет на 3 часа" data-price="39000" data-base-players="3" data-extra-player-price="1500">
+        <span class="pkg-name">⭐ Пакет на 3 часа</span>
+        <span class="pkg-price">39 000 ₽ <small>за 3х, доп. 1 500 ₽; + квест по слоту</small></span>
         <span class="pkg-badge">Популярный</span>
         <button type="button" class="package-desc-toggle" aria-expanded="false">Состав пакета</button>
-        <div class="package-description"><ul><li>Всё из пакета на 1 час</li><li>Мастер-класс на выбор</li><li>Украшенный банкетный зал</li></ul></div>
+        <div class="package-description"><ul><li>Всё из пакета на 2 часа</li><li>Памятный подарок имениннику и сувенир каждому участнику</li><li>Фотограф</li><li>10 фото в проф. обработке и цветокоррекции</li><li>Кресло режиссёра</li><li>Видео-нарезка самых ярких моментов с прохождения квеста</li><li>Настольная игра с ведущим на выбор</li></ul></div>
       </div>
-      <div class="package-mini" data-package="Пакет на 2.5 часа" data-price="34000" data-oldprice="53000">
-        <span class="pkg-name">Пакет на 2.5 часа</span>
-        <span class="pkg-price"><small>53 000 ₽</small> 34 000 ₽</span>
+      <div class="package-mini" data-package="Пакет на 4.5 часа" data-price="103000" data-base-players="5" data-extra-player-price="2500">
+        <span class="pkg-name">Пакет на 4.5 часа</span>
+        <span class="pkg-price">103 000 ₽ <small>до 5х, доп. 2 500 ₽; + квест по слоту</small></span>
         <button type="button" class="package-desc-toggle" aria-expanded="false">Состав пакета</button>
-        <div class="package-description"><ul><li>Всё из пакета на 2 часа</li><li>Настольная игра или мастер-класс</li><li>Личный менеджер</li><li>Шар желаний или пиньята</li></ul></div>
-      </div>
-      <div class="package-mini" data-package="Пакет на 3.5 часа" data-price="56000" data-oldprice="73500">
-        <span class="pkg-name">Пакет на 3.5 часа</span>
-        <span class="pkg-price"><small>73 500 ₽</small> 56 000 ₽</span>
-        <button type="button" class="package-desc-toggle" aria-expanded="false">Состав пакета</button>
-        <div class="package-description"><ul><li>Всё из пакета на 2.5 часа</li><li>Торт до 2 кг</li><li>Шоу-программа</li><li>Аквагрим</li></ul></div>
+        <div class="package-description"><ul><li>Всё из пакета на 3 часа</li><li>Перекрытие локации на всё время праздника</li><li>Лофт зона</li><li>Персональные украшения</li><li>Фотограф на время квеста в образе</li><li>15 фото в проф. обработке + видео с квеста</li><li>Велком дринк или Кенди бар</li><li>Шоу программа на выбор: Крио шоу или шоу Фокусов</li><li>Аквагрим или Блеск тату</li><li>Шар с цифрой</li><li>Мастер-класс на выбор</li><li>Пиньята с любым дизайном</li><li>Персональный менеджер</li><li>Настольная игра с ведущим или музыкальные конкурсы или квиз об имениннике</li><li>Развлечения для родителей: мафия с ведущим или Кресло режиссёра</li><li>Бумажная дискотека с боем подушками или Танцевальные конкурсы</li></ul></div>
       </div>
     </div>
   `;
@@ -689,8 +702,8 @@ function selectReadyPackage(packageName, packagePrice, activeItem) {
   const metaDifficulty = document.getElementById('bookQuestMetaDifficulty');
   if (title) title.textContent = packageName;
   if (desc) desc.textContent = currentBookingDesc;
-  if (metaTime) metaTime.textContent = '1-3.5 часа';
-  if (metaPlayers) metaPlayers.textContent = '1-20';
+  if (metaTime) metaTime.textContent = currentBookingName.includes('4.5') ? '4.5 часа' : currentBookingName.includes('3') ? '3 часа' : '2 часа';
+  if (metaPlayers) metaPlayers.textContent = currentBookingName.includes('4.5') ? 'до 5 включено' : '3 включено';
   if (metaDifficulty) metaDifficulty.textContent = 'по выбору';
 
   const packageQuestSelect = document.getElementById('packageQuestSelect');
@@ -912,7 +925,8 @@ function openBooking(name, desc, price, isPackage) {
     });
   }
   
-  bookingPlayersValue = (quest && quest.minPlayers) || 1;
+  const packageRule = isPackageBooking ? getPackageParticipantRule() : null;
+  bookingPlayersValue = packageRule ? packageRule.basePlayers : ((quest && quest.minPlayers) || 1);
   document.getElementById('bookingPlayersDisplay').textContent = String(bookingPlayersValue);
   
   promoApplied = false;
@@ -945,6 +959,8 @@ function openBooking(name, desc, price, isPackage) {
           height="200" 
           style="border:none; display:block;"
           allowfullscreen
+          loading="lazy"
+          title="Яндекс Карта: ${location}, ${address}"
         ></iframe>
         <div style="padding:8px 12px; background:#1a1625; font-size:0.75rem; color:#b0a8c8;">
           📍 ${location}: ${address}
@@ -1445,8 +1461,9 @@ function updateReceipt() {
 
   if (isCurrentPackageBooking()) {
     const packageQuest = getSelectedPackageQuest();
+    const questPriceText = totals.packageQuestPrice ? ` (${formatMoney(totals.packageQuestPrice)})` : '';
     optionNames = packageQuest
-      ? `${optionNames === '—' ? '' : `${optionNames}; `}Квест в пакете: ${packageQuest}`
+      ? `${optionNames === '—' ? '' : `${optionNames}; `}Квест в пакете: ${packageQuest}${questPriceText}`
       : `${optionNames === '—' ? '' : `${optionNames}; `}Квест в пакете: выбрать позже`;
   }
   
@@ -1679,23 +1696,24 @@ function changeBookingPlayers(delta) {
 // ===== ПАКЕТЫ НА ГЛАВНОЙ =====
 // ============================================================
 function bookPackage(name, price) {
-  openBooking(name, `Готовый пакет "${name}" с максимальной выгодой.`, price, true);
+  openBooking(name, `Готовый пакет "${name}". К цене добавится квест на выбор по дате и времени.`, price, true);
 }
 
 function bookCustomPackage() {
   const selected = document.querySelectorAll('.constructor-options .option-card.active');
   const items = Array.from(selected).map(el => el.dataset.name);
-  const players = parseInt(document.getElementById('constructorPlayersDisplay').textContent) || 4;
+  const players = parseInt(document.getElementById('constructorPlayersDisplay').textContent) || 3;
   const optionsTotal = Array.from(selected).reduce((sum, el) => sum + parseInt(el.dataset.price), 0);
-  const finalTotal = 13500 + optionsTotal;
-  const name = `Свой пакет на 1 час${items.length ? ` (${items.join(', ')})` : ''}`;
-  openBooking(name, `Персональный пакет на 1 час для ${players} участников. Дополнения: ${items.join(', ') || 'без дополнений'}.`, finalTotal, true);
+  const extraPlayerCost = players > 3 ? (players - 3) * 1500 : 0;
+  const finalTotal = optionsTotal + extraPlayerCost;
+  const name = `Свой пакет с нуля${items.length ? ` (${items.join(', ')})` : ''}`;
+  openBooking(name, `Персональный пакет с нуля для ${players} участников. К цене добавится квест на выбор по дате и времени. Дополнения: ${items.join(', ') || 'без дополнений'}.`, finalTotal, true);
 }
 
 // ============================================================
 // ===== КОНСТРУКТОР =====
 // ============================================================
-let constructorPlayersValue = 4;
+let constructorPlayersValue = 3;
 
 function changeConstructorPlayers(delta) {
   constructorPlayersValue = Math.max(1, Math.min(20, constructorPlayersValue + delta));
@@ -1710,13 +1728,16 @@ function updateConstructor() {
   const container = document.getElementById('constructorItems');
   if (!container) return;
   
-  container.innerHTML = `<div class="preview-item"><span>Пакет на 1 час</span><span>12000 ₽</span></div>` + items.map(item =>
+  const extraPlayerCost = constructorPlayersValue > 3 ? (constructorPlayersValue - 3) * 1500 : 0;
+  container.innerHTML = `<div class="preview-item"><span>Квест на выбор</span><span>+ цена по слоту</span></div>` + items.map(item =>
     `<div class="preview-item"><span>${item.name}</span><span>${item.price} ₽</span></div>`
-  ).join('');
-  const total = 12000 + items.reduce((sum, i) => sum + i.price, 0);
+  ).join('') + (extraPlayerCost > 0
+    ? `<div class="preview-item"><span>Доп. участники</span><span>${extraPlayerCost} ₽</span></div>`
+    : '');
+  const total = items.reduce((sum, i) => sum + i.price, 0) + extraPlayerCost;
   const totalEl = document.getElementById('constructorTotal');
   if (totalEl) {
-    totalEl.textContent = `${total.toLocaleString('ru-RU')} ₽`;
+    totalEl.textContent = `${total.toLocaleString('ru-RU')} ₽ + квест`;
   }
 }
 
