@@ -17,9 +17,14 @@ let promoApplied = false;
 let promoCode = 'квест10';
 let isWeekday = true;
 
+function formatDateKey(date) {
+  if (!date) return '';
+  return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
+}
+
 function selectedDateKey() {
   if (!selectedDate) return '';
-  return `${selectedDate.getFullYear()}-${String(selectedDate.getMonth() + 1).padStart(2, '0')}-${String(selectedDate.getDate()).padStart(2, '0')}`;
+  return formatDateKey(selectedDate);
 }
 
 function externalBookingApi() {
@@ -468,9 +473,13 @@ function getScheduleQuestName() {
   return getSelectedPackageQuest() || currentBookingName;
 }
 
+function isCustomPackageBooking() {
+  return isCurrentPackageBooking() && currentBookingName.includes('Свой пакет');
+}
+
 function getBasePriceForBooking(activeTime) {
   if (isCurrentPackageBooking()) {
-    return (currentBookingPrice || 0) + getSelectedPackageQuestPrice(activeTime);
+    return (currentBookingPrice || 0) + (isCustomPackageBooking() ? getSelectedPackageQuestPrice(activeTime) : 0);
   }
 
   if (activeTime && currentBookingName) {
@@ -506,6 +515,10 @@ function getPackageParticipantRule() {
   return { basePlayers: 3, extraPlayerPrice: 1500 };
 }
 
+function getParticipantRule() {
+  return getPackageParticipantRule() || { basePlayers: 3, extraPlayerPrice: 1500 };
+}
+
 function calculateBookingTotals() {
   const playersEl = document.getElementById('bookingPlayersDisplay');
   const players = parseInt(playersEl ? playersEl.textContent : bookingPlayersValue) || 1;
@@ -518,18 +531,64 @@ function calculateBookingTotals() {
     optionTotal += parseInt(el.dataset.price || 0);
   });
 
-  const packageRule = getPackageParticipantRule();
-  const basePlayers = packageRule ? packageRule.basePlayers : 3;
-  const extraPlayerPrice = packageRule ? packageRule.extraPlayerPrice : 1500;
+  const participantRule = getParticipantRule();
+  const basePlayers = participantRule.basePlayers;
+  const extraPlayerPrice = participantRule.extraPlayerPrice;
   const extraPlayerCost = players > basePlayers ? (players - basePlayers) * extraPlayerPrice : 0;
   const subtotal = basePrice + optionTotal + extraPlayerCost;
   const discount = promoApplied && isSelectedBookingWeekday() ? Math.round(subtotal * 0.1) : 0;
   const total = subtotal - discount;
 
-  const packageQuestPrice = isCurrentPackageBooking() ? getSelectedPackageQuestPrice(activeTime) : 0;
+  const packageQuestPrice = isCustomPackageBooking() ? getSelectedPackageQuestPrice(activeTime) : 0;
   const packageServicePrice = isCurrentPackageBooking() ? (currentBookingPrice || 0) : basePrice;
 
-  return { players, activeTime, basePrice, packageServicePrice, packageQuestPrice, optionTotal, extraPlayerCost, subtotal, discount, total, deposit: 1500 };
+  return { players, activeTime, basePrice, packageServicePrice, packageQuestPrice, optionTotal, extraPlayerCost, basePlayers, extraPlayerPrice, subtotal, discount, total, deposit: 1500 };
+}
+
+function getBasePriceLabel(totals) {
+  const priceType = isCurrentPackageBooking() ? 'Цена пакета' : 'Цена квеста';
+  const playersText = totals.basePlayers === 5 ? 'до 5х' : `за ${totals.basePlayers}х`;
+  return `${priceType} ${playersText}:`;
+}
+
+function updateParticipantExtraDisplay(totals) {
+  const extraDisplay = document.getElementById('bookingPlayersExtra');
+  if (!extraDisplay) return;
+
+  if (totals.extraPlayerCost > 0) {
+    extraDisplay.textContent = `+${formatMoney(totals.extraPlayerPrice)}`;
+    extraDisplay.classList.add('visible');
+  } else {
+    extraDisplay.textContent = '';
+    extraDisplay.classList.remove('visible');
+  }
+}
+
+function getSelectedDateDisplay() {
+  const activeDate = document.querySelector('.date-grid .date-cell.active');
+  if (!activeDate) return 'Не выбрана';
+
+  const parts = activeDate.dataset.date.split('-');
+  const dateObj = new Date(parseInt(parts[0]), parseInt(parts[1]) - 1, parseInt(parts[2]));
+  return dateObj.toLocaleDateString('ru-RU', { day: 'numeric', month: 'long', year: 'numeric' });
+}
+
+function updatePaymentStep(totals) {
+  const activeTime = totals.activeTime;
+  const time = activeTime ? activeTime.querySelector('.slot-time').textContent : '—';
+  const rest = Math.max(totals.total - totals.deposit, 0);
+
+  const paymentQuest = document.getElementById('paymentQuest');
+  const paymentDateTime = document.getElementById('paymentDateTime');
+  const paymentDepositAmount = document.getElementById('paymentDepositAmount');
+  const paymentTotal = document.getElementById('paymentTotal');
+  const paymentRest = document.getElementById('paymentRest');
+
+  if (paymentQuest) paymentQuest.textContent = currentBookingName;
+  if (paymentDateTime) paymentDateTime.textContent = `${getSelectedDateDisplay()}, ${time}`;
+  if (paymentDepositAmount) paymentDepositAmount.textContent = formatMoney(totals.deposit);
+  if (paymentTotal) paymentTotal.textContent = formatMoney(totals.total);
+  if (paymentRest) paymentRest.textContent = formatMoney(rest);
 }
 
 function renderTotalAmount(el, subtotal, total, discount) {
@@ -558,7 +617,7 @@ function ensurePackageQuestSelect() {
     wrapper.innerHTML = `
       <label>Квест внутри пакета</label>
       <select id="packageQuestChoice"></select>
-      <div class="field-hint">Цена выбранного квеста добавится к пакету после выбора даты и времени.</div>
+      <div class="field-hint">В готовом пакете квест входит в стоимость. В пакете с нуля цена квеста добавится по выбранному слоту.</div>
     `;
     form.insertBefore(wrapper, quantityBlock || form.querySelector('.btn-group') || null);
     select = wrapper.querySelector('#packageQuestChoice');
@@ -626,20 +685,20 @@ function ensurePackagesCollapsible() {
     <div class="collapsible-body" id="packagesBody">
       <div class="package-mini" data-package="Пакет на 2 часа" data-price="23500" data-base-players="3" data-extra-player-price="1500">
         <span class="pkg-name">Пакет на 2 часа</span>
-        <span class="pkg-price">23 500 ₽ <small>за 3х, доп. 1 500 ₽; + квест по слоту</small></span>
+        <span class="pkg-price">23 500 ₽ <small>за 3х, доп. 1 500 ₽; квест входит</small></span>
         <button type="button" class="package-desc-toggle" aria-expanded="false">Состав пакета</button>
         <div class="package-description"><ul><li>Квест/анимационная программа на выбор</li><li>Дополнительный актёр</li><li>Украшенная лофт зона</li><li>Сервировка стола</li><li>Креативное поздравление</li><li>Треш коробка</li></ul></div>
       </div>
       <div class="package-mini" data-package="Пакет на 3 часа" data-price="39000" data-base-players="3" data-extra-player-price="1500">
         <span class="pkg-name">⭐ Пакет на 3 часа</span>
-        <span class="pkg-price">39 000 ₽ <small>за 3х, доп. 1 500 ₽; + квест по слоту</small></span>
+        <span class="pkg-price">39 000 ₽ <small>за 3х, доп. 1 500 ₽; квест входит</small></span>
         <span class="pkg-badge">Популярный</span>
         <button type="button" class="package-desc-toggle" aria-expanded="false">Состав пакета</button>
         <div class="package-description"><ul><li>Всё из пакета на 2 часа</li><li>Памятный подарок имениннику и сувенир каждому участнику</li><li>Фотограф</li><li>10 фото в проф. обработке и цветокоррекции</li><li>Кресло режиссёра</li><li>Видео-нарезка самых ярких моментов с прохождения квеста</li><li>Настольная игра с ведущим на выбор</li></ul></div>
       </div>
       <div class="package-mini" data-package="Пакет на 4.5 часа" data-price="103000" data-base-players="5" data-extra-player-price="2500">
         <span class="pkg-name">Пакет на 4.5 часа</span>
-        <span class="pkg-price">103 000 ₽ <small>до 5х, доп. 2 500 ₽; + квест по слоту</small></span>
+        <span class="pkg-price">103 000 ₽ <small>до 5х, доп. 2 500 ₽; квест входит</small></span>
         <button type="button" class="package-desc-toggle" aria-expanded="false">Состав пакета</button>
         <div class="package-description"><ul><li>Всё из пакета на 3 часа</li><li>Перекрытие локации на всё время праздника</li><li>Лофт зона</li><li>Персональные украшения</li><li>Фотограф на время квеста в образе</li><li>15 фото в проф. обработке + видео с квеста</li><li>Велком дринк или Кенди бар</li><li>Шоу программа на выбор: Крио шоу или шоу Фокусов</li><li>Аквагрим или Блеск тату</li><li>Шар с цифрой</li><li>Мастер-класс на выбор</li><li>Пиньята с любым дизайном</li><li>Персональный менеджер</li><li>Настольная игра с ведущим или музыкальные конкурсы или квиз об имениннике</li><li>Развлечения для родителей: мафия с ведущим или Кресло режиссёра</li><li>Бумажная дискотека с боем подушками или Танцевальные конкурсы</li></ul></div>
       </div>
@@ -796,6 +855,7 @@ function updateBookingPhotoPosition() {
 // ============================================================
 function updateTotalDisplay() {
   const totals = calculateBookingTotals();
+  const basePriceLabel = getBasePriceLabel(totals);
   
   // === ОБНОВЛЯЕМ ОТОБРАЖЕНИЕ ===
   // Шаг 1
@@ -809,8 +869,20 @@ function updateTotalDisplay() {
   
   // Шаг 4
   renderTotalAmount(document.getElementById('bookingTotalDisplayStep4'), totals.subtotal, totals.total, totals.discount);
+
+  // Шаг 5
+  renderTotalAmount(document.getElementById('bookingTotalDisplayStep5'), totals.subtotal, totals.total, totals.discount);
   
   // Цена базовой услуги без промокода. Скидка видна в блоке "Итого к оплате".
+  updateParticipantExtraDisplay(totals);
+
+  ['bookingPriceLabel', 'bookingPriceLabel2', 'bookingPriceLabel3', 'bookingPriceLabel4', 'bookingPriceLabel5'].forEach(id => {
+    const label = document.getElementById(id);
+    if (label) {
+      label.textContent = basePriceLabel;
+    }
+  });
+
   const priceDisplay = document.getElementById('bookingPriceDisplay');
   if (priceDisplay) {
     priceDisplay.textContent = totals.basePrice;
@@ -828,6 +900,11 @@ function updateTotalDisplay() {
   const priceDisplay4 = document.getElementById('bookingPriceDisplay4');
   if (priceDisplay4) {
     priceDisplay4.textContent = totals.basePrice;
+  }
+
+  const priceDisplay5 = document.getElementById('bookingPriceDisplay5');
+  if (priceDisplay5) {
+    priceDisplay5.textContent = totals.basePrice;
   }
   
   const depositDisplay = document.getElementById('bookingDepositDisplay');
@@ -849,6 +926,13 @@ function updateTotalDisplay() {
   if (depositDisplay4) {
     depositDisplay4.textContent = formatMoney(totals.deposit);
   }
+
+  const depositDisplay5 = document.getElementById('bookingDepositDisplay5');
+  if (depositDisplay5) {
+    depositDisplay5.textContent = formatMoney(totals.deposit);
+  }
+
+  updatePaymentStep(totals);
 }
 
 
@@ -910,17 +994,22 @@ function openBooking(name, desc, price, isPackage) {
   const now = new Date();
   currentMonth = now.getMonth();
   currentYear = now.getFullYear();
-  selectedDate = null;
+  selectedDate = new Date(today);
   selectedTime = null;
   
   renderCalendar(currentMonth, currentYear);
+  const selectedDateEl = document.getElementById('selectedDate');
+  if (selectedDateEl) {
+    selectedDateEl.textContent = selectedDate.toLocaleDateString('ru-RU', { day: 'numeric', month: 'long', year: 'numeric' });
+  }
+  generateTimeSlots(getCurrentQuestName());
 
   const api = externalBookingApi();
   if (api?.getConfig(name)) {
     api.load(name).then(() => {
       if (currentBookingName !== name) return;
       renderCalendar(currentMonth, currentYear);
-      generateTimeSlots(name);
+      generateTimeSlots(getCurrentQuestName());
       updateTotalDisplay();
     });
   }
@@ -1085,7 +1174,7 @@ function resetBookingData() {
 // ============================================================
 function goStep(n) {
   if (n === currentStep) return;
-  if (n < 1 || n > 4) return;
+  if (n < 1 || n > 5) return;
   
   if (n > currentStep) {
     if (currentStep === 1) {
@@ -1138,7 +1227,13 @@ function goStep(n) {
   currentStep = n;
   const overlay = document.getElementById('bookingOverlay');
   if (overlay) overlay.scrollTop = 0;
-  if (n === 4) updateReceipt();
+  if (n === 4) updatePaymentStep(calculateBookingTotals());
+  if (n === 5) updateReceipt();
+}
+
+function completePrepayment() {
+  updatePaymentStep(calculateBookingTotals());
+  goStep(5);
 }
 
 // ============================================================
@@ -1228,7 +1323,7 @@ function renderCalendar(month, year) {
     grid.appendChild(cell);
   }
   
-  const todayStr = today.toISOString().split('T')[0];
+  const todayStr = formatDateKey(today);
   const todayCell = document.querySelector(`.date-grid .date-cell:not(.disabled)[data-date="${todayStr}"]`);
   if (todayCell && !selectedDate) {
     document.querySelectorAll('.date-grid .date-cell').forEach(c => c.classList.remove('active'));
@@ -1287,7 +1382,9 @@ function generateTimeSlots(questName) {
     if (isPast && !isBusy) slot.classList.add('disabled');
     
     const price = apiSlot?.price || getPriceByTime(questName, time);
-    const priceText = price ? ` ${price} ₽` : '';
+    const priceText = price
+      ? (isCurrentPackageBooking() && !isCustomPackageBooking() ? 'входит' : ` ${price} ₽`)
+      : '';
     
     slot.innerHTML = `
       <div class="slot-time">${time}</div>
@@ -1442,13 +1539,7 @@ function applyPromo(event) {
 // ===== ОБНОВЛЕНИЕ КВИТАНЦИИ =====
 // ============================================================
 function updateReceipt() {
-  const activeDate = document.querySelector('.date-grid .date-cell.active');
-  let dateStr = 'Не выбрана';
-  if (activeDate) {
-    const parts = activeDate.dataset.date.split('-');
-    const dateObj = new Date(parseInt(parts[0]), parseInt(parts[1]) - 1, parseInt(parts[2]));
-    dateStr = dateObj.toLocaleDateString('ru-RU', { day: 'numeric', month: 'long', year: 'numeric' });
-  }
+  const dateStr = getSelectedDateDisplay();
   
   const totals = calculateBookingTotals();
   const time = totals.activeTime ? totals.activeTime.querySelector('.slot-time').textContent : '—';
@@ -1605,7 +1696,22 @@ document.addEventListener('DOMContentLoaded', function() {
   if (packageChoice) {
     packageChoice.addEventListener('change', function() {
       selectedPackageQuest = this.value || '';
-      generateTimeSlots(getScheduleQuestName());
+      selectedTime = null;
+      const scheduleQuest = getScheduleQuestName();
+      const api = externalBookingApi();
+      if (api?.getConfig(scheduleQuest)) {
+        generateTimeSlots(scheduleQuest);
+        api.load(scheduleQuest).then(() => {
+          if (getScheduleQuestName() !== scheduleQuest) return;
+          renderCalendar(currentMonth, currentYear);
+          generateTimeSlots(scheduleQuest);
+          updateTotalDisplay();
+          updateReceipt();
+        });
+      } else {
+        renderCalendar(currentMonth, currentYear);
+        generateTimeSlots(scheduleQuest);
+      }
       updateBookingPhotos(selectedPackageQuest || currentBookingName);
       updateTotalDisplay();
       updateReceipt();
@@ -1624,6 +1730,16 @@ document.addEventListener('DOMContentLoaded', function() {
       }
     });
   }
+
+  document.querySelectorAll('[data-payment-link]').forEach(link => {
+    link.addEventListener('click', function(e) {
+      const href = this.getAttribute('href') || '';
+      if (href === '#') {
+        e.preventDefault();
+        showToast('Сюда нужно вставить ссылку для внесения предоплаты');
+      }
+    });
+  });
   
   document.addEventListener('change', function(e) {
     if (e.target.closest('.option-checkbox') || e.target.closest('.contact-method') ||
@@ -1696,7 +1812,7 @@ function changeBookingPlayers(delta) {
 // ===== ПАКЕТЫ НА ГЛАВНОЙ =====
 // ============================================================
 function bookPackage(name, price) {
-  openBooking(name, `Готовый пакет "${name}". К цене добавится квест на выбор по дате и времени.`, price, true);
+  openBooking(name, `Готовый пакет "${name}". Квест на выбор входит в стоимость.`, price, true);
 }
 
 function bookCustomPackage() {

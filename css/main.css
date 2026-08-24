@@ -290,6 +290,24 @@ body.page-transition {
   transform: translateY(-2px);
   box-shadow: 0 4px 20px rgba(124, 77, 255, 0.3);
 }
+.social-icons .taplink-link {
+  gap: 6px;
+  width: auto;
+  min-width: 64px;
+  padding: 0 12px;
+  border-radius: 999px;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+.social-icons .taplink-icon {
+  width: 14px;
+  height: 14px;
+  flex: 0 0 14px;
+  border-radius: 50%;
+  background: rgba(179, 136, 255, 0.28);
+  border: 1px solid rgba(179, 136, 255, 0.48);
+}
 
 @media (max-width: 767px) {
   .header {
@@ -3312,6 +3330,75 @@ body.page-transition {
   }
 }
 
+.payment-box {
+  display: grid;
+  gap: 16px;
+  margin: 0 auto;
+}
+.payment-hero {
+  display: grid;
+  gap: 8px;
+  padding: 18px;
+  border: 1px solid rgba(124, 77, 255, 0.24);
+  border-radius: 8px;
+  background: linear-gradient(135deg, rgba(124, 77, 255, 0.14), rgba(255, 110, 199, 0.08));
+}
+.payment-kicker {
+  color: #b388ff;
+  font-size: 0.78rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+.payment-hero strong {
+  color: #fff;
+  font-size: 2rem;
+  line-height: 1;
+}
+.payment-hero span:last-child,
+.payment-note {
+  color: #b0a8c8;
+  font-size: 0.9rem;
+}
+.payment-receipt {
+  max-width: none;
+}
+.payment-links {
+  display: grid;
+  gap: 10px;
+}
+.payment-link {
+  display: flex;
+  min-height: 48px;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 16px;
+  border: 1px solid #2d2640;
+  border-radius: 8px;
+  background: #151120;
+  color: #e8e4f0;
+  font-weight: 800;
+  text-decoration: none;
+  transition: 0.2s;
+}
+.payment-link:hover {
+  border-color: #7c4dff;
+  background: rgba(124, 77, 255, 0.14);
+  color: #fff;
+}
+.payment-link.primary {
+  border-color: #7c4dff;
+  background: linear-gradient(135deg, #7c4dff, #b388ff);
+  color: #fff;
+  box-shadow: 0 10px 28px rgba(124, 77, 255, 0.28);
+}
+.payment-note {
+  padding: 12px 14px;
+  border: 1px dashed rgba(179, 136, 255, 0.3);
+  border-radius: 8px;
+  background: rgba(124, 77, 255, 0.06);
+}
+
 .btn-primary {
   background: #7c4dff;
   border: none;
@@ -3399,7 +3486,8 @@ body.page-transition {
 .summary-total.has-discount,
 #bookingTotalDisplayStep2.has-discount,
 #bookingTotalDisplayStep3.has-discount,
-#bookingTotalDisplayStep4.has-discount {
+#bookingTotalDisplayStep4.has-discount,
+#bookingTotalDisplayStep5.has-discount {
   display: inline-flex;
   align-items: baseline;
   justify-content: flex-end;
@@ -3649,6 +3737,22 @@ body.page-transition {
 }
 .footer-col .social-links a:hover {
   color: #b388ff;
+}
+.footer-col .social-links .taplink-link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 34px;
+  padding: 7px 14px;
+  border: 1px solid rgba(124, 77, 255, 0.28);
+  border-radius: 999px;
+  background: rgba(124, 77, 255, 0.08);
+  color: #d9d2ee;
+  font-weight: 700;
+}
+.footer-col .social-links .taplink-link:hover {
+  border-color: #7c4dff;
+  background: rgba(124, 77, 255, 0.16);
+  color: #fff;
 }
 
 /* ===== MAP ===== */
@@ -4108,10 +4212,12 @@ body.page-transition {
   display: flex;
   align-items: center;
   gap: 12px;
+  position: relative;
   background: #0c0a14;
   border-radius: 60px;
   padding: 4px;
   border: 1px solid #2d2640;
+  width: fit-content;
 }
 .quantity-control .qty-btn {
   background: transparent;
@@ -4141,6 +4247,28 @@ body.page-transition {
   font-size: 1.2rem;
   min-width: 32px;
   text-align: center;
+}
+.quantity-control .qty-extra {
+  display: none;
+  position: absolute;
+  right: -8px;
+  top: -8px;
+  color: #ffcf7a;
+  background: #191220;
+  border: 1px solid rgba(255, 207, 122, 0.45);
+  border-radius: 999px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.28);
+  font-size: 0.72rem;
+  font-weight: 800;
+  line-height: 1;
+  white-space: nowrap;
+  padding: 5px 7px;
+  pointer-events: none;
+  transform: translateX(100%);
+  z-index: 2;
+}
+.quantity-control .qty-extra.visible {
+  display: inline-flex;
 }
 /* ===== ПРОМОКОД В ПЛАШКЕ АКЦИИ ===== */
 .promo-code-btn {
