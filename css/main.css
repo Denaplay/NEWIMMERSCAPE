@@ -3486,8 +3486,7 @@ body.page-transition {
 .summary-total.has-discount,
 #bookingTotalDisplayStep2.has-discount,
 #bookingTotalDisplayStep3.has-discount,
-#bookingTotalDisplayStep4.has-discount,
-#bookingTotalDisplayStep5.has-discount {
+#bookingTotalDisplayStep4.has-discount {
   display: inline-flex;
   align-items: baseline;
   justify-content: flex-end;
@@ -3519,6 +3518,21 @@ body.page-transition {
   font-size: 0.72rem;
   line-height: 1.35;
   margin-top: 5px;
+}
+.field-error {
+  min-height: 0;
+  color: #ff9a9a;
+  font-size: 0.72rem;
+  font-weight: 700;
+  line-height: 1.35;
+  margin-top: 5px;
+}
+.field-error:empty {
+  display: none;
+}
+.booking-form input.field-invalid {
+  border-color: rgba(255, 107, 107, 0.68);
+  box-shadow: 0 0 0 4px rgba(255, 107, 107, 0.12);
 }
 .promo-field {
   margin-top: 12px;
@@ -4648,3 +4662,1150 @@ body.auth-open { overflow: hidden; }
 }
 @media (prefers-reduced-motion: reduce) { .profile-page::before, .staff-page::before { animation: none; } }
 @media(max-width:480px){.booking-edit-grid{grid-template-columns:1fr}.booking-edit-grid .wide{grid-column:auto}}
+
+/* ===== IMMERSCAPE MODERN QUEST REFRESH ===== */
+:root {
+  --site-bg: #0b0d13;
+  --site-bg-2: #12121d;
+  --site-surface: rgba(22, 24, 34, 0.86);
+  --site-surface-strong: #171923;
+  --site-border: rgba(255, 255, 255, 0.1);
+  --site-border-strong: rgba(255, 255, 255, 0.17);
+  --site-text: #f7f4ee;
+  --site-muted: #b9b4c3;
+  --site-soft: #827c90;
+  --quest-violet: #8d6cff;
+  --quest-pink: #ff6ea8;
+  --quest-teal: #39d8c7;
+  --quest-gold: #ffd166;
+  --quest-orange: #ff9365;
+  --quest-green: #7ee29d;
+  --shadow-soft: 0 18px 54px rgba(0, 0, 0, 0.34);
+  --shadow-glow: 0 18px 46px rgba(141, 108, 255, 0.18);
+}
+
+* {
+  letter-spacing: 0 !important;
+}
+
+html {
+  background: var(--site-bg);
+}
+
+body {
+  font-family: 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background:
+    radial-gradient(circle at 18% 12%, rgba(141, 108, 255, 0.16), transparent 34%),
+    radial-gradient(circle at 86% 4%, rgba(57, 216, 199, 0.1), transparent 30%),
+    linear-gradient(180deg, #0b0d13 0%, #10111a 48%, #0b0d13 100%);
+  color: var(--site-text);
+  font-size: 16px;
+  line-height: 1.65;
+}
+
+body::selection {
+  background: rgba(255, 209, 102, 0.32);
+  color: #fff;
+}
+
+.header {
+  background: rgba(11, 13, 19, 0.78);
+  border-bottom: 1px solid var(--site-border);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.26);
+}
+
+.logo,
+.hero-content h1,
+.events-hero-content h1,
+.action-hero-content h1,
+.catalog-header h2,
+.section-title,
+.booking-overlay .booking-title,
+.profile-details h2,
+.staff-heading h1 {
+  font-family: 'Unbounded', 'Manrope', system-ui, sans-serif;
+}
+
+.logo {
+  background: linear-gradient(135deg, var(--quest-gold), var(--quest-pink) 46%, var(--quest-teal));
+  background-size: 180% 180%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-weight: 800;
+}
+
+.nav a {
+  color: #cbc5d6;
+  font-weight: 700;
+}
+
+.nav a::after {
+  height: 3px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--quest-gold), var(--quest-pink), var(--quest-teal));
+}
+
+.header-phone,
+.account-button,
+.horror-header-tab {
+  border-color: var(--site-border);
+  background: rgba(255, 255, 255, 0.055);
+  color: #f4efff;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+
+.header-phone:hover,
+.account-button:hover,
+.horror-header-tab:hover,
+.horror-header-tab.active {
+  border-color: rgba(255, 209, 102, 0.42);
+  background: rgba(255, 209, 102, 0.1);
+  color: #fff;
+  box-shadow: 0 12px 32px rgba(255, 209, 102, 0.12);
+}
+
+@media (max-width: 1280px) and (min-width: 768px) {
+  .header .container {
+    gap: 8px;
+  }
+
+  .logo {
+    margin-right: 8px;
+    font-size: 1.45rem;
+  }
+
+  .nav {
+    gap: 10px;
+    font-size: 0.82rem;
+  }
+
+  .header-right {
+    gap: 8px;
+  }
+
+  .header-phone {
+    padding: 6px 12px;
+    font-size: 0.76rem;
+  }
+
+  .account-button {
+    padding: 7px 12px;
+    font-size: 0.78rem;
+  }
+}
+
+@media (max-width: 1080px) and (min-width: 768px) {
+  .logo {
+    font-size: 1.32rem;
+  }
+
+  .nav {
+    gap: 8px;
+    font-size: 0.74rem;
+  }
+
+  .header-phone {
+    display: none;
+  }
+}
+
+.social-icons a {
+  background: rgba(255, 255, 255, 0.07);
+  border-color: var(--site-border);
+}
+
+.social-icons a:hover {
+  background: #26a7e8;
+  border-color: #26a7e8;
+  box-shadow: 0 12px 26px rgba(38, 167, 232, 0.28);
+}
+
+.hero {
+  position: relative;
+  background:
+    linear-gradient(135deg, rgba(141, 108, 255, 0.16), rgba(255, 110, 168, 0.08) 42%, rgba(57, 216, 199, 0.1)),
+    linear-gradient(180deg, #11121c 0%, #0b0d13 100%);
+  border-bottom: 1px solid var(--site-border);
+}
+
+.hero::before,
+.events-hero::before,
+.action-hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.028) 1px, transparent 1px);
+  background-size: 54px 54px;
+  mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.72), transparent 78%);
+}
+
+.hero > .container,
+.events-hero .container,
+.action-hero .container {
+  position: relative;
+}
+
+.hero-content h1 {
+  color: var(--site-text);
+  font-weight: 800;
+  line-height: 1.14;
+  overflow: visible;
+}
+
+.hero-content h1 span {
+  background: linear-gradient(135deg, var(--quest-gold), var(--quest-pink) 48%, var(--quest-teal));
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+
+.hero-content .sub,
+.events-hero-content p,
+.action-hero-content p,
+.section-sub {
+  color: var(--site-muted);
+  line-height: 1.72;
+}
+
+.hero-offer,
+.btn-primary,
+.btn-book-sm,
+.auth-submit,
+.payment-link.primary {
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: linear-gradient(135deg, #7d63f1, #ff6ea8 58%, #ffb85c);
+  box-shadow: 0 16px 34px rgba(255, 110, 168, 0.18);
+  font-weight: 800;
+}
+
+.hero-offer:hover,
+.btn-primary:hover,
+.btn-book-sm:hover,
+.auth-submit:hover,
+.payment-link.primary:hover {
+  background: linear-gradient(135deg, #947dff, #ff7fb4 56%, #ffd166);
+  box-shadow: 0 20px 44px rgba(255, 110, 168, 0.24);
+  transform: translateY(-2px);
+}
+
+.hero-offer.pink {
+  background: linear-gradient(135deg, #ff4f83, #9e6bff);
+}
+
+.hero-offer.green {
+  background: linear-gradient(135deg, #21c9b8, #76e49a);
+  color: #07120f;
+}
+
+.hero-offer.orange {
+  background: linear-gradient(135deg, #ff8a4c, #ffd166);
+  color: #211206;
+}
+
+.hero-photo-card,
+.atmosphere-carousel-wrapper,
+.quest-card,
+.package-card,
+.booking-info,
+.booking-form,
+.receipt-box,
+.options-grid .option-card,
+.contact-method,
+.payment-hero,
+.payment-link,
+.booking-summary-card,
+.profile-summary,
+.profile-details,
+.staff-calendar-panel,
+.staff-booking,
+.staff-table-wrap {
+  border: 1px solid var(--site-border);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.072), rgba(255, 255, 255, 0.026));
+  box-shadow: var(--shadow-soft);
+}
+
+.hero-photo-card,
+.quest-card,
+.package-card {
+  border-radius: 18px;
+}
+
+.hero-photo-card {
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.42), 0 0 0 1px rgba(255, 255, 255, 0.05);
+}
+
+.hero-photo-card .photo-slide .slide-bg::after {
+  background: linear-gradient(180deg, rgba(6, 7, 12, 0.06), rgba(6, 7, 12, 0.82));
+}
+
+.hero-photo-card .photo-slide .slide-content {
+  padding: 0 18px;
+}
+
+.hero-photo-card .photo-slide .slide-content h3,
+.events-grid-3 .event-card h3,
+.action-grid-3 .event-card h3,
+.quest-card .card-body .card-title,
+.package-card h4,
+.booking-info h3 {
+  color: #fffaf2;
+  font-weight: 800;
+}
+
+.hero-photo-card .photo-slide .slide-content .slide-tag,
+.quest-card .card-image .image-tags .tag.highlight,
+.events-hero .badge,
+.action-hero .badge {
+  border-color: rgba(255, 209, 102, 0.34);
+  background: rgba(255, 209, 102, 0.16);
+  color: #ffe39a;
+}
+
+.hero-photo-card .photo-arrows button {
+  background: rgba(11, 13, 19, 0.72);
+  border-color: rgba(255, 255, 255, 0.18);
+}
+
+.hero-photo-card .photo-arrows button:hover,
+.hero-photo-card .photo-dot.active {
+  background: var(--quest-gold);
+  border-color: var(--quest-gold);
+  color: #16110a;
+}
+
+.hero-usp-panel {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+  width: 100%;
+  margin-top: 2px;
+}
+
+.hero-usp-item {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  grid-template-areas:
+    "icon title"
+    "icon text";
+  align-items: center;
+  column-gap: 8px;
+  row-gap: 1px;
+  min-height: 52px;
+  padding: 9px 10px;
+  border: 1px solid rgba(255, 255, 255, 0.11);
+  border-radius: 12px;
+  background: linear-gradient(135deg, rgba(255, 209, 102, 0.12), rgba(255, 110, 168, 0.07) 52%, rgba(57, 216, 199, 0.08));
+  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.2);
+}
+
+.hero-usp-item span {
+  grid-area: icon;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 9px;
+  background: rgba(255, 255, 255, 0.08);
+  font-size: 1rem;
+}
+
+.hero-usp-item strong {
+  grid-area: title;
+  min-width: 0;
+  color: #fffaf2;
+  font-size: 0.78rem;
+  font-weight: 800;
+  line-height: 1.15;
+}
+
+.hero-usp-item small {
+  grid-area: text;
+  min-width: 0;
+  color: var(--site-muted);
+  font-size: 0.66rem;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+@media (max-width: 420px) {
+  .hero-usp-panel {
+    gap: 6px;
+  }
+
+  .hero-usp-item {
+    min-height: 48px;
+    padding: 8px;
+    column-gap: 7px;
+  }
+
+  .hero-usp-item span {
+    width: 24px;
+    height: 24px;
+    font-size: 0.9rem;
+  }
+
+  .hero-usp-item strong {
+    font-size: 0.72rem;
+  }
+
+  .hero-usp-item small {
+    font-size: 0.6rem;
+  }
+}
+
+#section-quests {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  padding: 18px 0 30px;
+  border-top: 1px solid rgba(255, 126, 87, 0.22);
+  border-bottom: 1px solid rgba(171, 255, 115, 0.16);
+  background:
+    linear-gradient(180deg, rgba(20, 10, 23, 0.97), rgba(36, 20, 27, 0.95) 46%, rgba(10, 21, 17, 0.98)),
+    linear-gradient(125deg, rgba(255, 126, 87, 0.2), rgba(171, 255, 115, 0.12) 48%, rgba(255, 202, 97, 0.15)),
+    #130a16;
+}
+
+#section-quests::before,
+#section-quests::after {
+  content: "";
+  position: absolute;
+  pointer-events: none;
+  z-index: -1;
+}
+
+#section-quests::before {
+  inset: -18% -12%;
+  background:
+    radial-gradient(circle at 18% 24%, rgba(255, 126, 87, 0.22), transparent 34%),
+    radial-gradient(circle at 82% 28%, rgba(171, 255, 115, 0.13), transparent 32%),
+    radial-gradient(circle at 50% 86%, rgba(255, 202, 97, 0.18), transparent 38%);
+  background-size: 120% 120%;
+  opacity: 0.88;
+  transform: translate3d(0, 0, 0) scale(1.02);
+  will-change: transform, background-position;
+  animation: questGradientPulse 34s ease-in-out infinite alternate;
+}
+
+#section-quests::after {
+  inset: 0;
+  background-image:
+    radial-gradient(circle at center, rgba(255, 229, 185, 0.06) 0 1px, transparent 1.5px),
+    linear-gradient(90deg, rgba(171, 255, 115, 0.024) 1px, transparent 1px);
+  background-size: 64px 64px, 64px 64px;
+  mask-image: linear-gradient(180deg, transparent 0%, #000 12%, #000 88%, transparent 100%);
+  opacity: 0.22;
+  animation: questWallpaperParticles 46s linear infinite;
+}
+
+.quest-live-wallpaper {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+  mask-image: linear-gradient(180deg, transparent 0%, #000 10%, #000 88%, transparent 100%);
+}
+
+.quest-live-wallpaper svg {
+  position: absolute;
+  inset: -14% -18%;
+  width: 136%;
+  height: 124%;
+  overflow: visible;
+  transform: translate3d(0, 0, 0);
+}
+
+.quest-line-layer {
+  transform-box: fill-box;
+  transform-origin: center;
+  will-change: transform;
+}
+
+.quest-line-layer.layer-a {
+  animation: questLineLayerA 24s linear infinite;
+}
+
+.quest-line-layer.layer-b {
+  animation: questLineLayerB 29s linear infinite;
+}
+
+.quest-line-layer.layer-c {
+  animation: questLineLayerC 35s linear infinite;
+}
+
+.quest-line-layer.layer-d {
+  animation: questLineLayerD 41s linear infinite;
+}
+
+.quest-flow-line {
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 2.4;
+  opacity: 0.68;
+  vector-effect: non-scaling-stroke;
+}
+
+.quest-flow-line.line-a {
+  stroke: rgba(255, 202, 97, 0.74);
+  stroke-width: 3;
+}
+
+.quest-flow-line.line-b {
+  stroke: rgba(255, 126, 87, 0.58);
+  stroke-width: 2.6;
+}
+
+.quest-flow-line.line-c {
+  stroke: rgba(171, 255, 115, 0.5);
+  stroke-width: 2.5;
+}
+
+.quest-flow-line.line-d {
+  stroke: rgba(255, 157, 207, 0.42);
+  stroke-width: 2.4;
+}
+
+.quest-flow-line.line-e {
+  stroke: rgba(255, 250, 242, 0.28);
+  stroke-width: 1.8;
+}
+
+.quest-flow-line.line-f {
+  stroke: rgba(255, 202, 97, 0.34);
+  stroke-width: 1.7;
+}
+
+.quest-flow-line.line-g {
+  stroke: rgba(171, 255, 115, 0.34);
+  stroke-width: 1.6;
+}
+
+.quest-flow-line.line-h {
+  stroke: rgba(255, 157, 207, 0.28);
+  stroke-width: 1.5;
+}
+
+.quest-flow-line.line-i {
+  stroke: rgba(255, 126, 87, 0.32);
+  stroke-width: 1.5;
+}
+
+.quest-flow-line.line-j {
+  stroke: rgba(255, 250, 242, 0.22);
+  stroke-width: 1.2;
+}
+
+.quest-flow-line.line-k {
+  stroke: rgba(255, 202, 97, 0.26);
+  stroke-width: 1.25;
+}
+
+.quest-flow-line.line-l {
+  stroke: rgba(255, 126, 87, 0.24);
+  stroke-width: 1.35;
+}
+
+.quest-flow-line.line-m {
+  stroke: rgba(171, 255, 115, 0.22);
+  stroke-width: 1.25;
+}
+
+.quest-flow-line.line-n {
+  stroke: rgba(255, 202, 97, 0.25);
+  stroke-width: 1.45;
+}
+
+.quest-flow-line.line-o {
+  stroke: rgba(255, 157, 207, 0.22);
+  stroke-width: 1.25;
+}
+
+.quest-flow-line.line-p {
+  stroke: rgba(255, 250, 242, 0.18);
+  stroke-width: 1.15;
+}
+
+#section-quests > .container {
+  position: relative;
+  z-index: 1;
+}
+
+#section-quests .catalog-header {
+  position: relative;
+  margin-bottom: 2px;
+}
+
+#section-quests .catalog-header::before {
+  content: "Квесты Immerscape";
+  display: inline-flex;
+  margin-bottom: 10px;
+  padding: 6px 11px;
+  border: 1px solid rgba(255, 202, 97, 0.28);
+  border-radius: 999px;
+  background: rgba(52, 24, 20, 0.72);
+  color: #ffe5b9;
+  font-size: 0.68rem;
+  font-weight: 800;
+  line-height: 1;
+}
+
+#section-quests .catalog-header h2 {
+  text-shadow: 0 14px 42px rgba(255, 126, 87, 0.18);
+}
+
+#section-quests .quest-grid {
+  position: relative;
+}
+
+#section-quests .quest-card {
+  background:
+    linear-gradient(180deg, rgba(24, 17, 22, 0.95), rgba(13, 19, 16, 0.96));
+}
+
+@keyframes questWallpaperDrift {
+  0% {
+    opacity: 0.68;
+    transform: translate3d(-3%, -2%, 0) scale(1.03);
+  }
+
+  50% {
+    opacity: 0.9;
+    transform: translate3d(2%, 1%, 0) scale(1.08);
+  }
+
+  100% {
+    opacity: 0.76;
+    transform: translate3d(3%, -1%, 0) scale(1.05);
+  }
+}
+
+@keyframes questWallpaperParticles {
+  from {
+    background-position: 0 0, 0 0;
+  }
+
+  to {
+    background-position: 54px 54px, 54px 0;
+  }
+}
+
+@keyframes questGradientPulse {
+  0% {
+    background-position: 0% 35%;
+    transform: translate3d(-1%, -1%, 0) scale(1.02);
+  }
+
+  50% {
+    background-position: 70% 55%;
+    transform: translate3d(1.2%, 0.6%, 0) scale(1.045);
+  }
+
+  100% {
+    background-position: 100% 70%;
+    transform: translate3d(0.4%, 1.2%, 0) scale(1.035);
+  }
+}
+
+@keyframes questLineLayerA {
+  0% {
+    transform: translate3d(-34px, -12px, 0);
+  }
+
+  25% {
+    transform: translate3d(16px, -30px, 0);
+  }
+
+  50% {
+    transform: translate3d(36px, 12px, 0);
+  }
+
+  75% {
+    transform: translate3d(-12px, 30px, 0);
+  }
+
+  100% {
+    transform: translate3d(-34px, -12px, 0);
+  }
+}
+
+@keyframes questLineLayerB {
+  0% {
+    transform: translate3d(32px, 18px, 0);
+  }
+
+  25% {
+    transform: translate3d(-20px, 32px, 0);
+  }
+
+  50% {
+    transform: translate3d(-38px, -10px, 0);
+  }
+
+  75% {
+    transform: translate3d(14px, -34px, 0);
+  }
+
+  100% {
+    transform: translate3d(32px, 18px, 0);
+  }
+}
+
+@keyframes questLineLayerC {
+  0% {
+    transform: translate3d(-18px, 30px, 0);
+  }
+
+  25% {
+    transform: translate3d(-34px, -12px, 0);
+  }
+
+  50% {
+    transform: translate3d(10px, -34px, 0);
+  }
+
+  75% {
+    transform: translate3d(32px, 16px, 0);
+  }
+
+  100% {
+    transform: translate3d(-18px, 30px, 0);
+  }
+}
+
+@keyframes questLineLayerD {
+  0% {
+    transform: translate3d(22px, -26px, 0);
+  }
+
+  25% {
+    transform: translate3d(40px, 8px, 0);
+  }
+
+  50% {
+    transform: translate3d(-8px, 34px, 0);
+  }
+
+  75% {
+    transform: translate3d(-36px, -12px, 0);
+  }
+
+  100% {
+    transform: translate3d(22px, -26px, 0);
+  }
+}
+
+@media (max-width: 767px) {
+  #section-quests {
+    padding: 12px 0 24px;
+  }
+
+  #section-quests::before {
+    inset: -12% -34%;
+    opacity: 0.78;
+  }
+
+  #section-quests::after {
+    background-size: 44px 44px, 44px 44px;
+    opacity: 0.22;
+  }
+
+  .quest-live-wallpaper svg {
+    inset: -4% -48%;
+    width: 196%;
+    height: 112%;
+  }
+
+  .quest-flow-line {
+    stroke-width: 1.8;
+    opacity: 0.56;
+  }
+
+  #section-quests .catalog-header::before {
+    margin-bottom: 8px;
+    font-size: 0.62rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .quest-line-layer.layer-a {
+    animation-duration: 28s;
+  }
+
+  .quest-line-layer.layer-b {
+    animation-duration: 34s;
+  }
+
+  .quest-line-layer.layer-c {
+    animation-duration: 40s;
+  }
+
+  .quest-line-layer.layer-d {
+    animation-duration: 46s;
+  }
+}
+
+.hero-promo {
+  border: 1px solid rgba(255, 209, 102, 0.24) !important;
+  background:
+    linear-gradient(135deg, rgba(255, 209, 102, 0.16), rgba(255, 110, 168, 0.1) 42%, rgba(57, 216, 199, 0.12)) !important;
+  box-shadow: 0 16px 42px rgba(0, 0, 0, 0.24);
+}
+
+.hero-promo .promo-text {
+  color: #f2edf8 !important;
+}
+
+.hero-promo .promo-text .highlight {
+  color: #ffe39a !important;
+}
+
+.hero-promo .promo-btn {
+  background: linear-gradient(135deg, var(--quest-pink), var(--quest-gold)) !important;
+  color: #211206 !important;
+  box-shadow: 0 14px 26px rgba(255, 209, 102, 0.2);
+}
+
+.atmosphere-section,
+.catalog-header,
+.birthday-section,
+.booking-section,
+.footer {
+  border-color: var(--site-border);
+}
+
+.atmosphere-carousel-slide {
+  background:
+    linear-gradient(135deg, rgba(141, 108, 255, 0.18), rgba(255, 110, 168, 0.1)),
+    #151722;
+}
+
+.atmosphere-carousel-slide .emoji,
+.events-grid-3 .event-card .icon,
+.action-grid-3 .event-card .icon {
+  filter: drop-shadow(0 10px 18px rgba(255, 209, 102, 0.22));
+}
+
+.catalog-header h2,
+.section-title {
+  color: var(--site-text);
+  font-weight: 800;
+}
+
+.location-filter .loc-chip,
+.horror-location-selector .loc-btn,
+.step-btn {
+  border-color: var(--site-border);
+  background: rgba(255, 255, 255, 0.045);
+  color: #d9d3e3;
+  font-weight: 800;
+}
+
+.location-filter .loc-chip:hover,
+.location-filter .loc-chip.active,
+.horror-location-selector .loc-btn:hover,
+.horror-location-selector .loc-btn.active,
+.step-btn.active {
+  border-color: rgba(255, 209, 102, 0.48);
+  background: rgba(255, 209, 102, 0.12);
+  color: #fff;
+  box-shadow: 0 14px 34px rgba(255, 209, 102, 0.1);
+}
+
+.quest-card:hover,
+.package-card:hover,
+.events-grid-3 .event-card:hover,
+.action-grid-3 .event-card:hover,
+.options-grid .option-card:hover,
+.contact-method:hover {
+  border-color: rgba(255, 209, 102, 0.42);
+  box-shadow: var(--shadow-glow);
+}
+
+.quest-card .card-image {
+  border-bottom-color: var(--site-border);
+  background:
+    linear-gradient(135deg, rgba(141, 108, 255, 0.12), rgba(57, 216, 199, 0.1)),
+    #151722;
+}
+
+.quest-card .card-image .image-tags .tag {
+  border-color: rgba(255, 255, 255, 0.14);
+  background: rgba(8, 10, 15, 0.72);
+  color: #eee7f8;
+}
+
+.quest-card .card-body .card-location,
+.quest-card .card-body .card-meta,
+.quest-card .price-label,
+.package-card .pkg-note,
+.section-sub,
+.booking-info .desc,
+.payment-note {
+  color: var(--site-muted);
+}
+
+.quest-card .card-body .card-desc {
+  color: #d6cfdf;
+}
+
+.quest-card .card-footer,
+.receipt-box .row {
+  border-color: var(--site-border);
+}
+
+.quest-card .card-footer .price,
+.package-card .pkg-price,
+.receipt-box .total,
+.booking-summary-card .summary-total,
+.booking-total-current {
+  color: #ffe39a;
+}
+
+.discount-badge,
+.quest-card .discount-badge {
+  background: rgba(126, 226, 157, 0.16);
+  color: #a8f7bd;
+}
+
+.package-card.popular {
+  border-color: rgba(255, 209, 102, 0.58);
+  box-shadow: 0 18px 54px rgba(255, 209, 102, 0.13);
+}
+
+.package-card ul li::before {
+  color: var(--quest-teal);
+}
+
+.packages-collapsible .collapsible-body .package-mini.active {
+  position: relative;
+}
+
+.packages-collapsible .collapsible-body .package-mini.active::after {
+  content: "Выбрано. Нажмите ещё раз, чтобы убрать пакет";
+  flex-basis: 100%;
+  color: #ffe39a;
+  font-size: 0.72rem;
+  font-weight: 800;
+  line-height: 1.35;
+}
+
+.packages-collapsible .collapsible-body .package-mini .package-desc-toggle,
+.options-grid .option-card .option-desc-toggle {
+  display: inline-flex;
+  min-height: 32px;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  border: 1px solid rgba(255, 209, 102, 0.28);
+  border-radius: 999px;
+  padding: 6px 12px;
+  background: rgba(255, 209, 102, 0.08);
+  color: #ffe39a;
+  font: inherit;
+  font-size: 0.72rem;
+  font-weight: 800;
+  line-height: 1;
+  cursor: pointer;
+  transition: border-color 0.2s ease, background 0.2s ease, color 0.2s ease, transform 0.2s ease;
+}
+
+.packages-collapsible .collapsible-body .package-mini .package-desc-toggle::before,
+.options-grid .option-card .option-desc-toggle::before {
+  content: "+";
+  display: inline-grid;
+  width: 18px;
+  height: 18px;
+  place-items: center;
+  border-radius: 50%;
+  background: rgba(255, 209, 102, 0.16);
+  color: #fffaf2;
+  font-size: 0.9rem;
+  line-height: 1;
+}
+
+.packages-collapsible .collapsible-body .package-mini .package-desc-toggle[aria-expanded="true"]::before,
+.options-grid .option-card .option-desc-toggle[aria-expanded="true"]::before {
+  content: "-";
+}
+
+.packages-collapsible .collapsible-body .package-mini .package-desc-toggle:hover,
+.options-grid .option-card .option-desc-toggle:hover {
+  border-color: rgba(255, 209, 102, 0.56);
+  background: rgba(255, 209, 102, 0.14);
+  color: #fff;
+  transform: translateY(-1px);
+}
+
+.packages-collapsible .collapsible-body .package-mini .package-description.open {
+  border-top-color: rgba(255, 209, 102, 0.18);
+}
+
+.booking-overlay {
+  background: rgba(6, 7, 12, 0.9);
+  backdrop-filter: blur(14px);
+}
+
+.booking-overlay .close-overlay {
+  border-color: var(--site-border);
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.booking-form label,
+.auth-form label,
+.profile-form label {
+  color: #e4deec;
+  font-weight: 800;
+}
+
+.booking-form input,
+.booking-form select,
+.booking-form textarea,
+.auth-form input,
+.profile-form input,
+.profile-readonly,
+.booking-edit-grid input,
+.booking-edit-grid select,
+.booking-edit-grid textarea,
+.staff-booking input,
+.staff-table input,
+.staff-table textarea {
+  border-color: var(--site-border);
+  background: rgba(8, 10, 15, 0.72);
+  color: var(--site-text);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+}
+
+.booking-form input:focus,
+.booking-form select:focus,
+.booking-form textarea:focus,
+.auth-form input:focus,
+.profile-form input:focus {
+  border-color: rgba(255, 209, 102, 0.68);
+  box-shadow: 0 0 0 4px rgba(255, 209, 102, 0.12);
+}
+
+.options-grid .option-card.active,
+.contact-method.active {
+  border-color: rgba(57, 216, 199, 0.55);
+  background: rgba(57, 216, 199, 0.1);
+}
+
+.options-grid .option-card.active .option-check {
+  border-color: var(--quest-teal);
+  background: var(--quest-teal);
+  color: #061210;
+}
+
+.btn-outline {
+  border-color: var(--site-border);
+  background: rgba(255, 255, 255, 0.035);
+  color: #eee7f8;
+}
+
+.btn-outline:hover {
+  border-color: rgba(255, 209, 102, 0.48);
+  background: rgba(255, 209, 102, 0.1);
+}
+
+.events-hero,
+.action-hero {
+  position: relative;
+  overflow: hidden;
+  background:
+    linear-gradient(135deg, rgba(141, 108, 255, 0.18), rgba(255, 110, 168, 0.1) 46%, rgba(57, 216, 199, 0.1)),
+    #0f111a;
+}
+
+.events-hero-content h1,
+.action-hero-content h1 {
+  font-weight: 800;
+  line-height: 1.14;
+}
+
+.events-hero-visual .hero-image,
+.action-hero-visual .hero-image,
+.events-grid-3 .event-card,
+.action-grid-3 .event-card {
+  border-color: var(--site-border);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.075), rgba(255, 255, 255, 0.026));
+  box-shadow: var(--shadow-soft);
+}
+
+.events-hero-visual .hero-image .floating-tag,
+.action-hero-visual .hero-image .floating-tag {
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  background: rgba(11, 13, 19, 0.76);
+  color: #fffaf2;
+  backdrop-filter: blur(10px);
+}
+
+.auth-dialog,
+.booking-info-card {
+  border-color: var(--site-border-strong);
+  background: linear-gradient(180deg, rgba(29, 31, 43, 0.98), rgba(13, 15, 22, 0.98));
+}
+
+.footer {
+  background: #0a0b10;
+  color: #d8d1e2;
+}
+
+@media (max-width: 767px) {
+  .mobile-menu-toggle {
+    border-color: var(--site-border);
+    background: rgba(255, 255, 255, 0.075);
+    border-radius: 12px;
+  }
+
+  .header.mobile-open .nav {
+    border-color: var(--site-border);
+    background: rgba(13, 15, 22, 0.98);
+    box-shadow: var(--shadow-soft);
+  }
+
+  .hero-content h1,
+  .events-hero-content h1,
+  .action-hero-content h1 {
+    line-height: 1.12;
+  }
+
+  .hero-offer {
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .packages-collapsible .collapsible-body .package-mini {
+    align-items: stretch;
+  }
+
+  .packages-collapsible .collapsible-body .package-mini .pkg-name,
+  .packages-collapsible .collapsible-body .package-mini .pkg-price,
+  .packages-collapsible .collapsible-body .package-mini .pkg-badge,
+  .packages-collapsible .collapsible-body .package-mini .package-desc-toggle {
+    flex-basis: 100%;
+  }
+
+  .packages-collapsible .collapsible-body .package-mini .package-desc-toggle,
+  .options-grid .option-card .option-desc-toggle {
+    width: 100%;
+    min-height: 40px;
+    margin-top: 6px;
+    font-size: 0.78rem;
+  }
+
+  .packages-collapsible .collapsible-body .package-mini.active::after {
+    padding: 8px 10px;
+    border: 1px solid rgba(255, 209, 102, 0.22);
+    border-radius: 10px;
+    background: rgba(255, 209, 102, 0.08);
+    font-size: 0.74rem;
+  }
+}

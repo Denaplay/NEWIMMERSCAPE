@@ -33,7 +33,7 @@
       <form class="auth-form">
         <div class="auth-signup-fields" hidden>
           <label>Имя и фамилия<input name="fullName" type="text" autocomplete="name" maxlength="100" placeholder="Иван Иванов"></label>
-          <label>Телефон<input name="phone" type="tel" autocomplete="tel" maxlength="30" placeholder="+7 (999) 000-00-00"></label>
+          <label>Телефон<input name="phone" type="tel" autocomplete="tel" inputmode="numeric" maxlength="18" value="+7 " placeholder="+7 (999) 000-00-00"></label>
         </div>
         <label>Email<input name="email" type="email" autocomplete="email" placeholder="mail@example.com" required></label>
         <label class="auth-password-field">Пароль<input name="password" type="password" autocomplete="current-password" minlength="6" placeholder="Не менее 6 символов" required></label>
@@ -98,6 +98,69 @@
     message.className = `auth-message${type ? ` ${type}` : ''}`;
   }
 
+  function normalizeRussianPhone(value) {
+    let digits = String(value || '').replace(/\D/g, '');
+    if (digits.length === 10 && digits[0] === '9') digits = `7${digits}`;
+    if (digits.length === 11 && digits[0] === '8') digits = `7${digits.slice(1)}`;
+    if (digits.length !== 11 || digits[0] !== '7') return '';
+    return `+${digits}`;
+  }
+
+  function getPhoneDigits(value) {
+    let digits = String(value || '').replace(/\D/g, '');
+    if (digits.startsWith('8')) digits = `7${digits.slice(1)}`;
+    if (digits.startsWith('7')) digits = digits.slice(1);
+    return digits.slice(0, 10);
+  }
+
+  function formatPhoneInput(value) {
+    const digits = getPhoneDigits(value);
+    if (!digits) return '+7 ';
+
+    let formatted = '+7';
+    if (digits.length > 0) formatted += ` (${digits.slice(0, 3)}`;
+    if (digits.length >= 3) formatted += ')';
+    if (digits.length > 3) formatted += ` ${digits.slice(3, 6)}`;
+    if (digits.length > 6) formatted += `-${digits.slice(6, 8)}`;
+    if (digits.length > 8) formatted += `-${digits.slice(8, 10)}`;
+    return formatted;
+  }
+
+  function movePhoneCaretToEnd(input) {
+    requestAnimationFrame(() => {
+      const end = input.value.length;
+      input.setSelectionRange?.(end, end);
+    });
+  }
+
+  function handlePhoneKeydown(event) {
+    const input = event.currentTarget;
+    const prefixLength = 3;
+    const selectionStart = input.selectionStart ?? input.value.length;
+    const selectionEnd = input.selectionEnd ?? input.value.length;
+    const hasSelection = selectionStart !== selectionEnd;
+
+    if ((event.key === 'Backspace' && selectionStart <= prefixLength && !hasSelection) ||
+        (event.key === 'Delete' && selectionStart < prefixLength && !hasSelection)) {
+      event.preventDefault();
+      movePhoneCaretToEnd(input);
+    }
+  }
+
+  function handlePhoneInput(event) {
+    const input = event.currentTarget;
+    input.value = formatPhoneInput(input.value);
+    movePhoneCaretToEnd(input);
+  }
+
+  function validateSignupPhone() {
+    const input = form.elements.phone;
+    input.value = formatPhoneInput(input.value);
+    const phone = normalizeRussianPhone(input.value);
+    input.setAttribute('aria-invalid', String(!phone));
+    return phone;
+  }
+
   function setMode(nextMode) {
     mode = nextMode;
     setMessage('');
@@ -115,6 +178,7 @@
     form.elements.consent.required = isSignup;
     passwordInput.autocomplete = isSignup ? 'new-password' : 'current-password';
     if (nextMode === 'signup') {
+      form.elements.phone.value = formatPhoneInput(form.elements.phone.value);
       title.textContent = 'Создание аккаунта';
       subtitle.textContent = 'Зарегистрируйтесь с помощью email и пароля';
       submit.textContent = 'Зарегистрироваться';
@@ -148,6 +212,7 @@
     modal.hidden = true;
     document.body.classList.remove('auth-open');
     form.reset();
+    form.elements.phone.value = '+7 ';
     setMode('signin');
   }
 
@@ -174,6 +239,15 @@
     if (event.key === 'Escape' && !modal.hidden) closeModal();
   });
   modeButton.addEventListener('click', () => setMode(mode === 'signin' ? 'signup' : 'signin'));
+  form.elements.phone.addEventListener('focus', function() {
+    if (!this.value.trim()) this.value = '+7 ';
+    movePhoneCaretToEnd(this);
+  });
+  form.elements.phone.addEventListener('keydown', handlePhoneKeydown);
+  form.elements.phone.addEventListener('input', handlePhoneInput);
+  form.elements.phone.addEventListener('blur', function() {
+    this.value = formatPhoneInput(this.value);
+  });
 
   resetButton.addEventListener('click', async () => {
     if (!client) return setMessage(initializationError || 'Авторизация недоступна.', 'error');
@@ -227,9 +301,16 @@
       submit.textContent = 'Зарегистрироваться';
       return setMessage('Пароли не совпадают.', 'error');
     }
+    const signupPhone = mode === 'signup' ? validateSignupPhone() : '';
+    if (mode === 'signup' && !signupPhone) {
+      submit.disabled = false;
+      submit.textContent = 'Зарегистрироваться';
+      form.elements.phone.focus();
+      return setMessage('Введите корректный номер телефона: +7 и 10 цифр.', 'error');
+    }
     const metadata = {
       full_name: form.elements.fullName.value.trim(),
-      phone: form.elements.phone.value.trim()
+      phone: mode === 'signup' ? signupPhone : form.elements.phone.value.trim()
     };
     try {
       const request = mode === 'signup'

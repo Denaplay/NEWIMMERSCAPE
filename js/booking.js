@@ -9,6 +9,7 @@ let bookingPlayersValue = 1;
 let selectedDate = null;
 let selectedTime = null;
 let selectedPackageQuest = '';
+let baseBookingState = null;
 let currentMonth = new Date().getMonth();
 let currentYear = new Date().getFullYear();
 const today = new Date();
@@ -52,8 +53,9 @@ const questsData = [
     name: 'Стоматология "Новая жизнь"', 
     price: 6500, 
     time: '60 мин', 
-    players: '1–6', 
-    difficulty: '4/5', 
+    players: '2–8', 
+    difficulty: 'Средний', 
+    fear: 'Средний',
     photos: ['imeges/stomatologiya/1.webp', 'imeges/stomatologiya/2.webp', 'imeges/stomatologiya/3.webp', 'imeges/stomatologiya/4.webp'], 
     loc: 'м. Профсоюзная',
     prices: {
@@ -68,8 +70,9 @@ const questsData = [
     name: 'Рик и Морти', 
     price: 6500, 
     time: '60 мин', 
-    players: '1–6', 
-    difficulty: '3/5', 
+    players: '2–8', 
+    difficulty: 'Средний', 
+    fear: 'Низкий',
     photos: ['imeges/rick-and-morty/1.webp', 'imeges/rick-and-morty/2.webp', 'imeges/rick-and-morty/3.webp', 'imeges/rick-and-morty/4.webp'], 
     loc: 'м. Профсоюзная',
     prices: {
@@ -83,9 +86,10 @@ const questsData = [
   { 
     name: 'K-pop: последний стрим', 
     price: 5500, 
-    time: '75 мин', 
-    players: '1–8', 
-    difficulty: '4/5', 
+    time: '60 мин', 
+    players: '2–8', 
+    difficulty: 'Средний', 
+    fear: 'Средний',
     photos: ['imeges/k-pop/1.webp', 'imeges/k-pop/2.webp', 'imeges/k-pop/3.webp'], 
     loc: 'м. Профсоюзная',
     prices: {
@@ -99,22 +103,27 @@ const questsData = [
   { 
     name: 'Хоррор-свидание', 
     price: 10000, 
-    time: '60-90 мин', 
-    players: '1–8', 
-    difficulty: '4/5', 
+    time: '60 мин', 
+    players: '2 игрока', 
+    difficulty: 'Средний', 
+    fear: 'Страшный',
     photos: ['imeges/horror-svidanie/1.webp', 'imeges/horror-svidanie/2.webp'], 
     loc: 'м. Профсоюзная',
     prices: {
       '00:00-01:15': 15000,
-      '09:00-22:45': 10000
+      '09:00-16:30': 10000,
+      '17:45': 10500,
+      '20:15-21:30': 12000,
+      '22:45': 13500
     }
   },
   { 
     name: 'Запретная дверь', 
     price: 4990, 
-    time: '70 мин', 
-    players: '1–5', 
-    difficulty: '5/5', 
+    time: '60 мин', 
+    players: '2–6', 
+    difficulty: 'Средний', 
+    fear: 'Страшный',
     photos: ['imeges/zapretnaya-dver/IMG_6979.webp', 'imeges/zapretnaya-dver/2.webp', 'imeges/zapretnaya-dver/3.webp'], 
     loc: 'м. Измайловская',
     prices: {
@@ -123,11 +132,12 @@ const questsData = [
     }
   },
   { 
-    name: 'Изнанка в разуме Векны', 
+    name: 'Изнанка: в разуме Векны', 
     price: 5990, 
-    time: '80 мин', 
-    players: '1–6', 
-    difficulty: '5/5', 
+    time: '60 мин', 
+    players: '2–10', 
+    difficulty: 'Средний', 
+    fear: 'Страшный',
     photos: ['imeges/iznananka/Изнанка.webp'], 
     loc: 'м. Измайловская',
     prices: {
@@ -139,19 +149,21 @@ const questsData = [
     name: 'Among Us', 
     price: 7990, 
     time: '60 мин', 
-    players: '6–10', 
-    difficulty: '4/5', 
+    players: '5–15', 
+    difficulty: 'Средний', 
+    fear: 'Не страшный',
     photos: ['imeges/amongus/1.webp'], 
     loc: 'м. Измайловская',
-    minPlayers: 6,
+    minPlayers: 3,
     prices: { 'Всегда': 7990 }
   },
   { 
     name: 'Невеста', 
     price: 5500, 
     time: '60 мин', 
-    players: '1–6', 
-    difficulty: '4/5', 
+    players: '2–10', 
+    difficulty: 'Простой', 
+    fear: 'Страшный',
     photos: ['imeges/nevesta/1.webp', 'imeges/nevesta/2.webp', 'imeges/nevesta/3.webp'], 
     loc: 'м. Таганская',
     prices: {
@@ -160,11 +172,12 @@ const questsData = [
     }
   },
   { 
-    name: 'Хогвартс', 
+    name: 'Приключение в Хогвартсе', 
     price: 5500, 
     time: '60 мин', 
-    players: '1–7', 
-    difficulty: '3/5', 
+    players: '2–10', 
+    difficulty: 'Низкая', 
+    fear: 'Не страшный',
     photos: ['imeges/rozhdestvo-v-hogvartse/1.webp', 'imeges/rozhdestvo-v-hogvartse/2.webp'], 
     loc: 'м. Таганская',
     prices: {
@@ -175,9 +188,10 @@ const questsData = [
   { 
     name: 'Лабубу: волшебный мир', 
     price: 5500, 
-    time: '50 мин', 
-    players: '1–8', 
-    difficulty: '2/5', 
+    time: '60 мин', 
+    players: '2–10', 
+    difficulty: 'Низкая', 
+    fear: 'Не страшный',
     photos: ['imeges/labubu/1.webp', 'imeges/labubu/2.webp', 'imeges/labubu/3.webp'], 
     loc: 'м. Таганская',
     prices: {
@@ -188,9 +202,10 @@ const questsData = [
   { 
     name: 'Монастырь', 
     price: 5990, 
-    time: '70 мин', 
-    players: '1–6', 
-    difficulty: '5/5', 
+    time: '60 мин', 
+    players: '2–10', 
+    difficulty: 'Простой', 
+    fear: 'Страшный',
     photos: ['imeges/monastyr/1.webp', 'imeges/monastyr/2.webp', 'imeges/monastyr/3.webp', 'imeges/monastyr/4.webp'], 
     loc: 'м. Таганская',
     prices: {
@@ -201,7 +216,7 @@ const questsData = [
   { 
     name: 'Гринч', 
     price: 5500, 
-    time: '55 мин', 
+    time: '60 мин', 
     players: '1–8', 
     difficulty: '2/5', 
     photos: ['imeges/grinch/1.webp'], 
@@ -213,15 +228,16 @@ const questsData = [
   },
   { 
     name: 'Хоррор-вечер', 
-    price: 5500, 
-    time: '60-90 мин', 
-    players: '1–8', 
+    price: 12000, 
+    time: '60 мин', 
+    players: '2', 
     difficulty: '4/5', 
-    photos: ['https://downloader.disk.yandex.ru/preview/c66b427a33a69046e559d0134aea071ba28c0a9b705d8a133be18c7b1a00116d/6a558eca/qsU0Bl5d12t3jwWIpbhRRtSAdx0Gx-X5giQo3-ooRzYP3r2_Pw_LB4JERXIkF4EEryVtCtmGKl15FYrPmHFkcw%3D%3D?uid=0&filename=DSC01283_mk.jpg&disposition=inline&hash=&limit=0&content_type=image%2Fjpeg&owner_uid=0&tknv=v3&is_direct_zip_experiment=1&size=1918x920'], 
+    photos: ['imeges/horror-vecher/1.webp'], 
     loc: 'м. Таганская',
+    minPlayers: 2,
     prices: {
-      '09:00-10:15': 5500,
-      '11:30-01:15': 7500
+      '00:00-01:15': 17000,
+      '09:00-22:45': 12000
     }
   }
 ];
@@ -243,15 +259,15 @@ const questTimes = {
   'K-pop: последний стрим': ['00:15', '01:30', '09:15', '10:30', '11:45', '13:00', '14:15', '15:30', '16:45', '18:00', '19:15', '20:30', '21:45', '23:00'],
   'Гринч': ['09:00', '10:15', '11:30', '12:45', '14:00', '15:15', '16:30', '17:45', '19:00', '20:15', '21:30', '22:45'],
   'Запретная дверь': ['09:00', '10:15', '11:30', '12:45', '14:00', '15:15', '16:30', '17:45', '19:00', '20:15', '21:30'],
-  'Изнанка в разуме Векны': ['09:00', '10:15', '11:30', '12:45', '14:00', '15:15', '16:30', '17:45', '19:00', '20:15', '21:30'],
+  'Изнанка: в разуме Векны': ['09:00', '10:15', '11:30', '12:45', '14:00', '15:15', '16:30', '17:45', '19:00', '20:15', '21:30'],
   'Лабубу: волшебный мир': ['09:00', '10:15', '11:30', '12:45', '14:00', '15:15', '16:30', '17:45', '19:00', '20:15', '21:30'],
   'Монастырь': ['00:00', '01:15', '09:00', '10:15', '11:30', '12:45', '14:00', '15:15', '16:30', '17:45', '19:00', '20:15', '21:30', '22:45'],
   'Невеста': ['00:00', '01:15', '09:00', '10:15', '11:30', '12:45', '14:00', '15:15', '16:30', '17:45', '19:00', '20:15', '21:30', '22:45'],
-  'Хогвартс': ['09:00', '10:15', '11:30', '12:45', '14:00', '15:15', '16:30', '17:45', '19:00', '20:15', '21:30', '22:45'],
+  'Приключение в Хогвартсе': ['09:00', '10:15', '11:30', '12:45', '14:00', '15:15', '16:30', '17:45', '19:00', '20:15', '21:30', '22:45'],
   'Рик и Морти': ['00:00', '01:15', '09:00', '10:15', '11:30', '12:45', '14:00', '15:15', '16:30', '17:45', '19:00', '20:15', '21:30', '22:45'],
   'Стоматология "Новая жизнь"': ['00:00', '01:15', '09:00', '10:15', '11:30', '12:45', '14:00', '15:15', '16:30', '17:45', '19:00', '20:15', '21:30', '22:45'],
-  'Хоррор-свидание': ['00:00', '01:15', '09:00', '10:15', '11:30', '12:45', '14:00', '15:15', '16:30', '17:45', '19:00', '20:15', '21:30', '22:45'],
-  'Хоррор-вечер': ['09:00', '10:15', '11:30', '12:45', '14:00', '15:15', '16:30', '17:45', '19:00', '20:15', '21:30', '22:45']
+  'Хоррор-свидание': ['00:00', '01:15', '09:00', '10:15', '11:30', '12:45', '14:00', '15:15', '16:30', '17:45', '20:15', '21:30', '22:45'],
+  'Хоррор-вечер': ['00:00', '01:15', '09:00', '10:15', '11:30', '12:45', '14:00', '15:15', '16:30', '17:45', '19:00', '20:15', '21:30', '22:45']
 };
 
 // ============================================================
@@ -516,7 +532,27 @@ function getPackageParticipantRule() {
 }
 
 function getParticipantRule() {
+  if (!isCurrentPackageBooking() && currentBookingName === 'Among Us') {
+    return { basePlayers: 6, extraPlayerPrice: 1500, label: 'за 3–6 чел.' };
+  }
+  if (!isCurrentPackageBooking() && currentBookingName === 'Хоррор-свидание') {
+    return { basePlayers: 3, extraPlayerPrice: 1500, label: 'за 1–3 чел.' };
+  }
+  if (!isCurrentPackageBooking() && currentBookingName === 'Хоррор-вечер') {
+    return { basePlayers: 2, extraPlayerPrice: 1500, label: 'за 2-х' };
+  }
   return getPackageParticipantRule() || { basePlayers: 3, extraPlayerPrice: 1500 };
+}
+
+function getQuestMeta(name) {
+  const quest = questsData.find(q => q.name === name);
+  return {
+    quest,
+    time: quest ? quest.time : '60-90 мин',
+    players: quest ? quest.players : '1–8',
+    difficulty: quest ? quest.difficulty : '—',
+    fear: quest ? quest.fear : ''
+  };
 }
 
 function calculateBookingTotals() {
@@ -542,11 +578,13 @@ function calculateBookingTotals() {
   const packageQuestPrice = isCustomPackageBooking() ? getSelectedPackageQuestPrice(activeTime) : 0;
   const packageServicePrice = isCurrentPackageBooking() ? (currentBookingPrice || 0) : basePrice;
 
-  return { players, activeTime, basePrice, packageServicePrice, packageQuestPrice, optionTotal, extraPlayerCost, basePlayers, extraPlayerPrice, subtotal, discount, total, deposit: 1500 };
+  return { players, activeTime, basePrice, packageServicePrice, packageQuestPrice, optionTotal, extraPlayerCost, basePlayers, extraPlayerPrice, subtotal, discount, total };
 }
 
 function getBasePriceLabel(totals) {
   const priceType = isCurrentPackageBooking() ? 'Цена пакета' : 'Цена квеста';
+  const participantRule = getParticipantRule();
+  if (participantRule.label) return `${priceType} ${participantRule.label}:`;
   const playersText = totals.basePlayers === 5 ? 'до 5х' : `за ${totals.basePlayers}х`;
   return `${priceType} ${playersText}:`;
 }
@@ -573,24 +611,6 @@ function getSelectedDateDisplay() {
   return dateObj.toLocaleDateString('ru-RU', { day: 'numeric', month: 'long', year: 'numeric' });
 }
 
-function updatePaymentStep(totals) {
-  const activeTime = totals.activeTime;
-  const time = activeTime ? activeTime.querySelector('.slot-time').textContent : '—';
-  const rest = Math.max(totals.total - totals.deposit, 0);
-
-  const paymentQuest = document.getElementById('paymentQuest');
-  const paymentDateTime = document.getElementById('paymentDateTime');
-  const paymentDepositAmount = document.getElementById('paymentDepositAmount');
-  const paymentTotal = document.getElementById('paymentTotal');
-  const paymentRest = document.getElementById('paymentRest');
-
-  if (paymentQuest) paymentQuest.textContent = currentBookingName;
-  if (paymentDateTime) paymentDateTime.textContent = `${getSelectedDateDisplay()}, ${time}`;
-  if (paymentDepositAmount) paymentDepositAmount.textContent = formatMoney(totals.deposit);
-  if (paymentTotal) paymentTotal.textContent = formatMoney(totals.total);
-  if (paymentRest) paymentRest.textContent = formatMoney(rest);
-}
-
 function renderTotalAmount(el, subtotal, total, discount) {
   if (!el) return;
   if (discount > 0) {
@@ -600,6 +620,83 @@ function renderTotalAmount(el, subtotal, total, discount) {
     el.classList.remove('has-discount');
     el.textContent = formatMoney(total);
   }
+}
+
+function normalizeRussianPhone(value) {
+  let digits = String(value || '').replace(/\D/g, '');
+  if (digits.length === 10 && digits[0] === '9') digits = `7${digits}`;
+  if (digits.length === 11 && digits[0] === '8') digits = `7${digits.slice(1)}`;
+  if (digits.length !== 11 || digits[0] !== '7') return '';
+  return `+${digits}`;
+}
+
+function getPhoneDigits(value) {
+  let digits = String(value || '').replace(/\D/g, '');
+  if (digits.startsWith('8')) digits = `7${digits.slice(1)}`;
+  if (digits.startsWith('7')) digits = digits.slice(1);
+  return digits.slice(0, 10);
+}
+
+function formatPhoneInput(value) {
+  const digits = getPhoneDigits(value);
+  if (!digits) return '+7 ';
+
+  let formatted = '+7';
+  if (digits.length > 0) formatted += ` (${digits.slice(0, 3)}`;
+  if (digits.length >= 3) formatted += ')';
+  if (digits.length > 3) formatted += ` ${digits.slice(3, 6)}`;
+  if (digits.length > 6) formatted += `-${digits.slice(6, 8)}`;
+  if (digits.length > 8) formatted += `-${digits.slice(8, 10)}`;
+  return formatted;
+}
+
+function movePhoneCaretToEnd(input) {
+  requestAnimationFrame(() => {
+    const end = input.value.length;
+    input.setSelectionRange?.(end, end);
+  });
+}
+
+function handlePhoneKeydown(event) {
+  const input = event.currentTarget;
+  const prefixLength = 3;
+  const selectionStart = input.selectionStart ?? input.value.length;
+  const selectionEnd = input.selectionEnd ?? input.value.length;
+  const hasSelection = selectionStart !== selectionEnd;
+
+  if ((event.key === 'Backspace' && selectionStart <= prefixLength && !hasSelection) ||
+      (event.key === 'Delete' && selectionStart < prefixLength && !hasSelection)) {
+    event.preventDefault();
+    movePhoneCaretToEnd(input);
+  }
+}
+
+function handlePhoneInput(event) {
+  const input = event.currentTarget;
+  input.value = formatPhoneInput(input.value);
+  movePhoneCaretToEnd(input);
+  if (input.classList.contains('field-invalid')) validateBookingPhone(false);
+}
+
+function validateBookingPhone(showError = true) {
+  const input = document.getElementById('bookingPhone');
+  const error = document.getElementById('bookingPhoneError');
+  if (!input) return { valid: false, phone: '' };
+
+  input.value = formatPhoneInput(input.value);
+  const phone = normalizeRussianPhone(input.value);
+  const valid = Boolean(phone);
+
+  input.classList.toggle('field-invalid', showError && !valid);
+  input.setAttribute('aria-invalid', String(showError && !valid));
+
+  if (error) {
+    error.textContent = showError && !valid
+      ? 'Введите корректный номер: +7 и 10 цифр, например +7 999 123-45-67.'
+      : '';
+  }
+
+  return { valid, phone };
 }
 
 function ensurePackageQuestSelect() {
@@ -686,20 +783,20 @@ function ensurePackagesCollapsible() {
       <div class="package-mini" data-package="Пакет на 2 часа" data-price="23500" data-base-players="3" data-extra-player-price="1500">
         <span class="pkg-name">Пакет на 2 часа</span>
         <span class="pkg-price">23 500 ₽ <small>за 3х, доп. 1 500 ₽; квест входит</small></span>
-        <button type="button" class="package-desc-toggle" aria-expanded="false">Состав пакета</button>
+        <button type="button" class="package-desc-toggle" aria-expanded="false">Показать состав</button>
         <div class="package-description"><ul><li>Квест/анимационная программа на выбор</li><li>Дополнительный актёр</li><li>Украшенная лофт зона</li><li>Сервировка стола</li><li>Креативное поздравление</li><li>Треш коробка</li></ul></div>
       </div>
       <div class="package-mini" data-package="Пакет на 3 часа" data-price="39000" data-base-players="3" data-extra-player-price="1500">
         <span class="pkg-name">⭐ Пакет на 3 часа</span>
         <span class="pkg-price">39 000 ₽ <small>за 3х, доп. 1 500 ₽; квест входит</small></span>
         <span class="pkg-badge">Популярный</span>
-        <button type="button" class="package-desc-toggle" aria-expanded="false">Состав пакета</button>
+        <button type="button" class="package-desc-toggle" aria-expanded="false">Показать состав</button>
         <div class="package-description"><ul><li>Всё из пакета на 2 часа</li><li>Памятный подарок имениннику и сувенир каждому участнику</li><li>Фотограф</li><li>10 фото в проф. обработке и цветокоррекции</li><li>Кресло режиссёра</li><li>Видео-нарезка самых ярких моментов с прохождения квеста</li><li>Настольная игра с ведущим на выбор</li></ul></div>
       </div>
       <div class="package-mini" data-package="Пакет на 4.5 часа" data-price="103000" data-base-players="5" data-extra-player-price="2500">
         <span class="pkg-name">Пакет на 4.5 часа</span>
         <span class="pkg-price">103 000 ₽ <small>до 5х, доп. 2 500 ₽; квест входит</small></span>
-        <button type="button" class="package-desc-toggle" aria-expanded="false">Состав пакета</button>
+        <button type="button" class="package-desc-toggle" aria-expanded="false">Показать состав</button>
         <div class="package-description"><ul><li>Всё из пакета на 3 часа</li><li>Перекрытие локации на всё время праздника</li><li>Лофт зона</li><li>Персональные украшения</li><li>Фотограф на время квеста в образе</li><li>15 фото в проф. обработке + видео с квеста</li><li>Велком дринк или Кенди бар</li><li>Шоу программа на выбор: Крио шоу или шоу Фокусов</li><li>Аквагрим или Блеск тату</li><li>Шар с цифрой</li><li>Мастер-класс на выбор</li><li>Пиньята с любым дизайном</li><li>Персональный менеджер</li><li>Настольная игра с ведущим или музыкальные конкурсы или квиз об имениннике</li><li>Развлечения для родителей: мафия с ведущим или Кресло режиссёра</li><li>Бумажная дискотека с боем подушками или Танцевальные конкурсы</li></ul></div>
       </div>
     </div>
@@ -727,6 +824,10 @@ function initPackagesCollapsible() {
     item.addEventListener('click', function() {
       const packageName = this.dataset.package || 'Пакет';
       const packagePrice = parseInt(this.dataset.price || 0, 10);
+      if (this.classList.contains('active') && currentBookingName === packageName) {
+        deselectReadyPackage();
+        return;
+      }
       selectReadyPackage(packageName, packagePrice, this);
     });
 
@@ -737,10 +838,88 @@ function initPackagesCollapsible() {
         event.stopPropagation();
         const isOpen = description.classList.toggle('open');
         this.setAttribute('aria-expanded', String(isOpen));
-        this.textContent = isOpen ? 'Скрыть состав' : 'Состав пакета';
+        this.textContent = isOpen ? 'Скрыть состав' : 'Показать состав';
       });
     }
   });
+}
+
+function deselectReadyPackage() {
+  if (!baseBookingState) return;
+
+  const previousSelectedTime = selectedTime;
+  const { name, desc, price } = baseBookingState;
+  const meta = getQuestMeta(name);
+
+  isPackageBooking = false;
+  selectedPackageQuest = '';
+  currentBookingName = name;
+  currentBookingDesc = desc || '';
+  currentBookingPrice = meta.quest ? meta.quest.price : (price || 0);
+
+  document.querySelectorAll('.package-mini').forEach(item => item.classList.remove('active'));
+
+  const title = document.getElementById('bookQuestName');
+  const descEl = document.getElementById('bookQuestDesc');
+  const metaTime = document.getElementById('bookQuestMetaTime');
+  const metaPlayers = document.getElementById('bookQuestMetaPlayers');
+  const metaDifficulty = document.getElementById('bookQuestMetaDifficulty');
+  if (title) title.textContent = name;
+  if (descEl) descEl.textContent = currentBookingDesc || 'Погрузитесь в атмосферу приключения!';
+  if (metaTime) metaTime.textContent = meta.time;
+  if (metaPlayers) metaPlayers.textContent = meta.players;
+  if (metaDifficulty) metaDifficulty.textContent = meta.fear ? `${meta.difficulty} · страх: ${meta.fear}` : meta.difficulty;
+
+  const packageQuestSelect = document.getElementById('packageQuestSelect');
+  const packageChoice = document.getElementById('packageQuestChoice');
+  if (packageQuestSelect) packageQuestSelect.style.display = 'none';
+  if (packageChoice) packageChoice.value = '';
+
+  const bookingType = getBookingType(name);
+  const optionsTitle = document.querySelector('.step-content[data-step="2"] h3');
+  const typeLabels = {
+    'amongus': '⚡ Дополнительные опции для Among Us',
+    'horror': '🕯️ Дополнительные опции для хоррор-свидания',
+    'events': '🚐 Дополнительные услуги для выездного мероприятия',
+    'default': '🎯 Дополнительные услуги'
+  };
+
+  if (optionsTitle) {
+    optionsTitle.textContent = typeLabels[bookingType] || typeLabels.default;
+    optionsTitle.style.display = 'block';
+  }
+
+  const optionsGrid = document.getElementById('optionsGrid');
+  if (optionsGrid) {
+    optionsGrid.style.display = 'grid';
+    renderOptions(getOptionsByType(bookingType));
+  }
+
+  const packageRule = getPackageParticipantRule();
+  bookingPlayersValue = meta.quest?.minPlayers || packageRule?.basePlayers || 1;
+  const playersDisplay = document.getElementById('bookingPlayersDisplay');
+  if (playersDisplay) playersDisplay.textContent = String(bookingPlayersValue);
+
+  updateBookingPhotos(name);
+  generateTimeSlots(getCurrentQuestName());
+  if (previousSelectedTime) {
+    const matchingSlot = Array.from(document.querySelectorAll('.time-slot')).find(slot =>
+      slot.querySelector('.slot-time')?.textContent === previousSelectedTime &&
+      !slot.classList.contains('busy') &&
+      !slot.classList.contains('disabled')
+    );
+    if (matchingSlot) {
+      matchingSlot.classList.add('active');
+      selectedTime = previousSelectedTime;
+      currentBookingPrice = getPriceByTime(name, selectedTime) || currentBookingPrice;
+    } else {
+      selectedTime = null;
+    }
+  } else {
+    selectedTime = null;
+  }
+  updateTotalDisplay();
+  updateReceipt();
 }
 
 function selectReadyPackage(packageName, packagePrice, activeItem) {
@@ -870,13 +1049,10 @@ function updateTotalDisplay() {
   // Шаг 4
   renderTotalAmount(document.getElementById('bookingTotalDisplayStep4'), totals.subtotal, totals.total, totals.discount);
 
-  // Шаг 5
-  renderTotalAmount(document.getElementById('bookingTotalDisplayStep5'), totals.subtotal, totals.total, totals.discount);
-  
   // Цена базовой услуги без промокода. Скидка видна в блоке "Итого к оплате".
   updateParticipantExtraDisplay(totals);
 
-  ['bookingPriceLabel', 'bookingPriceLabel2', 'bookingPriceLabel3', 'bookingPriceLabel4', 'bookingPriceLabel5'].forEach(id => {
+  ['bookingPriceLabel', 'bookingPriceLabel2', 'bookingPriceLabel3', 'bookingPriceLabel4'].forEach(id => {
     const label = document.getElementById(id);
     if (label) {
       label.textContent = basePriceLabel;
@@ -902,37 +1078,6 @@ function updateTotalDisplay() {
     priceDisplay4.textContent = totals.basePrice;
   }
 
-  const priceDisplay5 = document.getElementById('bookingPriceDisplay5');
-  if (priceDisplay5) {
-    priceDisplay5.textContent = totals.basePrice;
-  }
-  
-  const depositDisplay = document.getElementById('bookingDepositDisplay');
-  if (depositDisplay) {
-    depositDisplay.textContent = formatMoney(totals.deposit);
-  }
-  
-  const depositDisplay2 = document.getElementById('bookingDepositDisplay2');
-  if (depositDisplay2) {
-    depositDisplay2.textContent = formatMoney(totals.deposit);
-  }
-  
-  const depositDisplay3 = document.getElementById('bookingDepositDisplay3');
-  if (depositDisplay3) {
-    depositDisplay3.textContent = formatMoney(totals.deposit);
-  }
-  
-  const depositDisplay4 = document.getElementById('bookingDepositDisplay4');
-  if (depositDisplay4) {
-    depositDisplay4.textContent = formatMoney(totals.deposit);
-  }
-
-  const depositDisplay5 = document.getElementById('bookingDepositDisplay5');
-  if (depositDisplay5) {
-    depositDisplay5.textContent = formatMoney(totals.deposit);
-  }
-
-  updatePaymentStep(totals);
 }
 
 
@@ -981,13 +1126,20 @@ function openBooking(name, desc, price, isPackage) {
   if (quest) {
     currentBookingPrice = quest.price;
   }
+
+  baseBookingState = {
+    name,
+    desc: desc || '',
+    price: currentBookingPrice,
+    isPackage: Boolean(isPackage)
+  };
   
   const metaTime = document.getElementById('bookQuestMetaTime');
   const metaPlayers = document.getElementById('bookQuestMetaPlayers');
   const metaDifficulty = document.getElementById('bookQuestMetaDifficulty');
   if (metaTime) metaTime.textContent = quest ? quest.time : '60-90 мин';
   if (metaPlayers) metaPlayers.textContent = quest ? quest.players : '1–8';
-  if (metaDifficulty) metaDifficulty.textContent = quest ? quest.difficulty : '—';
+  if (metaDifficulty) metaDifficulty.textContent = quest ? (quest.fear ? `${quest.difficulty} · страх: ${quest.fear}` : quest.difficulty) : '—';
   
   updateBookingPhotos(name);
   
@@ -1146,7 +1298,7 @@ function resetBookingData() {
   const nameInput = document.getElementById('bookingName');
   const phoneInput = document.getElementById('bookingPhone');
   if (nameInput) nameInput.value = '';
-  if (phoneInput) phoneInput.value = '';
+  if (phoneInput) phoneInput.value = '+7 ';
   
   promoApplied = false;
   const promoInput = document.getElementById('promoInput');
@@ -1174,7 +1326,7 @@ function resetBookingData() {
 // ============================================================
 function goStep(n) {
   if (n === currentStep) return;
-  if (n < 1 || n > 5) return;
+  if (n < 1 || n > 4) return;
   
   if (n > currentStep) {
     if (currentStep === 1) {
@@ -1202,14 +1354,14 @@ function goStep(n) {
     
     if (currentStep === 3) {
       const name = document.getElementById('bookingName').value.trim();
-      const phone = document.getElementById('bookingPhone').value.trim();
+      const phoneCheck = validateBookingPhone(true);
       
       if (!name) {
         showToast('⚠️ Введите ваше имя!');
         return;
       }
-      if (!phone) {
-        showToast('⚠️ Введите номер телефона!');
+      if (!phoneCheck.valid) {
+        showToast('⚠️ Введите корректный номер телефона!');
         return;
       }
     }
@@ -1227,13 +1379,7 @@ function goStep(n) {
   currentStep = n;
   const overlay = document.getElementById('bookingOverlay');
   if (overlay) overlay.scrollTop = 0;
-  if (n === 4) updatePaymentStep(calculateBookingTotals());
-  if (n === 5) updateReceipt();
-}
-
-function completePrepayment() {
-  updatePaymentStep(calculateBookingTotals());
-  goStep(5);
+  if (n === 4) updateReceipt();
 }
 
 // ============================================================
@@ -1437,7 +1583,7 @@ function renderOptions(options) {
       <div class="option-name">${opt.name}</div>
       <div class="option-price">${opt.price} ₽</div>
       <div style="font-size:0.7rem; color:#9288b0; margin-top:4px; max-width:100%; display:block; line-height:1.4; padding:4px 8px; background:rgba(124,77,255,0.05); border-radius:8px;" class="option-desc">${opt.desc}</div>
-      <button class="option-desc-toggle" style="background:rgba(124,77,255,0.15); border:1px solid rgba(124,77,255,0.2); color:#b388ff; font-size:0.6rem; cursor:pointer; margin-top:4px; padding:4px 12px; border-radius:40px; font-weight:600; transition:0.2s;">Скрыть описание</button>
+      <button type="button" class="option-desc-toggle" aria-expanded="true">Скрыть описание</button>
       <input type="checkbox" class="option-checkbox" data-price="${opt.price}" data-name="${escapeAttr(opt.name)}" data-description="${escapeAttr(opt.desc || '')}" />
     `;
     
@@ -1449,6 +1595,7 @@ function renderOptions(options) {
       e.stopPropagation();
       descVisible = !descVisible;
       desc.style.display = descVisible ? 'block' : 'none';
+      this.setAttribute('aria-expanded', String(descVisible));
       this.textContent = descVisible ? 'Скрыть описание' : 'Показать описание';
     });
     
@@ -1587,11 +1734,16 @@ function updateReceipt() {
 // ============================================================
 async function confirmBooking() {
   const name = document.getElementById('bookingName').value.trim();
-  const phone = document.getElementById('bookingPhone').value.trim();
-  if (!name || !phone) {
-    showToast('⚠️ Заполните имя и телефон!');
+  const phoneCheck = validateBookingPhone(true);
+  if (!name) {
+    showToast('⚠️ Введите ваше имя!');
     return;
   }
+  if (!phoneCheck.valid) {
+    showToast('⚠️ Введите корректный номер телефона!');
+    return;
+  }
+  const phone = phoneCheck.phone;
   
   const questName = document.getElementById('receiptQuest').textContent;
   const dateTime = document.getElementById('receiptDateTime').textContent;
@@ -1731,16 +1883,19 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
 
-  document.querySelectorAll('[data-payment-link]').forEach(link => {
-    link.addEventListener('click', function(e) {
-      const href = this.getAttribute('href') || '';
-      if (href === '#') {
-        e.preventDefault();
-        showToast('Сюда нужно вставить ссылку для внесения предоплаты');
-      }
+  const bookingPhone = document.getElementById('bookingPhone');
+  if (bookingPhone) {
+    bookingPhone.addEventListener('focus', function() {
+      if (!this.value.trim()) this.value = '+7 ';
+      movePhoneCaretToEnd(this);
     });
-  });
-  
+    bookingPhone.addEventListener('keydown', handlePhoneKeydown);
+    bookingPhone.addEventListener('input', handlePhoneInput);
+    bookingPhone.addEventListener('blur', function() {
+      validateBookingPhone(this.value.trim() !== '+7');
+    });
+  }
+
   document.addEventListener('change', function(e) {
     if (e.target.closest('.option-checkbox') || e.target.closest('.contact-method') ||
         e.target.closest('.time-slot') || e.target.closest('.date-cell') ||
