@@ -16,6 +16,20 @@
 После нового deploy адрес `/api/my-erp/timetable/4893.json` должен возвращать JSON,
 а не страницу Netlify `Page not found`.
 
+Для Telegram-уведомлений о бронях добавьте в Netlify
+(`Site configuration` → `Environment variables`) переменные:
+
+- `TELEGRAM_BOT_TOKEN` — токен внутреннего бота;
+- `TELEGRAM_CHAT_ID` — ID чата Профсоюзной (сохранён для совместимости);
+- `TELEGRAM_CHAT_ID_IZMAYLOVSKAYA` — ID чата Измайловской;
+- `TELEGRAM_CHAT_ID_TAGANSKAYA` — ID чата Таганской.
+
+Для супергруппы ID обычно начинается с `-100`. Вместо `TELEGRAM_CHAT_ID` можно указать
+`TELEGRAM_CHAT_ID_PROFSOYUZNAYA`, если нужно единообразное имя.
+
+Бот должен быть добавлен в целевой чат. После изменения переменных запустите
+новый deploy. Ошибка Telegram не отменяе уже сохранённую бронь.
+
 ## Локальный запуск
 
 Для интеграции с my-ERP сайт необходимо запускать через встроенный сервер-прокси:

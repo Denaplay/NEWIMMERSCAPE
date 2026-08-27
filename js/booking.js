@@ -492,6 +492,32 @@ function getScheduleQuestName() {
 function isCustomPackageBooking() {
   return isCurrentPackageBooking() && currentBookingName.includes('Свой пакет');
 }
+function getCurrentBookingLocation() {
+  const quest = questsData.find(item => item.name === getScheduleQuestName());
+  return quest?.loc || '';
+}
+
+async function notifyTelegramAboutBooking(booking) {
+  const notificationLocations = new Set([
+    'м. Профсоюзная',
+    'м. Измайловская',
+    'м. Таганская'
+  ]);
+  if (!notificationLocations.has(booking.location)) return;
+
+  try {
+    const response = await fetch('/api/telegram-booking', {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify(booking)
+    });
+    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+  } catch (error) {
+    // Telegram is a secondary notification channel: a delivery failure must not
+    // roll back a booking that has already been saved successfully.
+    console.error('Бронь создана, но Telegram-уведомление не отправлено:', error);
+  }
+}
 
 function getBasePriceForBooking(activeTime) {
   if (isCurrentPackageBooking()) {
@@ -1751,6 +1777,10 @@ async function confirmBooking() {
   const total = document.getElementById('receiptTotal').textContent;
   const email = document.getElementById('bookingEmail')?.value.trim() || '';
   const clientComment = document.getElementById('bookingComment')?.value.trim() || '';
+  const contactMethod = document.querySelector('.contact-method.active')?.textContent.trim() || '';
+  const totals = calculateBookingTotals();
+  const location = getCurrentBookingLocation();
+  const packageQuest = getSelectedPackageQuest();
   const selectedServices = Array.from(document.querySelectorAll('.option-checkbox:checked')).map(option => ({
     name: option.dataset.name || '',
     price: Number(option.dataset.price) || 0
@@ -1786,7 +1816,30 @@ async function confirmBooking() {
       }
     });
     if (gridResult?.error) throw gridResult.error;
-    console.info('Локальная бронь и клиент созданы', { idempotencyKey, bookingId: gridResult.data });
+    const bookingId = gridResult.data;
+    console.info('Локальная бронь и клиент созданы', { idempotencyKey, bookingId });
+
+    await notifyTelegramAboutBooking({
+      bookingId,
+      bookingName: currentBookingName,
+      packageQuest,
+      location,
+      address: getLocationAddress(location),
+      date: selectedDateKey(),
+      time: selectedTime || '00:00',
+      players: bookingPlayersValue,
+      clientName: name,
+      clientPhone: phone,
+      clientEmail: email || session?.user?.email || '',
+      contactMethod,
+      extraServices: servicesText,
+      comment: clientComment,
+      promoCode: promoApplied ? promoCode : '',
+      basePrice: formatMoney(totals.basePrice),
+      discount: totals.discount > 0 ? `-${formatMoney(totals.discount)}` : '',
+      deposit: formatMoney(totals.deposit),
+      total
+    });
   } catch (error) {
     console.error('Не удалось создать локальную бронь и клиента:', error);
     showToast(`❌ Не удалось создать бронь: ${error.message}`, 5000);
