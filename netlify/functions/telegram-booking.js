@@ -69,6 +69,7 @@ function formatBookingMessage(booking) {
   addLine(lines, 'Телефон', booking.clientPhone);
   addLine(lines, 'Email', booking.clientEmail);
   addLine(lines, 'Способ связи', booking.contactMethod);
+  if (booking.contactHandle) addLine(lines, 'Контакт', booking.contactHandle);
   lines.push('');
   addLine(lines, 'Доп. услуги', booking.extraServices);
   addLine(lines, 'Комментарий', booking.comment);

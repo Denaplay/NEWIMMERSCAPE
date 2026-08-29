@@ -78,7 +78,7 @@
         <a class="active" href="#section-quests">Квесты</a>
         <a href="#section-birthday" id="birthdayNavLink">День рождения под ключ</a>
         <a href="horror.html">Хоррор вечер</a>
-        <a href="events.html">Выездные мероприятия</a>
+ <!--      <a href="events.html">Выездные мероприятия</a> --> 
         <a href="action.html">Экшен игры</a>
       </nav>
       <div class="header-right">
@@ -239,6 +239,12 @@
       <h2 class="section-title">🎂 День рождения под ключ</h2>
       <p class="section-sub">Соберите идеальный праздник сами или выберите готовое решение</p>
 
+      <div class="package-tabs" role="tablist" aria-label="Выбор формата пакета">
+        <button type="button" class="package-tab active" data-package-tab="ready" role="tab" aria-selected="true" aria-controls="readyPackagesPanel">Под ключ</button>
+        <button type="button" class="package-tab" data-package-tab="custom" role="tab" aria-selected="false" aria-controls="customPackagePanel">Создать свой</button>
+      </div>
+
+      <div class="package-tab-panel active" id="readyPackagesPanel" data-package-panel="ready" role="tabpanel">
       <h3 style="font-size:1.2rem; margin:0 0 14px; text-align:center;">Готовые решения</h3>
       <div class="package-grid">
         <div class="package-card">
@@ -295,12 +301,14 @@
           <button class="btn-book-sm" data-package="Пакет на 4.5 часа" data-price="103000">Забронировать</button>
         </div>
       </div>
+      </div>
 
+      <div class="package-tab-panel" id="customPackagePanel" data-package-panel="custom" role="tabpanel" hidden>
       <div class="constructor-section">
         <div class="constructor-title">🧩 Собери свой пакет</div>
         <div class="constructor-grid">
           <div class="constructor-options">
-            <div class="constructor-base"><span class="constructor-base-label">Начальный пакет</span><strong>+ цена за квест на выбор</strong><span class="price-tag">от 0 ₽</span></div>
+            <div class="constructor-base"><span class="constructor-base-label">Начальный пакет</span><strong>Квест</strong><span class="price-tag">от 0 ₽</span></div>
             <div class="constructor-options-title">Добавьте опции к пакету</div>
             <div class="option-card" data-price="4000" data-name="Видеонарезка"><div class="option-check"></div><span class="option-name">Видеонарезка</span><span class="price-tag">4 000 ₽</span></div>
             <div class="option-card" data-price="2000" data-name="Кресло режиссёра"><div class="option-check"></div><span class="option-name">Кресло режиссёра</span><span class="price-tag">2 000 ₽</span></div>
@@ -331,7 +339,7 @@
           <div class="constructor-preview">
             <h4>Ваш пакет</h4>
             <div id="constructorItems">
-              <div class="preview-item"><span>Квест на выбор</span><span>+ цена по слоту</span></div>
+              <div class="preview-item"><span>Квест на выбор</span></div>
             </div>
             <div class="preview-total" id="constructorTotal">
               0 ₽ + квест
@@ -339,6 +347,7 @@
             <button class="btn-primary" onclick="bookCustomPackage()">Забронировать свой пакет</button>
           </div>
         </div>
+      </div>
       </div>
     </div>
   </div>

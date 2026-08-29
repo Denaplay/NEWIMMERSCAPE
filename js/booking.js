@@ -311,19 +311,14 @@ const packageOptions = [
 // ============================================================
 const bookingOptions = {
   default: additionalServices,
-  amongus: [
-    { id: 'extra_round', name: 'Дополнительный раунд', price: 2000, icon: '🔄', desc: 'Добавьте ещё один раунд игры для большего адреналина!' },
-    { id: 'costumes', name: 'Костюмы персонажей', price: 1500, icon: '👽', desc: 'Наденьте костюмы персонажей Among Us для полного погружения.' },
-    { id: 'host', name: 'Специальный ведущий', price: 2500, icon: '🎙️', desc: 'Профессиональный ведущий, который будет управлять игрой.' },
-    { id: 'photo', name: 'Фотосессия', price: 2000, icon: '📸', desc: 'Профессиональная фотосессия в костюмах Among Us.' },
-    { id: 'video', name: 'Видеонарезка', price: 4000, icon: '🎥', desc: 'Динамичная видео-нарезка с самыми яркими моментами игры.' }
-  ],
+  amongus: additionalServices,
   horror: [
-    { id: 'fear_level', name: 'Повышенный уровень страха', price: 2000, icon: '😱', desc: 'Увеличьте уровень страха — более интенсивные эффекты.' },
-    { id: 'extra_actor', name: 'Дополнительный актёр', price: 2000, icon: '🎭', desc: 'Может уменьшить или увеличить уровень страха.' },
-    { id: 'video', name: 'Видеонарезка', price: 4000, icon: '🎥', desc: '5-7 минут ярких моментов вашего приключения.' },
-    { id: 'romantic_dinner', name: 'Романтический ужин', price: 3500, icon: '🍷', desc: 'Уютный ужин при свечах после прохождения квеста.' },
-    { id: 'photographer', name: 'Фотограф', price: 4000, icon: '📸', desc: 'После квеста, все исходники и 10 фото в проф. обработке.' }
+    { id: 'extra_actor', name: 'Доп. актёр', price: 2000, icon: '🎭', desc: 'Может уменьшить или увеличить уровень страха.' },
+    { id: 'pizza', name: 'Пицца', price: 2000, icon: '🍕', desc: 'Пицца к вашему хоррор-свиданию.' },
+    { id: 'video', name: 'Видео прохождения', price: 4000, icon: '🎥', desc: 'Запись самых ярких моментов прохождения.' },
+    { id: 'proposal', name: 'Предложение руки и сердца', price: 5000, icon: '💍', desc: 'Поможем организовать предложение в атмосфере квеста.' },
+    { id: 'balloon_decor', name: 'Оформление шарами', price: 3500, icon: '🎈', desc: 'Праздничное оформление шарами.' },
+    { id: 'actor_congrats', name: 'Креативное поздравление от актёров', price: 2000, icon: '🎉', desc: 'Поздравление от актёров в стиле сценария.' }
   ],
   events: [
     { id: 'out_of_mkad', name: 'Выезд за МКАД', price: 3000, icon: '🚗', desc: 'Доплата за выезд за пределы МКАД.' },
@@ -487,6 +482,55 @@ function getSelectedPackageQuest() {
 
 function getScheduleQuestName() {
   return getSelectedPackageQuest() || currentBookingName;
+}
+
+function getInitialPackageQuestName() {
+  const sourceName = baseBookingState?.name;
+  return questsData.some(q => q.name === sourceName) ? sourceName : '';
+}
+
+function applyPackageQuestChoice(questName) {
+  const select = document.getElementById('packageQuestChoice');
+  const nextQuest = questsData.some(q => q.name === questName) ? questName : '';
+  selectedPackageQuest = nextQuest;
+  if (select) select.value = nextQuest;
+  return nextQuest;
+}
+
+function isPackageQuestLocked() {
+  return isCurrentPackageBooking() && Boolean(getInitialPackageQuestName());
+}
+
+function updatePackageQuestLockState() {
+  const select = document.getElementById('packageQuestChoice');
+  const wrapper = document.getElementById('packageQuestSelect');
+  const hint = wrapper?.querySelector('.field-hint');
+  if (!select) return;
+
+  const locked = isPackageQuestLocked();
+  select.disabled = locked;
+  if (wrapper) wrapper.classList.toggle('locked', locked);
+  if (hint) {
+    hint.textContent = locked
+      ? 'Квест уже выбран по карточке, через которую вы открыли бронирование.'
+      : 'В готовом пакете квест входит в стоимость. В пакете с нуля цена квеста добавится по выбранному слоту.';
+  }
+}
+
+function refreshScheduleForQuest(questName) {
+  const scheduleQuest = questName || getScheduleQuestName();
+  const api = externalBookingApi();
+  renderCalendar(currentMonth, currentYear);
+  generateTimeSlots(scheduleQuest);
+  if (api?.getConfig(scheduleQuest)) {
+    api.load(scheduleQuest).then(() => {
+      if (getScheduleQuestName() !== scheduleQuest) return;
+      renderCalendar(currentMonth, currentYear);
+      generateTimeSlots(scheduleQuest);
+      updateTotalDisplay();
+      updateReceipt();
+    });
+  }
 }
 
 function isCustomPackageBooking() {
@@ -748,11 +792,11 @@ function ensurePackageQuestSelect() {
 
   if (!select) return;
 
-  const currentValue = select.value || '';
+  const currentValue = select.value || selectedPackageQuest || getInitialPackageQuestName();
   select.innerHTML = '<option value="">Без выбора квеста</option>' + questsData
     .map(q => `<option value="${escapeAttr(q.name)}">${q.name}</option>`)
     .join('');
-  select.value = questsData.some(q => q.name === currentValue) ? currentValue : '';
+  applyPackageQuestChoice(currentValue);
 }
 
 function ensurePromoField() {
@@ -782,11 +826,90 @@ function ensurePromoField() {
   }
 }
 
+function ensureContactHandleFields() {
+  const methods = document.getElementById('contactMethods');
+  const form = methods ? methods.closest('.booking-form') : null;
+  if (!methods || !form) return;
+
+  const methodLabels = {
+    whatsapp: { method: 'call', icon: '📞', label: 'Звонок' },
+    sms: { method: 'max', icon: '💬', label: 'MAX' }
+  };
+
+  methods.querySelectorAll('.contact-method').forEach(method => {
+    const replacement = methodLabels[method.dataset.method];
+    if (!replacement) return;
+    method.dataset.method = replacement.method;
+    const icon = method.querySelector('.method-icon');
+    const label = method.querySelector('.method-label');
+    if (icon) icon.textContent = replacement.icon;
+    if (label) label.textContent = replacement.label;
+  });
+
+  if (!document.getElementById('telegramHandleField')) {
+    const telegramField = document.createElement('div');
+    telegramField.className = 'contact-handle-field';
+    telegramField.id = 'telegramHandleField';
+    telegramField.hidden = true;
+    telegramField.innerHTML = `
+      <label>Юзернейм Telegram</label>
+      <input type="text" id="bookingTelegram" placeholder="@username" autocomplete="off" />
+    `;
+    methods.insertAdjacentElement('afterend', telegramField);
+  }
+
+  if (!document.getElementById('vkHandleField')) {
+    const vkField = document.createElement('div');
+    vkField.className = 'contact-handle-field';
+    vkField.id = 'vkHandleField';
+    vkField.hidden = true;
+    vkField.innerHTML = `
+      <label>Юзернейм VK</label>
+      <input type="text" id="bookingVk" placeholder="vk.com/username или @username" autocomplete="off" />
+    `;
+    document.getElementById('telegramHandleField')?.insertAdjacentElement('afterend', vkField);
+  }
+}
+
 function ensureBookingUi() {
+  ensureBookingEffects();
   ensurePackageQuestSelect();
+  ensureContactHandleFields();
   ensurePromoField();
   ensurePackagesCollapsible();
   initPackagesCollapsible();
+}
+
+function ensureBookingEffects() {
+  const overlay = document.getElementById('bookingOverlay');
+  if (!overlay || document.getElementById('bookingFxLayer')) return;
+
+  const layer = document.createElement('div');
+  layer.className = 'booking-fx-layer';
+  layer.id = 'bookingFxLayer';
+  layer.setAttribute('aria-hidden', 'true');
+
+  for (let i = 0; i < 9; i += 1) {
+    const thread = document.createElement('i');
+    thread.className = 'booking-fx-thread';
+    thread.style.setProperty('--i', String(i));
+    layer.appendChild(thread);
+  }
+
+  for (let i = 0; i < 16; i += 1) {
+    const spark = document.createElement('i');
+    spark.className = 'booking-fx-spark';
+    spark.style.setProperty('--i', String(i));
+    layer.appendChild(spark);
+  }
+
+  ['promo', 'portal', 'bat bat-one', 'bat bat-two', 'spider spider-left', 'spider spider-right'].forEach(name => {
+    const decor = document.createElement('i');
+    decor.className = `booking-fx-${name}`;
+    layer.appendChild(decor);
+  });
+
+  overlay.prepend(layer);
 }
 
 function ensurePackagesCollapsible() {
@@ -899,7 +1022,11 @@ function deselectReadyPackage() {
   const packageQuestSelect = document.getElementById('packageQuestSelect');
   const packageChoice = document.getElementById('packageQuestChoice');
   if (packageQuestSelect) packageQuestSelect.style.display = 'none';
-  if (packageChoice) packageChoice.value = '';
+  if (packageChoice) {
+    packageChoice.value = '';
+    packageChoice.disabled = false;
+  }
+  updatePackageQuestLockState();
 
   const bookingType = getBookingType(name);
   const optionsTitle = document.querySelector('.step-content[data-step="2"] h3');
@@ -950,7 +1077,7 @@ function deselectReadyPackage() {
 
 function selectReadyPackage(packageName, packagePrice, activeItem) {
   isPackageBooking = true;
-  selectedPackageQuest = '';
+  const initialPackageQuest = getInitialPackageQuestName();
   currentBookingName = packageName;
   currentBookingDesc = `Готовый пакет "${packageName}" с максимальной выгодой.`;
   currentBookingPrice = packagePrice || 0;
@@ -973,14 +1100,16 @@ function selectReadyPackage(packageName, packagePrice, activeItem) {
   const packageQuestSelect = document.getElementById('packageQuestSelect');
   const packageChoice = document.getElementById('packageQuestChoice');
   if (packageQuestSelect) packageQuestSelect.style.display = 'block';
-  if (packageChoice) packageChoice.value = '';
+  if (packageChoice) applyPackageQuestChoice(initialPackageQuest);
+  updatePackageQuestLockState();
 
   document.querySelectorAll('.option-checkbox').forEach(cb => {
     cb.checked = false;
     cb.closest('.option-card')?.classList.remove('active');
   });
   setPackageOptionsVisibility(false);
-  updateBookingPhotos(packageName);
+  updateBookingPhotos(selectedPackageQuest || packageName);
+  refreshScheduleForQuest(getScheduleQuestName());
   updateTotalDisplay();
   updateReceipt();
 }
@@ -1240,9 +1369,11 @@ function openBooking(name, desc, price, isPackage) {
     setPackageOptionsVisibility(false);
     if (packagesCollapsible) packagesCollapsible.style.display = 'none';
     if (packageQuestSelect) packageQuestSelect.style.display = 'block';
+    updatePackageQuestLockState();
     
   } else {
     if (packageQuestSelect) packageQuestSelect.style.display = 'none';
+    updatePackageQuestLockState();
     
     if (optionsGrid) {
       optionsGrid.style.display = 'grid';
@@ -1310,6 +1441,7 @@ function initStandaloneBookingPage() {
 function resetBookingData() {
   selectedDate = null;
   selectedTime = null;
+  selectedPackageQuest = '';
   
   const dateEl = document.getElementById('selectedDate');
   if (dateEl) dateEl.textContent = 'Выберите дату';
@@ -1320,6 +1452,11 @@ function resetBookingData() {
   bookingPlayersValue = 1;
   const playersDisplay = document.getElementById('bookingPlayersDisplay');
   if (playersDisplay) playersDisplay.textContent = '1';
+  const packageChoice = document.getElementById('packageQuestChoice');
+  if (packageChoice) {
+    packageChoice.value = '';
+    packageChoice.disabled = false;
+  }
   
   const nameInput = document.getElementById('bookingName');
   const phoneInput = document.getElementById('bookingPhone');
@@ -1340,6 +1477,11 @@ function resetBookingData() {
   document.querySelectorAll('.contact-method').forEach(m => m.classList.remove('active'));
   const firstMethod = document.querySelector('.contact-method');
   if (firstMethod) firstMethod.classList.add('active');
+  const telegramInput = document.getElementById('bookingTelegram');
+  const vkInput = document.getElementById('bookingVk');
+  if (telegramInput) telegramInput.value = '';
+  if (vkInput) vkInput.value = '';
+  updateContactHandleFields();
   
   const now = new Date();
   currentMonth = now.getMonth();
@@ -1478,6 +1620,7 @@ function renderCalendar(month, year) {
         document.getElementById('selectedDate').textContent = dateStr;
         document.getElementById('dateDropdown').classList.remove('open');
         document.getElementById('dateArrow').classList.remove('open');
+        selectedTime = null;
         generateTimeSlots(getCurrentQuestName());
         updateTotalDisplay();
         updateReceipt();
@@ -1540,6 +1683,8 @@ function generateTimeSlots(questName) {
   
   const sortedTimes = times.sort();
   
+  let restoredSelectedTime = false;
+
   sortedTimes.forEach(time => {
     const slot = document.createElement('div');
     slot.className = 'time-slot';
@@ -1552,6 +1697,10 @@ function generateTimeSlots(questName) {
     
     if (isBusy) slot.classList.add('busy');
     if (isPast && !isBusy) slot.classList.add('disabled');
+    if (selectedTime === time && !isBusy && !isPast) {
+      slot.classList.add('active');
+      restoredSelectedTime = true;
+    }
     
     const price = apiSlot?.price || getPriceByTime(questName, time);
     const priceText = price
@@ -1581,6 +1730,10 @@ function generateTimeSlots(questName) {
     }
     grid.appendChild(slot);
   });
+
+  if (selectedTime && !restoredSelectedTime) {
+    selectedTime = null;
+  }
 }
 
 function getCurrentQuestName() {
@@ -1608,21 +1761,21 @@ function renderOptions(options) {
       <div class="option-icon">${opt.icon}</div>
       <div class="option-name">${opt.name}</div>
       <div class="option-price">${opt.price} ₽</div>
-      <div style="font-size:0.7rem; color:#9288b0; margin-top:4px; max-width:100%; display:block; line-height:1.4; padding:4px 8px; background:rgba(124,77,255,0.05); border-radius:8px;" class="option-desc">${opt.desc}</div>
-      <button type="button" class="option-desc-toggle" aria-expanded="true">Скрыть описание</button>
+      <div style="font-size:0.7rem; color:#9288b0; margin-top:4px; max-width:100%; display:none; line-height:1.4; padding:4px 8px; background:rgba(124,77,255,0.05); border-radius:8px;" class="option-desc">${opt.desc}</div>
+      <button type="button" class="option-desc-toggle" aria-expanded="false">Описание</button>
       <input type="checkbox" class="option-checkbox" data-price="${opt.price}" data-name="${escapeAttr(opt.name)}" data-description="${escapeAttr(opt.desc || '')}" />
     `;
     
     const desc = card.querySelector('.option-desc');
     const toggleBtn = card.querySelector('.option-desc-toggle');
-    let descVisible = true;
+    let descVisible = false;
     
     toggleBtn.addEventListener('click', function(e) {
       e.stopPropagation();
       descVisible = !descVisible;
       desc.style.display = descVisible ? 'block' : 'none';
       this.setAttribute('aria-expanded', String(descVisible));
-      this.textContent = descVisible ? 'Скрыть описание' : 'Показать описание';
+      this.textContent = descVisible ? 'Скрыть' : 'Описание';
     });
     
     card.addEventListener('click', function(e) {
@@ -1644,12 +1797,46 @@ function renderOptions(options) {
 function initContactMethods() {
   const methods = document.querySelectorAll('.contact-method');
   methods.forEach(method => {
+    if (method.dataset.initialized) return;
+    method.dataset.initialized = '1';
     method.addEventListener('click', function() {
       methods.forEach(m => m.classList.remove('active'));
       this.classList.add('active');
+      updateContactHandleFields();
       updateReceipt();
     });
   });
+  updateContactHandleFields();
+}
+
+function getActiveContactMethod() {
+  return document.querySelector('.contact-method.active')?.dataset.method || 'call';
+}
+
+function getActiveContactMethodName() {
+  const activeMethod = document.querySelector('.contact-method.active');
+  return activeMethod?.querySelector('.method-label')?.textContent.trim()
+    || activeMethod?.textContent.trim()
+    || 'Звонок';
+}
+
+function updateContactHandleFields() {
+  const method = getActiveContactMethod();
+  const telegramField = document.getElementById('telegramHandleField');
+  const vkField = document.getElementById('vkHandleField');
+  if (telegramField) telegramField.hidden = method !== 'telegram';
+  if (vkField) vkField.hidden = method !== 'vk';
+}
+
+function getContactHandle() {
+  const method = getActiveContactMethod();
+  if (method === 'telegram') {
+    return document.getElementById('bookingTelegram')?.value.trim() || '';
+  }
+  if (method === 'vk') {
+    return document.getElementById('bookingVk')?.value.trim() || '';
+  }
+  return '';
 }
 
 // ============================================================
@@ -1731,8 +1918,7 @@ function updateReceipt() {
       : `${optionNames === '—' ? '' : `${optionNames}; `}Квест в пакете: выбрать позже`;
   }
   
-  const activeMethod = document.querySelector('.contact-method.active');
-  const methodName = activeMethod ? activeMethod.textContent.trim() : 'WhatsApp';
+  const methodName = getActiveContactMethodName();
   
   const receiptQuest = document.getElementById('receiptQuest');
   const receiptDateTime = document.getElementById('receiptDateTime');
@@ -1777,7 +1963,8 @@ async function confirmBooking() {
   const total = document.getElementById('receiptTotal').textContent;
   const email = document.getElementById('bookingEmail')?.value.trim() || '';
   const clientComment = document.getElementById('bookingComment')?.value.trim() || '';
-  const contactMethod = document.querySelector('.contact-method.active')?.textContent.trim() || '';
+  const contactMethod = getActiveContactMethodName();
+  const contactHandle = getContactHandle();
   const totals = calculateBookingTotals();
   const location = getCurrentBookingLocation();
   const packageQuest = getSelectedPackageQuest();
@@ -1787,6 +1974,9 @@ async function confirmBooking() {
   }));
   const servicesText = selectedServices.map(service => `${service.name} — ${service.price} ₽`).join('; ');
   const integrationComment = clientComment;
+  const staffComment = [integrationComment, contactHandle ? `${contactMethod}: ${contactHandle}` : '']
+    .filter(Boolean)
+    .join('\n');
 
   const button = document.querySelector('#receiptBox .btn-primary');
   if (button) button.disabled = true;
@@ -1810,7 +2000,7 @@ async function confirmBooking() {
         client_phone: phone,
         client_email: email || session?.user?.email || '',
         players: bookingPlayersValue,
-        comment: integrationComment,
+        comment: staffComment,
         extra_services: servicesText,
         total_amount: total
       }
@@ -1832,6 +2022,7 @@ async function confirmBooking() {
       clientPhone: phone,
       clientEmail: email || session?.user?.email || '',
       contactMethod,
+      contactHandle,
       extraServices: servicesText,
       comment: clientComment,
       promoCode: promoApplied ? promoCode : '',
@@ -1900,23 +2091,9 @@ document.addEventListener('DOMContentLoaded', function() {
   const packageChoice = document.getElementById('packageQuestChoice');
   if (packageChoice) {
     packageChoice.addEventListener('change', function() {
-      selectedPackageQuest = this.value || '';
+      applyPackageQuestChoice(this.value || '');
       selectedTime = null;
-      const scheduleQuest = getScheduleQuestName();
-      const api = externalBookingApi();
-      if (api?.getConfig(scheduleQuest)) {
-        generateTimeSlots(scheduleQuest);
-        api.load(scheduleQuest).then(() => {
-          if (getScheduleQuestName() !== scheduleQuest) return;
-          renderCalendar(currentMonth, currentYear);
-          generateTimeSlots(scheduleQuest);
-          updateTotalDisplay();
-          updateReceipt();
-        });
-      } else {
-        renderCalendar(currentMonth, currentYear);
-        generateTimeSlots(scheduleQuest);
-      }
+      refreshScheduleForQuest(getScheduleQuestName());
       updateBookingPhotos(selectedPackageQuest || currentBookingName);
       updateTotalDisplay();
       updateReceipt();
@@ -2053,7 +2230,7 @@ function updateConstructor() {
   if (!container) return;
   
   const extraPlayerCost = constructorPlayersValue > 3 ? (constructorPlayersValue - 3) * 1500 : 0;
-  container.innerHTML = `<div class="preview-item"><span>Квест на выбор</span><span>+ цена по слоту</span></div>` + items.map(item =>
+  container.innerHTML = `<div class="preview-item"><span>Квест на выбор</span></div>` + items.map(item =>
     `<div class="preview-item"><span>${item.name}</span><span>${item.price} ₽</span></div>`
   ).join('') + (extraPlayerCost > 0
     ? `<div class="preview-item"><span>Доп. участники</span><span>${extraPlayerCost} ₽</span></div>`

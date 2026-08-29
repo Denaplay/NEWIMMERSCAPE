@@ -161,10 +161,18 @@
 
           <label>Способ связи</label>
           <div class="contact-methods" id="contactMethods">
-            <div class="contact-method active" data-method="whatsapp"><span class="method-icon">💬</span><span class="method-label">WhatsApp</span></div>
+            <div class="contact-method active" data-method="call"><span class="method-icon">📞</span><span class="method-label">Звонок</span></div>
             <div class="contact-method" data-method="telegram"><span class="method-icon">✈️</span><span class="method-label">Telegram</span></div>
             <div class="contact-method" data-method="vk"><span class="method-icon">📱</span><span class="method-label">VK</span></div>
-            <div class="contact-method" data-method="sms"><span class="method-icon">📲</span><span class="method-label">SMS</span></div>
+            <div class="contact-method" data-method="max"><span class="method-icon">💬</span><span class="method-label">MAX</span></div>
+          </div>
+          <div class="contact-handle-field" id="telegramHandleField" hidden>
+            <label>Юзернейм Telegram</label>
+            <input type="text" id="bookingTelegram" placeholder="@username" autocomplete="off" />
+          </div>
+          <div class="contact-handle-field" id="vkHandleField" hidden>
+            <label>Юзернейм VK</label>
+            <input type="text" id="bookingVk" placeholder="vk.com/username или @username" autocomplete="off" />
           </div>
 
           <div class="promo-field">
@@ -204,7 +212,7 @@
           <div class="row"><span>Дата и время</span><span id="receiptDateTime">Не выбрана</span></div>
           <div class="row"><span>Количество участников</span><span id="receiptPlayers">1</span></div>
           <div class="row"><span>Доп. услуги</span><span id="receiptExtras">—</span></div>
-          <div class="row"><span>Способ связи</span><span id="receiptMethod">WhatsApp</span></div>
+          <div class="row"><span>Способ связи</span><span id="receiptMethod">Звонок</span></div>
           <div class="row"><span>Сумма</span><span id="receiptSubtotal">0 ₽</span></div>
           <div class="row"><span>Скидка</span><span id="receiptDiscount">—</span></div>
           <div class="row total"><span>Итого</span><span id="receiptTotal">0 ₽</span></div>

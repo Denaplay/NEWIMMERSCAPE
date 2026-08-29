@@ -526,6 +526,9 @@ window.addEventListener('load', updateGlowLine);
 
 // ===== КОНСТРУКТОР НА ГЛАВНОЙ =====
 document.addEventListener('DOMContentLoaded', function() {
+  initPackageTabs();
+  initConstructorServiceDescriptions();
+
   document.querySelectorAll('.constructor-options .option-card').forEach(el => {
     el.addEventListener('click', function() {
       this.classList.toggle('active');
@@ -534,6 +537,72 @@ document.addEventListener('DOMContentLoaded', function() {
   });
   updateConstructor();
 });
+
+function initPackageTabs() {
+  const tabs = document.querySelectorAll('.package-tab');
+  const panels = document.querySelectorAll('.package-tab-panel');
+  if (!tabs.length || !panels.length) return;
+
+  tabs.forEach(tab => {
+    tab.addEventListener('click', function() {
+      const target = this.dataset.packageTab;
+      tabs.forEach(item => {
+        const active = item === this;
+        item.classList.toggle('active', active);
+        item.setAttribute('aria-selected', String(active));
+      });
+      panels.forEach(panel => {
+        const active = panel.dataset.packagePanel === target;
+        panel.classList.toggle('active', active);
+        panel.hidden = !active;
+      });
+    });
+  });
+}
+
+function initConstructorServiceDescriptions() {
+  const descriptions = {
+    'Видеонарезка': '5-7 минут ярких моментов вашего приключения.',
+    'Кресло режиссёра': 'Наблюдение за игрой со стороны.',
+    'Дополнительный актёр': 'Может уменьшить или увеличить уровень страха.',
+    'Лофт': 'Украшенная зона для праздника с шарами и сервировкой.',
+    'Настольная игра с ведущим': 'Игра с ведущим после квеста.',
+    'Креативное поздравление': 'Поздравление для именинника в стиле сценария.',
+    'Фотограф': 'Съёмка после квеста, исходники и фото в обработке.',
+    'Шар с цифрой': 'Красивый шар с цифрой для именинника.',
+    'Аквагрим / блеск-тату': 'Аквагрим, блеск-тату или бьюти-бар.',
+    'Кенди-бар': 'Сладкий стол для вашего праздника.',
+    'Пиньята': 'Пиньята с дизайном на ваш выбор.',
+    'Бумажная дискотека': 'Яркое шоу с бумажным конфетти.',
+    'Шар желаний': 'Красивый шар для праздничного желания.',
+    'Шоу-программа': 'Крио-шоу или шоу хоррор-фокусов.',
+    'Треш-коробка': 'Коробка с сюрпризами для именинника.',
+    'Видеограф': 'Профессиональная видеосъёмка всего мероприятия.',
+    'Мастер-класс': 'Роспись шоперов или создание коктейлей.'
+  };
+
+  document.querySelectorAll('.constructor-options .option-card').forEach(card => {
+    if (card.dataset.descriptionReady) return;
+    const description = card.dataset.desc || descriptions[card.dataset.name] || '';
+    if (!description) return;
+
+    card.dataset.descriptionReady = '1';
+    card.insertAdjacentHTML('beforeend', `
+      <button type="button" class="constructor-desc-toggle" aria-expanded="false">Описание</button>
+      <div class="constructor-option-desc" hidden>${description}</div>
+    `);
+
+    const toggle = card.querySelector('.constructor-desc-toggle');
+    const desc = card.querySelector('.constructor-option-desc');
+    toggle.addEventListener('click', function(event) {
+      event.stopPropagation();
+      const expanded = this.getAttribute('aria-expanded') === 'true';
+      this.setAttribute('aria-expanded', String(!expanded));
+      this.textContent = expanded ? 'Описание' : 'Скрыть';
+      desc.hidden = expanded;
+    });
+  });
+}
 
 // ===== АКТИВНАЯ НАВИГАЦИЯ =====
 document.addEventListener('DOMContentLoaded', function() {
