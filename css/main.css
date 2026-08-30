@@ -1713,6 +1713,7 @@ body.page-transition {
   z-index: 0;
   pointer-events: none;
   overflow: hidden;
+  contain: layout paint size;
 }
 
 .booking-fx-thread {
@@ -7000,6 +7001,11 @@ body::selection {
   color: rgba(235, 230, 255, 0.76);
 }
 
+.receipt-box .row span:last-child {
+  white-space: pre-line;
+  text-align: right;
+}
+
 .booking-photos-carousel {
   border-color: rgba(255, 25, 195, 0.24);
   background:
@@ -7059,4 +7065,1086 @@ body::selection {
   border-color: rgba(179, 136, 255, 0.56);
   background: rgba(124, 77, 255, 0.18);
   box-shadow: inset 0 0 0 1px rgba(179, 136, 255, 0.16);
+}
+
+/* Mobile performance mode for booking: keep the style, remove expensive paint work. */
+@media (max-width: 767px) {
+  .booking-overlay {
+    background:
+      radial-gradient(circle at 22% 18%, rgba(124, 77, 255, 0.16), transparent 30%),
+      radial-gradient(circle at 88% 34%, rgba(255, 25, 195, 0.1), transparent 28%),
+      linear-gradient(180deg, #030309 0%, #070511 52%, #030309 100%);
+  }
+
+  .booking-overlay::before {
+    background:
+      linear-gradient(28deg, transparent 0 49%, rgba(255, 25, 195, 0.08) 50%, transparent 51% 100%),
+      linear-gradient(146deg, transparent 0 49%, rgba(36, 200, 255, 0.07) 50%, transparent 51% 100%),
+      radial-gradient(circle at 18% 20%, rgba(255, 25, 195, 0.6) 0 1px, transparent 2px),
+      radial-gradient(circle at 78% 36%, rgba(36, 200, 255, 0.55) 0 1px, transparent 2px);
+    background-size: 190px 190px, 220px 220px, 150px 150px, 180px 180px;
+    opacity: 0.46;
+    animation: none;
+  }
+
+  .booking-overlay::after,
+  .booking-fx-thread,
+  .booking-fx-spark,
+  .booking-fx-promo,
+  .booking-fx-portal,
+  .booking-fx-bat,
+  .booking-fx-spider,
+  .booking-fx-layer::before,
+  .booking-fx-layer::after {
+    display: none;
+  }
+
+  .booking-info,
+  .booking-form,
+  .receipt-box,
+  .booking-summary-card,
+  .date-selector-toggle,
+  .date-selector-dropdown,
+  .options-grid .option-card,
+  .contact-method,
+  .packages-collapsible,
+  .packages-collapsible .collapsible-body .package-mini,
+  .booking-grid #bookingMap {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    background:
+      linear-gradient(145deg, rgba(255, 25, 195, 0.035), transparent 42%),
+      rgba(9, 8, 17, 0.94);
+    box-shadow: 0 10px 28px rgba(0, 0, 0, 0.26), inset 0 1px 0 rgba(255, 255, 255, 0.04);
+  }
+
+  .booking-info::before,
+  .booking-info::after,
+  .booking-form::before,
+  .booking-form::after,
+  .receipt-box::before,
+  .receipt-box::after,
+  .booking-summary-card::after,
+  .date-selector-toggle::after,
+  .options-grid .option-card::after,
+  .contact-method::after,
+  .packages-collapsible::after,
+  .packages-collapsible .collapsible-body .package-mini::after {
+    display: none;
+  }
+
+  .booking-photos-carousel,
+  .booking-grid #bookingMap {
+    box-shadow: 0 8px 22px rgba(0, 0, 0, 0.24);
+  }
+
+  .time-slot,
+  .date-selector-dropdown .date-grid .date-cell,
+  .month-btn,
+  .qty-btn,
+  .qty-value,
+  .contact-method,
+  .options-grid .option-card,
+  .packages-collapsible .collapsible-body .package-mini,
+  .btn-primary,
+  .btn-outline,
+  .btn-book-sm,
+  .step-btn {
+    transition-property: background-color, border-color, color, opacity;
+    transition-duration: 120ms;
+    filter: none;
+  }
+
+  .time-slot:not(.busy):not(.disabled):hover,
+  .date-selector-dropdown .date-grid .date-cell:hover,
+  .month-btn:hover,
+  .qty-btn:hover,
+  .options-grid .option-card:hover,
+  .contact-method:hover,
+  .packages-collapsible .collapsible-body .package-mini:hover {
+    transform: none;
+    box-shadow: none;
+  }
+
+  .btn-primary:hover {
+    transform: none;
+  }
+}
+
+.booking-overlay.booking-mobile-lite {
+  background:
+    radial-gradient(circle at 22% 18%, rgba(124, 77, 255, 0.16), transparent 30%),
+    radial-gradient(circle at 88% 34%, rgba(255, 25, 195, 0.1), transparent 28%),
+    linear-gradient(180deg, #030309 0%, #070511 52%, #030309 100%);
+}
+
+.booking-overlay.booking-mobile-lite::before {
+  background:
+    linear-gradient(28deg, transparent 0 49%, rgba(255, 25, 195, 0.08) 50%, transparent 51% 100%),
+    linear-gradient(146deg, transparent 0 49%, rgba(36, 200, 255, 0.07) 50%, transparent 51% 100%),
+    radial-gradient(circle at 18% 20%, rgba(255, 25, 195, 0.6) 0 1px, transparent 2px),
+    radial-gradient(circle at 78% 36%, rgba(36, 200, 255, 0.55) 0 1px, transparent 2px);
+  background-size: 190px 190px, 220px 220px, 150px 150px, 180px 180px;
+  opacity: 0.46;
+  animation: none;
+}
+
+.booking-overlay.booking-mobile-lite::after,
+.booking-overlay.booking-mobile-lite .booking-fx-thread,
+.booking-overlay.booking-mobile-lite .booking-fx-spark,
+.booking-overlay.booking-mobile-lite .booking-fx-promo,
+.booking-overlay.booking-mobile-lite .booking-fx-portal,
+.booking-overlay.booking-mobile-lite .booking-fx-bat,
+.booking-overlay.booking-mobile-lite .booking-fx-spider,
+.booking-overlay.booking-mobile-lite .booking-fx-layer::before,
+.booking-overlay.booking-mobile-lite .booking-fx-layer::after {
+  display: none;
+}
+
+.booking-overlay.booking-mobile-lite .booking-info,
+.booking-overlay.booking-mobile-lite .booking-form,
+.booking-overlay.booking-mobile-lite .receipt-box,
+.booking-overlay.booking-mobile-lite .booking-summary-card,
+.booking-overlay.booking-mobile-lite .date-selector-toggle,
+.booking-overlay.booking-mobile-lite .date-selector-dropdown,
+.booking-overlay.booking-mobile-lite .options-grid .option-card,
+.booking-overlay.booking-mobile-lite .contact-method,
+.booking-overlay.booking-mobile-lite .packages-collapsible,
+.booking-overlay.booking-mobile-lite .packages-collapsible .collapsible-body .package-mini,
+.booking-overlay.booking-mobile-lite .booking-grid #bookingMap {
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  background:
+    linear-gradient(145deg, rgba(255, 25, 195, 0.035), transparent 42%),
+    rgba(9, 8, 17, 0.94);
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.26), inset 0 1px 0 rgba(255, 255, 255, 0.04);
+}
+
+.booking-overlay.booking-mobile-lite .booking-info::before,
+.booking-overlay.booking-mobile-lite .booking-info::after,
+.booking-overlay.booking-mobile-lite .booking-form::before,
+.booking-overlay.booking-mobile-lite .booking-form::after,
+.booking-overlay.booking-mobile-lite .receipt-box::before,
+.booking-overlay.booking-mobile-lite .receipt-box::after,
+.booking-overlay.booking-mobile-lite .booking-summary-card::after,
+.booking-overlay.booking-mobile-lite .date-selector-toggle::after,
+.booking-overlay.booking-mobile-lite .options-grid .option-card::after,
+.booking-overlay.booking-mobile-lite .contact-method::after,
+.booking-overlay.booking-mobile-lite .packages-collapsible::after,
+.booking-overlay.booking-mobile-lite .packages-collapsible .collapsible-body .package-mini::after {
+  display: none;
+}
+
+.booking-overlay.booking-mobile-lite .booking-photos-carousel,
+.booking-overlay.booking-mobile-lite .booking-grid #bookingMap {
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.24);
+}
+
+.booking-overlay.booking-mobile-lite .time-slot,
+.booking-overlay.booking-mobile-lite .date-selector-dropdown .date-grid .date-cell,
+.booking-overlay.booking-mobile-lite .month-btn,
+.booking-overlay.booking-mobile-lite .qty-btn,
+.booking-overlay.booking-mobile-lite .qty-value,
+.booking-overlay.booking-mobile-lite .contact-method,
+.booking-overlay.booking-mobile-lite .options-grid .option-card,
+.booking-overlay.booking-mobile-lite .packages-collapsible .collapsible-body .package-mini,
+.booking-overlay.booking-mobile-lite .btn-primary,
+.booking-overlay.booking-mobile-lite .btn-outline,
+.booking-overlay.booking-mobile-lite .btn-book-sm,
+.booking-overlay.booking-mobile-lite .step-btn {
+  transition-property: background-color, border-color, color, opacity;
+  transition-duration: 120ms;
+  filter: none;
+}
+
+.booking-overlay.booking-mobile-lite .time-slot:not(.busy):not(.disabled):hover,
+.booking-overlay.booking-mobile-lite .date-selector-dropdown .date-grid .date-cell:hover,
+.booking-overlay.booking-mobile-lite .month-btn:hover,
+.booking-overlay.booking-mobile-lite .qty-btn:hover,
+.booking-overlay.booking-mobile-lite .options-grid .option-card:hover,
+.booking-overlay.booking-mobile-lite .contact-method:hover,
+.booking-overlay.booking-mobile-lite .packages-collapsible .collapsible-body .package-mini:hover,
+.booking-overlay.booking-mobile-lite .btn-primary:hover {
+  transform: none;
+  box-shadow: none;
+}
+
+/* Balanced booking effects: lighter desktop, same-but-calmer mobile. */
+.booking-overlay::before {
+  opacity: 0.58;
+}
+
+.booking-fx-layer::before {
+  opacity: 0.38;
+  filter: none;
+}
+
+.booking-fx-layer::after {
+  opacity: 0.52;
+}
+
+.booking-fx-thread {
+  opacity: 0.14;
+  box-shadow: 0 0 8px rgba(255, 25, 195, 0.24);
+}
+
+.booking-fx-spark {
+  opacity: 0;
+  box-shadow: 0 0 8px rgba(255, 25, 195, 0.42);
+}
+
+.booking-fx-promo {
+  opacity: 0.72;
+  box-shadow: inset 0 0 18px rgba(36, 200, 255, 0.12), 0 0 18px rgba(255, 25, 195, 0.34);
+}
+
+.booking-fx-portal {
+  opacity: 0.72;
+  box-shadow: inset 0 0 18px rgba(255, 25, 195, 0.22), 0 0 22px rgba(255, 25, 195, 0.32);
+}
+
+@media (max-width: 767px) {
+  .booking-overlay::before,
+  .booking-overlay.booking-mobile-lite::before {
+    opacity: 0.4;
+  }
+
+  .booking-overlay.booking-mobile-lite .booking-fx-thread,
+  .booking-overlay.booking-mobile-lite .booking-fx-spark,
+  .booking-overlay.booking-mobile-lite .booking-fx-promo,
+  .booking-overlay.booking-mobile-lite .booking-fx-portal {
+    display: block;
+  }
+
+  .booking-overlay.booking-mobile-lite .booking-fx-thread {
+    opacity: 0.12;
+    animation: none;
+    box-shadow: none;
+    background: linear-gradient(90deg, transparent, rgba(255, 25, 195, 0.28), rgba(36, 200, 255, 0.22), transparent);
+  }
+
+  .booking-overlay.booking-mobile-lite .booking-fx-spark {
+    width: 3px;
+    height: 3px;
+    opacity: 0.42;
+    animation: none;
+    box-shadow: none;
+    background: rgba(255, 25, 195, 0.58);
+  }
+
+  .booking-overlay.booking-mobile-lite .booking-fx-promo {
+    left: -22px;
+    top: 360px;
+    width: 88px;
+    opacity: 0.32;
+    animation: none;
+    box-shadow: 0 0 14px rgba(255, 25, 195, 0.18);
+  }
+
+  .booking-overlay.booking-mobile-lite .booking-fx-promo::before {
+    font-size: 1.15rem;
+  }
+
+  .booking-overlay.booking-mobile-lite .booking-fx-portal {
+    right: -24px;
+    top: 620px;
+    width: 74px;
+    height: 108px;
+    opacity: 0.28;
+    animation: none;
+    box-shadow: 0 0 14px rgba(255, 25, 195, 0.16);
+  }
+
+  .booking-overlay.booking-mobile-lite .booking-fx-portal::before {
+    font-size: 2rem;
+  }
+
+  .booking-overlay.booking-mobile-lite .booking-fx-layer::before,
+  .booking-overlay.booking-mobile-lite .booking-fx-layer::after,
+  .booking-overlay.booking-mobile-lite::after,
+  .booking-overlay.booking-mobile-lite .booking-fx-bat,
+  .booking-overlay.booking-mobile-lite .booking-fx-spider {
+    display: none;
+  }
+}
+
+/* Final balance: no discount badge, cleaner desktop, more visible light mobile scene. */
+.booking-fx-promo {
+  display: none;
+}
+
+.booking-overlay::before {
+  opacity: 0.48;
+}
+
+.booking-fx-layer::before {
+  opacity: 0.3;
+}
+
+.booking-fx-layer::after {
+  opacity: 0.42;
+}
+
+.booking-fx-thread {
+  opacity: 0.1;
+}
+
+.booking-fx-portal,
+.booking-fx-bat,
+.booking-fx-spider {
+  opacity: 0.56;
+}
+
+@media (max-width: 767px) {
+  .booking-overlay::before,
+  .booking-overlay.booking-mobile-lite::before {
+    opacity: 0.62;
+  }
+
+  .booking-overlay.booking-mobile-lite .booking-fx-thread,
+  .booking-overlay.booking-mobile-lite .booking-fx-spark,
+  .booking-overlay.booking-mobile-lite .booking-fx-portal,
+  .booking-overlay.booking-mobile-lite .booking-fx-bat,
+  .booking-overlay.booking-mobile-lite .booking-fx-spider {
+    display: block;
+  }
+
+  .booking-overlay.booking-mobile-lite .booking-fx-thread {
+    opacity: 0.24;
+    animation: none;
+    box-shadow: none;
+    background: linear-gradient(90deg, transparent, rgba(255, 25, 195, 0.36), rgba(36, 200, 255, 0.3), transparent);
+  }
+
+  .booking-overlay.booking-mobile-lite .booking-fx-spark {
+    width: 3px;
+    height: 3px;
+    opacity: 0.58;
+    animation: none;
+    box-shadow: none;
+    background: rgba(255, 25, 195, 0.72);
+  }
+
+  .booking-overlay.booking-mobile-lite .booking-fx-portal {
+    right: -18px;
+    top: 560px;
+    width: 82px;
+    height: 122px;
+    opacity: 0.42;
+    animation: none;
+    box-shadow: 0 0 12px rgba(255, 25, 195, 0.18);
+  }
+
+  .booking-overlay.booking-mobile-lite .booking-fx-bat.bat-one {
+    right: -10px;
+    top: 120px;
+    width: 92px;
+    height: 44px;
+    opacity: 0.4;
+    animation: none;
+    filter: none;
+  }
+
+  .booking-overlay.booking-mobile-lite .booking-fx-spider.spider-right {
+    right: 8px;
+    top: 430px;
+    width: 48px;
+    opacity: 0.34;
+    animation: none;
+  }
+}
+
+/* Restore living web motion with a lighter animation budget. */
+.booking-overlay::before {
+  animation: bookingWebDrift 34s linear infinite;
+  will-change: background-position;
+}
+
+.booking-fx-layer::before {
+  animation: bookingConstellation 30s linear infinite;
+  will-change: background-position;
+}
+
+.booking-fx-thread {
+  animation: bookingThreadPulse 8.5s ease-in-out infinite;
+  animation-delay: calc(var(--i) * -0.65s);
+  will-change: opacity;
+}
+
+@media (max-width: 767px) {
+  .booking-overlay::before,
+  .booking-overlay.booking-mobile-lite::before {
+    animation: bookingWebDrift 46s linear infinite;
+    opacity: 0.58;
+    will-change: background-position;
+  }
+
+  .booking-overlay.booking-mobile-lite .booking-fx-layer::before {
+    display: block;
+    opacity: 0.22;
+    filter: none;
+    animation: bookingConstellation 42s linear infinite;
+    will-change: background-position;
+  }
+
+  .booking-overlay.booking-mobile-lite .booking-fx-thread {
+    animation: bookingThreadPulse 11s ease-in-out infinite;
+    animation-delay: calc(var(--i) * -0.8s);
+    will-change: opacity;
+  }
+
+  .booking-overlay.booking-mobile-lite .booking-fx-portal {
+    animation: bookingPortalGlow 7s ease-in-out infinite;
+  }
+
+  .booking-overlay.booking-mobile-lite .booking-fx-bat.bat-one,
+  .booking-overlay.booking-mobile-lite .booking-fx-spider.spider-right,
+  .booking-overlay.booking-mobile-lite .booking-fx-spark {
+    animation: none;
+  }
+}
+
+/* Separate booking look for Horror evening/date. */
+.booking-overlay.horror-booking {
+  --horror-red: #ff0000;
+  background:
+    radial-gradient(circle at 10% 12%, rgba(255, 0, 0, 0.22), transparent 28%),
+    radial-gradient(circle at 92% 20%, rgba(255, 255, 255, 0.06), transparent 22%),
+    linear-gradient(180deg, rgba(0, 0, 0, 0.72), rgba(0, 0, 0, 0.94)),
+    url('../imeges/horror-vecher/1.webp') center / cover fixed no-repeat;
+}
+
+.booking-overlay.horror-booking::before {
+  opacity: 0.18;
+  background:
+    linear-gradient(90deg, transparent 0 49%, rgba(255, 0, 0, 0.16) 50%, transparent 51%),
+    linear-gradient(0deg, transparent 0 49%, rgba(255, 255, 255, 0.08) 50%, transparent 51%);
+  background-size: 96px 96px;
+  animation-duration: 42s;
+}
+
+.booking-overlay.horror-booking::after {
+  opacity: 0.38;
+  background:
+    radial-gradient(circle at 8% 18%, var(--horror-red) 0 9px, rgba(255, 0, 0, 0.36) 10px 22px, transparent 23px),
+    radial-gradient(circle at 94% 35%, var(--horror-red) 0 7px, transparent 8px),
+    radial-gradient(circle at 6% 78%, var(--horror-red) 0 11px, rgba(255, 0, 0, 0.28) 12px 24px, transparent 25px);
+}
+
+.booking-overlay.horror-booking .container {
+  max-width: 1180px;
+}
+
+.booking-overlay.horror-booking .close-overlay {
+  border-color: rgba(255, 255, 255, 0.18);
+  background: rgba(0, 0, 0, 0.48);
+  color: rgba(255, 255, 255, 0.84);
+}
+
+.booking-overlay.horror-booking .booking-title {
+  font-family: "DS VTCorona Cyr", "Ruslan Display", "Unbounded", "Rubik Dirt", Impact, sans-serif;
+  font-size: clamp(2.1rem, 4vw, 3.6rem);
+  text-transform: uppercase;
+  background: linear-gradient(129deg, #797979 0%, #ffffff 40%, #999999 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: none;
+}
+
+.booking-overlay.horror-booking .booking-title::before {
+  content: "Хоррор формат";
+  display: inline-block;
+  margin-right: 14px;
+  padding: 7px 34px 9px 18px;
+  border-radius: 4px 28px 28px 4px;
+  color: #fff;
+  -webkit-text-fill-color: #fff;
+  background:
+    linear-gradient(90deg, rgba(16, 16, 16, 0.9), rgba(122, 0, 0, 0.9) 52%, transparent),
+    linear-gradient(90deg, transparent, rgba(255, 0, 0, 0.68));
+  font-family: "Manrope", sans-serif;
+  font-size: 0.9rem;
+  font-weight: 800;
+  vertical-align: middle;
+}
+
+.booking-overlay.horror-booking .booking-steps {
+  border-bottom-color: rgba(255, 255, 255, 0.12);
+}
+
+.booking-overlay.horror-booking .step-btn {
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(0, 0, 0, 0.46);
+  color: rgba(255, 255, 255, 0.58);
+}
+
+.booking-overlay.horror-booking .step-btn.active {
+  border-color: rgba(255, 0, 0, 0.72);
+  background: rgba(126, 0, 0, 0.72);
+  color: #fff;
+}
+
+.booking-overlay.horror-booking .booking-grid {
+  grid-template-columns: minmax(320px, 0.92fr) minmax(360px, 1.08fr);
+  grid-template-areas:
+    "info form"
+    "map map";
+  gap: 18px;
+}
+
+.booking-overlay.horror-booking .booking-info,
+.booking-overlay.horror-booking .booking-form,
+.booking-overlay.horror-booking .receipt-box,
+.booking-overlay.horror-booking .booking-summary-card,
+.booking-overlay.horror-booking .date-selector-toggle,
+.booking-overlay.horror-booking .date-selector-dropdown,
+.booking-overlay.horror-booking .options-grid .option-card,
+.booking-overlay.horror-booking .contact-method,
+.booking-overlay.horror-booking .packages-collapsible,
+.booking-overlay.horror-booking .packages-collapsible .collapsible-body .package-mini,
+.booking-overlay.horror-booking .booking-grid #bookingMap {
+  border-color: rgba(255, 255, 255, 0.16);
+  background:
+    radial-gradient(50% 50% at 74% 42%, rgba(38, 38, 38, 0.92) 0%, rgba(0, 0, 0, 0.88) 100%);
+  box-shadow:
+    0 28px 80px rgba(0, 0, 0, 0.62),
+    inset 0 1px 0 rgba(255, 255, 255, 0.075);
+  backdrop-filter: blur(10px);
+}
+
+.booking-overlay.horror-booking .booking-info::after,
+.booking-overlay.horror-booking .booking-form::after,
+.booking-overlay.horror-booking .receipt-box::after,
+.booking-overlay.horror-booking .booking-summary-card::after,
+.booking-overlay.horror-booking .date-selector-toggle::after,
+.booking-overlay.horror-booking .options-grid .option-card::after,
+.booking-overlay.horror-booking .contact-method::after,
+.booking-overlay.horror-booking .packages-collapsible::after,
+.booking-overlay.horror-booking .packages-collapsible .collapsible-body .package-mini::after {
+  opacity: 0.18;
+  background:
+    linear-gradient(64deg, transparent 0 49.2%, rgba(255, 0, 0, 0.14) 50%, transparent 50.8% 100%),
+    radial-gradient(circle at 20% 24%, rgba(255, 0, 0, 0.48) 0 1px, transparent 2px);
+  background-size: 170px 170px, 120px 120px;
+}
+
+.booking-overlay.horror-booking .booking-info h3,
+.booking-overlay.horror-booking .step-content > h3 {
+  font-family: "DS VTCorona Cyr", "Ruslan Display", "Unbounded", "Rubik Dirt", Impact, sans-serif;
+  font-weight: 400;
+  text-transform: uppercase;
+  color: #fff;
+}
+
+.booking-overlay.horror-booking .booking-info .meta span,
+.booking-overlay.horror-booking .booking-summary-card,
+.booking-overlay.horror-booking .receipt-box .row {
+  color: rgba(255, 255, 255, 0.72);
+}
+
+.booking-overlay.horror-booking .summary-total,
+.booking-overlay.horror-booking .pkg-price,
+.booking-overlay.horror-booking .receipt-box .total,
+.booking-overlay.horror-booking .receipt-box .total span:last-child {
+  color: var(--horror-red);
+  font-family: "DS VTCorona Cyr", "Ruslan Display", "Unbounded", "Rubik Dirt", Impact, sans-serif;
+}
+
+.booking-overlay.horror-booking .booking-fx-layer::before {
+  opacity: 0.16;
+  background-image:
+    radial-gradient(circle at 12% 16%, rgba(255, 0, 0, 0.58) 0 1px, transparent 2px),
+    radial-gradient(circle at 78% 48%, rgba(255, 255, 255, 0.32) 0 1px, transparent 2px),
+    linear-gradient(38deg, transparent 0 49.4%, rgba(255, 0, 0, 0.18) 50%, transparent 50.6% 100%),
+    linear-gradient(138deg, transparent 0 49.4%, rgba(255, 255, 255, 0.08) 50%, transparent 50.6% 100%);
+  background-size: 160px 160px, 210px 210px, 190px 190px, 230px 230px;
+}
+
+.booking-overlay.horror-booking .booking-fx-thread {
+  opacity: 0.08;
+  background: linear-gradient(90deg, transparent, rgba(255, 0, 0, 0.44), transparent);
+  box-shadow: none;
+}
+
+.booking-overlay.horror-booking .booking-fx-spark {
+  background: rgba(255, 0, 0, 0.78);
+  box-shadow: 0 0 12px rgba(255, 0, 0, 0.28);
+}
+
+.booking-overlay.horror-booking .booking-fx-portal,
+.booking-overlay.horror-booking .booking-fx-bat,
+.booking-overlay.horror-booking .booking-fx-spider {
+  display: none;
+}
+
+.booking-overlay.horror-booking .booking-photos-carousel,
+.booking-overlay.horror-booking .booking-grid #bookingMap {
+  border-radius: 28px;
+  border-color: rgba(255, 255, 255, 0.14);
+  background: #050505;
+}
+
+.booking-overlay.horror-booking .booking-photo-frame::after {
+  background:
+    linear-gradient(180deg, transparent 45%, rgba(0, 0, 0, 0.82)),
+    repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.045) 0 1px, transparent 1px 5px);
+}
+
+.booking-overlay.horror-booking .date-selector-toggle,
+.booking-overlay.horror-booking .booking-form input,
+.booking-overlay.horror-booking .booking-form select,
+.booking-overlay.horror-booking .booking-form textarea,
+.booking-overlay.horror-booking .time-slot,
+.booking-overlay.horror-booking .date-selector-dropdown .date-grid .date-cell,
+.booking-overlay.horror-booking .month-btn,
+.booking-overlay.horror-booking .qty-btn,
+.booking-overlay.horror-booking .qty-value {
+  border-color: rgba(255, 255, 255, 0.16);
+  background: rgba(0, 0, 0, 0.5);
+  color: #fff;
+}
+
+.booking-overlay.horror-booking .time-slot:not(.busy):not(.disabled):hover,
+.booking-overlay.horror-booking .date-selector-dropdown .date-grid .date-cell:hover,
+.booking-overlay.horror-booking .month-btn:hover,
+.booking-overlay.horror-booking .qty-btn:hover,
+.booking-overlay.horror-booking .options-grid .option-card:hover,
+.booking-overlay.horror-booking .contact-method:hover {
+  border-color: rgba(255, 0, 0, 0.48);
+  background: rgba(78, 0, 0, 0.32);
+  box-shadow: none;
+}
+
+.booking-overlay.horror-booking .time-slot.active,
+.booking-overlay.horror-booking .date-selector-dropdown .date-grid .date-cell.active,
+.booking-overlay.horror-booking .options-grid .option-card.active,
+.booking-overlay.horror-booking .contact-method.active {
+  border-color: rgba(255, 0, 0, 0.68);
+  background: rgba(112, 0, 0, 0.42);
+  color: #fff;
+  box-shadow: inset 0 0 0 1px rgba(255, 0, 0, 0.18);
+}
+
+.booking-overlay.horror-booking .btn-primary,
+.booking-overlay.horror-booking .btn-outline,
+.booking-overlay.horror-booking .btn-book-sm {
+  border: 1px solid rgba(255, 255, 255, 0.54);
+  border-radius: 999px;
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(205, 205, 205, 0.92)),
+    repeating-linear-gradient(135deg, rgba(0, 0, 0, 0.07) 0 1px, transparent 1px 15px);
+  color: #050505;
+  box-shadow: 0 16px 38px rgba(0, 0, 0, 0.42);
+}
+
+.booking-overlay.horror-booking .btn-outline {
+  background: rgba(0, 0, 0, 0.4);
+  color: #fff;
+}
+
+.booking-overlay.horror-booking .horror-variant-selector {
+  margin-top: 14px;
+}
+
+.booking-overlay.horror-booking .horror-variant-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.booking-overlay.horror-booking .horror-variant-card {
+  position: relative;
+  min-height: 118px;
+  padding: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 18px;
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, 0.08), rgba(255, 0, 0, 0.04)),
+    rgba(0, 0, 0, 0.62);
+  color: #fff;
+  text-align: left;
+  cursor: pointer;
+  overflow: hidden;
+}
+
+.booking-overlay.horror-booking .horror-variant-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(90deg, transparent 0 49%, rgba(255, 0, 0, 0.14) 50%, transparent 51%),
+    radial-gradient(circle at 88% 22%, rgba(255, 0, 0, 0.42) 0 8px, transparent 9px);
+  background-size: 74px 74px, auto;
+  opacity: 0.22;
+  pointer-events: none;
+}
+
+.booking-overlay.horror-booking .horror-variant-card > * {
+  position: relative;
+  z-index: 1;
+  display: block;
+}
+
+.booking-overlay.horror-booking .horror-variant-name {
+  font-family: "DS VTCorona Cyr", "Ruslan Display", "Unbounded", "Rubik Dirt", Impact, sans-serif;
+  font-size: 1.05rem;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.booking-overlay.horror-booking .horror-variant-meta {
+  margin-top: 8px;
+  color: rgba(255, 255, 255, 0.62);
+  font-size: 0.78rem;
+}
+
+.booking-overlay.horror-booking .horror-variant-price {
+  margin-top: 12px;
+  color: var(--horror-red);
+  font-family: "DS VTCorona Cyr", "Ruslan Display", "Unbounded", "Rubik Dirt", Impact, sans-serif;
+  font-size: 1rem;
+}
+
+.booking-overlay.horror-booking .horror-variant-card:hover,
+.booking-overlay.horror-booking .horror-variant-card.active {
+  border-color: rgba(255, 0, 0, 0.68);
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, 0.12), rgba(255, 0, 0, 0.2)),
+    rgba(0, 0, 0, 0.72);
+  box-shadow: inset 0 0 0 1px rgba(255, 0, 0, 0.18);
+}
+
+.booking-overlay.horror-booking .booking-grid #bookingMap iframe {
+  min-height: 240px;
+  filter: grayscale(0.35) contrast(1.05);
+}
+
+@media (min-width: 768px) {
+  .booking-overlay.horror-booking .time-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 767px) {
+  .booking-overlay.horror-booking {
+    background:
+      radial-gradient(circle at 18% 8%, rgba(255, 0, 0, 0.16), transparent 28%),
+      linear-gradient(180deg, #050505, #0a0303);
+  }
+
+  .booking-overlay.horror-booking .booking-grid {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "info"
+      "form"
+      "map";
+  }
+
+  .booking-overlay.horror-booking .booking-title::before {
+    display: block;
+    width: max-content;
+    margin: 0 0 8px;
+  }
+
+  .booking-overlay.horror-booking .horror-variant-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .booking-overlay.horror-booking .booking-info,
+  .booking-overlay.horror-booking .booking-form,
+  .booking-overlay.horror-booking .receipt-box,
+  .booking-overlay.horror-booking .booking-summary-card,
+  .booking-overlay.horror-booking .date-selector-toggle,
+  .booking-overlay.horror-booking .date-selector-dropdown,
+  .booking-overlay.horror-booking .options-grid .option-card,
+  .booking-overlay.horror-booking .contact-method,
+  .booking-overlay.horror-booking .packages-collapsible,
+  .booking-overlay.horror-booking .packages-collapsible .collapsible-body .package-mini,
+  .booking-overlay.horror-booking .booking-grid #bookingMap {
+    backdrop-filter: none;
+  }
+}
+
+/* Unified site header: close to the horror evening layout, adapted to the main palette. */
+body:not(.horror-page) .header {
+  position: sticky;
+  top: 0;
+  z-index: 1200;
+  padding: 0;
+  border-bottom: 1px solid rgba(179, 136, 255, 0.14);
+  background:
+    linear-gradient(180deg, rgba(8, 8, 14, 0.88), rgba(12, 10, 22, 0.72));
+  box-shadow: 0 12px 34px rgba(0, 0, 0, 0.24);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+body:not(.horror-page) .header::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 18% 0%, rgba(255, 110, 199, 0.08), transparent 30%),
+    radial-gradient(circle at 84% 0%, rgba(36, 200, 255, 0.07), transparent 28%);
+  opacity: 0.82;
+}
+
+body:not(.horror-page) .header .container {
+  min-height: 68px;
+  max-width: 1220px;
+  align-items: center;
+}
+
+body:not(.horror-page) .logo {
+  font-size: clamp(1rem, 1.65vw, 1.42rem);
+  line-height: 1;
+  letter-spacing: 0;
+  text-transform: uppercase;
+  text-shadow: 0 0 26px rgba(179, 136, 255, 0.24);
+  background: linear-gradient(129deg, #f7f0ff, #b388ff 42%, #24c8ff 100%);
+  background-size: 160% 160%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+body:not(.horror-page) .nav {
+  gap: clamp(10px, 2vw, 26px);
+}
+
+body:not(.horror-page) .nav a {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: rgba(244, 239, 255, 0.78);
+  font-size: clamp(0.68rem, 0.92vw, 0.82rem);
+  font-weight: 750;
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+  text-shadow: 0 4px 26px rgba(0, 0, 0, 0.65);
+}
+
+body:not(.horror-page) .nav a::after {
+  bottom: -9px;
+  height: 2px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #ff6ec7, #b388ff, #24c8ff);
+  box-shadow: 0 0 16px rgba(179, 136, 255, 0.48);
+}
+
+body:not(.horror-page) .nav a:hover,
+body:not(.horror-page) .nav a.active {
+  color: #fff;
+  background: transparent;
+}
+
+body:not(.horror-page) .header-phone,
+body:not(.horror-page) .account-button,
+body:not(.horror-page) .horror-header-tab {
+  border: 1px solid rgba(244, 239, 255, 0.16);
+  background: rgba(255, 255, 255, 0.055);
+  color: #f4efff;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+
+body:not(.horror-page) .header-phone {
+  padding: 5px 12px;
+  font-size: 0.72rem;
+}
+
+body:not(.horror-page) .account-button,
+body:not(.horror-page) .horror-header-tab {
+  min-height: 34px;
+  padding: 6px 12px;
+  font-size: 0.74rem;
+}
+
+body:not(.horror-page) .header-phone:hover,
+body:not(.horror-page) .account-button:hover,
+body:not(.horror-page) .horror-header-tab:hover,
+body:not(.horror-page) .horror-header-tab.active {
+  border-color: rgba(255, 110, 199, 0.44);
+  background: rgba(255, 110, 199, 0.12);
+  color: #fff;
+  box-shadow: 0 12px 30px rgba(179, 136, 255, 0.16);
+}
+
+body:not(.horror-page) .glow-line {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255, 110, 199, 0.75), rgba(36, 200, 255, 0.64), transparent);
+  opacity: 0.8;
+}
+
+@media (max-width: 767px) {
+  body:not(.horror-page) .header {
+    background: rgba(8, 8, 14, 0.94);
+  }
+
+  body:not(.horror-page) .header .container {
+    min-height: 60px;
+  }
+
+  body:not(.horror-page) .mobile-menu-toggle,
+  body:not(.horror-page) .header.mobile-open .nav a {
+    border-color: rgba(179, 136, 255, 0.18);
+    background: rgba(255, 255, 255, 0.06);
+  }
+
+  body:not(.horror-page) .header.mobile-open .nav {
+    background: rgba(8, 8, 14, 0.98);
+    border-color: rgba(179, 136, 255, 0.16);
+  }
+}
+
+/* Unified footer layout */
+.footer {
+  position: relative;
+  overflow: hidden;
+  padding: clamp(34px, 5vw, 56px) 0 clamp(24px, 4vw, 38px);
+  border-top: 1px solid rgba(179, 136, 255, 0.16);
+  background:
+    radial-gradient(circle at 12% 0%, rgba(255, 110, 199, 0.11), transparent 28%),
+    radial-gradient(circle at 88% 12%, rgba(36, 200, 255, 0.08), transparent 30%),
+    linear-gradient(180deg, rgba(11, 12, 19, 0.98), #07070d);
+  color: rgba(244, 239, 255, 0.82);
+}
+
+.footer::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(90deg, transparent, rgba(179, 136, 255, 0.12), transparent),
+    linear-gradient(135deg, transparent 0 49%, rgba(255, 255, 255, 0.018) 50%, transparent 51% 100%);
+  background-size: 100% 1px, 76px 76px;
+  opacity: 0.65;
+}
+
+.footer .container {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: minmax(190px, 1.05fr) minmax(170px, 0.9fr) minmax(240px, 1.25fr) minmax(150px, 0.8fr);
+  gap: clamp(18px, 3vw, 42px);
+  align-items: start;
+}
+
+.footer-col {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+
+.footer-col strong {
+  margin: 0 0 5px;
+  color: #fff;
+  font-family: 'Unbounded', 'Manrope', system-ui, sans-serif;
+  font-size: clamp(0.82rem, 1vw, 0.98rem);
+  font-weight: 800;
+  line-height: 1.15;
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+}
+
+.footer-col:first-child strong {
+  font-size: clamp(1.08rem, 1.5vw, 1.38rem);
+  background: linear-gradient(129deg, #f7f0ff, #b388ff 46%, #24c8ff);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.footer-col span {
+  display: block;
+  max-width: 100%;
+  color: rgba(216, 209, 234, 0.76);
+  font-size: clamp(0.78rem, 0.95vw, 0.9rem);
+  line-height: 1.45;
+}
+
+.footer-col .social-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+}
+
+.footer-col .social-links a {
+  display: inline-flex;
+  width: 38px;
+  height: 38px;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(179, 136, 255, 0.18);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.055);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  transition: border-color 160ms ease, background-color 160ms ease, transform 160ms ease;
+}
+
+.footer-col .social-links a:hover {
+  transform: translateY(-1px);
+  border-color: rgba(255, 110, 199, 0.46);
+  background: rgba(255, 110, 199, 0.12);
+}
+
+.footer-col .social-links img {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+  border-radius: 6px;
+}
+
+.horror-page .footer {
+  border-top-color: rgba(255, 0, 0, 0.18);
+  background:
+    radial-gradient(circle at 10% 0%, rgba(255, 0, 0, 0.13), transparent 28%),
+    linear-gradient(180deg, #151515, #080808);
+}
+
+.horror-page .footer::before {
+  background:
+    linear-gradient(90deg, transparent, rgba(255, 0, 0, 0.16), transparent),
+    linear-gradient(135deg, transparent 0 49%, rgba(255, 255, 255, 0.014) 50%, transparent 51% 100%);
+  background-size: 100% 1px, 84px 84px;
+}
+
+.horror-page .footer-col:first-child strong {
+  font-family: "Rubik Dirt", "Ruslan Display", "Unbounded", Impact, sans-serif;
+  background: linear-gradient(129deg, #ffffff, #a9a9a9 44%, #ff0000);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+@media (max-width: 980px) {
+  .footer .container {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 560px) {
+  .footer {
+    padding: 30px 0 28px;
+  }
+
+  .footer .container {
+    grid-template-columns: 1fr;
+    gap: 22px;
+  }
+
+  .footer-col {
+    gap: 7px;
+  }
+
+  .footer-col .social-links a {
+    width: 36px;
+    height: 36px;
+  }
 }

@@ -64,6 +64,7 @@ function formatBookingMessage(booking) {
   addLine(lines, 'Дата', booking.date);
   addLine(lines, 'Время', booking.time);
   addLine(lines, 'Игроков', booking.players);
+  if (booking.horrorVariant) addLine(lines, 'Формат вечера', booking.horrorVariant);
   lines.push('');
   addLine(lines, 'Имя', booking.clientName);
   addLine(lines, 'Телефон', booking.clientPhone);

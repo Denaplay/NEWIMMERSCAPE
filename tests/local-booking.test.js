@@ -92,6 +92,7 @@ test('Telegram message contains complete booking details and escapes HTML', () =
     date: '2026-08-20',
     time: '18:00',
     players: 4,
+    horrorVariant: 'VIP хоррор вечер — 15000 ₽',
     clientName: 'Иван',
     clientPhone: '+79990000000',
     clientEmail: 'ivan@example.com',
@@ -106,6 +107,7 @@ test('Telegram message contains complete booking details and escapes HTML', () =
   });
   assert.match(message, /^<b>💥НОВАЯ БРОНЬ🛐<\/b>/);
   assert.match(message, /<b>Дата: 2026-08-20<\/b>/);
+  assert.match(message, /<b>Формат вечера: VIP хоррор вечер — 15000 ₽<\/b>/);
   assert.match(message, /<b>Предоплата: 1500 ₽<\/b>/);
   assert.match(message, /<b>Сколько взять: <tg-spoiler>6500 ₽<\/tg-spoiler><\/b>/);
   assert.doesNotMatch(message, /ID брони|Локация|Адрес|Сумма до скидки|Доплата за игроков/);

@@ -10,6 +10,7 @@ let selectedDate = null;
 let selectedTime = null;
 let selectedPackageQuest = '';
 let baseBookingState = null;
+let selectedHorrorVariant = 'standard';
 let currentMonth = new Date().getMonth();
 let currentYear = new Date().getFullYear();
 const today = new Date();
@@ -474,6 +475,125 @@ function isCurrentPackageBooking() {
   return isPackageBooking || getBookingType(currentBookingName) === 'package';
 }
 
+function isHorrorBookingName(name) {
+  return name === 'Хоррор-свидание' || name === 'Хоррор-вечер';
+}
+
+function getHorrorVariants(name) {
+  if (name === 'Хоррор-свидание') {
+    return [
+      {
+        key: 'standard',
+        title: 'Обычное свидание',
+        time: '60-65 минут',
+        price: 10000,
+        desc: 'Романтическое хоррор-свидание на м. Профсоюзная'
+      },
+      {
+        key: 'vip',
+        title: 'VIP хоррор свидание',
+        time: '2-2.5 часа',
+        price: 15000,
+        desc: 'VIP хоррор-свидание на м. Профсоюзная'
+      }
+    ];
+  }
+
+  return [
+    {
+      key: 'standard',
+      title: 'Обычный вечер',
+      time: '60-65 минут',
+      price: 12000,
+      desc: 'Хоррор вечер на м. Таганская'
+    },
+    {
+      key: 'vip',
+      title: 'VIP хоррор вечер',
+      time: '2-2.5 часа',
+      price: 15000,
+      desc: 'VIP хоррор вечер на м. Таганская'
+    }
+  ];
+}
+
+function ensureHorrorVariantSelector() {
+  if (document.getElementById('horrorVariantSelector')) return;
+
+  const bookingForm = document.querySelector('.step-content[data-step="1"] .booking-form');
+  const summary = bookingForm ? bookingForm.querySelector('.booking-summary-card') : null;
+  if (!bookingForm || !summary) return;
+
+  const selector = document.createElement('div');
+  selector.className = 'horror-variant-selector';
+  selector.id = 'horrorVariantSelector';
+  selector.innerHTML = '<label>Формат вечера</label><div class="horror-variant-grid" id="horrorVariantGrid"></div>';
+  bookingForm.insertBefore(selector, bookingForm.firstElementChild || summary);
+}
+
+function renderHorrorVariantSelector(name) {
+  ensureHorrorVariantSelector();
+
+  const selector = document.getElementById('horrorVariantSelector');
+  const grid = document.getElementById('horrorVariantGrid');
+  if (!selector || !grid) return;
+
+  if (!isHorrorBookingName(name)) {
+    selector.hidden = true;
+    return;
+  }
+
+  selector.hidden = false;
+  const variants = getHorrorVariants(name);
+  if (!variants.some(variant => variant.key === selectedHorrorVariant)) {
+    selectedHorrorVariant = 'standard';
+  }
+
+  grid.innerHTML = variants.map(variant => `
+    <button type="button" class="horror-variant-card${variant.key === selectedHorrorVariant ? ' active' : ''}" data-variant="${variant.key}">
+      <span class="horror-variant-name">${variant.title}</span>
+      <span class="horror-variant-meta">${variant.time}</span>
+      <span class="horror-variant-price">от ${formatMoney(variant.price)}</span>
+    </button>
+  `).join('');
+
+  grid.querySelectorAll('.horror-variant-card').forEach(card => {
+    card.addEventListener('click', () => {
+      selectedHorrorVariant = card.dataset.variant || 'standard';
+      applyHorrorVariant(name);
+      renderHorrorVariantSelector(name);
+    });
+  });
+}
+
+function applyHorrorVariant(name) {
+  if (!isHorrorBookingName(name)) return;
+
+  const variant = getHorrorVariants(name).find(item => item.key === selectedHorrorVariant)
+    || getHorrorVariants(name)[0];
+  currentBookingPrice = variant.price;
+  currentBookingDesc = variant.desc;
+  if (baseBookingState) {
+    baseBookingState.price = variant.price;
+    baseBookingState.desc = variant.desc;
+  }
+
+  const descEl = document.getElementById('bookQuestDesc');
+  const metaTime = document.getElementById('bookQuestMetaTime');
+  if (descEl) descEl.textContent = variant.desc;
+  if (metaTime) metaTime.textContent = variant.time;
+
+  updateTotalDisplay();
+  updateReceipt();
+}
+
+function getSelectedHorrorVariantLabel() {
+  if (!isHorrorBookingName(currentBookingName)) return '';
+  const variant = getHorrorVariants(currentBookingName).find(item => item.key === selectedHorrorVariant)
+    || getHorrorVariants(currentBookingName)[0];
+  return `${variant.title} — ${formatMoney(variant.price)}`;
+}
+
 function getSelectedPackageQuest() {
   const select = document.getElementById('packageQuestChoice');
   if (!select || !isCurrentPackageBooking()) return '';
@@ -566,6 +686,10 @@ async function notifyTelegramAboutBooking(booking) {
 function getBasePriceForBooking(activeTime) {
   if (isCurrentPackageBooking()) {
     return (currentBookingPrice || 0) + (isCustomPackageBooking() ? getSelectedPackageQuestPrice(activeTime) : 0);
+  }
+
+  if (isHorrorBookingName(currentBookingName)) {
+    return currentBookingPrice || getHorrorVariants(currentBookingName)[0].price;
   }
 
   if (activeTime && currentBookingName) {
@@ -889,21 +1013,32 @@ function ensureBookingEffects() {
   layer.id = 'bookingFxLayer';
   layer.setAttribute('aria-hidden', 'true');
 
-  for (let i = 0; i < 9; i += 1) {
+  const isMobileLite = window.matchMedia('(max-width: 767px), (hover: none), (pointer: coarse)').matches
+    || Math.min(window.innerWidth || Infinity, window.screen?.width || Infinity) <= 767;
+
+  const threadCount = isMobileLite ? 5 : 5;
+  const sparkCount = isMobileLite ? 8 : 8;
+  const decorItems = isMobileLite
+    ? ['portal', 'bat bat-one', 'spider spider-right']
+    : ['portal', 'bat bat-one', 'spider spider-right'];
+
+  if (isMobileLite) overlay.classList.add('booking-mobile-lite');
+
+  for (let i = 0; i < threadCount; i += 1) {
     const thread = document.createElement('i');
     thread.className = 'booking-fx-thread';
     thread.style.setProperty('--i', String(i));
     layer.appendChild(thread);
   }
 
-  for (let i = 0; i < 16; i += 1) {
+  for (let i = 0; i < sparkCount; i += 1) {
     const spark = document.createElement('i');
     spark.className = 'booking-fx-spark';
     spark.style.setProperty('--i', String(i));
     layer.appendChild(spark);
   }
 
-  ['promo', 'portal', 'bat bat-one', 'bat bat-two', 'spider spider-left', 'spider spider-right'].forEach(name => {
+  decorItems.forEach(name => {
     const decor = document.createElement('i');
     decor.className = `booking-fx-${name}`;
     layer.appendChild(decor);
@@ -1267,12 +1402,14 @@ function openBooking(name, desc, price, isPackage) {
   
   isPackageBooking = isPackage || false;
   selectedPackageQuest = '';
+  selectedHorrorVariant = 'standard';
   currentBookingName = name;
   currentBookingDesc = desc || '';
   currentBookingPrice = price || 0;
   
   const overlay = document.getElementById('bookingOverlay');
   if (!overlay) return;
+  overlay.classList.toggle('horror-booking', isHorrorBookingName(name));
   
   document.getElementById('bookQuestName').textContent = name;
   document.getElementById('bookQuestDesc').textContent = desc || 'Погрузитесь в атмосферу приключения!';
@@ -1295,6 +1432,8 @@ function openBooking(name, desc, price, isPackage) {
   if (metaTime) metaTime.textContent = quest ? quest.time : '60-90 мин';
   if (metaPlayers) metaPlayers.textContent = quest ? quest.players : '1–8';
   if (metaDifficulty) metaDifficulty.textContent = quest ? (quest.fear ? `${quest.difficulty} · страх: ${quest.fear}` : quest.difficulty) : '—';
+  renderHorrorVariantSelector(name);
+  applyHorrorVariant(name);
   
   updateBookingPhotos(name);
   
@@ -1365,7 +1504,19 @@ function openBooking(name, desc, price, isPackage) {
     `;
   }
   
-  if (isPackageBookingNow) {
+  if (isHorrorBookingName(name)) {
+    if (packageQuestSelect) packageQuestSelect.style.display = 'none';
+    updatePackageQuestLockState();
+    if (optionsGrid) {
+      optionsGrid.style.display = 'grid';
+      renderOptions(optionsForType);
+    }
+    if (optionsTitle) {
+      optionsTitle.textContent = 'Дополнительные услуги для хоррор-формата';
+      optionsTitle.style.display = 'block';
+    }
+    if (packagesCollapsible) packagesCollapsible.style.display = 'none';
+  } else if (isPackageBookingNow) {
     setPackageOptionsVisibility(false);
     if (packagesCollapsible) packagesCollapsible.style.display = 'none';
     if (packageQuestSelect) packageQuestSelect.style.display = 'block';
@@ -1407,12 +1558,12 @@ function openBooking(name, desc, price, isPackage) {
 
 function closeBooking() {
   if (document.body.classList.contains('standalone-booking-page')) {
-    window.location.href = 'index.html';
+    window.location.href = isHorrorBookingName(currentBookingName) ? 'horror.html' : 'index.html';
     return;
   }
 
   const overlay = document.getElementById('bookingOverlay');
-  if (overlay) overlay.classList.remove('open');
+  if (overlay) overlay.classList.remove('open', 'horror-booking');
   document.body.style.overflow = '';
   resetBookingData();
 }
@@ -1442,6 +1593,7 @@ function resetBookingData() {
   selectedDate = null;
   selectedTime = null;
   selectedPackageQuest = '';
+  selectedHorrorVariant = 'standard';
   
   const dateEl = document.getElementById('selectedDate');
   if (dateEl) dateEl.textContent = 'Выберите дату';
@@ -1917,6 +2069,8 @@ function updateReceipt() {
       ? `${optionNames === '—' ? '' : `${optionNames}; `}Квест в пакете: ${packageQuest}${questPriceText}`
       : `${optionNames === '—' ? '' : `${optionNames}; `}Квест в пакете: выбрать позже`;
   }
+
+  const horrorVariantLabel = getSelectedHorrorVariantLabel();
   
   const methodName = getActiveContactMethodName();
   
@@ -1924,6 +2078,7 @@ function updateReceipt() {
   const receiptDateTime = document.getElementById('receiptDateTime');
   const receiptPlayers = document.getElementById('receiptPlayers');
   const receiptExtras = document.getElementById('receiptExtras');
+  const receiptHorrorVariant = document.getElementById('receiptHorrorVariant');
   const receiptMethod = document.getElementById('receiptMethod');
   const receiptSubtotal = document.getElementById('receiptSubtotal');
   const receiptDiscount = document.getElementById('receiptDiscount');
@@ -1933,6 +2088,7 @@ function updateReceipt() {
   if (receiptDateTime) receiptDateTime.textContent = `${dateStr}, ${time}`;
   if (receiptPlayers) receiptPlayers.textContent = totals.players;
   if (receiptExtras) receiptExtras.textContent = optionNames;
+  if (receiptHorrorVariant) receiptHorrorVariant.textContent = horrorVariantLabel || '—';
   if (receiptMethod) receiptMethod.textContent = methodName;
   if (receiptSubtotal) receiptSubtotal.textContent = formatMoney(totals.subtotal);
   if (receiptDiscount) receiptDiscount.textContent = totals.discount > 0 ? `-${formatMoney(totals.discount)}` : '—';
@@ -1973,6 +2129,7 @@ async function confirmBooking() {
     price: Number(option.dataset.price) || 0
   }));
   const servicesText = selectedServices.map(service => `${service.name} — ${service.price} ₽`).join('; ');
+  const horrorVariantLabel = getSelectedHorrorVariantLabel();
   const integrationComment = clientComment;
   const staffComment = [integrationComment, contactHandle ? `${contactMethod}: ${contactHandle}` : '']
     .filter(Boolean)
@@ -2023,6 +2180,7 @@ async function confirmBooking() {
       clientEmail: email || session?.user?.email || '',
       contactMethod,
       contactHandle,
+      horrorVariant: horrorVariantLabel,
       extraServices: servicesText,
       comment: clientComment,
       promoCode: promoApplied ? promoCode : '',
