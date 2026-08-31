@@ -211,6 +211,19 @@ const quests = [
   }
 ];
 
+const questDetailPages = {
+  'Стоматология "Новая жизнь"': '/stomatologiya',
+  'Рик и Морти': '/rick-and-morty',
+  'K-pop: последний стрим': '/k-pop',
+  'Запретная дверь': '/zapretnaya-dver',
+  'Невеста': '/nevesta',
+  'Приключение в Хогвартсе': '/rozhdestvo-v-hogvartse',
+  'Лабубу: волшебный мир': '/labubu',
+  'Монастырь': '/monastyr',
+  'Хоррор-свидание': '/horror-svidanie',
+  'Among Us': '/among-us'
+};
+
 // ===== РЕНДЕР КВЕСТОВ =====
 function renderQuests() {
   const grid = document.getElementById('questGrid');
@@ -241,6 +254,7 @@ function getQuestCardDescription(description, maxLength = 90) {
 function createQuestCard(q) {
   const card = document.createElement('div');
   const discountPercent = q.oldPrice > q.price ? Math.round((1 - q.price / q.oldPrice) * 100) : 0;
+  const detailUrl = questDetailPages[q.name];
   card.className = 'quest-card';
   card.innerHTML = `
 <div class="card-image" style="background-image: url('${q.image || ''}'); background-size: cover; background-position: center;">
@@ -250,7 +264,7 @@ function createQuestCard(q) {
   ${!q.image ? `<span class="image-emoji">${q.emoji || '🎭'}</span>` : ''}
 </div>
     <div class="card-body">
-      <div class="card-title">${q.name}</div>
+      <div class="card-title">${detailUrl ? `<a href="${detailUrl}">${q.name}</a>` : q.name}</div>
       <div class="card-location">📍 ${q.loc}</div>
       <div class="card-meta">
         <span>⏱ ${q.time}</span>
@@ -433,6 +447,7 @@ function fallbackCopyPhone(text) {
 document.addEventListener('DOMContentLoaded', function() {
   const header = document.querySelector('.header');
   if (!header) return;
+  if (header.dataset.mobileHeaderReady === 'true') return;
 
   const headerContainer = header.querySelector('.container');
   const logo = header.querySelector('.logo');

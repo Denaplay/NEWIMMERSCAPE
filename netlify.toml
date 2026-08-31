@@ -13,3 +13,18 @@
   to = "/.netlify/functions/telegram-booking"
   status = 200
   force = true
+
+[[headers]]
+  for = "/booking*"
+  [headers.values]
+    X-Robots-Tag = "noindex, nofollow"
+
+[[headers]]
+  for = "/profile*"
+  [headers.values]
+    X-Robots-Tag = "noindex, nofollow"
+
+[[headers]]
+  for = "/staff-*"
+  [headers.values]
+    X-Robots-Tag = "noindex, nofollow"
