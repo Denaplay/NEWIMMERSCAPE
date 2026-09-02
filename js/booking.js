@@ -348,12 +348,12 @@ function getLocationAddress(location) {
 
 function getMapUrl(location) {
   const maps = {
-    'м. Профсоюзная': 'https://yandex.ru/map-widget/v1/?ll=37.563116%2C55.681585&mode=search&text=%D0%9C%D0%BE%D1%81%D0%BA%D0%B2%D0%B0%2C%20%D1%83%D0%BB.%20%D0%9A%D1%80%D0%B6%D0%B8%D0%B6%D0%B0%D0%BD%D0%BE%D0%B2%D1%81%D0%BA%D0%BE%D0%B3%D0%BE%2C%208%2C%20%D0%BA%D0%BE%D1%80%D0%BF.%202&z=17',
-    'Профсоюзная': 'https://yandex.ru/map-widget/v1/?ll=37.563116%2C55.681585&mode=search&text=%D0%9C%D0%BE%D1%81%D0%BA%D0%B2%D0%B0%2C%20%D1%83%D0%BB.%20%D0%9A%D1%80%D0%B6%D0%B8%D0%B6%D0%B0%D0%BD%D0%BE%D0%B2%D1%81%D0%BA%D0%BE%D0%B3%D0%BE%2C%208%2C%20%D0%BA%D0%BE%D1%80%D0%BF.%202&z=17',
-    'м. Таганская': 'https://yandex.ru/map-widget/v1/?ll=37.661444%2C55.743230&mode=search&text=%D0%9C%D0%BE%D1%81%D0%BA%D0%B2%D0%B0%2C%20%D0%91%D0%BE%D0%BB%D1%8C%D1%88%D0%BE%D0%B9%20%D0%A4%D0%B0%D0%BA%D0%B5%D0%BB%D1%8C%D0%BD%D1%8B%D0%B9%20%D0%BF%D0%B5%D1%80.%2C%202%2F22&z=17',
-    'Таганская': 'https://yandex.ru/map-widget/v1/?ll=37.661444%2C55.743230&mode=search&text=%D0%9C%D0%BE%D1%81%D0%BA%D0%B2%D0%B0%2C%20%D0%91%D0%BE%D0%BB%D1%8C%D1%88%D0%BE%D0%B9%20%D0%A4%D0%B0%D0%BA%D0%B5%D0%BB%D1%8C%D0%BD%D1%8B%D0%B9%20%D0%BF%D0%B5%D1%80.%2C%202%2F22&z=17',
-    'м. Измайловская': 'https://yandex.ru/map-widget/v1/?ll=37.773053%2C55.791071&mode=search&text=%D0%9C%D0%BE%D1%81%D0%BA%D0%B2%D0%B0%2C%20%D1%83%D0%BB.%20%D0%9F%D0%B5%D1%80%D0%B2%D0%BE%D0%BC%D0%B0%D0%B9%D1%81%D0%BA%D0%B0%D1%8F%2C%205&z=17',
-    'Измайловская': 'https://yandex.ru/map-widget/v1/?ll=37.773053%2C55.791071&mode=search&text=%D0%9C%D0%BE%D1%81%D0%BA%D0%B2%D0%B0%2C%20%D1%83%D0%BB.%20%D0%9F%D0%B5%D1%80%D0%B2%D0%BE%D0%BC%D0%B0%D0%B9%D1%81%D0%BA%D0%B0%D1%8F%2C%205&z=17'
+    'м. Профсоюзная': 'https://yandex.ru/map-widget/v1/org/imerskeyp/173606417400/?from=mapframe&ll=37.563117%2C55.681585&z=17',
+    'Профсоюзная': 'https://yandex.ru/map-widget/v1/org/imerskeyp/173606417400/?from=mapframe&ll=37.563117%2C55.681585&z=17',
+    'м. Таганская': 'https://yandex.ru/map-widget/v1/org/immerscape/229233551571/?from=mapframe&indoorLevel=1&ll=37.659735%2C55.743193&z=17.07',
+    'Таганская': 'https://yandex.ru/map-widget/v1/org/immerscape/229233551571/?from=mapframe&indoorLevel=1&ll=37.659735%2C55.743193&z=17.07',
+    'м. Измайловская': 'https://yandex.ru/map-widget/v1/org/immerscape/156364387435/?from=mapframe&ll=37.771090%2C55.791071&z=17.07',
+    'Измайловская': 'https://yandex.ru/map-widget/v1/org/immerscape/156364387435/?from=mapframe&ll=37.771090%2C55.791071&z=17.07'
   };
   return maps[location] || maps['м. Профсоюзная'];
 }
@@ -1016,11 +1016,9 @@ function ensureBookingEffects() {
   const isMobileLite = window.matchMedia('(max-width: 767px), (hover: none), (pointer: coarse)').matches
     || Math.min(window.innerWidth || Infinity, window.screen?.width || Infinity) <= 767;
 
-  const threadCount = isMobileLite ? 5 : 5;
-  const sparkCount = isMobileLite ? 8 : 8;
-  const decorItems = isMobileLite
-    ? ['portal', 'bat bat-one', 'spider spider-right']
-    : ['portal', 'bat bat-one', 'spider spider-right'];
+  const threadCount = isMobileLite ? 3 : 4;
+  const sparkCount = isMobileLite ? 4 : 5;
+  const decorItems = [];
 
   if (isMobileLite) overlay.classList.add('booking-mobile-lite');
 
@@ -1410,6 +1408,7 @@ function openBooking(name, desc, price, isPackage) {
   const overlay = document.getElementById('bookingOverlay');
   if (!overlay) return;
   overlay.classList.toggle('horror-booking', isHorrorBookingName(name));
+  overlay.classList.toggle('package-booking', Boolean(isPackage));
   
   document.getElementById('bookQuestName').textContent = name;
   document.getElementById('bookQuestDesc').textContent = desc || 'Погрузитесь в атмосферу приключения!';
@@ -1645,6 +1644,9 @@ function resetBookingData() {
 // ===== ШАГИ БРОНИРОВАНИЯ =====
 // ============================================================
 function goStep(n) {
+  if (isCurrentPackageBooking() && n === 2) {
+    n = currentStep > 2 ? 1 : 3;
+  }
   if (n === currentStep) return;
   if (n < 1 || n > 4) return;
   

@@ -8720,3 +8720,200 @@ body:not(.horror-page) .glow-line {
     font-size: 1.08rem;
   }
 }
+
+/* Request fixes: quieter booking background, package flow, readable horror title, phone copy hint. */
+.booking-overlay.package-booking .step-btn[data-step="2"],
+.booking-overlay.package-booking .step-content[data-step="2"] {
+  display: none;
+}
+
+.booking-overlay .booking-fx-portal,
+.booking-overlay .booking-fx-promo,
+.booking-overlay .booking-fx-bat,
+.booking-overlay .booking-fx-spider {
+  display: none !important;
+}
+
+.booking-overlay::after {
+  opacity: 0.16;
+}
+
+.booking-info::after,
+.booking-form::after,
+.receipt-box::after,
+.booking-summary-card::after,
+.date-selector-toggle::after,
+.options-grid .option-card::after,
+.contact-method::after,
+.packages-collapsible::after,
+.packages-collapsible .collapsible-body .package-mini::after {
+  opacity: 0.2;
+}
+
+.booking-overlay.horror-booking .booking-title,
+.booking-overlay.horror-booking .booking-info h3,
+.booking-overlay.horror-booking .step-content > h3,
+.booking-overlay.horror-booking .horror-variant-name,
+.booking-overlay.horror-booking .horror-variant-price,
+.booking-overlay.horror-booking .summary-total,
+.booking-overlay.horror-booking .pkg-price,
+.booking-overlay.horror-booking .receipt-box .total,
+.booking-overlay.horror-booking .receipt-box .total span:last-child {
+  font-family: "Unbounded", "Manrope", system-ui, sans-serif;
+  font-weight: 800;
+  letter-spacing: 0;
+}
+
+.booking-overlay.horror-booking .booking-title {
+  color: #f7f3ff;
+  background: none;
+  -webkit-text-fill-color: currentColor;
+  text-shadow: 0 2px 0 rgba(0, 0, 0, 0.85), 0 0 18px rgba(255, 0, 0, 0.45);
+}
+
+.booking-overlay.horror-booking .booking-title::before {
+  font-family: "Manrope", system-ui, sans-serif;
+  background: rgba(126, 0, 0, 0.9);
+  color: #fff;
+  -webkit-text-fill-color: #fff;
+}
+
+.booking-overlay.horror-booking .booking-info h3,
+.booking-overlay.horror-booking .step-content > h3 {
+  color: #fff;
+  text-shadow: 0 2px 0 rgba(0, 0, 0, 0.8), 0 0 14px rgba(255, 0, 0, 0.35);
+}
+
+.header-phone::after {
+  content: attr(data-copy-label);
+  top: calc(100% + 8px);
+  bottom: auto;
+  z-index: 10;
+}
+
+.header-phone::before {
+  content: '';
+  position: absolute;
+  top: calc(100% + 2px);
+  left: 50%;
+  z-index: 11;
+  transform: translateX(-50%);
+  border: 6px solid transparent;
+  border-bottom-color: #1e1b2b;
+  opacity: 0;
+  pointer-events: none;
+  transition: 0.3s;
+}
+
+.header-phone:hover::before {
+  opacity: 1;
+}
+
+/* Structured quest card details. */
+.quest-card .card-image::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(5, 7, 10, 0.22), transparent 40%, rgba(5, 7, 10, 0.1));
+  pointer-events: none;
+}
+
+.quest-card .card-image .image-tags {
+  z-index: 2;
+  max-width: calc(100% - 76px);
+}
+
+.quest-card .card-image .quest-age {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  z-index: 3;
+  display: grid;
+  place-items: center;
+  min-width: 42px;
+  height: 42px;
+  padding: 0 8px;
+  border: 1px solid rgba(255, 227, 154, 0.55);
+  border-radius: 8px;
+  background: rgba(8, 10, 15, 0.82);
+  color: #ffe39a;
+  font-size: 0.82rem;
+  font-weight: 800;
+  line-height: 1;
+  backdrop-filter: blur(8px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.28);
+}
+
+.quest-card .card-body .card-meta {
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 1.2fr) minmax(0, 0.85fr);
+  gap: 6px;
+  margin: 12px 0 8px;
+  color: inherit;
+}
+
+.quest-card .card-body .card-meta .quest-stat {
+  min-width: 0;
+  min-height: 54px;
+  padding: 8px 7px;
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  border-radius: 7px;
+  background: rgba(255, 255, 255, 0.045);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 4px;
+}
+
+.quest-card .quest-stat small {
+  color: #9288b0;
+  font-size: 0.62rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.quest-card .quest-stat strong {
+  max-width: 100%;
+  overflow-wrap: normal;
+  word-break: normal;
+  color: #f8f4ff;
+  font-size: 0.68rem;
+  font-weight: 700;
+  line-height: 1.15;
+}
+
+.quest-card .card-players {
+  width: fit-content;
+  margin-bottom: 9px;
+  color: var(--site-muted, #9288b0);
+  font-size: 0.78rem;
+  font-weight: 600;
+}
+
+@media (min-width: 480px) {
+  .quest-card .card-image .quest-age {
+    top: 10px;
+    right: 10px;
+  }
+
+  .quest-card .quest-stat small {
+    font-size: 0.64rem;
+  }
+
+  .quest-card .quest-stat strong {
+    font-size: 0.78rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .quest-card .card-image .quest-age {
+    top: 12px;
+    right: 12px;
+  }
+
+  .quest-card .card-body .card-meta {
+    gap: 8px;
+    margin-top: 14px;
+  }
+}

@@ -29,6 +29,52 @@
     return mobileProfile;
   }
 
+  function copyText(text) {
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      return navigator.clipboard.writeText(text);
+    }
+
+    const textarea = document.createElement('textarea');
+    textarea.value = text;
+    textarea.style.position = 'fixed';
+    textarea.style.left = '-9999px';
+    textarea.style.top = '-9999px';
+    document.body.appendChild(textarea);
+    textarea.select();
+
+    try {
+      document.execCommand('copy');
+      return Promise.resolve();
+    } catch (error) {
+      return Promise.reject(error);
+    } finally {
+      document.body.removeChild(textarea);
+    }
+  }
+
+  function initPhoneCopy(header) {
+    header.querySelectorAll('.header-phone').forEach(function (phoneLink) {
+      if (phoneLink.dataset.phoneCopyReady === 'true') return;
+      phoneLink.dataset.phoneCopyReady = 'true';
+      phoneLink.dataset.copyLabel = 'Нажмите, чтобы скопировать';
+
+      phoneLink.addEventListener('click', function (event) {
+        event.preventDefault();
+        const phone = phoneLink.textContent.replace(/[^0-9+]/g, '');
+        copyText(phone).then(function () {
+          phoneLink.dataset.copyLabel = 'Номер скопирован';
+        }).catch(function () {
+          phoneLink.dataset.copyLabel = 'Не удалось скопировать';
+        }).finally(function () {
+          window.clearTimeout(phoneLink._copyLabelTimer);
+          phoneLink._copyLabelTimer = window.setTimeout(function () {
+            phoneLink.dataset.copyLabel = 'Нажмите, чтобы скопировать';
+          }, 2200);
+        });
+      });
+    });
+  }
+
   function connectMobileProfile(header, headerRight) {
     const mobileProfile = createMobileProfileButton(header, headerRight);
     const desktopProfile = header.querySelector('.account-button, .auth-trigger');
@@ -67,6 +113,7 @@
     if (!headerContainer || !logo || !headerRight) return;
 
     header.dataset.mobileHeaderReady = 'true';
+    initPhoneCopy(header);
 
     let social = header.querySelector('.social-icons');
     if (!social) {

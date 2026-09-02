@@ -261,18 +261,18 @@ function createQuestCard(q) {
   <div class="image-tags" style="position:absolute; top:8px; left:8px; z-index:2;">
     ${q.tags.map(t => `<span class="tag ${t === 'новинка' ? 'highlight' : ''}">${t}</span>`).join('')}
   </div>
+  <span class="quest-age" aria-label="Возрастное ограничение ${q.age}">${q.age}</span>
   ${!q.image ? `<span class="image-emoji">${q.emoji || '🎭'}</span>` : ''}
 </div>
     <div class="card-body">
       <div class="card-title">${detailUrl ? `<a href="${detailUrl}">${q.name}</a>` : q.name}</div>
       <div class="card-location">📍 ${q.loc}</div>
       <div class="card-meta">
-        <span>⏱ ${q.time}</span>
-        <span>👥 ${q.players}</span>
-        <span>⚡ ${q.difficulty}</span>
-        ${q.fear ? `<span>👻 ${q.fear}</span>` : ''}
-        <span>🎂 ${q.age}</span>
+        <span class="quest-stat"><small>Страх</small><strong>${q.fear || '—'}</strong></span>
+        <span class="quest-stat"><small>Сложность</small><strong>${q.difficulty}</strong></span>
+        <span class="quest-stat"><small>Время</small><strong>${q.time}</strong></span>
       </div>
+      <div class="card-players">👥 ${q.players}</div>
       <div class="card-desc">${getQuestCardDescription(q.desc)}</div>
     </div>
     <div class="card-footer">
@@ -417,7 +417,7 @@ function copyPhoneNumber(phone) {
   
   if (navigator.clipboard && navigator.clipboard.writeText) {
     navigator.clipboard.writeText(cleanPhone).then(() => {
-      showToast('✅ Номер скопирован!');
+      showToast('Номер скопирован!');
     }).catch(() => {
       fallbackCopyPhone(cleanPhone);
     });
@@ -436,7 +436,7 @@ function fallbackCopyPhone(text) {
   textarea.select();
   try {
     document.execCommand('copy');
-    showToast('✅ Номер скопирован!');
+    showToast('Номер скопирован!');
   } catch (e) {
     showToast('❌ Не удалось скопировать');
   }

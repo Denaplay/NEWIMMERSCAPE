@@ -96,7 +96,7 @@
             </div>
 
             <div class="btn-group">
-              <button type="button" class="btn-primary" onclick="goStep(2)">Далее →</button>
+              <button type="button" class="btn-primary" onclick="goStep(isCurrentPackageBooking() ? 3 : 2)">Далее →</button>
             </div>
           </div>
         </div>
@@ -198,7 +198,7 @@
           </div>
 
           <div class="btn-group">
-            <button type="button" class="btn-outline" onclick="goStep(2)">← Назад</button>
+            <button type="button" class="btn-outline" onclick="goStep(isCurrentPackageBooking() ? 1 : 2)">← Назад</button>
             <button type="button" class="btn-primary" onclick="goStep(4)">Перейти к квитанции</button>
           </div>
           <div style="font-size:0.7rem; color:#6f648a; margin-top:6px;">* Поля с звёздочкой обязательны</div>
