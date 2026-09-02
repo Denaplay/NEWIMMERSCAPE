@@ -1,0 +1,30 @@
+[build]
+  publish = "."
+  functions = "netlify/functions"
+
+[[redirects]]
+  from = "/api/my-erp/*"
+  to = "/.netlify/functions/my-erp/:splat"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/api/telegram-booking"
+  to = "/.netlify/functions/telegram-booking"
+  status = 200
+  force = true
+
+[[headers]]
+  for = "/booking*"
+  [headers.values]
+    X-Robots-Tag = "noindex, nofollow"
+
+[[headers]]
+  for = "/profile*"
+  [headers.values]
+    X-Robots-Tag = "noindex, nofollow"
+
+[[headers]]
+  for = "/staff-*"
+  [headers.values]
+    X-Robots-Tag = "noindex, nofollow"

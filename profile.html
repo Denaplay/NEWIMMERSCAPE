@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Личный профиль · Immerscape</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Unbounded:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/main.css?v=20260810-topographic-3">
+</head>
+<body class="profile-body">
+  <div class="topographic-background" data-topographic-background aria-hidden="true">
+    <canvas></canvas>
+  </div>
+  <header class="header">
+    <div class="container">
+      <a href="index.html" class="logo">immerscape</a>
+      <nav class="nav"><a href="index.html">Квесты</a><a href="index.html#section-birthday">День рождения</a><a class="active" href="profile.html">Профиль</a></nav>
+      <div class="header-right"><span class="header-phone" data-phone="+79916858651">+7 (991) 685-86-51</span></div>
+    </div>
+  </header>
+
+  <main class="profile-page">
+    <div class="container">
+      <p id="profileLoading" class="profile-loading">Загружаем профиль…</p>
+      <section id="profileContent" class="profile-shell" hidden>
+        <aside class="profile-summary">
+          <span class="profile-eyebrow">Ваш аккаунт</span>
+          <div id="profileAvatar" class="profile-avatar">И</div>
+          <h1>Личный кабинет</h1>
+          <p>Управляйте данными и возвращайтесь к любимым приключениям.</p>
+          <div class="profile-visits"><span>Пройдено квестов</span><strong id="profileVisits">0</strong></div>
+          <div id="staffActions" class="staff-actions" hidden>
+            <a class="btn-primary" href="staff-bookings.html">Сетка броней</a>
+            <a id="staffClientsLink" class="btn-outline" href="staff-clients.html">Список клиентов</a>
+          </div>
+          <button id="profileLogout" class="btn-outline" type="button">Выйти из аккаунта</button>
+        </aside>
+        <div class="profile-details">
+          <div class="profile-section-heading">
+            <span class="profile-eyebrow">Настройки профиля</span>
+            <h2>Личные данные</h2>
+            <p>Эти данные используются для связи по вашим бронированиям.</p>
+          </div>
+          <form id="profileForm" class="profile-form">
+            <label>Имя и фамилия<input name="fullName" type="text" autocomplete="name" maxlength="100" required></label>
+            <label>Номер телефона<input name="phone" type="tel" readonly></label>
+            <label>Электронная почта<span id="profileEmail" class="profile-readonly">—</span></label>
+            <p id="profileMessage" class="profile-message" role="status"></p>
+            <button class="btn-primary" type="submit">Сохранить изменения</button>
+          </form>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <script src="js/topographic-background.js"></script>
+  <script src="js/supabase-auth-client.js"></script>
+  <script src="js/supabase-config.js"></script>
+  <script src="js/topographic-background.js?v=7"></script>
+  <script src="js/profile.js"></script>
+</body>
+</html>

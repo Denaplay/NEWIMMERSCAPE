@@ -3,11 +3,27 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes" />
-  <title>Immerscape · Выездные мероприятия</title>
+  <title>Выездные квесты и праздники в Москве | Immerscape</title>
+  <meta name="description" content="Выездные квесты, игры и праздники под ключ в Москве для детей и подростков. Сценарий, ведущие, реквизит и организация от Immerscape." />
+  <meta name="robots" content="index, follow, max-image-preview:large" />
+  <link rel="canonical" href="https://immerscape.ru/events" />
+  <meta property="og:type" content="website" />
+  <meta property="og:locale" content="ru_RU" />
+  <meta property="og:site_name" content="Immerscape" />
+  <meta property="og:title" content="Выездные квесты и праздники в Москве" />
+  <meta property="og:description" content="Привезём квест, ведущих и реквизит на вашу площадку и организуем праздник под ключ." />
+  <meta property="og:url" content="https://immerscape.ru/events" />
+  <meta property="og:image" content="https://immerscape.ru/imeges/birthday/1.webp" />
+  <meta property="og:image:alt" content="Выездной праздник Immerscape" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800;14..32,900&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Unbounded:wght@500;600;700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="css/main.css" />
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@graph":[{"@type":"Service","@id":"https://immerscape.ru/events#service","name":"Выездные квесты и праздники в Москве","url":"https://immerscape.ru/events","description":"Организация выездных квестов, игр и детских праздников под ключ в Москве.","image":"https://immerscape.ru/imeges/birthday/1.webp","areaServed":{"@type":"City","name":"Москва"},"provider":{"@id":"https://immerscape.ru/#organization"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Квесты в Москве","item":"https://immerscape.ru/"},{"@type":"ListItem","position":2,"name":"Выездные мероприятия","item":"https://immerscape.ru/events"}]}]}
+  </script>
   <style>
     .events-hero {
       position: relative;
@@ -335,12 +351,13 @@
         <a href="action.html">Экшен игры</a>
       </nav>
       <div class="header-right">
-        <span class="header-phone" id="phoneBtn" data-phone="+74951234567">+7 (495) 123-45-67</span>
+        <span class="header-phone" data-phone="+79916858651">+7 (991) 685-86-51</span>
         <div class="social-icons">
-          <a href="#" title="WhatsApp">WA</a>
-          <a href="#" title="Telegram">TG</a>
-          <a href="#" title="VK">VK</a>
+            <a href="https://t.me/immerScape1" title="Telegram">
+              <img src="https://upload.wikimedia.org/wikipedia/commons/8/82/Telegram_logo.svg" alt="Telegram" width="30" height="30">
+            </a>
         </div>
+        <button class="account-button auth-trigger" type="button" onclick="window.openImmerscapeAuth?.()">Войти</button>
       </div>
     </div>
     <div class="glow-line"></div>
@@ -454,7 +471,12 @@
       <h2 class="section-title">📍 Как нас <span style="background:linear-gradient(135deg,#4ecdc4,#2ecc71);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">найти</span></h2>
       <p class="section-sub">Приходите к нам по адресу или свяжитесь для выездного мероприятия</p>
       <div class="map-wrapper">
-        <iframe src="https://yandex.ru/map-widget/v1/?um=constructor%3A1a2b3c4d5e6f7g8h9i0j&source=constructor&lang=ru_RU&scroll=true" allowfullscreen></iframe>
+        <iframe src="https://yandex.ru/map-widget/v1/?ll=37.563116%2C55.681585&mode=search&text=%D0%9C%D0%BE%D1%81%D0%BA%D0%B2%D0%B0%2C%20%D1%83%D0%BB.%20%D0%9A%D1%80%D0%B6%D0%B8%D0%B6%D0%B0%D0%BD%D0%BE%D0%B2%D1%81%D0%BA%D0%BE%D0%B3%D0%BE%2C%208%2C%20%D0%BA%D0%BE%D1%80%D0%BF.%202&z=17" title="Яндекс Карта: Профсоюзная, ул. Кржижановского, 8, корп. 2" loading="lazy" allowfullscreen></iframe>
+      </div>
+      <div class="map-address-list" aria-label="Адреса Immerscape">
+        <span>📍 Профсоюзная: ул. Кржижановского, 8, корп. 2</span>
+        <span>📍 Таганская: Большой Факельный пер., 2/22</span>
+        <span>📍 Измайловская: ул. Первомайская, 5</span>
       </div>
     </div>
   </section>
@@ -481,31 +503,39 @@
       </div>
       <div class="footer-col">
         <strong>Контакты</strong>
-        <span>+7 (495) 123-45-67</span>
+        <span>+7 (991) 685-86-51</span>
         <span>info@immerscape.ru</span>
         <span>Ежедневно 10:00–22:00</span>
       </div>
       <div class="footer-col">
         <strong>Адреса</strong>
         <span>📍 Профсоюзная: ул. Кржижановского, 8, корп. 2</span>
-        <span>📍 Таганская: Первомайская ул., 5</span>
-        <span>📍 Измайловская: Большой Факельный пер., 2/22</span>
+        <span>📍 Таганская: Большой Факельный пер., 2/22</span>
+        <span>📍 Измайловская: ул. Первомайская, 5</span>
       </div>
       <div class="footer-col">
         <strong>Соцсети</strong>
         <div class="social-links">
-          <a href="#">Telegram</a>
-          <a href="#">VK</a>
-          <a href="#">YouTube</a>
-          <a href="#">WhatsApp</a>
+                        <a href="https://t.me/immerScape" title="Telegram">
+              <img src="https://upload.wikimedia.org/wikipedia/commons/8/82/Telegram_logo.svg" alt="Telegram" width="30" height="30"></a>
+                                      <a href="https://www.tiktok.com/@immerscape_quest?_r=1&_d=eie364al7fcgdg&sec_uid=MS4wLjABAAAA5yztOa-2VFhi8QjMFRD3UeeheFN9Z3G4ecxhFjOWKBhMeQhPWBn698Zs4FKoN1YB&share_author_id=7608639920584344596&sharer_language=ru&source=h5_m&u_code=d995397mik2a87&timestamp=1787602454&user_id=6758492880908452870&sec_user_id=MS4wLjABAAAAgBnR9cgeEd_kMGl04cI-ixL2XsTNjqk2NvS0KRsm_nJ7uXMHhUOJae2QgRvUt5Nr&item_author_type=2&utm_source=telegram&utm_campaign=client_share&utm_medium=android&share_iid=7650614507711055633&share_link_id=c8ec8df7-7903-41ff-bf15-14db9fac0291&share_app_id=1233&ugbiz_name=ACCOUNT&ug_btm=b6880%2Cb2878&social_share_type=5&share_enter_from=others_homepage&item_author_type=2&enable_checksum=1" title="TikTok">
+              <img src="https://img.magnific.com/premium-vector/tik-tok-logo_578229-290.jpg?semt=ais_hybrid&w=740&q=80" alt="TikTok" width="30" height="30"></a>
+                                      <a href="https://vk.ru/immerscape" title="VKontakte">
+              <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f3/VK_Compact_Logo_%282021-present%29.svg/3840px-VK_Compact_Logo_%282021-present%29.svg.png?utm_source=ru.wikiquote.org&utm_campaign=index&utm_content=thumbnail" alt="VKontakte" width="30" height="30"></a>
+                                     <!-- <a href="ссылку" title="MAX">
+              <img src="фото сюда" alt="MAX" width="30" height="30"></a> -->
         </div>
         <span style="margin-top:6px; font-size:0.8rem; color:#6f648a;">Будьте в курсе новостей</span>
       </div>
     </div>
   </footer>
   <script src="js/quest-booking-api.js"></script>
-  <script src="js/booking.js"></script>
+  <script src="js/booking.js?v=20260809-3"></script>
+  <script src="js/header.js"></script>
   <script src="js/main.js"></script>
+  <script src="js/supabase-auth-client.js"></script>
+  <script src="js/supabase-config.js"></script>
+  <script src="js/auth.js"></script>
   <script>
     document.addEventListener('DOMContentLoaded', function() {
       document.querySelectorAll('.btn-book-sm[data-package]').forEach(btn => {

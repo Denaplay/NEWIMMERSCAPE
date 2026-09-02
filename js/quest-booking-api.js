@@ -11,7 +11,7 @@
       tariffWithPlayers: '/api/my-erp/get_tariff_with_players/4893'
     },
     'Рик и Морти': {
-      timetable: '/api/timetable/5157.json',
+      timetable: '/api/my-erp/timetable/5157.json',
       book: '/api/my-erp/book/5157',
       tariff: '/api/my-erp/get_tariff/5157',
       tariffWithPlayers: '/api/my-erp/get_tariff_with_players/5157'
@@ -88,7 +88,13 @@
   const states = new Map();
 
   function getConfig(questName) {
-    return QUEST_API_URLS[questName] || null;
+    const config = QUEST_API_URLS[questName];
+    if (!config) return null;
+    const questId = String(config.book).match(/(\d+)\/?$/)?.[1] || '';
+    return {
+      ...config,
+      questId
+    };
   }
 
   function toDateKey(value) {
@@ -99,8 +105,35 @@
     return match ? `${match[3]}-${match[2].padStart(2, '0')}-${match[1].padStart(2, '0')}` : '';
   }
 
+  function pickDeep(value, keys) {
+    if (!value || typeof value !== 'object') return '';
+    for (const key of keys) if (value[key] !== undefined && value[key] !== null) return value[key];
+    for (const child of Object.values(value)) {
+      if (child && typeof child === 'object') { const found = pickDeep(child, keys); if (found !== '') return found; }
+    }
+    return '';
+  }
+
+  function extractBookingParams(value) {
+    return {
+      md5: String(pickDeep(value, ['md5']) || ''),
+      code: String(pickDeep(value, ['code', 'booking_code']) || ''),
+      hash: String(pickDeep(value, ['hash']) || ''),
+      token: String(pickDeep(value, ['token']) || '')
+    };
+  }
+
   function normalizeSchedule(payload) {
     const schedule = new Map();
+
+    function pickDeep(value, keys) {
+      if (!value || typeof value !== 'object') return '';
+      for (const key of keys) if (value[key] !== undefined && value[key] !== null) return value[key];
+      for (const child of Object.values(value)) {
+        if (child && typeof child === 'object') { const found = pickDeep(child, keys); if (found !== '') return found; }
+      }
+      return '';
+    }
 
     function addSlot(dateHint, value) {
       const date = toDateKey(value.date || value.day || value.datetime || value.start || dateHint);
@@ -109,15 +142,32 @@
       if (!date || !timeMatch) return;
 
       const time = timeMatch[1].padStart(5, '0');
+      const rawStatus = String(pickDeep(value, ['booking_status', 'status', 'state']) || '').toLowerCase();
+      const busyStatuses = ['new', 'новый', 'busy', 'booked', 'closed', 'blocked', 'disabled', 'unavailable', 'service', 'confirmed', 'paid', 'completed', 'done', 'noanswer', 'no_answer', 'waiting_payment', 'awaiting_prepayment', 'подтвержден', 'подтверждён', 'был', 'недозвон', 'ожидает предоплаты', 'служебный', 'закрытый', 'закрыт'];
       const unavailable = value.available === false || value.available === 0 ||
         value.free === false || value.free === 0 || value.is_free === false ||
         value.is_free === 0 || value.busy === true || value.booked === true ||
-        ['busy', 'booked', 'closed'].includes(String(value.status || '').toLowerCase());
+        busyStatuses.includes(rawStatus);
+      const bookingData = {
+        clientName: String(pickDeep(value, ['client_name', 'customer_name', 'fio', 'name']) || ''),
+        phone: String(pickDeep(value, ['client_phone', 'customer_phone', 'phone', 'tel']) || ''),
+        email: String(pickDeep(value, ['client_email', 'customer_email', 'email']) || ''),
+        assignedEmployee: String(pickDeep(value, ['assigned_employee', 'employee', 'manager', 'operator']) || ''),
+        paidAmount: Number(pickDeep(value, ['paid_amount', 'paid', 'payment_sum']) || 0),
+        prepaymentAmount: Number(pickDeep(value, ['prepayment_amount', 'prepayment', 'deposit']) || 0),
+        serviceComment: String(pickDeep(value, ['service_comment', 'admin_comment', 'internal_comment']) || ''),
+        clientComment: String(pickDeep(value, ['client_comment', 'comment', 'note']) || '')
+      };
+      const hasBookingData = Boolean(bookingData.clientName || bookingData.phone || bookingData.email);
+      const inferredStatus = unavailable ? (hasBookingData ? 'confirmed' : 'closed') : 'available';
       const slot = {
         time,
         price: Number(value.price ?? value.tariff ?? value.cost ?? 0) || 0,
         available: !unavailable,
-        id: value.id ?? value.slot_id ?? value.session_id ?? ''
+        id: value.id ?? value.slot_id ?? value.session_id ?? '',
+        bookingStatus: rawStatus || inferredStatus,
+        bookingParams: extractBookingParams(value),
+        booking: bookingData
       };
       const daySlots = schedule.get(date) || [];
       const oldSlot = daySlots.find(item => item.time === time);
@@ -193,18 +243,34 @@
   async function book(questName, booking) {
     const config = getConfig(questName);
     if (!config) return { success: true, local: true };
+    const slot = getSlot(questName, booking.date, booking.time);
+    let bookingParams = Object.fromEntries(Object.entries(slot?.bookingParams || {}).filter(([, value]) => value));
+    if (!bookingParams.md5 && config.tariffWithPlayers) {
+      try {
+        const tariffResponse = await fetch(config.tariffWithPlayers, {
+          method: 'POST',
+          headers: { Accept: 'application/json', 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' },
+          body: new URLSearchParams({ date: booking.date, time: booking.time, players: booking.players || booking.persons || '1' }).toString()
+        });
+        if (tariffResponse.ok) bookingParams = { ...bookingParams, ...Object.fromEntries(Object.entries(extractBookingParams(await tariffResponse.json())).filter(([, value]) => value)) };
+      } catch (error) {
+        console.warn('Не удалось получить код слота my-ERP:', error);
+      }
+    }
     const response = await fetch(config.book, {
       method: 'POST',
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
       },
-      body: new URLSearchParams(booking).toString()
+      body: new URLSearchParams({ ...bookingParams, ...booking }).toString()
     });
     const result = await response.json().catch(() => ({}));
     if (!response.ok || result.success === false || result.error) {
-      throw new Error(result.error || result.message || `HTTP ${response.status}`);
+      const message = String(result.error || result.message || `HTTP ${response.status}`);
+      throw new Error(message);
     }
+    await load(questName);
     return result;
   }
 

@@ -3,6 +3,7 @@
   "private": true,
   "scripts": {
     "start": "node server.js",
-    "check": "node --check server.js && node --check js/quest-booking-api.js && node --check js/booking.js"
+    "check": "node --check server.js && node --check netlify/functions/my-erp.js && node --check netlify/functions/telegram-booking.js && node --check js/quest-booking-api.js && node --check js/booking.js && node --check js/supabase-config.js && node --check js/supabase-auth-client.js && node --check js/auth.js && node --check js/profile.js && node --check js/staff.js && node --check js/topographic-background.js",
+    "test": "node --test tests/local-booking.test.js"
   }
 }

@@ -3,11 +3,27 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes" />
-  <title>Immerscape · Хоррор вечер</title>
+  <title>Хоррор-вечер в Москве с актёрами | Immerscape</title>
+  <meta name="description" content="Хоррор-вечер в Москве: фильм ужасов, актёры, интерактив и полное погружение для пары или компании. Форматы, цены и онлайн-бронирование Immerscape." />
+  <meta name="robots" content="index, follow, max-image-preview:large" />
+  <link rel="canonical" href="https://immerscape.ru/horror" />
+  <meta property="og:type" content="website" />
+  <meta property="og:locale" content="ru_RU" />
+  <meta property="og:site_name" content="Immerscape" />
+  <meta property="og:title" content="Хоррор-вечер в Москве с актёрами" />
+  <meta property="og:description" content="Необычный вечер с фильмом ужасов, живыми актёрами и эффектом полного погружения." />
+  <meta property="og:url" content="https://immerscape.ru/horror" />
+  <meta property="og:image" content="https://immerscape.ru/imeges/horror-svidanie/1.webp" />
+  <meta property="og:image:alt" content="Хоррор-вечер Immerscape в Москве" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800;14..32,900&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Rubik+Dirt&family=Ruslan+Display&family=Unbounded:wght@500;600;700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="css/main.css" />
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@graph":[{"@type":"Service","@id":"https://immerscape.ru/horror#service","name":"Хоррор-вечер в Москве","url":"https://immerscape.ru/horror","description":"Иммерсивный хоррор-вечер с фильмом ужасов, актёрами и интерактивным сценарием.","image":"https://immerscape.ru/imeges/horror-svidanie/1.webp","areaServed":{"@type":"City","name":"Москва"},"provider":{"@id":"https://immerscape.ru/#organization"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Квесты в Москве","item":"https://immerscape.ru/"},{"@type":"ListItem","position":2,"name":"Хоррор-вечер","item":"https://immerscape.ru/horror"}]}]}
+  </script>
   <style>
     .horror-hero {
       padding: 40px 0 30px;
@@ -385,9 +401,1791 @@
       .stat-card .stat-value { font-size: 0.8rem; }
       .horror-location-selector .loc-btn { font-size: 0.6rem; padding: 6px 12px; }
     }
+
+    body {
+      background:
+        radial-gradient(circle at 18% 16%, rgba(102, 19, 24, 0.28), transparent 28%),
+        radial-gradient(circle at 78% 12%, rgba(10, 78, 88, 0.18), transparent 30%),
+        linear-gradient(180deg, #060608 0%, #09080b 46%, #0d090a 100%);
+    }
+
+    .horror-hero {
+      position: relative;
+      min-height: min(760px, calc(100vh - 72px));
+      padding: 64px 0 120px;
+      background:
+        linear-gradient(90deg, rgba(2, 2, 4, 0.55) 0%, rgba(2, 2, 4, 0.28) 38%, rgba(2, 2, 4, 0.68) 100%),
+        radial-gradient(circle at 74% 43%, rgba(134, 8, 19, 0.42), transparent 28%),
+        linear-gradient(180deg, #020203 0%, #080507 100%);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      isolation: isolate;
+    }
+
+    .horror-hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: -3;
+      background-image:
+        linear-gradient(90deg, rgba(2, 2, 4, 0.25), rgba(2, 2, 4, 0.06) 44%, rgba(2, 2, 4, 0.72)),
+        url('imeges/horror-vecher/1.webp');
+      background-size: cover;
+      background-position: 56% center;
+      filter: contrast(1.15) saturate(0.78) brightness(0.72);
+      transform: scale(1.02);
+    }
+
+    .horror-hero::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      pointer-events: none;
+      background:
+        linear-gradient(90deg, rgba(0, 0, 0, 0.86) 0%, rgba(0, 0, 0, 0.25) 48%, rgba(0, 0, 0, 0.68) 100%),
+        radial-gradient(circle at 23% 52%, rgba(112, 0, 0, 0.28), transparent 32%),
+        repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.025) 0 1px, transparent 1px 4px);
+      mix-blend-mode: normal;
+    }
+
+    .horror-hero .container {
+       z-index: 20 !important; /* поднимаем выше всех фоновых слоёв */
+      position: relative;
+      min-height: 560px;
+      display: grid;
+      grid-template-columns: minmax(0, 560px) minmax(340px, 1fr);
+      gap: clamp(28px, 5vw, 80px);
+      align-items: center;
+    }
+
+    .horror-hero-content {
+      position: relative;
+      z-index: 10;
+      padding-top: 12px;
+    }
+
+    .horror-hero-content .badge {
+      position: relative;
+      padding: 13px 36px 14px 32px;
+      margin-bottom: 24px;
+      border: 0;
+      border-radius: 4px 34px 34px 4px;
+      color: #fff;
+      background:
+        linear-gradient(90deg, rgba(10, 10, 12, 0.88), rgba(116, 2, 7, 0.78) 48%, rgba(255, 0, 0, 0));
+      box-shadow: none;
+      font-size: clamp(1rem, 1.45vw, 1.34rem);
+      font-weight: 500;
+      letter-spacing: 0;
+      text-transform: none;
+      overflow: hidden;
+    }
+
+    .horror-hero-content .badge::after {
+      content: "";
+      position: absolute;
+      inset: -12px -40px -12px auto;
+      width: 58%;
+      background:
+        linear-gradient(90deg, rgba(156, 0, 0, 0.92), rgba(219, 14, 18, 0.78) 44%, rgba(255, 0, 0, 0));
+      clip-path: polygon(0 34%, 55% 20%, 100% 40%, 64% 54%, 100% 68%, 24% 70%);
+      z-index: -1;
+    }
+
+    .horror-hero-content h1 {
+      position: relative;
+      z-index: 25 !important;
+      max-width: 680px;
+      margin: 0 0 28px;
+      color: rgba(242, 242, 242, 0.78);
+      font-family: "Unbounded", "Manrope", sans-serif;
+      font-size: clamp(3.6rem, 8vw, 7.2rem);
+      line-height: 0.9;
+      font-weight: 800;
+      letter-spacing: 0;
+      text-transform: none;
+      text-shadow:
+        0 4px 0 rgba(0, 0, 0, 0.42),
+        0 18px 42px rgba(0, 0, 0, 0.85);
+      filter: drop-shadow(0 0 16px rgba(255, 255, 255, 0.08));
+    }
+
+    .horror-hero-content h1 .highlight {
+      display: block;
+      background: none;
+      -webkit-text-fill-color: rgba(242, 242, 242, 0.78);
+      color: rgba(242, 242, 242, 0.78);
+    }
+
+    .horror-hero-content > p {
+      max-width: 560px;
+      margin-bottom: 38px;
+      color: rgba(255, 255, 255, 0.9);
+      font-size: clamp(1rem, 1.45vw, 1.32rem);
+      line-height: 1.32;
+      text-shadow: 0 8px 28px rgba(0, 0, 0, 0.78);
+    }
+
+    .horror-location-selector {
+      margin: -18px 0 30px;
+      gap: 10px;
+    }
+
+    .horror-location-selector .loc-btn {
+      border-radius: 999px;
+      border-color: rgba(255, 255, 255, 0.18);
+      background: rgba(9, 9, 12, 0.56);
+      color: rgba(255, 255, 255, 0.76);
+      backdrop-filter: blur(12px);
+    }
+
+    .horror-location-selector .loc-btn:hover,
+    .horror-location-selector .loc-btn.active {
+      border-color: rgba(255, 255, 255, 0.5);
+      background: rgba(255, 255, 255, 0.12);
+      color: #fff;
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.16);
+      transform: none;
+    }
+
+    .horror-location-selector .loc-btn .badge {
+      background: rgba(128, 0, 0, 0.5);
+      color: #fff;
+      padding: 3px 11px;
+      margin: 0;
+      border-radius: 999px;
+      font-size: 0.62rem;
+    }
+
+    .horror-hero .btn-primary.pink {
+      min-width: min(360px, 100%);
+      min-height: 84px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.62);
+      color: #111;
+      background:
+        linear-gradient(135deg, rgba(255, 255, 255, 0.92), rgba(202, 202, 202, 0.92)),
+        repeating-linear-gradient(135deg, rgba(0, 0, 0, 0.07) 0 1px, transparent 1px 16px);
+      box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.9),
+        0 18px 42px rgba(0, 0, 0, 0.48);
+      font-size: clamp(1.1rem, 1.45vw, 1.42rem);
+      font-weight: 800;
+    }
+
+    .horror-hero .btn-primary.pink:hover {
+      transform: translateY(-1px);
+      box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.95),
+        0 22px 54px rgba(0, 0, 0, 0.56);
+    }
+
+    .horror-hero-visual {
+      position: relative;
+      min-height: 480px;
+    }
+
+    .horror-hero-visual::before {
+      content: "";
+      position: absolute;
+      top: 3%;
+      left: -4%;
+      width: min(24vw, 250px);
+      min-width: 150px;
+      height: 82%;
+      border-radius: 0 26px 26px 0;
+      background:
+        linear-gradient(180deg, rgba(0, 0, 0, 0.08), rgba(0, 0, 0, 0.78)),
+        url('imeges/horror-vecher/1.webp');
+      background-size: cover;
+      background-position: left center;
+      filter: saturate(0.75) contrast(1.2) brightness(0.7);
+      box-shadow: 34px 0 55px rgba(0, 0, 0, 0.58);
+      opacity: 0.72;
+    }
+
+    .horror-hero-visual .hero-image {
+      position: absolute;
+      right: -8%;
+      top: 8%;
+      width: min(50vw, 640px);
+      max-width: none;
+      height: 470px;
+      aspect-ratio: auto;
+      border: 0;
+      border-radius: 0;
+      background-position: center;
+      box-shadow: none;
+      opacity: 0.9;
+      mask-image: linear-gradient(90deg, transparent 0%, #000 20%, #000 82%, transparent 100%);
+      -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 20%, #000 82%, transparent 100%);
+    }
+
+    .horror-hero-visual .hero-image::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at 70% 36%, rgba(145, 9, 16, 0.34), transparent 30%),
+        linear-gradient(90deg, rgba(0, 0, 0, 0.48), transparent 42%, rgba(0, 0, 0, 0.24));
+    }
+
+    .horror-hero-visual .hero-image .floating-tag {
+      background: rgba(10, 10, 12, 0.62);
+      border-color: rgba(255, 255, 255, 0.16);
+      color: rgba(255, 255, 255, 0.86);
+      animation: none;
+    }
+
+    .horror-stats {
+      position: absolute;
+      right: 0;
+      bottom: 24px;
+      z-index: 3;
+      display: grid;
+      grid-template-columns: repeat(3, minmax(145px, 1fr));
+      gap: 12px;
+      width: min(560px, 48vw);
+      margin: 0;
+    }
+
+    .stat-card,
+    .how-card,
+    .step-item,
+    .service-item,
+    .review-card {
+      background:
+        linear-gradient(145deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.025)),
+        rgba(10, 10, 14, 0.78);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.12),
+        0 18px 44px rgba(0, 0, 0, 0.32);
+      backdrop-filter: blur(12px);
+    }
+
+    .stat-card {
+      min-width: 0;
+      min-height: 92px;
+      border-radius: 18px;
+      display: grid;
+      place-items: center;
+      padding: 14px 18px;
+    }
+
+    .stat-card .stat-value {
+      color: #fff;
+      font-family: "Unbounded", "Manrope", sans-serif;
+      font-size: 1.05rem;
+      line-height: 1.1;
+      text-shadow: 0 0 18px rgba(255, 255, 255, 0.15);
+    }
+
+    .stat-card .stat-label {
+      color: rgba(255, 255, 255, 0.58);
+      font-size: 0.88rem;
+      text-transform: none;
+      letter-spacing: 0;
+      order: -1;
+    }
+
+    .section-padding,
+    .map-section,
+    .cta-section {
+      position: relative;
+      background:
+        radial-gradient(circle at 18% 0%, rgba(116, 5, 10, 0.16), transparent 30%),
+        radial-gradient(circle at 85% 10%, rgba(31, 110, 121, 0.12), transparent 26%),
+        linear-gradient(180deg, #09080b, #0e0a0b);
+    }
+
+    .section-title {
+      font-family: "Unbounded", "Manrope", sans-serif;
+      color: rgba(245, 245, 245, 0.93);
+      text-shadow: 0 12px 34px rgba(0, 0, 0, 0.55);
+    }
+
+    .section-title .highlight,
+    .cta-section h2 span {
+      background: linear-gradient(135deg, #ffffff, #b8b8b8);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .section-sub,
+    .how-card p,
+    .step-item p,
+    .service-item p,
+    .review-card .review-text,
+    .cta-section p {
+      color: rgba(255, 255, 255, 0.68);
+    }
+
+    .how-card:hover,
+    .step-item:hover,
+    .service-item:hover,
+    .review-card:hover {
+      border-color: rgba(255, 255, 255, 0.36);
+      transform: translateY(-2px);
+    }
+
+    .how-card .step-number {
+      background: linear-gradient(135deg, #a40611, #e5e5e5);
+      color: #fff;
+    }
+
+    .step-item .step-num {
+      background: rgba(134, 8, 19, 0.34);
+      color: #fff;
+    }
+
+    .service-item .service-icon,
+    .step-item .step-icon {
+      filter: drop-shadow(0 0 12px rgba(255, 255, 255, 0.16));
+    }
+
+    .cta-section .btn-primary.pink,
+    .horror-content-wrapper .btn-primary.pink {
+      background: linear-gradient(135deg, #f4f4f4, #bfbfbf);
+      color: #111;
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.38);
+    }
+
+    @media (max-width: 991px) {
+      .horror-hero {
+        min-height: auto;
+        padding: 38px 0 42px;
+      }
+
+      .horror-hero .container {
+        min-height: auto;
+        grid-template-columns: 1fr;
+      }
+
+      .horror-hero-visual {
+        min-height: 320px;
+        order: -1;
+      }
+
+      .horror-hero-visual::before {
+        left: 0;
+        width: 34%;
+        height: 92%;
+      }
+
+      .horror-hero-visual .hero-image {
+        inset: 0 0 auto auto;
+        width: 86%;
+        height: 320px;
+      }
+
+      .horror-stats {
+        position: static;
+        width: 100%;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        margin-top: 18px;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .horror-hero-content h1 {
+        font-size: 3.05rem;
+      }
+
+      .horror-hero-content .badge {
+        width: 100%;
+        padding: 11px 20px;
+      }
+
+      .horror-hero-content > p {
+        font-size: 1rem;
+        margin-bottom: 24px;
+      }
+
+      .horror-location-selector {
+        margin: -8px 0 22px;
+      }
+
+      .horror-location-selector .loc-btn {
+        width: 100%;
+        justify-content: space-between;
+      }
+
+      .horror-hero .btn-primary.pink {
+        min-height: 66px;
+      }
+
+      .horror-stats {
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+      }
+
+      .stat-card {
+        min-height: 78px;
+        padding: 11px 10px;
+      }
+
+      .stat-card .stat-value {
+        font-size: 0.86rem;
+      }
+
+      .stat-card .stat-label {
+        font-size: 0.72rem;
+      }
+    }
+
+    .horror-page .header {
+      display: none;
+    }
+
+    .horror-page .header .container {
+      min-height: 92px;
+    }
+
+    .horror-page .logo {
+      color: #f2f2f2;
+      text-shadow: 0 0 24px rgba(255, 255, 255, 0.2);
+    }
+
+    .horror-page .nav a,
+    .horror-page .header-phone,
+    .horror-page .account-button {
+      background: rgba(8, 8, 10, 0.28);
+      border-color: rgba(255, 255, 255, 0.14);
+      color: rgba(255, 255, 255, 0.84);
+      box-shadow: none;
+      backdrop-filter: blur(8px);
+    }
+
+    .horror-page .nav a.active {
+      color: #fff;
+      background: rgba(126, 6, 12, 0.52);
+      border-color: rgba(255, 255, 255, 0.18);
+    }
+
+    .horror-page .glow-line {
+      display: none;
+    }
+
+    .horror-page .horror-hero {
+      min-height: 754px;
+      padding: 114px 0 42px;
+    }
+
+    .horror-page .horror-hero .container {
+      min-height: 558px;
+      grid-template-columns: minmax(0, 650px) minmax(380px, 1fr);
+    }
+
+    .horror-page .horror-hero-content {
+      position: relative;
+      z-index: 4;
+      max-width: 650px;
+      isolation: isolate;
+    }
+
+    .horror-page .horror-hero-content .badge {
+      width: min(385px, 100%);
+      margin: 0 0 28px;
+      padding-left: 34px;
+      font-size: 1.18rem;
+    }
+
+    .horror-page .horror-hero-content .badge strong {
+      margin-left: 12px;
+      font-weight: 900;
+    }
+
+    .horror-page .horror-hero-content h1 {
+      margin-bottom: 28px;
+      font-family: "Rubik Dirt", "Ruslan Display", "Unbounded", Impact, sans-serif;
+      max-width: 650px;
+      font-size: clamp(4.4rem, 7.4vw, 7.25rem);
+      line-height: 0.9;
+      color: transparent;
+      background:
+        radial-gradient(circle at 12% 22%, transparent 0 2px, rgba(224, 224, 224, 0.84) 2px 100%),
+        radial-gradient(circle at 78% 68%, transparent 0 3px, rgba(185, 185, 185, 0.9) 3px 100%),
+        repeating-linear-gradient(6deg, rgba(235, 235, 235, 0.92) 0 7px, rgba(155, 155, 155, 0.68) 7px 10px, transparent 10px 12px);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-transform: none;
+      mix-blend-mode: screen;
+      overflow-wrap: anywhere;
+    }
+
+    .horror-page .horror-hero-content h1 .highlight {
+      background: inherit;
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      color: transparent;
+    }
+
+    .horror-page .horror-hero-content > p {
+      max-width: 510px;
+      margin-bottom: 42px;
+      font-size: 1.18rem;
+      line-height: 1.24;
+    }
+
+    .horror-page .horror-location-selector {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      margin: 0;
+      overflow: hidden;
+      clip: rect(0 0 0 0);
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .horror-page .horror-hero .btn-primary.pink {
+      min-width: 360px;
+      min-height: 84px;
+      font-size: 1.28rem;
+    }
+
+    .horror-page .horror-hero-visual::before {
+      top: -8%;
+      left: -11%;
+      width: min(21vw, 250px);
+      height: 96%;
+      opacity: 0.82;
+      filter: saturate(0.7) contrast(1.28) brightness(0.62);
+      mask-image: linear-gradient(90deg, #000 0%, #000 72%, transparent 100%);
+      -webkit-mask-image: linear-gradient(90deg, #000 0%, #000 72%, transparent 100%);
+    }
+
+    .horror-page .horror-hero-visual .hero-image {
+      right: -6%;
+      top: 2%;
+      width: min(49vw, 650px);
+      height: 530px;
+      opacity: 0.88;
+      z-index: 1;
+    }
+
+    .horror-page .horror-hero-visual .hero-image .floating-tag {
+      display: none;
+    }
+
+    .horror-page .horror-stats {
+      right: 0;
+      bottom: 24px;
+      width: min(564px, 46vw);
+      grid-template-columns: repeat(3, minmax(150px, 1fr));
+    }
+
+    .horror-page .stat-card {
+      min-height: 94px;
+      border-radius: 18px;
+      background:
+        linear-gradient(145deg, rgba(255, 255, 255, 0.18), rgba(255, 255, 255, 0.045)),
+        rgba(18, 18, 22, 0.68);
+    }
+
+    .horror-page .stat-card:nth-child(4),
+    .horror-page .stat-card:nth-child(5) {
+      transform: translateX(94px);
+    }
+
+    @media (max-width: 991px) {
+      .horror-page .horror-hero {
+        min-height: auto;
+        padding-top: 40px;
+      }
+
+      .horror-page .horror-hero .container {
+        min-height: auto;
+        grid-template-columns: 1fr;
+      }
+
+      .horror-page .horror-hero-visual {
+        order: 0;
+        min-height: 300px;
+      }
+
+      .horror-page .horror-hero-content {
+        order: 1;
+        z-index: 4;
+      }
+
+      .horror-page .horror-hero-visual .hero-image {
+        right: -8%;
+        top: 0;
+        width: 92%;
+        height: 300px;
+      }
+
+      .horror-page .horror-hero-visual::before {
+        left: -2%;
+        top: 0;
+        width: 34%;
+        height: 300px;
+      }
+
+      .horror-page .horror-stats {
+        position: static;
+        order: 2;
+        width: 100%;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .horror-page .stat-card:nth-child(4),
+      .horror-page .stat-card:nth-child(5) {
+        transform: none;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .horror-page .horror-hero {
+        padding-top: 24px;
+      }
+
+      .horror-page .horror-hero-content .badge {
+        font-size: 1rem;
+      }
+
+      .horror-page .horror-hero-content h1 {
+        font-size: clamp(2.85rem, 13.5vw, 4.05rem);
+        line-height: 0.98;
+      }
+
+      .horror-page .horror-hero .btn-primary.pink {
+        min-width: 100%;
+      }
+    }
+
+    .figma-horror {
+      --paper: #f1f1f1;
+      --muted: rgba(255, 255, 255, 0.66);
+      --red: #ff0000;
+      --panel: radial-gradient(50% 50% at 74% 42%, #232323 0%, #000 100%);
+      background: #000;
+      color: #fff;
+      overflow: hidden;
+    }
+
+    .figma-horror .container {
+      max-width: 1200px;
+    }
+
+    .figma-title,
+    .figma-display,
+    .figma-panel h3,
+    .price-card h3,
+    .review-figma-name {
+      font-family: "Rubik Dirt", "Ruslan Display", "Unbounded", Impact, sans-serif;
+      font-weight: 400;
+      letter-spacing: 0;
+    }
+
+    .figma-metal {
+      background: linear-gradient(129deg, #797979 0%, #fff 36%, #999 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      color: transparent;
+    }
+
+    .figma-copy {
+      color: #fff;
+      font-size: 20px;
+      line-height: 1.2;
+    }
+
+    .figma-section {
+      position: relative;
+      padding: 120px 0;
+      background: #000;
+    }
+
+    .figma-section::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background:
+        radial-gradient(circle at 10% 20%, rgba(255, 0, 0, 0.14), transparent 28%),
+        radial-gradient(circle at 90% 70%, rgba(255, 255, 255, 0.06), transparent 26%);
+      opacity: 0.8;
+    }
+
+    .figma-section > .container {
+      position: relative;
+      z-index: 1;
+    }
+
+    .figma-section-title {
+      margin: 0 0 44px;
+      font-size: clamp(2.2rem, 4vw, 3rem);
+      line-height: 1;
+      text-transform: uppercase;
+    }
+
+    .figma-about {
+      min-height: 880px;
+      background:
+        linear-gradient(90deg, #000 0%, rgba(0, 0, 0, 0.82) 30%, rgba(0, 0, 0, 0.42) 68%, #000 100%),
+        url('imeges/horror-vecher/1.webp') center / cover no-repeat;
+    }
+
+    .figma-about-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(320px, 674px);
+      gap: 70px;
+      align-items: end;
+    }
+
+    .figma-about-text {
+      max-width: 708px;
+      margin-top: 34px;
+    }
+
+    .figma-card-row {
+      display: grid;
+      grid-template-columns: minmax(320px, 524px) minmax(360px, 666px);
+      gap: 0;
+      align-items: start;
+    }
+
+    .figma-panel {
+      min-height: 453px;
+      border-radius: 40px;
+      background: var(--panel);
+      padding: 60px 52px;
+      box-shadow: 0 30px 90px rgba(0, 0, 0, 0.6);
+    }
+
+    .figma-panel h3 {
+      margin: 0 0 48px;
+      font-size: clamp(2rem, 3vw, 2.5rem);
+      line-height: 1;
+      text-transform: uppercase;
+    }
+
+    .number-list {
+      display: grid;
+      gap: 28px;
+    }
+
+    .number-item {
+      display: grid;
+      grid-template-columns: 30px 1fr;
+      gap: 20px;
+      align-items: start;
+      color: #fff;
+      font-size: 20px;
+      line-height: 1.2;
+    }
+
+    .number-item span:first-child {
+      display: grid;
+      place-items: center;
+      width: 30px;
+      height: 30px;
+      border: 1px solid var(--red);
+      border-radius: 50%;
+      color: var(--red);
+      font-family: "Rubik Dirt", "Ruslan Display", Impact, sans-serif;
+      font-size: 15px;
+      line-height: 1;
+    }
+
+    .number-item em {
+      color: #a2a2a2;
+      font-style: normal;
+    }
+
+    .figma-price-services {
+      display: grid;
+      grid-template-columns: minmax(320px, 524px) minmax(360px, 666px);
+      gap: 10px;
+      align-items: stretch;
+    }
+
+    .price-list,
+    .service-list {
+      display: grid;
+      gap: 24px;
+      font-size: 20px;
+      line-height: 1.2;
+    }
+
+    .price-line {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 22px;
+      align-items: start;
+    }
+
+    .price-line strong,
+    .red-price {
+      color: var(--red);
+      font-family: "Rubik Dirt", "Ruslan Display", Impact, sans-serif;
+      font-weight: 400;
+      white-space: nowrap;
+    }
+
+    .figma-variants {
+      min-height: 840px;
+      background:
+        linear-gradient(180deg, rgba(0, 0, 0, 0.12), #000 88%),
+        url('imeges/horror-svidanie/2.webp') center / cover no-repeat;
+    }
+
+    .variant-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(320px, 595px));
+      gap: 10px;
+    }
+
+    .price-card {
+      position: relative;
+      min-height: 430px;
+      overflow: hidden;
+      border-radius: 40px;
+      padding: 58px 43px 42px;
+      background:
+        linear-gradient(135deg, rgba(130, 0, 0, 0.82), rgba(0, 0, 0, 0.88)),
+        url('imeges/horror-vecher/1.webp') center / cover no-repeat;
+      box-shadow: 0 28px 90px rgba(0, 0, 0, 0.72);
+    }
+
+    .price-card:nth-child(2) {
+      background:
+        linear-gradient(135deg, rgba(40, 0, 0, 0.72), rgba(0, 0, 0, 0.9)),
+        url('imeges/horror-svidanie/1.webp') center / cover no-repeat;
+    }
+
+    .price-card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at 72% 18%, rgba(255, 255, 255, 0.2), transparent 18%),
+        repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.035) 0 1px, transparent 1px 5px);
+      mix-blend-mode: luminosity;
+    }
+
+    .price-card > * {
+      position: relative;
+      z-index: 1;
+    }
+
+    .price-card h3 {
+      max-width: 300px;
+      margin: 0 0 42px;
+      color: #fff;
+      font-size: 30px;
+      line-height: 1;
+      text-transform: uppercase;
+    }
+
+    .price-card .time-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 36px;
+      margin-bottom: 32px;
+    }
+
+    .price-card .time-row strong {
+      display: block;
+      margin-bottom: 8px;
+      color: #fff;
+      font-family: "Rubik Dirt", "Ruslan Display", Impact, sans-serif;
+      font-size: 36px;
+      font-weight: 400;
+      line-height: 1;
+    }
+
+    .price-card p {
+      margin: 0;
+      color: #fff;
+      font-size: 15px;
+      line-height: 1.2;
+    }
+
+    .price-card .total {
+      display: inline-block;
+      margin: 0 0 44px;
+      padding: 13px 24px;
+      border-radius: 10px;
+      background: #fff;
+      color: #000;
+      font-size: 15px;
+      line-height: 1.2;
+    }
+
+    .figma-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 244px;
+      min-height: 38px;
+      border: 0;
+      border-radius: 999px;
+      background:
+        linear-gradient(135deg, rgba(255, 255, 255, 0.94), rgba(205, 205, 205, 0.92)),
+        repeating-linear-gradient(135deg, rgba(0, 0, 0, 0.07) 0 1px, transparent 1px 15px);
+      color: #000;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .figma-hero .figma-button {
+      min-width: 360px;
+      min-height: 84px;
+      font-size: 24px;
+    }
+
+    .figma-reviews {
+      padding-top: 120px;
+    }
+
+    .review-figma-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+    }
+
+    .review-figma {
+      min-height: 465px;
+      border-radius: 40px;
+      padding: 48px 40px;
+      background: #fff;
+      color: #000;
+    }
+
+    .review-figma-name {
+      margin-bottom: 18px;
+      font-size: 30px;
+      line-height: 1;
+      text-transform: uppercase;
+    }
+
+    .review-date {
+      margin-bottom: 18px;
+      color: #737373;
+      font-size: 15px;
+    }
+
+    .review-stars {
+      color: #ff0000;
+      letter-spacing: 4px;
+      margin-bottom: 24px;
+    }
+
+    .review-figma p {
+      color: #000;
+      font-size: 15px;
+      line-height: 1.25;
+    }
+
+    .figma-map {
+      padding: 120px 0;
+      background: #000;
+    }
+
+    .figma-map-card {
+      overflow: hidden;
+      border-radius: 40px;
+      background: var(--panel);
+      box-shadow: 0 30px 90px rgba(0, 0, 0, 0.72);
+    }
+
+    .figma-map-card .map-wrapper {
+      border-radius: 0;
+      border: 0;
+    }
+
+    .figma-cta {
+      min-height: 650px;
+      display: grid;
+      align-items: center;
+      background:
+        linear-gradient(90deg, #000 0%, rgba(0, 0, 0, 0.7) 42%, rgba(0, 0, 0, 0.36) 100%),
+        url('imeges/horror-vecher/1.webp') center / cover no-repeat;
+      text-align: left;
+    }
+
+    .figma-cta .container {
+      max-width: 1200px;
+    }
+
+    .figma-cta p {
+      max-width: 760px;
+      color: #fff;
+      font-size: 20px;
+      line-height: 1.25;
+    }
+
+    @media (max-width: 991px) {
+      .figma-section {
+        padding: 72px 0;
+      }
+
+      .figma-card-row,
+      .figma-price-services,
+      .figma-about-grid,
+      .variant-grid,
+      .review-figma-grid {
+        grid-template-columns: 1fr;
+        gap: 18px;
+      }
+
+      .figma-panel,
+      .price-card,
+      .review-figma {
+        border-radius: 28px;
+        padding: 34px 24px;
+      }
+
+      .figma-about,
+      .figma-variants {
+        min-height: auto;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .figma-copy,
+      .number-item,
+      .price-list,
+      .service-list,
+      .figma-cta p {
+        font-size: 16px;
+      }
+
+      .figma-hero .figma-button {
+        min-width: 100%;
+        min-height: 66px;
+        font-size: 20px;
+      }
+
+      .price-card .time-row {
+        grid-template-columns: 1fr;
+        gap: 18px;
+      }
+    }
+
+    .horror-page .header {
+      display: block;
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 30;
+      border: 0;
+      background: linear-gradient(180deg, rgba(0, 0, 0, 0.92), rgba(0, 0, 0, 0.2) 78%, transparent);
+      box-shadow: none;
+      backdrop-filter: none;
+    }
+
+    .horror-page .header .container {
+      min-height: 92px;
+      max-width: 1200px;
+      align-items: center;
+    }
+
+    .horror-page .logo {
+      display: inline-flex;
+      flex-direction: column;
+      color: #fff;
+      font-family: "Rubik Dirt", "Ruslan Display", "Unbounded", Impact, sans-serif;
+      font-size: 1.1rem;
+      line-height: 0.9;
+      text-transform: uppercase;
+      text-shadow: 0 0 28px rgba(255, 0, 0, 0.26);
+      background: linear-gradient(129deg, #888, #fff 42%, #777);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .horror-page .nav {
+      gap: 34px;
+    }
+
+    .horror-page .nav a {
+      padding: 0;
+      border: 0;
+      border-radius: 0;
+      background: transparent;
+      color: rgba(255, 255, 255, 0.78);
+      box-shadow: none;
+      backdrop-filter: none;
+      font-size: 0.92rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      text-shadow: 0 4px 30px rgba(0, 0, 0, 0.9);
+    }
+
+    .horror-page .nav a:hover,
+    .horror-page .nav a.active {
+      color: #fff;
+      background: transparent;
+      border: 0;
+      box-shadow: none;
+    }
+
+    .horror-page .nav a.active::after {
+      background: #ff0000;
+      box-shadow: 0 0 18px rgba(255, 0, 0, 0.75);
+    }
+
+    .horror-page .header-phone,
+    .horror-page .account-button {
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      background: rgba(0, 0, 0, 0.36);
+      color: #fff;
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(8px);
+    }
+
+    .horror-page .glow-line {
+      display: block;
+      background: linear-gradient(90deg, transparent, rgba(255, 0, 0, 0.76), transparent);
+      opacity: 0.45;
+    }
+
+    .figma-horror {
+      position: relative;
+      isolation: isolate;
+    }
+
+    .figma-horror::before {
+      content: "";
+      position: absolute;
+      inset: 720px 0 0;
+      z-index: -1;
+      pointer-events: none;
+      background:
+        radial-gradient(circle at 2% 3%, #ff0000 0 10px, rgba(255, 0, 0, 0.5) 11px 18px, transparent 19px),
+        radial-gradient(circle at 97% 12%, #ff0000 0 12px, rgba(255, 0, 0, 0.45) 13px 28px, transparent 29px),
+        radial-gradient(circle at 9% 34%, #ff0000 0 9px, transparent 10px),
+        radial-gradient(circle at 90% 42%, #ff0000 0 8px, transparent 9px),
+        radial-gradient(circle at 4% 69%, #ff0000 0 13px, rgba(255, 0, 0, 0.38) 14px 26px, transparent 27px),
+        radial-gradient(circle at 95% 79%, #ff0000 0 10px, transparent 11px);
+      opacity: 0.72;
+    }
+
+    .figma-horror .container,
+    .figma-horror section {
+      position: relative;
+      z-index: 1;
+    }
+
+    .horror-page .figma-hero {
+      min-height: 814px;
+      padding: 114px 0 74px;
+      border: 1px solid rgba(0, 183, 255, 0.38);
+      border-width: 0 0 3px;
+    }
+
+    .horror-page .figma-hero::before {
+      background-position: 57% 45%;
+      filter: contrast(1.12) saturate(0.72) brightness(0.62);
+    }
+
+    .horror-page .figma-hero .container {
+      min-height: 626px;
+    }
+
+    .figma-about {
+      padding-top: 150px;
+    }
+
+    .figma-card-row,
+    .figma-price-services {
+      justify-content: center;
+    }
+
+    .figma-panel {
+      border: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .figma-variants {
+      padding-top: 160px;
+    }
+
+    .figma-cta {
+      min-height: 680px;
+    }
+
+    .horror-page .footer {
+      background: #161616;
+      border-top: 0;
+    }
+
+    .horror-page .footer .container {
+      max-width: 1200px;
+    }
+
+    .horror-page .footer strong:first-child {
+      font-family: "Rubik Dirt", "Ruslan Display", Impact, sans-serif;
+      text-transform: uppercase;
+    }
+
+    @media (max-width: 991px) {
+      .horror-page .header {
+        position: relative;
+        background: #080808;
+      }
+
+      .horror-page .header .container {
+        min-height: auto;
+      }
+
+      .horror-page .nav {
+        gap: 12px;
+      }
+
+      .horror-page .figma-hero {
+        padding-top: 42px;
+        border-bottom-width: 2px;
+      }
+
+      .figma-horror::before {
+        inset: 620px 0 0;
+        opacity: 0.45;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .horror-page .logo {
+        font-size: 0.95rem;
+      }
+
+      .horror-page .nav a {
+        font-size: 0.72rem;
+      }
+    }
+
+    .horror-page .header {
+      display: block;
+    }
+
+    .horror-page .logo {
+      display: inline-flex;
+      flex-direction: row;
+      font-family: "Manrope", sans-serif;
+      font-size: 1.55rem;
+      line-height: 1;
+      font-weight: 900;
+      text-transform: lowercase;
+      background: linear-gradient(135deg, #ff6ec7, #f4f4f4 46%, #5ee6ff);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .horror-page .nav {
+      gap: 18px;
+    }
+
+    .horror-page .nav a {
+      padding: 8px 0;
+      color: rgba(255, 255, 255, 0.78);
+      font-family: "Manrope", sans-serif;
+      font-size: 0.86rem;
+      font-weight: 800;
+      text-transform: none;
+      white-space: nowrap;
+    }
+
+    .horror-page .nav a.active {
+      color: #fff;
+      text-shadow: 0 0 18px rgba(255, 0, 0, 0.55);
+    }
+
+    .horror-page .horror-location-selector {
+      position: static;
+      width: auto;
+      height: auto;
+      clip: auto;
+      overflow: visible;
+      opacity: 1;
+      pointer-events: auto;
+      display: flex;
+      margin: -18px 0 28px;
+    }
+
+    .horror-page .horror-location-selector .loc-btn {
+      padding: 9px 18px;
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      border-radius: 999px;
+      background: rgba(0, 0, 0, 0.4);
+      color: rgba(255, 255, 255, 0.78);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
+      backdrop-filter: blur(10px);
+    }
+
+    .horror-page .horror-location-selector .loc-btn:hover,
+    .horror-page .horror-location-selector .loc-btn.active {
+      border-color: rgba(255, 0, 0, 0.58);
+      background: rgba(118, 0, 0, 0.36);
+      color: #fff;
+      box-shadow: 0 0 20px rgba(255, 0, 0, 0.14);
+    }
+
+    .horror-page .horror-location-selector .loc-btn .badge {
+      margin: 0;
+      padding: 2px 9px;
+      color: #fff;
+      background: rgba(255, 0, 0, 0.34);
+      border-radius: 999px;
+    }
+
+    .horror-page .horror-hero-content h1,
+    .figma-title,
+    .figma-display,
+    .figma-panel h3,
+    .figma-section-title,
+    .price-card h3,
+    .review-figma-name {
+      font-family: "DS VTCorona Cyr", "Ruslan Display", "Rubik Dirt", "Unbounded", Impact, sans-serif;
+    }
+
+    .horror-page .horror-hero-content h1 {
+      font-size: clamp(4.4rem, 8vw, 7.2rem);
+      filter: drop-shadow(0 8px 18px rgba(0, 0, 0, 0.72));
+    }
+
+    @media (max-width: 991px) {
+      .horror-page .header {
+        position: sticky;
+        top: 0;
+        background:
+          linear-gradient(90deg, rgba(0, 0, 0, 0.96), rgba(42, 0, 0, 0.9), rgba(0, 0, 0, 0.96));
+      }
+
+      .horror-page .horror-location-selector {
+        margin: 0 0 24px;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .horror-page .horror-location-selector .loc-btn {
+        width: 100%;
+      }
+
+      .horror-page .horror-hero-content h1 {
+        font-size: clamp(3rem, 15vw, 4rem);
+      }
+    }
+
+    .horror-page .horror-hero-content {
+      position: relative;
+      z-index: 6;
+      max-width: min(100%, 650px);
+    }
+
+    .horror-page .horror-hero-visual,
+    .horror-page .horror-hero-visual .hero-image {
+      z-index: 1;
+    }
+
+    .horror-page .horror-hero-content h1 {
+      max-width: 650px;
+      font-size: clamp(4.1rem, 7.2vw, 6.7rem);
+      line-height: 0.94;
+      overflow-wrap: anywhere;
+      text-wrap: balance;
+    }
+
+    @media (max-width: 991px) {
+      .horror-page .horror-hero-content h1 {
+        max-width: 100%;
+        font-size: clamp(3.2rem, 10vw, 5.1rem);
+      }
+    }
+
+    @media (max-width: 560px) {
+      .horror-page .horror-hero-content h1 {
+        font-size: clamp(2.55rem, 12vw, 3.55rem);
+        line-height: 1;
+      }
+    }
+    /* ===== ФИКСИРОВАННАЯ ШАПКА ===== */
+.horror-page .header {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  z-index: 1200 !important;
+  background:
+    linear-gradient(180deg, rgba(0, 0, 0, 0.94), rgba(26, 0, 0, 0.78)) !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+  border-bottom: 1px solid rgba(255, 0, 0, 0.22) !important;
+  box-shadow: 0 12px 34px rgba(0, 0, 0, 0.28) !important;
+  padding: 0 !important;
+  height: auto !important;
+  min-height: 64px !important;
+}
+
+/* Чтобы контент не уходил под шапку */
+.horror-page .horror-hero {
+  padding-top: 140px !important; /* отступ сверху = высота шапки + запас */
+}
+
+/* На мобильных устройствах */
+@media (max-width: 768px) {
+  .horror-page .horror-hero {
+    padding-top: 100px !important;
+  }
+}
+
+@media (max-width: 560px) {
+  .horror-page .horror-hero {
+    padding-top: 80px !important;
+  }
+}
+
+/* Убираем дублирующие стили, которые мешают */
+.horror-page .header .container {
+  min-height: 64px !important;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 9px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+/* Делаем шапку более компактной */
+.horror-page .header .container {
+  min-height: 64px;
+}
+
+.horror-page .logo {
+  font-size: clamp(1rem, 1.75vw, 1.24rem);
+}
+
+.horror-page .nav a {
+  font-size: 0.72rem;
+  padding: 5px 0;
+}
+
+.horror-page .header-phone,
+.horror-page .account-button {
+  padding: 5px 12px;
+  font-size: 0.72rem;
+}
+
+.horror-page .glow-line {
+  display: block;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255, 0, 0, 0.78), rgba(255, 255, 255, 0.32), transparent);
+}
+
+.horror-page .figma-variants {
+  padding-top: clamp(56px, 7vw, 92px) !important;
+}
+
+/* ===== MOBILE HORROR PAGE POLISH ===== */
+@media (max-width: 767px) {
+  html,
+  body.horror-page {
+    overflow-x: hidden;
+  }
+
+  .horror-page .header {
+    min-height: 58px !important;
+    background:
+      linear-gradient(180deg, rgba(0, 0, 0, 0.96), rgba(18, 0, 0, 0.9)) !important;
+    border-bottom-color: rgba(255, 0, 0, 0.26) !important;
+    box-shadow: 0 10px 28px rgba(0, 0, 0, 0.36) !important;
+  }
+
+  .horror-page .header .container {
+    grid-template-columns: minmax(0, 1fr) 38px 38px 40px !important;
+    grid-template-rows: 40px !important;
+    min-height: 40px !important;
+    padding: 9px 14px !important;
+    gap: 7px !important;
+  }
+
+  .horror-page .logo {
+    font-size: clamp(0.92rem, 5vw, 1.12rem) !important;
+    max-width: 150px;
+  }
+
+  .horror-page .social-icons a,
+  .horror-page .mobile-profile-button {
+    width: 38px !important;
+    height: 38px !important;
+    border-color: rgba(255, 255, 255, 0.14);
+    background: rgba(255, 255, 255, 0.055);
+  }
+
+  .horror-page .mobile-menu-toggle {
+    width: 40px !important;
+    height: 40px !important;
+    border-color: rgba(255, 0, 0, 0.24);
+    background: rgba(90, 0, 0, 0.22);
+    border-radius: 12px;
+  }
+
+  body.mobile-menu-open .horror-page .mobile-menu-toggle,
+  body.mobile-menu-open .header .mobile-menu-toggle {
+    border-color: rgba(255, 0, 0, 0.62);
+    background: rgba(142, 0, 0, 0.34);
+  }
+
+  body.horror-page .mobile-menu-panel {
+    top: 76px !important;
+    border-color: rgba(255, 0, 0, 0.28);
+    background:
+      radial-gradient(circle at 18% 0%, rgba(255, 0, 0, 0.18), transparent 34%),
+      rgba(7, 7, 8, 0.98);
+    box-shadow: 0 22px 58px rgba(0, 0, 0, 0.66), 0 0 24px rgba(255, 0, 0, 0.12);
+  }
+
+  body.horror-page .mobile-menu-links a {
+    border-color: rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.045);
+  }
+
+  body.horror-page .mobile-menu-links a.active {
+    border-color: rgba(255, 0, 0, 0.48);
+    background: rgba(124, 0, 0, 0.28);
+  }
+
+  body.horror-page .mobile-menu-phone {
+    border-color: rgba(255, 0, 0, 0.34);
+    background: linear-gradient(135deg, rgba(255, 0, 0, 0.16), rgba(255, 255, 255, 0.05));
+  }
+
+  .horror-page .figma-hero,
+  .horror-page .horror-hero {
+    min-height: auto !important;
+    padding: 92px 0 34px !important;
+    border-bottom-width: 2px !important;
+  }
+
+  .horror-page .figma-hero::before {
+    background-position: 62% 18%;
+    opacity: 0.78;
+    filter: contrast(1.08) saturate(0.68) brightness(0.48);
+  }
+
+  .horror-page .horror-hero .container,
+  .horror-page .figma-hero .container {
+    display: grid;
+    grid-template-columns: 1fr !important;
+    min-height: 0 !important;
+    gap: 18px !important;
+  }
+
+  .horror-page .horror-hero-content {
+    order: 1 !important;
+    max-width: 100% !important;
+  }
+
+  .horror-page .horror-hero-content .badge {
+    width: auto !important;
+    margin: 0 0 12px !important;
+    padding: 7px 14px !important;
+    font-size: 0.78rem !important;
+  }
+
+  .horror-page .horror-hero-content h1 {
+    max-width: 94vw !important;
+    margin: 0 0 14px !important;
+    font-size: clamp(2.45rem, 13vw, 3.65rem) !important;
+    line-height: 0.98 !important;
+    filter: drop-shadow(0 7px 18px rgba(0, 0, 0, 0.82));
+  }
+
+  .horror-page .horror-hero-content > p {
+    max-width: 100% !important;
+    margin: 0 0 18px !important;
+    font-size: 0.95rem !important;
+    line-height: 1.46 !important;
+    color: rgba(255, 255, 255, 0.78);
+  }
+
+  .horror-page .horror-location-selector {
+    display: grid !important;
+    grid-template-columns: 1fr;
+    gap: 9px !important;
+    margin: 0 0 16px !important;
+  }
+
+  .horror-page .horror-location-selector .loc-btn {
+    width: 100%;
+    min-height: 52px;
+    justify-content: space-between;
+    padding: 9px 12px !important;
+    border-radius: 14px !important;
+    font-size: 0.82rem !important;
+    background: rgba(0, 0, 0, 0.42);
+  }
+
+  .horror-page .horror-location-selector .loc-btn .badge {
+    flex: 0 0 auto;
+    max-width: 132px;
+    padding: 4px 8px !important;
+    font-size: 0.58rem !important;
+    text-align: center;
+    white-space: normal;
+  }
+
+  .horror-page .figma-button,
+  .horror-page .horror-hero .figma-button,
+  .horror-page .figma-hero .figma-button {
+    width: 100%;
+    min-width: 0 !important;
+    min-height: 58px !important;
+    padding: 14px 18px !important;
+    border-radius: 16px !important;
+    font-size: 1.02rem !important;
+  }
+
+  .horror-page .horror-hero-visual {
+    order: 2 !important;
+    min-height: 230px !important;
+    margin-top: 2px;
+  }
+
+  .horror-page .horror-hero-visual::before {
+    display: none !important;
+  }
+
+  .horror-page .horror-hero-visual .hero-image {
+    position: relative !important;
+    inset: auto !important;
+    width: 100% !important;
+    height: auto !important;
+    min-height: 230px !important;
+    aspect-ratio: 16 / 10;
+    border-radius: 22px !important;
+    opacity: 0.94 !important;
+    box-shadow: 0 18px 44px rgba(0, 0, 0, 0.48);
+  }
+
+  .horror-page .horror-stats {
+    order: 3 !important;
+    position: static !important;
+    width: 100% !important;
+    display: grid !important;
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    gap: 8px !important;
+    margin: 0 !important;
+  }
+
+  .horror-page .stat-card {
+    min-width: 0 !important;
+    min-height: 72px !important;
+    padding: 10px 7px !important;
+    border-radius: 14px !important;
+  }
+
+  .horror-page .stat-card .stat-value {
+    font-size: clamp(0.78rem, 3.4vw, 0.95rem) !important;
+    line-height: 1.18;
+  }
+
+  .horror-page .stat-card .stat-label {
+    margin-top: 4px;
+    font-size: 0.5rem !important;
+  }
+
+  .figma-horror::before {
+    inset: 500px 0 0 !important;
+    opacity: 0.32 !important;
+  }
+
+  .figma-section,
+  .figma-about,
+  .figma-variants,
+  .figma-map,
+  .figma-cta {
+    padding: 44px 0 !important;
+    min-height: auto !important;
+  }
+
+  .figma-section-title {
+    font-size: clamp(2.05rem, 12vw, 3.15rem) !important;
+    line-height: 0.96 !important;
+    margin-bottom: 18px !important;
+  }
+
+  .figma-copy,
+  .figma-about-text,
+  .number-item,
+  .price-list,
+  .service-list,
+  .figma-cta p {
+    font-size: 0.95rem !important;
+    line-height: 1.5 !important;
+  }
+
+  .figma-panel,
+  .price-card,
+  .review-figma,
+  .figma-map-card {
+    padding: 22px 16px !important;
+    border-radius: 20px !important;
+  }
+
+  .figma-card-row,
+  .figma-price-services,
+  .variant-grid,
+  .review-figma-grid {
+    grid-template-columns: 1fr !important;
+    gap: 14px !important;
+  }
+
+  .price-line {
+    grid-template-columns: 1fr !important;
+    gap: 5px !important;
+  }
+
+  .price-card .time-row {
+    grid-template-columns: 1fr !important;
+    gap: 12px !important;
+  }
+
+  .map-wrapper,
+  .figma-map-card .map-wrapper {
+    min-height: 280px !important;
+    border-radius: 18px !important;
+  }
+
+  .footer .container {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+@media (max-width: 380px) {
+  .horror-page .header .container {
+    grid-template-columns: minmax(0, 1fr) 36px 36px 38px !important;
+    padding-inline: 10px !important;
+    gap: 6px !important;
+  }
+
+  .horror-page .logo {
+    font-size: 0.86rem !important;
+  }
+
+  .horror-page .horror-hero-content h1 {
+    font-size: clamp(2.2rem, 12.5vw, 3.15rem) !important;
+  }
+
+  .horror-page .horror-stats {
+    grid-template-columns: 1fr !important;
+  }
+}
   </style>
 </head>
-<body>
+<body class="horror-page">
 
   <!-- TOAST -->
   <div id="toast" class="toast">✓ Готово!</div>
@@ -400,182 +2198,205 @@
         <a href="index.html">Квесты</a>
         <a href="index.html#section-birthday">День рождения под ключ</a>
         <a href="horror.html" class="active">Хоррор вечер</a>
-        <a href="events.html">Выездные мероприятия</a>
         <a href="action.html">Экшен игры</a>
       </nav>
       <div class="header-right">
-        <span class="header-phone" id="phoneBtn" data-phone="+74951234567">+7 (495) 123-45-67</span>
+        <span class="header-phone" data-phone="+79916858651">+7 (991) 685-86-51</span>
         <div class="social-icons">
-          <a href="#" title="WhatsApp">WA</a>
-          <a href="#" title="Telegram">TG</a>
-          <a href="#" title="VK">VK</a>
+              <a href="https://t.me/immerScape1" title="Telegram">
+              <img src="https://upload.wikimedia.org/wikipedia/commons/8/82/Telegram_logo.svg" alt="Telegram" width="30" height="30">
+            </a>
         </div>
+        <button class="account-button auth-trigger" type="button" onclick="window.openImmerscapeAuth?.()">Войти</button>
       </div>
     </div>
     <div class="glow-line"></div>
   </header>
 
-  <!-- ===== HERO ===== -->
-  <section class="horror-hero">
-    <div class="container">
-      <div class="horror-hero-content">
-        <div class="badge">❤️‍🔥 Эксклюзивный формат</div>
-        <h1>Хоррор <span class="highlight">вечер</span></h1>
-        <p>Уникальное хоррор-свидание, которое впечатлит вашу вторую половинку и подарит вам непередаваемые эмоции экстрима, любви и интереса!</p>
-        
-        <div class="horror-location-selector">
-          <button class="loc-btn active" data-location="profsoyuznaya">
-            <span class="pin">📍</span> Профсоюзная
-            <span class="badge">Хоррор свидание</span>
-          </button>
-          <button class="loc-btn" data-location="taganskaya">
-            <span class="pin">📍</span> Таганская
-            <span class="badge">Хоррор вечер</span>
-          </button>
-        </div>
+  <main class="figma-horror">
+    <section class="horror-hero figma-hero" id="hero">
+      <div class="container">
+        <div class="horror-hero-content">
+          <div class="badge">Перформанс <strong>18+</strong></div>
+          <h1>Хоррор <span class="highlight">вечер</span></h1>
+          <p>Представление, которое впечатлит вашу вторую половинку и подарит вам непередаваемые эмоции экстрима, любви и интереса!</p>
 
+          <div class="horror-location-selector">
+            <button class="loc-btn" data-location="profsoyuznaya">
+              <span class="pin">📍</span> Профсоюзная
+              <span class="badge">Хоррор свидание</span>
+            </button>
+            <button class="loc-btn active" data-location="taganskaya">
+              <span class="pin">📍</span> Таганская
+              <span class="badge">Хоррор вечер</span>
+            </button>
+          </div>
+
+          <button class="figma-button" id="horrorBookBtn">Забронировать</button>
+        </div>
+        <div class="horror-hero-visual">
+          <div class="hero-image" id="horrorHeroImage" style="background-image:linear-gradient(180deg,rgba(12,10,20,.08),rgba(12,10,20,.46)),url('imeges/horror-vecher/1.webp');background-size:cover;background-position:center;">
+            <div class="floating-tag">Живые актёры</div>
+            <div class="floating-tag">Мистическая комната</div>
+            <div class="floating-tag">Страшная история</div>
+          </div>
+        </div>
         <div class="horror-stats">
-          <div class="stat-card"><div class="stat-value">1–2 ч</div><div class="stat-label">Время</div></div>
+          <div class="stat-card"><div class="stat-value">1 - 2 часа</div><div class="stat-label">Время</div></div>
           <div class="stat-card"><div class="stat-value">Средняя</div><div class="stat-label">Сложность</div></div>
-          <div class="stat-card"><div class="stat-value">2–8 чел</div><div class="stat-label">Игроков</div></div>
-          <div class="stat-card"><div class="stat-value">16+</div><div class="stat-label">Возраст</div></div>
-        </div>
-
-        <div class="btn-group">
-          <button class="btn-primary pink" id="horrorBookBtn">Забронировать вечер</button>
-        </div>
-      </div>
-      <div class="horror-hero-visual">
-        <div class="hero-image" id="horrorHeroImage" style="background-image:linear-gradient(180deg,rgba(12,10,20,.08),rgba(12,10,20,.46)),url('imeges/horror-svidanie/1.webp');background-size:cover;background-position:center;">
-          <div class="floating-tag">Свечи и атмосфера</div>
-          <div class="floating-tag">Живые актёры</div>
-          <div class="floating-tag">Романтика + экстрим</div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ===== КОНТЕНТ ДЛЯ ПРОФСОЮЗНОЙ ===== -->
-  <div class="horror-content-wrapper active" id="content-profsoyuznaya">
-    <section class="section-padding section-border">
-      <div class="container">
-        <h2 class="section-title">Хоррор <span class="highlight">свидание</span> на Профсоюзной</h2>
-        <p class="section-sub">Романтическое свидание с элементами хоррора. Проведите незабываемый вечер вдвоём в атмосфере мистики и страха.</p>
-        <div class="how-grid">
-          <div class="how-card"><div class="step-number">1</div><h4>🍷 Уютная комната для просмотра</h4><p>Вас приведут в атмосферную комнату для просмотра ужастика. Вас будут ждать на выбор: вино или чай, сырная или фруктовая тарелка.</p></div>
-          <div class="how-card"><div class="step-number">2</div><h4>👻 Фильм превращается в реальность</h4><p>Во время фильма будет интересное появление сущностей. Актёры начнут своё представление прямо в комнате для просмотра.</p></div>
-          <div class="how-card"><div class="step-number">3</div><h4>🧩 Квест в 5-ти комнатах</h4><p>Уровень страха и контакта с актерами вы выбираете заранее. От лёгкого до хард — решать только вам!</p></div>
-          <div class="how-card"><div class="step-number">4</div><h4>📸 На память</h4><p>По желанию — видео-съёмка вашего приключения. А также опция, когда вы сами становитесь на сторону зла!</p></div>
-        </div>
-        <div style="text-align:center; margin-top:20px;">
-          <button class="btn-primary pink" onclick="openBooking('Хоррор свидание (Профсоюзная)','Романтическое хоррор-свидание на м. Профсоюзная',4500,false)">Забронировать свидание</button>
+          <div class="stat-card"><div class="stat-value">2 - 8 человек</div><div class="stat-label">Игроков</div></div>
         </div>
       </div>
     </section>
-  </div>
 
-  <!-- ===== КОНТЕНТ ДЛЯ ТАГАНСКОЙ ===== -->
-  <div class="horror-content-wrapper" id="content-taganskaya">
-    <section class="section-padding section-border">
+    <section class="figma-section figma-variants" id="variants">
       <div class="container">
-        <h2 class="section-title">Хоррор <span class="highlight">вечер</span> на Таганской</h2>
-        <p class="section-sub">Погрузитесь в мир мистики и ужаса. Хоррор вечер для смелых пар, которые хотят проверить свои чувства на прочность.</p>
-        <div class="how-grid">
-          <div class="how-card"><div class="step-number">1</div><h4>🕯️ Мистическая атмосфера</h4><p>Вас встретит тематическая комната с приглушённым светом, свечами и антуражем, который настроит на нужный лад.</p></div>
-          <div class="how-card"><div class="step-number">2</div><h4>👻 Полное погружение в хоррор</h4><p>Профессиональные актёры создадут эффект полного присутствия. Вы станете частью страшной истории.</p></div>
-          <div class="how-card"><div class="step-number">3</div><h4>🧩 Испытание для двоих</h4><p>Вместе вам предстоит пройти через серию испытаний, которые проверят ваши нервы и чувства.</p></div>
-          <div class="how-card"><div class="step-number">4</div><h4>💝 Романтика в экстриме</h4><p>После пережитых эмоций вас ждёт романтический финал с напитками и приятными сюрпризами.</p></div>
-        </div>
-        <div style="text-align:center; margin-top:20px;">
-          <button class="btn-primary pink" onclick="openBooking('Хоррор вечер (Таганская)','Хоррор вечер на м. Таганская',5000,false)">Забронировать вечер</button>
+        <h2 class="figma-section-title figma-metal">ВАРИАНТЫ ВЕЧЕРА</h2>
+        <div class="variant-grid">
+          <article class="price-card">
+            <h3>ХОРРОР ВЕЧЕР</h3>
+            <span class="total">Общее время: <strong>60-65 минут</strong></span>
+            <div class="time-row">
+              <div><strong>20 мин</strong><p>просмотра ужастика с закусками и напитками</p></div>
+              <div><strong>45-50 минут</strong><p>интерактивного квеста с актёрами, который начнётся прямо в комнате</p></div>
+            </div>
+            <p>Стоимость: <span class="red-price">от 12'000 ₽</span></p>
+            <button class="figma-button" onclick="openBooking('Хоррор-вечер','Хоррор вечер на м. Таганская',12000,false)">Забронировать</button>
+          </article>
+          <article class="price-card">
+            <h3>VIP ХОРРОР ВЕЧЕР</h3>
+            <span class="total">Общее время: <strong>2-2,5 часа</strong></span>
+            <div class="time-row">
+              <div><strong>1,5 часа</strong><p>полноценный просмотр ужастика в уютной комнате на ваш вкус</p></div>
+              <div><strong>1 час</strong><p>интерактивного квеста с дополнительными актёрами</p></div>
+            </div>
+            <p>Стоимость: <span class="red-price">от 15'000 ₽</span></p>
+            <button class="figma-button" onclick="openBooking('Хоррор-вечер','VIP хоррор вечер на м. Таганская',15000,false)">Забронировать</button>
+          </article>
         </div>
       </div>
     </section>
-  </div>
 
-  <!-- ===== ШАГИ ===== -->
-  <section class="section-padding section-border">
-    <div class="container">
-      <h2 class="section-title">4 шага к <span class="highlight">идеальному вечеру</span></h2>
-      <p class="section-sub">Всё просто — выбирайте, бронируйте и наслаждайтесь</p>
-      <div class="steps-grid">
-        <div class="step-item"><span class="step-icon">📱</span><span class="step-num">Шаг 1</span><h5>Забронируйте вечер</h5><p>Выберите удобную дату и время</p></div>
-        <div class="step-item"><span class="step-icon">📞</span><span class="step-num">Шаг 2</span><h5>Подтверждение</h5><p>Оператор свяжется с вами для уточнения деталей</p></div>
-        <div class="step-item"><span class="step-icon">💳</span><span class="step-num">Шаг 3</span><h5>Предоплата</h5><p>Внесите предоплату 1500 рублей</p></div>
-        <div class="step-item"><span class="step-icon">🎭</span><span class="step-num">Шаг 4</span><h5>Погружение</h5><p>Приходите в назначенный день и наслаждайтесь</p></div>
+    <section class="figma-section figma-about" id="about">
+      <div class="container">
+        <h2 class="figma-section-title figma-metal">КАК ПРОЙДЕТ <br>ВАШ ВЕЧЕР</h2>
+        <p class="figma-copy figma-about-text">
+          Уникальный хоррор-вечер, который впечатлит вашу компанию, и вы ощутите непередаваемые эмоции экстрима, страха и интереса.
+          <br><br>
+          Представьте, что вы приходите в атмосферную комнату с приглушённым светом, антуражем и хоррор-историей. Вот только место оказывается не самым спокойным, и в какой-то момент история превращается в реальность.
+          <br><br>
+          Время действия вечера 1 - 2 часа, зависит от деталей и пожеланий. По телефону можно обсудить уровень контакта, дополнительные услуги, видео и формат участия актёров.
+          <br><br>
+          Этот вечер вы точно запомните надолго.
+        </p>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- ===== ДОПОЛНИТЕЛЬНЫЕ УСЛУГИ ===== -->
-  <section class="section-padding section-border">
-    <div class="container">
-      <h2 class="section-title">Дополнительные <span class="highlight">услуги</span></h2>
-      <p class="section-sub">Сделайте вечер ещё более незабываемым</p>
-      <div class="services-grid">
-        <div class="service-item"><span class="service-icon">🎥</span><h5>Видео-нарезка</h5><p>3–5 минут с самыми яркими моментами</p></div>
-        <div class="service-item"><span class="service-icon">🍕</span><h5>Доставка еды</h5><p>Пицца, попкорн и другие закуски</p></div>
-        <div class="service-item"><span class="service-icon">🎭</span><h5>Дополнительный актёр</h5><p>Для более острых ощущений</p></div>
-        <div class="service-item"><span class="service-icon">🌹</span><h5>Украшение комнаты</h5><p>Лепестки роз и/или шары</p></div>
-        <div class="service-item"><span class="service-icon">💍</span><h5>Предложение руки и сердца</h5><p>В нестандартной обстановке</p></div>
-        <div class="service-item"><span class="service-icon">📸</span><h5>Профессиональный фотограф</h5><p>Для самых важных моментов</p></div>
+    <section class="figma-section">
+      <div class="container figma-card-row">
+        <article class="figma-panel">
+          <h3 class="figma-metal">ШАГИ</h3>
+          <div class="number-list">
+            <div class="number-item"><span>1</span><p>Забронируйте вечер</p></div>
+            <div class="number-item"><span>2</span><p>Оператор свяжется с вами для подтверждения информации и ваших пожеланий</p></div>
+            <div class="number-item"><span>3</span><p>Внесите предоплату 1500 рублей</p></div>
+            <div class="number-item"><span>4</span><p>Приходите в назначенный день</p></div>
+          </div>
+        </article>
+        <article class="figma-panel">
+          <h3 class="figma-metal">ЧТО ВАС ЖДЕТ</h3>
+          <div class="number-list">
+            <div class="number-item"><span>1</span><p>Вас приведут в атмосферную комнату для просмотра ужастика <em>с напитками, закусками и выбранным уровнем погружения</em></p></div>
+            <div class="number-item"><span>2</span><p>Во время фильма будет интересное появление сущностей</p></div>
+            <div class="number-item"><span>3</span><p>Квест в нескольких комнатах <em>с уровнем страха и контакта, который вы выбираете заранее</em></p></div>
+          </div>
+        </article>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- ===== ОТЗЫВЫ ===== -->
-  <section class="section-padding section-border">
-    <div class="container">
-      <h2 class="section-title">Отзывы <span class="highlight">посетителей</span></h2>
-      <p class="section-sub">Реальные истории наших гостей</p>
-      <div class="reviews-grid">
-        <div class="review-card">
-          <div class="review-header"><div class="review-avatar">ИД</div><div><div class="review-name">Ирада Дадашева</div><div class="review-date">7 апреля 2026</div></div></div>
-          <div class="review-stars">★★★★★</div>
-          <div class="review-text">Решила подготовить молодому человеку сюрприз, нашла это объявление и написала Тамаре. Мистика идеально сочетается с романтикой! Красивая комната, страшный фильм, даже вкусности к фильму! Продумано абсолютно всё! Огромное спасибо всей команде!</div>
+    <section class="figma-section">
+      <div class="container figma-price-services">
+        <article class="figma-panel">
+          <h3 class="figma-metal">ПОЛНЫЙ ПРАЙС</h3>
+          <div class="price-list">
+            <div class="price-line"><span>Хоррор вечер на Таганской</span><strong>от 12'000 ₽</strong></div>
+            <div class="price-line"><span>Романтическое хоррор свидание</span><strong>от 10'000 ₽</strong></div>
+            <div class="price-line"><span>Свидание VIP Хоррор</span><strong>от 15'000 ₽</strong></div>
+            <div class="price-line"><span>Девичник Хоррор</span><strong>от 15'000 ₽</strong></div>
+            <div class="price-line"><span>Хоррор кино в реальности в компании с друзьями</span><strong>от 15'000 ₽</strong></div>
+            <div class="price-line"><span>Романтический просмотр фильма</span><strong>от 6'000 ₽</strong></div>
+          </div>
+        </article>
+        <article class="figma-panel">
+          <h3 class="figma-metal">ДОПОЛНИТЕЛЬНЫЕ УСЛУГИ</h3>
+          <div class="service-list">
+            <p>Видео прохождения квеста 3-5 минут с самыми яркими моментами</p>
+            <p>Возможность заказа еды с доставкой в комнату</p>
+            <p>Дополнительный актёр для более острых ощущений</p>
+            <p>Оформление шарами</p>
+            <p>Организация предложения руки и сердца в нестандартной обстановке</p>
+            <p>Креативное поздравление от актёров</p>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="figma-section figma-reviews" id="reviews">
+     <!--  <div class="container">
+        <h2 class="figma-section-title figma-metal">ОТЗЫВЫ ПОСЕТИТЕЛЕЙ</h2>
+        <div class="review-figma-grid">
+          <article class="review-figma">
+            <div class="review-figma-name">ИРАДА<br>ДАДАШЕВА</div>
+            <div class="review-date">7 апреля</div>
+            <div class="review-stars">★★★★★</div>
+            <p>Решила подготовить молодому человеку сюрприз. Мистика идеально сочетается с романтикой: красивая комната, страшный фильм, вкусности к фильму. Продумано абсолютно всё.</p>
+          </article>
+          <article class="review-figma">
+            <div class="review-figma-name">SOFA LAZ</div>
+            <div class="review-date">27 апреля</div>
+            <div class="review-stars">★★★★★</div>
+            <p>Выбрали квест-свидание по мотивам фильма «Кровавая свадьба», уровень контакта хард. Всё очень понравилось, на вопросы отвечали оперативно, сам квест прошёл на ура.</p>
+          </article>
+          <article class="review-figma">
+            <div class="review-figma-name">DOP</div>
+            <div class="review-date">10 апреля</div>
+            <div class="review-stars">★★★★★</div>
+            <p>Благодарим за мероприятие. Всё было на уровне, атмосферно и профессионально.</p> 
+          </article> 
+        </div> -->
+      </div>
+    </section>
+
+    <section class="figma-map" id="contacts">
+      <div class="container">
+        <h2 class="figma-section-title figma-metal">КАК НАС НАЙТИ</h2>
+        <p class="figma-copy" id="mapAddress">Таганская: Большой Факельный пер., 2/22</p>
+        <div class="figma-map-card">
+          <div class="map-wrapper" id="horrorMapWrapper">
+            <iframe 
+              id="horrorMapFrame"
+              src="https://yandex.ru/map-widget/v1/?ll=37.661444%2C55.743230&mode=search&text=%D0%9C%D0%BE%D1%81%D0%BA%D0%B2%D0%B0%2C%20%D0%91%D0%BE%D0%BB%D1%8C%D1%88%D0%BE%D0%B9%20%D0%A4%D0%B0%D0%BA%D0%B5%D0%BB%D1%8C%D0%BD%D1%8B%D0%B9%20%D0%BF%D0%B5%D1%80.%2C%202%2F22&z=17"
+              width="100%" 
+              height="100%" 
+              style="border:none; display:block;"
+              allowfullscreen
+              loading="lazy"
+              title="Яндекс Карта: Таганская, Большой Факельный пер., 2/22"
+            ></iframe>
+          </div>
         </div>
-        <div class="review-card">
-          <div class="review-header"><div class="review-avatar">SL</div><div><div class="review-name">Sofa Laz</div><div class="review-date">27 апреля 2026</div></div></div>
-          <div class="review-stars">★★★★★</div>
-          <div class="review-text">Выбрали хоррор-вечер по мотивам фильма «Кровавая свадьба», уровень контакта хард. Всё очень понравилось, на все вопросы отвечали оперативно, а сам вечер прошёл на ура! Советую!</div>
-        </div>
-        <div class="review-card">
-          <div class="review-header"><div class="review-avatar">D</div><div><div class="review-name">dop</div><div class="review-date">10 апреля 2026</div></div></div>
-          <div class="review-stars">★★★★★</div>
-          <div class="review-text">Благодарим за мероприятие. Всё было на уровне! Очень атмосферно и профессионально. Обязательно придём ещё.</div>
-        </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-<!-- ===== КАРТА ===== -->
-<section class="map-section">
-  <div class="container">
-    <h2 class="section-title">📍 Как нас <span class="highlight">найти</span></h2>
-    <p class="section-sub" id="mapAddress">📍 Профсоюзная: ул. Кржижановского, 8, корп. 2</p>
-    <div class="map-wrapper" id="horrorMapWrapper">
-      <iframe 
-        id="horrorMapFrame"
-        src="https://yandex.ru/map-widget/v1/?ll=37.563117%2C55.681585&mode=whatshere&utm_source=share&whatshere%5Bpoint%5D=37.563116%2C55.681585&whatshere%5Bzoom%5D=17&z=16"
-        width="100%" 
-        height="100%" 
-        style="border:none; display:block;"
-        allowfullscreen
-      ></iframe>
-    </div>
-  </div>
-</section>
-  <!-- ===== CTA ===== -->
-  <section class="cta-section">
-    <div class="container">
-      <h2>Не упустите <span style="background:linear-gradient(135deg,#ff6ec7,#ff3d8a);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">шанс</span></h2>
-      <p>Проверьте свои нервы на прочность и узнайте, как вы справляетесь с пугающими ситуациями вместе. Это будет вечер, который вы никогда не забудете!</p>
-      <p style="font-weight:600;color:#b388ff;font-size:0.9rem;">Бронируйте сейчас и переверните своё представление о романтике!</p>
-      <div class="btn-group" style="justify-content:center;">
-        <button class="btn-primary pink" id="ctaBookBtn">Забронировать вечер</button>
+    <section class="figma-section figma-cta">
+      <div class="container">
+        <h2 class="figma-section-title figma-metal">НЕ УПУСТИТЕ ШАНС</h2>
+        <p>Проверьте свои нервы на прочность и узнайте, как вы справляетесь с пугающими ситуациями вместе. Это будет вечер, который вы никогда не забудете!</p>
+        <p>Бронируйте сейчас и переверните своё представление о романтике!</p>
+        <button class="figma-button" id="ctaBookBtn">Забронировать</button>
       </div>
-    </div>
-  </section>
+    </section>
+  </main>
 
   <!-- ===== FOOTER ===== -->
   <footer class="footer">
@@ -587,31 +2408,39 @@
       </div>
       <div class="footer-col">
         <strong>Контакты</strong>
-        <span>+7 (495) 123-45-67</span>
+        <span>+7 (991) 685-86-51</span>
         <span>info@immerscape.ru</span>
         <span>Ежедневно 10:00–22:00</span>
       </div>
       <div class="footer-col">
         <strong>Адреса</strong>
         <span>📍 Профсоюзная: ул. Кржижановского, 8, корп. 2</span>
-        <span>📍 Таганская: Первомайская ул., 5</span>
-        <span>📍 Измайловская: Большой Факельный пер., 2/22</span>
+        <span>📍 Таганская: Большой Факельный пер., 2/22</span>
+        <span>📍 Измайловская: ул. Первомайская, 5</span>
       </div>
       <div class="footer-col">
         <strong>Соцсети</strong>
         <div class="social-links">
-          <a href="#">Telegram</a>
-          <a href="#">VK</a>
-          <a href="#">YouTube</a>
-          <a href="#">WhatsApp</a>
+                                  <a href="https://t.me/immerScape" title="Telegram">
+              <img src="https://upload.wikimedia.org/wikipedia/commons/8/82/Telegram_logo.svg" alt="Telegram" width="30" height="30"></a>
+                                      <a href="https://www.tiktok.com/@immerscape_quest?_r=1&_d=eie364al7fcgdg&sec_uid=MS4wLjABAAAA5yztOa-2VFhi8QjMFRD3UeeheFN9Z3G4ecxhFjOWKBhMeQhPWBn698Zs4FKoN1YB&share_author_id=7608639920584344596&sharer_language=ru&source=h5_m&u_code=d995397mik2a87&timestamp=1787602454&user_id=6758492880908452870&sec_user_id=MS4wLjABAAAAgBnR9cgeEd_kMGl04cI-ixL2XsTNjqk2NvS0KRsm_nJ7uXMHhUOJae2QgRvUt5Nr&item_author_type=2&utm_source=telegram&utm_campaign=client_share&utm_medium=android&share_iid=7650614507711055633&share_link_id=c8ec8df7-7903-41ff-bf15-14db9fac0291&share_app_id=1233&ugbiz_name=ACCOUNT&ug_btm=b6880%2Cb2878&social_share_type=5&share_enter_from=others_homepage&item_author_type=2&enable_checksum=1" title="TikTok">
+              <img src="https://img.magnific.com/premium-vector/tik-tok-logo_578229-290.jpg?semt=ais_hybrid&w=740&q=80" alt="TikTok" width="30" height="30"></a>
+                                      <a href="https://vk.ru/immerscape" title="VKontakte">
+              <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f3/VK_Compact_Logo_%282021-present%29.svg/3840px-VK_Compact_Logo_%282021-present%29.svg.png?utm_source=ru.wikiquote.org&utm_campaign=index&utm_content=thumbnail" alt="VKontakte" width="30" height="30"></a>
+                                     <!-- <a href="ссылку" title="MAX">
+              <img src="фото сюда" alt="MAX" width="30" height="30"></a> -->
         </div>
         <span style="margin-top:6px; font-size:0.8rem; color:#6f648a;">Будьте в курсе новостей</span>
       </div>
     </div>
   </footer>
   <script src="js/quest-booking-api.js"></script>
-  <script src="js/booking.js"></script>
+  <script src="js/booking.js?v=20260809-3"></script>
+  <script src="js/header.js"></script>
   <script src="js/main.js"></script>
+  <script src="js/supabase-auth-client.js"></script>
+  <script src="js/supabase-config.js"></script>
+  <script src="js/auth.js"></script>
   
   <script>
     document.addEventListener('DOMContentLoaded', function() {
@@ -621,14 +2450,43 @@
         'taganskaya': document.getElementById('content-taganskaya')
       };
       const heroImage = document.getElementById('horrorHeroImage');
-      const heroPhotos = {
-        'profsoyuznaya': 'imeges/horror-svidanie/1.webp',
-        'taganskaya': 'https://downloader.disk.yandex.ru/preview/c66b427a33a69046e559d0134aea071ba28c0a9b705d8a133be18c7b1a00116d/6a558eca/qsU0Bl5d12t3jwWIpbhRRtSAdx0Gx-X5giQo3-ooRzYP3r2_Pw_LB4JERXIkF4EEryVtCtmGKl15FYrPmHFkcw%3D%3D?uid=0&filename=DSC01283_mk.jpg&disposition=inline&hash=&limit=0&content_type=image%2Fjpeg&owner_uid=0&tknv=v3&is_direct_zip_experiment=1&size=1918x920'
+      const heroTitle = document.querySelector('.horror-hero-content h1');
+      const heroText = document.querySelector('.horror-hero-content > p');
+      const heroTags = heroImage ? heroImage.querySelectorAll('.floating-tag') : [];
+      const heroMedia = {
+        'profsoyuznaya': {
+          photo: 'imeges/horror-svidanie/1.webp',
+          title: 'Хоррор <span class="highlight">свидание</span>',
+          text: 'Уникальное хоррор-свидание, которое впечатлит вашу вторую половинку и подарит непередаваемые эмоции экстрима, любви и интереса!',
+          tags: ['Кино и свечи', 'Хоррор для двоих', 'Романтика + экстрим'],
+          button: 'Забронировать',
+          stats: ['1 - 2 часа', 'Средняя', '2 - 8 человек']
+        },
+        'taganskaya': {
+          photo: 'imeges/horror-vecher/1.webp',
+          title: 'Хоррор <span class="highlight">вечер</span>',
+          text: 'Представление, которое впечатлит вашу вторую половинку и подарит вам непередаваемые эмоции экстрима, любви и интереса!',
+          tags: ['Мистическая комната', 'Живые актёры', 'Страшная история'],
+          button: 'Забронировать',
+          stats: ['1 - 2 часа', 'Средняя', '2 - 8 человек']
+        }
       };
+      const statValues = document.querySelectorAll('.horror-stats .stat-value');
       const bookBtns = document.querySelectorAll('#horrorBookBtn, #ctaBookBtn');
       function setHorrorHeroPhoto(location) {
-        if (!heroImage || !heroPhotos[location]) return;
-        heroImage.style.backgroundImage = `linear-gradient(180deg,rgba(12,10,20,.08),rgba(12,10,20,.46)),url('${heroPhotos[location]}')`;
+        const media = heroMedia[location];
+        if (!heroImage || !media) return;
+        heroImage.style.backgroundImage = `linear-gradient(180deg,rgba(12,10,20,.08),rgba(12,10,20,.46)),url('${media.photo}')`;
+        heroImage.style.backgroundPosition = 'center';
+        if (heroTitle) heroTitle.innerHTML = media.title;
+        if (heroText) heroText.textContent = media.text;
+        heroTags.forEach((tag, index) => {
+          if (media.tags[index]) tag.textContent = media.tags[index];
+        });
+        statValues.forEach((stat, index) => {
+          if (media.stats[index]) stat.textContent = media.stats[index];
+        });
+        document.getElementById('horrorBookBtn').textContent = media.button;
       }
       locBtns.forEach(btn => {
         btn.addEventListener('click', function() {
@@ -645,9 +2503,9 @@
           bookBtns.forEach(b => {
             b.onclick = function() {
               if (isProf) {
-                openBooking('Хоррор свидание (Профсоюзная)', 'Романтическое хоррор-свидание на м. Профсоюзная', 4500, false);
+                openBooking('Хоррор-свидание', 'Романтическое хоррор-свидание на м. Профсоюзная', 10000, false);
               } else {
-                openBooking('Хоррор вечер (Таганская)', 'Хоррор вечер на м. Таганская', 5000, false);
+                openBooking('Хоррор-вечер', 'Хоррор вечер на м. Таганская', 12000, false);
               }
             };
           });
@@ -663,9 +2521,14 @@
           }
         });
       }
+      const initialIsProf = activeBtn ? activeBtn.dataset.location === 'profsoyuznaya' : false;
       bookBtns.forEach(b => {
         b.onclick = function() {
-          openBooking('Хоррор свидание (Профсоюзная)', 'Романтическое хоррор-свидание на м. Профсоюзная', 4500, false);
+          if (initialIsProf) {
+            openBooking('Хоррор-свидание', 'Романтическое хоррор-свидание на м. Профсоюзная', 10000, false);
+          } else {
+            openBooking('Хоррор-вечер', 'Хоррор вечер на м. Таганская', 12000, false);
+          }
         };
       });
     });
@@ -674,12 +2537,12 @@
   // ===== КАРТЫ ДЛЯ ХОРРОР-СТРАНИЦЫ =====
   const horrorMaps = {
     'profsoyuznaya': {
-      url: 'https://yandex.ru/map-widget/v1/?ll=37.563117%2C55.681585&mode=whatshere&utm_source=share&whatshere%5Bpoint%5D=37.563116%2C55.681585&whatshere%5Bzoom%5D=17&z=16',
+      url: 'https://yandex.ru/map-widget/v1/?ll=37.563116%2C55.681585&mode=search&text=%D0%9C%D0%BE%D1%81%D0%BA%D0%B2%D0%B0%2C%20%D1%83%D0%BB.%20%D0%9A%D1%80%D0%B6%D0%B8%D0%B6%D0%B0%D0%BD%D0%BE%D0%B2%D1%81%D0%BA%D0%BE%D0%B3%D0%BE%2C%208%2C%20%D0%BA%D0%BE%D1%80%D0%BF.%202&z=17',
       address: '📍 Профсоюзная: ул. Кржижановского, 8, корп. 2'
     },
     'taganskaya': {
-      url: 'https://yandex.ru/map-widget/v1/?ll=37.661444%2C55.743230&mode=search&ol=geo&ouri=ymapsbm1%3A%2F%2Fgeo%3Fdata%3DCgg1NjcwNTI4ORJm0KDQvtGB0YHQuNGPLCDQnNC-0YHQutCy0LAsINCR0L7Qu9GM0YjQvtC5INCk0LDQutC10LvRjNC90YvQuSDQv9C10YDQtdGD0LvQvtC6LCAyLzIyLCDQv9C-0LTRitC10LfQtCAzIgoNlKUWQhUI-V5CMMHmwu0M&rtext=55.743162%2C37.661588~55.743224%2C37.661494&rtt=mt&ruri=~&utm_source=share&z=19',
-      address: '📍 Таганская: Первомайская ул., 5'
+      url: 'https://yandex.ru/map-widget/v1/?ll=37.661444%2C55.743230&mode=search&text=%D0%9C%D0%BE%D1%81%D0%BA%D0%B2%D0%B0%2C%20%D0%91%D0%BE%D0%BB%D1%8C%D1%88%D0%BE%D0%B9%20%D0%A4%D0%B0%D0%BA%D0%B5%D0%BB%D1%8C%D0%BD%D1%8B%D0%B9%20%D0%BF%D0%B5%D1%80.%2C%202%2F22&z=17',
+      address: '📍 Таганская: Большой Факельный пер., 2/22'
     }
   };
 
@@ -702,18 +2565,29 @@
   // Слушаем изменения выбора локации
   document.addEventListener('DOMContentLoaded', function() {
     const locBtns = document.querySelectorAll('.horror-location-selector .loc-btn');
+    const headerTab = document.querySelector('[data-horror-header-tab]');
+    const taganskayaBtn = document.querySelector('.horror-location-selector .loc-btn[data-location="taganskaya"]');
     
     locBtns.forEach(btn => {
       btn.addEventListener('click', function() {
         const location = this.dataset.location;
         updateHorrorMap(location);
+        if (headerTab) headerTab.classList.toggle('active', location === 'taganskaya');
       });
     });
+
+    if (headerTab && taganskayaBtn) {
+      headerTab.addEventListener('click', function() {
+        taganskayaBtn.click();
+        document.getElementById('content-taganskaya')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+    }
     
     // При загрузке — показываем карту для активной локации
     const activeBtn = document.querySelector('.horror-location-selector .loc-btn.active');
     if (activeBtn) {
       updateHorrorMap(activeBtn.dataset.location);
+      if (headerTab) headerTab.classList.toggle('active', activeBtn.dataset.location === 'taganskaya');
     }
   });
 </script>

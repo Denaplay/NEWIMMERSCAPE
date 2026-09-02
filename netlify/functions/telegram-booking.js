@@ -1,0 +1,162 @@
+const TELEGRAM_API_ORIGIN = 'https://api.telegram.org';
+const CHAT_ENV_BY_LOCATION = Object.freeze({
+  'м. Профсоюзная': 'TELEGRAM_CHAT_ID_PROFSOYUZNAYA',
+  'м. Измайловская': 'TELEGRAM_CHAT_ID_IZMAYLOVSKAYA',
+  'м. Таганская': 'TELEGRAM_CHAT_ID_TAGANSKAYA'
+});
+
+function jsonResponse(statusCode, body) {
+  return {
+    statusCode,
+    headers: {
+      'content-type': 'application/json; charset=utf-8',
+      'cache-control': 'no-store'
+    },
+    body: JSON.stringify(body)
+  };
+}
+
+function clean(value, maxLength = 500) {
+  return String(value == null ? '' : value).trim().slice(0, maxLength);
+}
+
+function cleanEnvironmentValue(value) {
+  const trimmed = String(value == null ? '' : value).trim();
+  const quote = trimmed[0];
+  if ((quote === '"' || quote === "'") && trimmed.endsWith(quote)) {
+    return trimmed.slice(1, -1).trim();
+  }
+  return trimmed;
+}
+
+function getChatIdForLocation(location, environment = process.env) {
+  const environmentKey = CHAT_ENV_BY_LOCATION[clean(location, 100)];
+  if (!environmentKey) return '';
+
+  // Keep the original variable working for the already configured
+  // Profsoyuznaya chat while allowing an explicit per-location name.
+  const fallback = environmentKey === 'TELEGRAM_CHAT_ID_PROFSOYUZNAYA'
+    ? environment.TELEGRAM_CHAT_ID
+    : '';
+  return cleanEnvironmentValue(environment[environmentKey] || fallback);
+}
+
+function escapeHtml(value) {
+  return clean(value)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;');
+}
+
+function addLine(lines, label, value, fallback = '—') {
+  lines.push(`<b>${label}: ${escapeHtml(value) || fallback}</b>`);
+}
+
+function addSpoilerLine(lines, label, value, fallback = '—') {
+  lines.push(`<b>${label}: <tg-spoiler>${escapeHtml(value) || fallback}</tg-spoiler></b>`);
+}
+
+function formatBookingMessage(booking) {
+  const lines = ['<b>💥НОВАЯ БРОНЬ🛐</b>', ''];
+
+  addLine(lines, 'Квест / пакет', booking.bookingName);
+  if (booking.packageQuest) addLine(lines, 'Квест в пакете', booking.packageQuest);
+  addLine(lines, 'Дата', booking.date);
+  addLine(lines, 'Время', booking.time);
+  addLine(lines, 'Игроков', booking.players);
+  if (booking.horrorVariant) addLine(lines, 'Формат вечера', booking.horrorVariant);
+  lines.push('');
+  addLine(lines, 'Имя', booking.clientName);
+  addLine(lines, 'Телефон', booking.clientPhone);
+  addLine(lines, 'Email', booking.clientEmail);
+  addLine(lines, 'Способ связи', booking.contactMethod);
+  if (booking.contactHandle) addLine(lines, 'Контакт', booking.contactHandle);
+  lines.push('');
+  addLine(lines, 'Доп. услуги', booking.extraServices);
+  addLine(lines, 'Комментарий', booking.comment);
+  addLine(lines, 'Промокод', booking.promoCode);
+  addLine(lines, 'Базовая цена', booking.basePrice);
+  addLine(lines, 'Скидка', booking.discount);
+  addLine(lines, 'Предоплата', booking.deposit);
+  addSpoilerLine(lines, 'Сколько взять', booking.total);
+
+  return lines.join('\n');
+}
+
+function parseBody(event) {
+  if (!event.body) return null;
+  const rawBody = event.isBase64Encoded
+    ? Buffer.from(event.body, 'base64').toString('utf8')
+    : event.body;
+  return JSON.parse(rawBody);
+}
+
+exports.handler = async function handler(event) {
+  if (String(event.httpMethod || '').toUpperCase() !== 'POST') {
+    return jsonResponse(405, { error: 'Method not allowed' });
+  }
+
+  let booking;
+  try {
+    booking = parseBody(event);
+  } catch {
+    return jsonResponse(400, { error: 'Invalid JSON' });
+  }
+
+  if (!booking || !CHAT_ENV_BY_LOCATION[clean(booking.location, 100)]) {
+    return jsonResponse(200, { skipped: true });
+  }
+
+  const requiredFields = ['bookingId', 'bookingName', 'date', 'time', 'clientName', 'clientPhone'];
+  if (requiredFields.some(field => !clean(booking[field]))) {
+    return jsonResponse(400, { error: 'Missing required booking fields' });
+  }
+
+  const botToken = cleanEnvironmentValue(process.env.TELEGRAM_BOT_TOKEN);
+  const chatId = getChatIdForLocation(booking.location);
+  if (!botToken || !chatId) {
+    console.error('Telegram booking notification is not configured', {
+      location: clean(booking.location, 100),
+      chatEnvironmentKey: CHAT_ENV_BY_LOCATION[clean(booking.location, 100)]
+    });
+    return jsonResponse(503, { error: 'Telegram is not configured' });
+  }
+
+  if (!/^\d+:[A-Za-z0-9_-]+$/.test(botToken)) {
+    console.error('Telegram bot token has an invalid format', {
+      botId: botToken.split(':')[0] || 'missing',
+      tokenLength: botToken.length
+    });
+    return jsonResponse(503, { error: 'Telegram token has an invalid format' });
+  }
+
+  try {
+    const response = await fetch(`${TELEGRAM_API_ORIGIN}/bot${botToken}/sendMessage`, {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({
+        chat_id: chatId,
+        text: formatBookingMessage(booking),
+        parse_mode: 'HTML',
+        disable_web_page_preview: true
+      }),
+      signal: AbortSignal.timeout(10000)
+    });
+    const result = await response.json().catch(() => ({}));
+    if (!response.ok || result.ok === false) {
+      throw new Error(result.description || `Telegram HTTP ${response.status}`);
+    }
+    return jsonResponse(200, { sent: true });
+  } catch (error) {
+    console.error('Telegram booking notification failed:', error?.message || error, {
+      botId: botToken.split(':')[0],
+      tokenLength: botToken.length,
+      chatId
+    });
+    return jsonResponse(502, { error: 'Telegram notification failed' });
+  }
+};
+
+exports.formatBookingMessage = formatBookingMessage;
+exports.cleanEnvironmentValue = cleanEnvironmentValue;
+exports.getChatIdForLocation = getChatIdForLocation;

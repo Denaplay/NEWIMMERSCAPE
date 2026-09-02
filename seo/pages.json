@@ -1,0 +1,23 @@
+{
+  "site": "https://immerscape.ru",
+  "language": "ru-RU",
+  "region": "Москва",
+  "updated": "2026-09-01",
+  "pages": [
+    { "url": "/", "intent": "квесты в Москве, квесты с актёрами" },
+    { "url": "/horror", "intent": "хоррор-вечер в Москве" },
+    { "url": "/action", "intent": "экшен-игры в Москве" },
+    { "url": "/events", "intent": "выездные квесты и праздники в Москве" },
+    { "url": "/stomatologiya", "intent": "квест Стоматология Новая жизнь" },
+    { "url": "/rick-and-morty", "intent": "квест Рик и Морти" },
+    { "url": "/k-pop", "intent": "квест K-pop последний стрим" },
+    { "url": "/zapretnaya-dver", "intent": "квест Запретная дверь" },
+    { "url": "/nevesta", "intent": "квест Невеста" },
+    { "url": "/rozhdestvo-v-hogvartse", "intent": "детский квест Хогвартс" },
+    { "url": "/labubu", "intent": "детский квест Лабубу" },
+    { "url": "/monastyr", "intent": "квест Монастырь" },
+    { "url": "/horror-svidanie", "intent": "хоррор-свидание в Москве" },
+    { "url": "/among-us", "intent": "экшен-игра Among Us в Москве" }
+  ]
+}
+
