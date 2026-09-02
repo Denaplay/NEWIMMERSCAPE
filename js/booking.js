@@ -277,7 +277,7 @@ const questTimes = {
 const additionalServices = [
   { id: 'video', name: 'Видеонарезка', price: 4000, icon: '🎥', desc: '5-7 минут ярких моментов вашего приключения.' },
   { id: 'director', name: 'Кресло режиссёра', price: 2000, icon: '🎬', desc: 'Наблюдение за игрой со стороны.' },
-  { id: 'actor', name: 'Доп. актёр', price: 2000, icon: '🎭', desc: 'Может уменьшить или увеличить уровень страха.' },
+  { id: 'actor', name: 'Допалнительный актёр', price: 2000, icon: '🎭', desc: 'Может уменьшить или увеличить уровень страха.' },
   { id: 'loft', name: 'Лофт', price: 5500, icon: '🏠', desc: 'Украшенный шарами и засервированный одноразовой посудой.' },
   { id: 'board_game', name: 'Настольная игра', price: 8000, icon: '🎲', desc: 'С ведущим после квеста.' },
   { id: 'congrats', name: 'Креатив', price: 2000, icon: '🎉', desc: 'Креативное поздравление для именинника.' },
@@ -290,7 +290,7 @@ const additionalServices = [
 const packageOptions = [
   { id: 'video', name: 'Видеонарезка', price: 4000, icon: '🎥', desc: '5-7 минут ярких моментов вашего приключения.' },
   { id: 'director', name: 'Кресло режиссёра', price: 2000, icon: '🎬', desc: 'Наблюдение за игрой со стороны.' },
-  { id: 'actor', name: 'Доп. актёр', price: 2000, icon: '🎭', desc: 'Может уменьшить или увеличить уровень страха.' },
+  { id: 'actor', name: 'Допалнительный актёр', price: 2000, icon: '🎭', desc: 'Может уменьшить или увеличить уровень страха.' },
   { id: 'loft', name: 'Лофт', price: 5500, icon: '🏠', desc: 'Украшенный шарами и засервированный одноразовой посудой.' },
   { id: 'board_game', name: 'Настольная игра', price: 8000, icon: '🎲', desc: 'С ведущим после квеста.' },
   { id: 'congrats', name: 'Креатив', price: 2000, icon: '🎉', desc: 'Креативное поздравление для именинника.' },
@@ -314,7 +314,7 @@ const bookingOptions = {
   default: additionalServices,
   amongus: additionalServices,
   horror: [
-    { id: 'extra_actor', name: 'Доп. актёр', price: 2000, icon: '🎭', desc: 'Может уменьшить или увеличить уровень страха.' },
+    { id: 'extra_actor', name: 'Допалнительный актёр', price: 2000, icon: '🎭', desc: 'Может уменьшить или увеличить уровень страха.' },
     { id: 'pizza', name: 'Пицца', price: 2000, icon: '🍕', desc: 'Пицца к вашему хоррор-свиданию.' },
     { id: 'video', name: 'Видео прохождения', price: 4000, icon: '🎥', desc: 'Запись самых ярких моментов прохождения.' },
     { id: 'proposal', name: 'Предложение руки и сердца', price: 5000, icon: '💍', desc: 'Поможем организовать предложение в атмосфере квеста.' },

@@ -64,6 +64,7 @@
   let mode = 'signin';
   let currentUser = null;
   const authTimeoutMs = 20000;
+  const signupConfirmationMessage = 'Вы зарегистрированы! Теперь нажмите кнопку Войти.';
 
   function withTimeout(operation) {
     let timeoutId;
@@ -96,6 +97,28 @@
   function setMessage(text, type) {
     message.textContent = text;
     message.className = `auth-message${type ? ` ${type}` : ''}`;
+  }
+
+  function getAuthParams() {
+    const params = new URLSearchParams(window.location.search);
+    if (window.location.hash.length > 1) {
+      const hashParams = new URLSearchParams(window.location.hash.slice(1));
+      hashParams.forEach((value, key) => params.set(key, value));
+    }
+    return params;
+  }
+
+  function isSignupConfirmationReturn() {
+    const params = getAuthParams();
+    return params.get('type') === 'signup' || params.has('token_hash');
+  }
+
+  function showSignupConfirmedMessage() {
+    setMode('signin');
+    openModal();
+    setMessage(signupConfirmationMessage, 'success');
+    const cleanUrl = `${window.location.origin}${window.location.pathname}`;
+    window.history.replaceState(null, '', cleanUrl);
   }
 
   function normalizeRussianPhone(value) {
@@ -206,7 +229,8 @@
     if (currentUser) window.location.href = 'profile.html';
     else openModal();
   };
-  if (window.location.hash === '#auth') openModal();
+  if (isSignupConfirmationReturn()) showSignupConfirmedMessage();
+  else if (window.location.hash === '#auth') openModal();
 
   function closeModal() {
     modal.hidden = true;
@@ -322,7 +346,7 @@
         return;
       }
       if (mode === 'signup' && !result.data.session) {
-        setMessage('Аккаунт создан. Проверьте почту и подтвердите регистрацию.', 'success');
+        setMessage('Код подтверждения отправлен на почту.', 'success');
         resendButton.hidden = false;
         return;
       }
@@ -337,6 +361,9 @@
 
   if (client) {
     client.auth.getSession().then(({ data }) => renderUser(data.session?.user || null));
-    client.auth.onAuthStateChange((_event, session) => renderUser(session?.user || null));
+    client.auth.onAuthStateChange((event, session) => {
+      renderUser(session?.user || null);
+      if (event === 'SIGNED_IN' && isSignupConfirmationReturn()) showSignupConfirmedMessage();
+    });
   }
 })();
