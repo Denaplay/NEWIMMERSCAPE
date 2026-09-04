@@ -662,24 +662,20 @@ function getCurrentBookingLocation() {
 }
 
 async function notifyTelegramAboutBooking(booking) {
-  const notificationLocations = new Set([
-    'м. Профсоюзная',
-    'м. Измайловская',
-    'м. Таганская'
-  ]);
-  if (!notificationLocations.has(booking.location)) return;
-
   try {
     const response = await fetch('/api/telegram-booking', {
       method: 'POST',
       headers: { 'content-type': 'application/json' },
       body: JSON.stringify(booking)
     });
-    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+    const result = await response.json().catch(() => ({}));
+    if (!response.ok || result.sent !== true) {
+      throw new Error(result.error || `Сервер вернул код ${response.status}`);
+    }
   } catch (error) {
     // Telegram is a secondary notification channel: a delivery failure must not
     // roll back a booking that has already been saved successfully.
-    console.error('Бронь создана, но Telegram-уведомление не отправлено:', error);
+    console.error('Бронь создана, но Telegram-уведомление не отправлено:', error?.message || error);
   }
 }
 
@@ -1661,6 +1657,12 @@ function goStep(n) {
     if (currentStep === 1) {
       const activeDate = document.querySelector('.date-grid .date-cell.active');
       const activeTime = document.querySelector('.time-slot.active');
+
+      if (isCurrentPackageBooking() && !getSelectedPackageQuest()) {
+        showToast('⚠️ Выберите квест внутри пакета!');
+        document.getElementById('packageQuestChoice')?.focus();
+        return;
+      }
       
       if (!activeDate) {
         showToast('⚠️ Выберите дату!');

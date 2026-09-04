@@ -1,16 +1,25 @@
 const test = require('node:test');
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
+const vm = require('node:vm');
 
 const bookingSource = fs.readFileSync('js/booking.js', 'utf8');
+const authSource = fs.readFileSync('js/auth.js', 'utf8');
 const schemaSource = fs.readFileSync('supabase/schema.sql', 'utf8');
 const staffSource = fs.readFileSync('js/staff.js', 'utf8');
-const { getUpstreamPath } = require('../netlify/functions/my-erp');
+const { getUpstreamPath } = require('../server/my-erp');
 const {
   formatBookingMessage,
   cleanEnvironmentValue,
-  getChatIdForLocation
-} = require('../netlify/functions/telegram-booking');
+  getChatIdForLocation,
+  sendTelegramBooking
+} = require('../server/telegram-booking');
+
+function loadAuthErrorTranslator() {
+  const start = authSource.indexOf('function getErrorMessage(error)');
+  const end = authSource.indexOf('function setMessage(', start);
+  return vm.runInNewContext(`(${authSource.slice(start, end).trim()})`);
+}
 
 test('confirmation does not send a booking to my-ERP', () => {
   const confirmation = bookingSource.slice(
@@ -46,16 +55,16 @@ test('ERP fallback slots, including Dentistry, always have editable booking data
   assert.match(staffSource, /const key = `erp-\$\{questIndex\}-\$\{slotIndex\}`/);
 });
 
-test('Netlify proxy maps only supported my-ERP endpoints', () => {
+test('hosting-neutral proxy maps only supported my-ERP endpoints', () => {
   assert.equal(
-    getUpstreamPath({ rawPath: '/.netlify/functions/my-erp/timetable/4893.json', rawQuery: '' }),
+    getUpstreamPath('/api/my-erp/timetable/4893.json'),
     '/booking_api/timetable/4893.json'
   );
   assert.equal(
-    getUpstreamPath({ path: '/api/my-erp/get_tariff_with_players/4893', rawQuery: 'date=2026-08-09' }),
+    getUpstreamPath('/api/my-erp/get_tariff_with_players/4893', '?date=2026-08-09'),
     '/booking_api/get_tariff_with_players/4893?date=2026-08-09'
   );
-  assert.equal(getUpstreamPath({ path: '/api/my-erp/../../admin' }), null);
+  assert.equal(getUpstreamPath('/api/my-erp/../../admin'), null);
 });
 
 test('database function atomically creates a new booking and client', () => {
@@ -75,10 +84,9 @@ test('supported location bookings notify Telegram only after database success', 
     bookingSource.indexOf('async function confirmBooking()'),
     bookingSource.indexOf('// ===== ИНИЦИАЛИЗАЦИЯ =====')
   );
-  assert.match(bookingSource, /notificationLocations\.has\(booking\.location\)/);
-  assert.match(bookingSource, /м\. Профсоюзная/);
-  assert.match(bookingSource, /м\. Измайловская/);
-  assert.match(bookingSource, /м\. Таганская/);
+  assert.match(bookingSource, /fetch\('\/api\/telegram-booking'/);
+  assert.match(bookingSource, /Выберите квест внутри пакета/);
+  assert.doesNotMatch(bookingSource, /notificationLocations\.has\(booking\.location\)/);
   assert.ok(confirmation.indexOf('await notifyTelegramAboutBooking') > confirmation.indexOf("staff.rpc('create_site_booking'"));
 });
 
@@ -131,4 +139,26 @@ test('Telegram chat is selected by booking location', () => {
   assert.equal(getChatIdForLocation('м. Измайловская', environment), '-1002');
   assert.equal(getChatIdForLocation('м. Таганская', environment), '-1003');
   assert.equal(getChatIdForLocation('м. Неизвестная', environment), '');
+});
+
+test('Telegram endpoint reports missing hosting configuration in Russian', async () => {
+  const result = await sendTelegramBooking({
+    bookingId: 42,
+    bookingName: 'Пакет на 2 часа',
+    location: 'м. Профсоюзная',
+    date: '2026-09-10',
+    time: '12:00',
+    clientName: 'Иван',
+    clientPhone: '+79990000000'
+  }, {});
+  assert.equal(result.statusCode, 503);
+  assert.equal(result.body.error, 'Telegram-уведомления не настроены.');
+});
+
+test('common Supabase authentication errors are translated into Russian', () => {
+  const translate = loadAuthErrorTranslator();
+  assert.equal(translate({ code: 'invalid_credentials', message: 'Invalid login credentials' }), 'Неверный email или пароль.');
+  assert.match(translate({ code: 'email_not_confirmed', message: 'Email not confirmed' }), /Email ещё не подтверждён/);
+  assert.match(translate({ code: 'over_request_rate_limit', message: 'Too many requests' }), /Слишком много попыток/);
+  assert.equal(translate({ message: 'Some unknown provider failure' }), 'Не удалось выполнить авторизацию. Проверьте данные и попробуйте ещё раз.');
 });

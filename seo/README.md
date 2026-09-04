@@ -9,7 +9,7 @@
 - `robots.txt` должен открываться по адресу `https://immerscape.ru/robots.txt`;
 - `sitemap.xml` должен открываться по адресу `https://immerscape.ru/sitemap.xml`;
 - `title`, `description`, canonical, Open Graph и JSON-LD должны находиться в `<head>` соответствующей HTML-страницы;
-- правила `X-Robots-Tag` для служебных страниц находятся в `netlify.toml`.
+- заголовок `X-Robots-Tag` для служебных страниц добавляется в `server.js`.
 
 В `pages.json` хранится единый реестр индексируемых страниц и их поисковых направлений. При добавлении нового квеста необходимо:
 
@@ -20,4 +20,3 @@
 5. После публикации запросить переобход в Google Search Console и Яндекс Вебмастере.
 
 Внешние действия, которые нельзя выполнить изменением кода, перечислены в [EXTERNAL_SEO.md](./EXTERNAL_SEO.md).
-

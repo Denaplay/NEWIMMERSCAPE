@@ -85,13 +85,41 @@
       const normalized = value.trim();
       return normalized && normalized !== '{}' && normalized !== '[]' && normalized !== '[object Object]';
     };
-    if (isUsefulText(error)) return error.trim();
-    if (isUsefulText(error.message)) return error.message.trim();
-    if (isUsefulText(error.error_description)) return error.error_description.trim();
-    if (isUsefulText(error.msg)) return error.msg.trim();
-    const details = [error.code, error.status, error.name].filter(Boolean).join(' · ');
-    const suffix = details ? ` (${details})` : '';
-    return `Supabase не смог отправить письмо подтверждения${suffix}. Проверьте Username и Sender email в SMTP, затем откройте Authentication → Logs.`;
+    const rawMessage = [error, error.message, error.error_description, error.msg]
+      .find(isUsefulText);
+    const message = String(rawMessage || '').trim();
+    const normalized = `${error.code || ''} ${error.name || ''} ${message}`.toLowerCase();
+
+    const translations = [
+      [/auth_timeout|timed out|timeout|aborted/, 'Сервер авторизации не ответил вовремя. Попробуйте ещё раз.'],
+      [/failed to fetch|networkerror|network request failed|fetch failed|load failed/, 'Нет связи с сервером авторизации. Проверьте интернет и попробуйте ещё раз.'],
+      [/invalid_credentials|invalid login credentials|invalid email or password/, 'Неверный email или пароль.'],
+      [/email_not_confirmed|email not confirmed/, 'Email ещё не подтверждён. Откройте письмо с подтверждением или запросите его повторно.'],
+      [/user_already_exists|already registered|already been registered|email exists|email_exists/, 'Пользователь с таким email уже зарегистрирован.'],
+      [/weak_password|password should|password must|password is too weak/, 'Пароль слишком простой. Используйте не менее 6 символов.'],
+      [/same_password|new password should be different/, 'Новый пароль должен отличаться от текущего.'],
+      [/signup_disabled|signups not allowed|signup is disabled/, 'Регистрация временно отключена.'],
+      [/email_provider_disabled|email provider is disabled/, 'Вход по email временно отключён.'],
+      [/email_address_invalid|invalid email|unable to validate email/, 'Укажите корректный email.'],
+      [/email_address_not_authorized|not authorized to send/, 'На этот email пока нельзя отправить письмо. Обратитесь к администратору сайта.'],
+      [/over_email_send_rate_limit|email rate limit|too many.*email/, 'Слишком много писем отправлено за короткое время. Подождите и попробуйте снова.'],
+      [/over_request_rate_limit|rate limit|too many requests|429/, 'Слишком много попыток. Подождите немного и попробуйте снова.'],
+      [/otp_expired|token has expired|expired.*token|confirmation.*expired/, 'Ссылка подтверждения устарела. Запросите новое письмо.'],
+      [/otp_disabled/, 'Подтверждение по коду временно отключено.'],
+      [/captcha_failed|captcha/, 'Проверка безопасности не пройдена. Обновите страницу и попробуйте снова.'],
+      [/session_not_found|refresh_token_not_found|refresh token.*not found|invalid refresh token|refresh_token_already_used|jwt expired/, 'Сессия истекла. Войдите в аккаунт повторно.'],
+      [/user_not_found/, 'Пользователь с таким email не найден.'],
+      [/validation_failed|bad_json|422/, 'Проверьте введённые данные и попробуйте снова.'],
+      [/unexpected_failure|hook_timeout|hook_timeout_after_retry|5\d\d/, 'Сервис авторизации временно недоступен. Попробуйте позже.']
+    ];
+    const translated = translations.find(([pattern]) => pattern.test(normalized));
+    if (translated) return translated[1];
+
+    // Уже локализованные ошибки приложения можно показывать без изменений.
+    if (message && /[А-Яа-яЁё]/.test(message) && !/[A-Za-z]{4,}/.test(message)) return message;
+    if (Number(error.status) === 401 || Number(error.status) === 403) return 'Доступ запрещён. Войдите в аккаунт повторно.';
+    if (Number(error.status) >= 500) return 'Сервис авторизации временно недоступен. Попробуйте позже.';
+    return 'Не удалось выполнить авторизацию. Проверьте данные и попробуйте ещё раз.';
   }
 
   function setMessage(text, type) {
