@@ -1146,11 +1146,13 @@ function deselectReadyPackage() {
   const metaTime = document.getElementById('bookQuestMetaTime');
   const metaPlayers = document.getElementById('bookQuestMetaPlayers');
   const metaDifficulty = document.getElementById('bookQuestMetaDifficulty');
+  const metaFear = document.getElementById('bookQuestMetaFear');
   if (title) title.textContent = name;
   if (descEl) descEl.textContent = currentBookingDesc || 'Погрузитесь в атмосферу приключения!';
   if (metaTime) metaTime.textContent = meta.time;
   if (metaPlayers) metaPlayers.textContent = meta.players;
-  if (metaDifficulty) metaDifficulty.textContent = meta.fear ? `${meta.difficulty} · страх: ${meta.fear}` : meta.difficulty;
+  if (metaDifficulty) metaDifficulty.textContent = meta.difficulty;
+  if (metaFear) metaFear.textContent = meta.fear || 'Не страшный';
 
   const packageQuestSelect = document.getElementById('packageQuestSelect');
   const packageChoice = document.getElementById('packageQuestChoice');
@@ -1224,11 +1226,13 @@ function selectReadyPackage(packageName, packagePrice, activeItem) {
   const metaTime = document.getElementById('bookQuestMetaTime');
   const metaPlayers = document.getElementById('bookQuestMetaPlayers');
   const metaDifficulty = document.getElementById('bookQuestMetaDifficulty');
+  const metaFear = document.getElementById('bookQuestMetaFear');
   if (title) title.textContent = packageName;
   if (desc) desc.textContent = currentBookingDesc;
   if (metaTime) metaTime.textContent = currentBookingName.includes('4.5') ? '4.5 часа' : currentBookingName.includes('3') ? '3 часа' : '2 часа';
   if (metaPlayers) metaPlayers.textContent = currentBookingName.includes('4.5') ? 'до 5 включено' : '3 включено';
   if (metaDifficulty) metaDifficulty.textContent = 'по выбору';
+  if (metaFear) metaFear.textContent = 'по выбору';
 
   const packageQuestSelect = document.getElementById('packageQuestSelect');
   const packageChoice = document.getElementById('packageQuestChoice');
@@ -1428,9 +1432,11 @@ function openBooking(name, desc, price, isPackage) {
   const metaTime = document.getElementById('bookQuestMetaTime');
   const metaPlayers = document.getElementById('bookQuestMetaPlayers');
   const metaDifficulty = document.getElementById('bookQuestMetaDifficulty');
+  const metaFear = document.getElementById('bookQuestMetaFear');
   if (metaTime) metaTime.textContent = quest ? quest.time : '60-90 мин';
   if (metaPlayers) metaPlayers.textContent = quest ? quest.players : '1–8';
-  if (metaDifficulty) metaDifficulty.textContent = quest ? (quest.fear ? `${quest.difficulty} · страх: ${quest.fear}` : quest.difficulty) : '—';
+  if (metaDifficulty) metaDifficulty.textContent = quest ? quest.difficulty : '—';
+  if (metaFear) metaFear.textContent = quest ? (quest.fear || 'Не страшный') : '—';
   renderHorrorVariantSelector(name);
   applyHorrorVariant(name);
   
@@ -1486,7 +1492,7 @@ function openBooking(name, desc, price, isPackage) {
   const mapContainer = document.getElementById('bookingMap');
   if (mapContainer) {
     mapContainer.innerHTML = `
-      <div style="margin-top:12px; border-radius:12px; overflow:hidden; border:1px solid #2d2640;">
+      <div class="clickable-map-wrapper" style="margin-top:12px; border-radius:12px; overflow:hidden; border:1px solid #2d2640;">
         <iframe 
           src="${mapUrl}" 
           width="100%" 
@@ -1496,6 +1502,7 @@ function openBooking(name, desc, price, isPackage) {
           loading="lazy"
           title="Яндекс Карта: ${location}, ${address}"
         ></iframe>
+        <a class="map-external-link" href="${mapUrl}" target="_blank" rel="noopener noreferrer" aria-label="Открыть карту в новой вкладке" title="Открыть карту в новой вкладке"></a>
         <div style="padding:8px 12px; background:#1a1625; font-size:0.75rem; color:#b0a8c8;">
           📍 ${location}: ${address}
         </div>

@@ -247,7 +247,7 @@
       button.classList.add('signed-in');
       button.title = 'Открыть профиль';
     } else {
-      button.textContent = 'Войти';
+      button.textContent = 'Профиль';
       button.classList.remove('signed-in');
       button.title = 'Войти или зарегистрироваться';
     }

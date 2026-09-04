@@ -1587,7 +1587,7 @@ body.page-transition {
     font-size: 0.75rem;
   }
 }
-.quest-card .discount-badge { padding: 2px 6px; border-radius: 4px; background: rgba(76, 175, 80, 0.16); color: #7ee787; font-size: 0.65rem; font-weight: 800; white-space: nowrap; }
+.quest-card .discount-badge { width: fit-content; justify-self: start; padding: 2px 6px; border-radius: 4px; background: rgba(76, 175, 80, 0.16); color: #7ee787; font-size: 0.65rem; font-weight: 800; white-space: nowrap; }
 .quest-card .card-footer .btn-book-sm { width: 100%; min-height: 42px; }
 .btn-book-sm {
   background: #7c4dff;
@@ -2802,16 +2802,97 @@ body.page-transition {
   }
 }
 .booking-info .meta {
-  font-size: 0.75rem;
-  color: #9288b0;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 6px;
+  margin: 12px 0 9px;
+  color: inherit;
 }
 @media (min-width: 768px) {
   .booking-info .meta {
-    font-size: 0.9rem;
-    gap: 16px;
+    gap: 8px;
+  }
+}
+
+.booking-info .booking-quest-stat {
+  min-width: 0;
+  min-height: 54px;
+  padding: 8px 7px;
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  border-radius: 11px;
+  background: rgba(255, 255, 255, 0.055);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 4px;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06), 0 8px 24px rgba(0, 0, 0, 0.16);
+}
+
+.booking-info .booking-quest-stat:nth-child(1) {
+  border-color: rgba(255, 76, 132, 0.28);
+  background: linear-gradient(145deg, rgba(255, 76, 132, 0.14), rgba(255, 255, 255, 0.035));
+}
+
+.booking-info .booking-quest-stat:nth-child(2) {
+  border-color: rgba(179, 136, 255, 0.3);
+  background: linear-gradient(145deg, rgba(124, 77, 255, 0.16), rgba(255, 255, 255, 0.035));
+}
+
+.booking-info .booking-quest-stat:nth-child(3) {
+  border-color: rgba(57, 216, 199, 0.28);
+  background: linear-gradient(145deg, rgba(57, 216, 199, 0.14), rgba(255, 255, 255, 0.035));
+}
+
+.booking-info .booking-quest-stat small {
+  color: #9288b0;
+  font-size: 0.62rem;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.booking-info .booking-quest-stat strong {
+  max-width: 100%;
+  color: #f8f4ff;
+  font-size: 0.7rem;
+  font-weight: 700;
+  line-height: 1.15;
+}
+
+.booking-info .booking-quest-players {
+  width: fit-content;
+  margin-bottom: 14px;
+  padding: 6px 10px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.04);
+  color: #bcb1d2;
+  font-size: 0.78rem;
+  font-weight: 600;
+}
+
+.clickable-map-wrapper {
+  position: relative;
+}
+
+.map-external-link {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  display: block;
+  cursor: pointer;
+}
+
+.map-external-link:focus-visible {
+  outline: 3px solid #b388ff;
+  outline-offset: -4px;
+}
+
+@media (min-width: 480px) {
+  .booking-info .booking-quest-stat strong {
+    font-size: 0.78rem;
   }
 }
 
@@ -5910,7 +5991,9 @@ body::selection {
   }
 
   #section-quests::before {
-    inset: -12% -34%;
+    inset: -10% -12%;
+    width: auto;
+    height: auto;
     opacity: 0.78;
   }
 
@@ -8350,7 +8433,7 @@ body:not(.horror-page) .glow-line {
   body:not(.horror-page) .header .container,
   .horror-page .header .container {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) 40px 40px 42px;
+    grid-template-columns: minmax(0, 1fr) 76px 40px 42px;
     grid-template-rows: 44px;
     align-items: center;
     gap: 8px;
@@ -8406,7 +8489,7 @@ body:not(.horror-page) .glow-line {
     display: inline-flex;
     grid-column: 2;
     grid-row: 1;
-    width: 40px;
+    width: 76px;
     height: 40px;
     align-items: center;
     justify-content: center;
@@ -8416,7 +8499,7 @@ body:not(.horror-page) .glow-line {
     background: rgba(255, 255, 255, 0.075);
     color: #fff;
     font: inherit;
-    font-size: 1rem;
+    font-size: 0.72rem;
     font-weight: 900;
     line-height: 1;
     cursor: pointer;
@@ -8534,7 +8617,7 @@ body:not(.horror-page) .glow-line {
   .header .container,
   body:not(.horror-page) .header .container,
   .horror-page .header .container {
-    grid-template-columns: minmax(0, 1fr) 36px 36px 38px;
+    grid-template-columns: minmax(0, 1fr) 68px 36px 38px;
     gap: 6px;
   }
 
@@ -8544,8 +8627,16 @@ body:not(.horror-page) .glow-line {
 
   .header .mobile-profile-button,
   .header .social-icons a {
-    width: 36px;
     height: 36px;
+  }
+
+  .header .mobile-profile-button {
+    width: 68px;
+    font-size: 0.66rem;
+  }
+
+  .header .social-icons a {
+    width: 36px;
   }
 
   .header .mobile-menu-toggle {
@@ -9062,5 +9153,18 @@ body:not(.horror-page) .glow-line {
   .quest-card .card-body .card-meta {
     gap: 8px;
     margin-top: 14px;
+  }
+}
+
+/* Keep booking characteristics aligned with the quest-card stat layout. */
+.booking-grid .booking-info .meta {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 6px;
+}
+
+@media (min-width: 768px) {
+  .booking-grid .booking-info .meta {
+    gap: 8px;
   }
 }

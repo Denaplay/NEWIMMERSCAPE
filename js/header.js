@@ -22,7 +22,7 @@
     mobileProfile = document.createElement('button');
     mobileProfile.type = 'button';
     mobileProfile.className = 'mobile-profile-button';
-    mobileProfile.textContent = 'В';
+    mobileProfile.textContent = 'Профиль';
     mobileProfile.setAttribute('aria-label', 'Войти или зарегистрироваться');
     mobileProfile.title = 'Войти или зарегистрироваться';
     headerRight.appendChild(mobileProfile);
@@ -106,6 +106,22 @@
     root.querySelectorAll('.footer-contact-link[href^="tel:"]').forEach(enablePhoneCopy);
   }
 
+  function enableExternalMaps(root) {
+    root.querySelectorAll('.map-wrapper iframe, .quest-detail-map iframe').forEach(function (frame) {
+      const wrapper = frame.parentElement;
+      if (!wrapper || wrapper.querySelector(':scope > .map-external-link')) return;
+      wrapper.classList.add('clickable-map-wrapper');
+      const link = document.createElement('a');
+      link.className = 'map-external-link';
+      link.href = frame.src;
+      link.target = '_blank';
+      link.rel = 'noopener noreferrer';
+      link.setAttribute('aria-label', 'Открыть карту в новой вкладке');
+      link.title = 'Открыть карту в новой вкладке';
+      wrapper.appendChild(link);
+    });
+  }
+
   function enhanceQuestDetailPage() {
     const main = document.querySelector('.quest-detail-main .container');
     const heroImage = document.querySelector('.quest-detail-image');
@@ -186,7 +202,7 @@
       const account = document.createElement('button');
       account.type = 'button';
       account.className = 'account-button auth-trigger';
-      account.textContent = 'Войти';
+      account.textContent = 'Профиль';
       account.addEventListener('click', function () { window.location.href = '/profile.html'; });
       headerRight.appendChild(account);
     }
@@ -211,9 +227,7 @@
     function syncProfile() {
       const label = desktopProfile?.textContent?.trim() || 'Профиль';
       const signedIn = desktopProfile?.classList.contains('signed-in');
-      const letterSource = signedIn ? label : 'Войти';
-      const letter = Array.from(letterSource)[0] || 'П';
-      mobileProfile.textContent = letter.toLocaleUpperCase('ru-RU');
+      mobileProfile.textContent = 'Профиль';
       mobileProfile.classList.toggle('signed-in', Boolean(signedIn));
       mobileProfile.title = signedIn ? 'Открыть профиль: ' + label : 'Войти или зарегистрироваться';
       mobileProfile.setAttribute('aria-label', mobileProfile.title);
@@ -246,6 +260,7 @@
     replaceQuestBreadcrumbs();
     initContactLinks(document);
     enhanceQuestDetailPage();
+    enableExternalMaps(document);
 
     let social = header.querySelector('.social-icons');
     if (!social) {
