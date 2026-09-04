@@ -8201,9 +8201,11 @@ body:not(.horror-page) .glow-line {
 .quest-card .card-title,
 .quest-card .card-title a {
   max-width: 100%;
-  overflow-wrap: anywhere;
+  overflow-wrap: normal;
   word-break: normal;
-  hyphens: auto;
+  -webkit-hyphens: none;
+  hyphens: none;
+  text-wrap: balance;
 }
 
 @media (max-width: 767px) {
