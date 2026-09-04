@@ -184,7 +184,9 @@
       margin: 0 auto;
       position: relative;
       overflow: hidden;
+      cursor: pointer;
     }
+    .action-card:focus-visible { outline: 3px solid #f9a825; outline-offset: 4px; }
     @media (min-width: 768px) {
       .action-card { padding: 36px 32px; border-radius: 32px; }
     }
@@ -350,9 +352,228 @@
       .stat-oval .stat-value { font-size: 0.75rem; }
       .stat-oval .stat-label { font-size: 0.55rem; }
     }
+
+    /* Among Us refresh: neon deep-space mission */
+    body.action-page {
+      position: relative;
+      isolation: isolate;
+      overflow-x: hidden;
+      background: #040818;
+      color: #f8fbff;
+    }
+    .action-cosmos {
+      position: fixed;
+      z-index: -3;
+      inset: 0;
+      overflow: hidden;
+      pointer-events: none;
+      background:
+        radial-gradient(circle at 18% 30%, rgba(0, 220, 255, .23), transparent 24%),
+        radial-gradient(circle at 78% 18%, rgba(169, 74, 255, .28), transparent 27%),
+        radial-gradient(circle at 52% 82%, rgba(39, 255, 172, .14), transparent 30%),
+        linear-gradient(145deg, #020719 0%, #07142c 42%, #120928 72%, #03131e 100%);
+    }
+    .action-cosmos::before,
+    .action-cosmos::after {
+      content: '';
+      position: absolute;
+      inset: -20%;
+      will-change: transform, opacity;
+    }
+    .action-cosmos::before {
+      background-image:
+        radial-gradient(circle, rgba(255,255,255,.95) 0 1px, transparent 1.6px),
+        radial-gradient(circle, rgba(55,230,255,.72) 0 1px, transparent 1.7px),
+        radial-gradient(circle, rgba(191,92,255,.65) 0 1px, transparent 1.8px);
+      background-position: 0 0, 40px 65px, 110px 24px;
+      background-size: 88px 88px, 137px 137px, 181px 181px;
+      opacity: .72;
+      animation: cosmosStars 28s linear infinite;
+    }
+    .action-cosmos::after {
+      background:
+        conic-gradient(from 115deg at 18% 50%, transparent 0 43%, rgba(55,230,255,.18) 48%, transparent 53%),
+        conic-gradient(from -35deg at 82% 38%, transparent 0 44%, rgba(191,92,255,.2) 49%, transparent 54%);
+      filter: blur(24px);
+      animation: cosmosNebula 18s ease-in-out infinite alternate;
+    }
+    .cosmos-orbit {
+      position: absolute;
+      width: min(78vw, 980px);
+      aspect-ratio: 2.6 / 1;
+      border: 1px solid rgba(55,230,255,.2);
+      border-radius: 50%;
+      transform: rotate(-13deg);
+      box-shadow: 0 0 18px rgba(55,230,255,.08), inset 0 0 18px rgba(191,92,255,.05);
+      animation: cosmosOrbit 22s ease-in-out infinite alternate;
+    }
+    .cosmos-orbit.one { top: 18%; left: -15%; }
+    .cosmos-orbit.two { right: -22%; bottom: 10%; border-color: rgba(191,92,255,.2); animation-delay: -8s; }
+    .cosmos-meteor {
+      position: absolute;
+      width: 150px;
+      height: 2px;
+      border-radius: 50%;
+      background: linear-gradient(90deg, transparent, #37e6ff, #fff);
+      filter: drop-shadow(0 0 7px #37e6ff);
+      opacity: 0;
+      transform: rotate(-24deg);
+      animation: cosmosMeteor 9s linear infinite;
+    }
+    .cosmos-meteor.m1 { top: 16%; left: -12%; }
+    .cosmos-meteor.m2 { top: 62%; left: -18%; animation-delay: -4.5s; background: linear-gradient(90deg, transparent, #bf5cff, #fff); }
+    .cosmos-starfield {
+      position: absolute;
+      inset: -15%;
+      background-image:
+        radial-gradient(circle, rgba(255,255,255,.9) 0 1.5px, transparent 2px),
+        radial-gradient(circle, rgba(125,255,178,.72) 0 1px, transparent 1.8px);
+      background-position: 28px 11px, 90px 72px;
+      background-size: 213px 213px, 157px 157px;
+      opacity: .58;
+      will-change: transform;
+      animation: cosmosStarsNear 18s linear infinite;
+    }
+    @keyframes cosmosStars { from { transform: translate3d(0, 0, 0) scale(1); } to { transform: translate3d(-181px, 181px, 0) scale(1.035); } }
+    @keyframes cosmosStarsNear { from { transform: translate3d(0,0,0); } to { transform: translate3d(-157px,157px,0); } }
+    @keyframes cosmosNebula { from { transform: translate3d(-3%, -2%, 0) scale(.96); opacity: .55; } to { transform: translate3d(4%, 3%, 0) scale(1.08); opacity: .92; } }
+    @keyframes cosmosOrbit { from { transform: rotate(-13deg) scale(.95); opacity: .45; } to { transform: rotate(-8deg) scale(1.08); opacity: .9; } }
+    @keyframes cosmosMeteor { 0%, 68% { opacity: 0; transform: translate3d(0,0,0) rotate(-24deg); } 72% { opacity: 1; } 88%, 100% { opacity: 0; transform: translate3d(125vw,-38vh,0) rotate(-24deg); } }
+    .action-page .header {
+      background: rgba(3, 8, 25, .68);
+      border-bottom: 1px solid rgba(55,230,255,.14);
+      backdrop-filter: blur(18px);
+    }
+    .action-page .glow-line { background: linear-gradient(90deg, transparent, #37e6ff, #bf5cff, transparent); }
+    .action-page .action-hero {
+      min-height: calc(100vh - 74px);
+      padding: 72px 0 64px;
+      border-bottom-color: rgba(55,230,255,.18);
+      background:
+        radial-gradient(circle at 15% 30%, rgba(55,230,255,.13), transparent 30%),
+        radial-gradient(circle at 85% 38%, rgba(191,92,255,.13), transparent 32%),
+        transparent;
+    }
+    .action-page .action-hero::before { right: auto; left: 42%; background: radial-gradient(ellipse, rgba(191,92,255,.14), transparent 68%); animation: cosmosNebula 14s ease-in-out infinite alternate; }
+    .action-page .action-hero .container { grid-template-columns: minmax(0,.9fr) minmax(420px,1.1fr); gap: clamp(44px,6vw,90px); }
+    .action-page .action-hero-content h1 { font-family: 'Unbounded', sans-serif; font-size: clamp(3.3rem,5.7vw,6.2rem); letter-spacing: -.065em; text-shadow: 0 14px 50px rgba(55,230,255,.12); }
+    .action-page .action-hero-content h1 .highlight,
+    .action-page .section-title span,
+    .action-page .action-cta h2 span { background: linear-gradient(100deg,#37e6ff,#8b7cff 48%,#d85cff) !important; -webkit-background-clip: text !important; background-clip: text !important; }
+    .action-page .action-hero-content .badge { padding: 8px 18px; border-color: rgba(55,230,255,.48); background: rgba(8,19,48,.62); color: #8cf2ff; box-shadow: 0 0 24px rgba(55,230,255,.09); }
+    .action-page .action-hero-content p { color: rgba(231,241,255,.8); font-size: 1.05rem; }
+    .action-page .action-stats { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 12px; }
+    .action-page .stat-oval { justify-content: flex-start; border-color: rgba(126,145,255,.25); background: linear-gradient(135deg,rgba(15,30,68,.76),rgba(32,14,61,.66)); }
+    .action-page .stat-oval:hover { border-color: #37e6ff; box-shadow: 0 8px 30px rgba(55,230,255,.11); }
+    .action-page .stat-oval .stat-value { color: #fff; }
+    .action-page .stat-oval .stat-label { color: #aebee0; }
+    .action-page .btn-primary { background: linear-gradient(100deg,#14cfff,#776cff 48%,#d854ff) !important; box-shadow: 0 14px 38px rgba(85,100,255,.28) !important; color: #fff; }
+    .action-page .action-hero-content .btn-primary { min-width: 240px; padding: 15px 30px; }
+    .action-page .action-hero-visual { perspective: 900px; }
+    .action-page .action-hero-visual .hero-image { max-width: 620px; aspect-ratio: 1.14/1; margin-left: auto; border: 2px solid rgba(191,92,255,.62); border-radius: 44px; box-shadow: 0 0 0 7px rgba(55,230,255,.07), 0 34px 100px rgba(5,0,30,.68), 0 0 56px rgba(191,92,255,.22); animation: heroImageFloat 7s ease-in-out infinite; }
+    .action-page .floating-tag { border-color: rgba(55,230,255,.22) !important; background: rgba(3,8,25,.75) !important; color: #f4f8ff !important; }
+    @keyframes heroImageFloat { 0%,100% { transform: translateY(0) rotateY(-1deg); } 50% { transform: translateY(-10px) rotateY(1.5deg); } }
+    .action-page .section-padding,
+    .action-page .map-section { position: relative; background: rgba(3,8,25,.36); border-color: rgba(55,230,255,.12); backdrop-filter: blur(5px); }
+    .action-page .section-padding:nth-of-type(even) { background: rgba(20,8,41,.34); }
+    .action-page .action-card,
+    .action-page .action-adv-item,
+    .action-page .action-step-item { border-color: rgba(55,230,255,.18); background: linear-gradient(145deg,rgba(7,22,51,.88),rgba(30,10,55,.82)); box-shadow: inset 0 1px 0 rgba(255,255,255,.05); backdrop-filter: blur(12px); }
+    .action-page .action-card:hover,
+    .action-page .action-adv-item:hover,
+    .action-page .action-step-item:hover { border-color: #37e6ff; box-shadow: 0 20px 55px rgba(55,230,255,.1); }
+    .action-page .action-card h3,
+    .action-page .action-card .card-price,
+    .action-page .action-adv-item h5,
+    .action-page .action-step-item .step-num { color: #7ff4ff; }
+    .action-page .action-cta { position: relative; background: linear-gradient(135deg,rgba(5,22,49,.74),rgba(37,8,58,.74)); border-color: rgba(191,92,255,.18); }
+    .action-page main,
+    .action-page section,
+    .action-page footer { color: #f8fbff; }
+    .action-page .section-padding { padding-block: clamp(54px,7vw,92px); }
+    .action-page .section-padding::before,
+    .action-page .map-section::before,
+    .action-page .action-cta::before {
+      content: '';
+      position: absolute;
+      z-index: -1;
+      inset: 0;
+      pointer-events: none;
+      background:
+        linear-gradient(115deg, transparent 0 48%, rgba(55,230,255,.035) 49%, transparent 50%),
+        radial-gradient(circle at 80% 15%, rgba(191,92,255,.1), transparent 28%);
+      background-size: 110px 110px, auto;
+    }
+    .action-page .section-title { color: #f7fbff; font-family: 'Unbounded',sans-serif; letter-spacing: -.045em; text-shadow: 0 10px 40px rgba(55,230,255,.1); }
+    .action-page .section-sub { color: #aebee0; }
+    .action-page .section-padding .container > div[style] { padding: clamp(20px,3vw,34px) !important; border: 1px solid rgba(55,230,255,.15); border-radius: 24px; background: linear-gradient(145deg,rgba(8,24,54,.7),rgba(28,10,52,.62)); color: #c6d4ef !important; box-shadow: inset 0 1px 0 rgba(255,255,255,.04),0 20px 60px rgba(0,0,0,.2); }
+    .action-page .action-card { max-width: 640px; padding: clamp(20px,3vw,32px); border-width: 1px; }
+    .action-page .action-card::before { background: radial-gradient(ellipse,rgba(55,230,255,.13),transparent 66%); animation: cosmosNebula 12s ease-in-out infinite alternate; }
+    .action-page .action-card .card-icon { height: clamp(210px,29vw,320px) !important; border: 1px solid rgba(191,92,255,.42); border-radius: 26px !important; box-shadow: 0 22px 60px rgba(0,0,0,.42),0 0 34px rgba(191,92,255,.12); }
+    .action-page .action-card h3 { margin-top: 18px; font-family: 'Unbounded',sans-serif; font-size: clamp(1.65rem,2.6vw,2.25rem); }
+    .action-page .action-card .card-desc { color: #c7d4eb; font-size: 1rem; }
+    .action-page .action-card .card-location,
+    .action-page .action-card .card-players { position: relative; z-index: 2; color: #aebee0; font-size: .86rem; font-weight: 600; }
+    .action-page .action-card .card-location { margin: 10px 0 0; }
+    .action-page .action-card .card-meta { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 8px; margin: 14px 0 10px; }
+    .action-page .action-card .card-meta .quest-stat { min-width: 0; min-height: 58px; padding: 9px 8px; border: 1px solid rgba(55,230,255,.16); border-radius: 9px; background: rgba(5,16,39,.66); display: flex; flex-direction: column; align-items: flex-start; justify-content: center; gap: 5px; color: #f5f8ff; }
+    .action-page .action-card .quest-stat small { color: #8fa7ce; font-size: .64rem; font-weight: 700; line-height: 1; }
+    .action-page .action-card .quest-stat strong { max-width: 100%; color: #f5f8ff; font-size: .78rem; font-weight: 800; line-height: 1.15; text-align: left; }
+    .action-page .action-card .card-players { width: fit-content; margin: 0 auto 16px; }
+    .action-page .action-card .card-icon { position: relative; }
+    .action-page .action-card .quest-age { position: absolute; top: 12px; right: 12px; z-index: 4; display: grid; place-items: center; min-width: 44px; height: 44px; padding: 0 9px; border: 1px solid rgba(191,92,255,.58); border-radius: 50%; background: rgba(3,8,25,.82); color: #dca8ff; font-family: 'Manrope',sans-serif; font-size: .82rem; font-weight: 900; line-height: 1; backdrop-filter: blur(8px); box-shadow: 0 8px 22px rgba(0,0,0,.38),0 0 18px rgba(191,92,255,.18); }
+    .action-page .action-advantages,
+    .action-page .action-steps { gap: 18px; }
+    .action-page .action-adv-item,
+    .action-page .action-step-item { min-height: 160px; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+    .action-page .action-adv-item .adv-icon,
+    .action-page .action-step-item .step-icon { filter: drop-shadow(0 0 12px rgba(55,230,255,.28)); }
+    .action-page .action-adv-item p,
+    .action-page .action-step-item p { color: #9eafd0; }
+    .action-page .map-section { padding-block: clamp(54px,7vw,92px); }
+    .action-page .map-wrapper { overflow: hidden; border: 1px solid rgba(55,230,255,.3); border-radius: 28px; background: rgba(6,17,40,.78); box-shadow: 0 25px 80px rgba(0,0,0,.4),0 0 40px rgba(55,230,255,.08); }
+    .action-page .map-address-list span { border: 1px solid rgba(191,92,255,.2); background: rgba(25,10,50,.72); color: #dce8ff; }
+    .action-page .action-cta { padding-block: clamp(60px,8vw,100px); }
+    .action-page .action-cta h2 { font-family: 'Unbounded',sans-serif; font-size: clamp(2rem,4vw,3.5rem); }
+    .action-page .action-cta p { color: #b9c9e5; }
+    .action-page .footer { border-top-color: rgba(55,230,255,.18); background: linear-gradient(180deg,rgba(4,11,29,.9),rgba(10,4,23,.96)); }
+    .action-page .footer::before { background: radial-gradient(circle at 18% 0,rgba(55,230,255,.12),transparent 28%),radial-gradient(circle at 86% 8%,rgba(191,92,255,.13),transparent 30%); }
+    .action-page .footer-col:first-child strong { background: linear-gradient(100deg,#37e6ff,#9c79ff,#d85cff); -webkit-background-clip: text; background-clip: text; }
+    .action-page .footer-col .social-links a { border-color: rgba(55,230,255,.2); background: rgba(9,24,52,.7); }
+    .action-page .footer-col .social-links a:hover { border-color: #37e6ff; background: rgba(55,230,255,.12); }
+    @media (max-width: 991px) {
+      .action-page .action-hero { min-height: auto; padding: 46px 0; }
+      .action-page .action-hero .container { grid-template-columns: 1fr; }
+      .action-page .action-hero-visual .hero-image { margin: 0 auto; }
+    }
+    @media (max-width: 767px) {
+      .action-page .action-hero { padding: 30px 0 38px; }
+      .action-page .action-hero-content h1 { font-size: clamp(2.55rem,13vw,4rem); }
+      .action-page .action-hero-content p { font-size: 1rem; }
+      .action-page .action-hero-visual .hero-image { border-radius: 26px; }
+      .action-page .action-hero-content .btn-primary { width: 100%; }
+      .cosmos-orbit { width: 130vw; }
+      .action-page .section-padding,
+      .action-page .map-section { padding-block: 42px; }
+      .action-page .action-card .card-icon { height: 220px !important; border-radius: 20px !important; }
+      .action-page .action-card .card-meta { gap: 6px; }
+      .action-page .action-card .card-meta .quest-stat { min-height: 54px; padding: 8px 7px; }
+      .action-page .action-card .quest-stat strong { font-size: .7rem; }
+      .action-page .action-adv-item,
+      .action-page .action-step-item { min-height: 140px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .action-cosmos::before, .action-cosmos::after, .cosmos-starfield, .cosmos-orbit, .cosmos-meteor, .action-page .action-hero::before, .action-page .action-hero-visual .hero-image { animation: none !important; }
+    }
   </style>
 </head>
-<body>
+<body class="action-page">
+
+  <div class="action-cosmos" aria-hidden="true">
+    <span class="cosmos-orbit one"></span><span class="cosmos-orbit two"></span>
+    <span class="cosmos-meteor m1"></span><span class="cosmos-meteor m2"></span>
+    <span class="cosmos-starfield"></span>
+  </div>
 
   <!-- TOAST -->
   <div id="toast" class="toast">✓ Готово!</div>
@@ -428,19 +649,19 @@
       <h2 class="section-title">Доступная <span style="background:linear-gradient(135deg,#f9a825,#ff6f00);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">игра</span></h2>
       <p class="section-sub">Захватывающее приключение для вашей компании</p>
       
-      <div class="action-card">
-        <span class="card-icon" style="display:block;height:190px;border-radius:18px;background:url('imeges/amongus/1.webp') center/cover;margin-bottom:16px;"></span>
+      <div class="action-card" role="button" tabindex="0" aria-label="Забронировать игру Among Us" onclick="openBooking('Among Us','Экшен-игра по мотивам популярной вселенной. Найдите предателя!',7990,false)" onkeydown="if(event.target===this&&(event.key==='Enter'||event.key===' ')){event.preventDefault();openBooking('Among Us','Экшен-игра по мотивам популярной вселенной. Найдите предателя!',7990,false)}">
+        <span class="card-icon" style="display:block;height:190px;border-radius:18px;background:url('imeges/amongus/1.webp') center/cover;margin-bottom:16px;"><span class="quest-age" aria-label="Возрастное ограничение 12+">12+</span></span>
         <h3>Among Us</h3>
         <p class="card-desc">Экшен-игра по мотивам популярной вселенной. Найдите предателя среди команды! Динамичный сюжет, загадки и неожиданные повороты.</p>
+        <div class="card-location">📍 м. Измайловская</div>
         <div class="card-meta">
-          <span>📍 м. Измайловская</span>
-          <span>⏱ 60 мин</span>
-          <span>👥 5-15 чел</span>
-          <span>⚡ Средний</span>
-          <span>👻 Не страшный</span>
+          <span class="quest-stat"><small>Страх</small><strong>Не страшный</strong></span>
+          <span class="quest-stat"><small>Сложность</small><strong>Средняя</strong></span>
+          <span class="quest-stat"><small>Время</small><strong>60 минут</strong></span>
         </div>
+        <div class="card-players">👥 5–15 игроков</div>
         <div class="card-price">7 990 ₽ <small>за 3-6 чел.</small></div>
-        <button class="btn-primary" style="background:linear-gradient(135deg,#f9a825,#ff6f00); box-shadow:0 4px 30px rgba(249,168,37,0.25);" onclick="openBooking('Among Us','Экшен-игра по мотивам популярной вселенной. Найдите предателя!',7990,false)">Забронировать игру</button>
+        <button class="btn-primary" style="background:linear-gradient(135deg,#f9a825,#ff6f00); box-shadow:0 4px 30px rgba(249,168,37,0.25);" onclick="event.stopPropagation();openBooking('Among Us','Экшен-игра по мотивам популярной вселенной. Найдите предателя!',7990,false)">Забронировать игру</button>
       </div>
     </div>
   </section>

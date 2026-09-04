@@ -5564,10 +5564,7 @@ body::selection {
   padding: 18px 0 30px;
   border-top: 1px solid rgba(255, 126, 87, 0.22);
   border-bottom: 1px solid rgba(171, 255, 115, 0.16);
-  background:
-    linear-gradient(180deg, rgba(20, 10, 23, 0.97), rgba(36, 20, 27, 0.95) 46%, rgba(10, 21, 17, 0.98)),
-    linear-gradient(125deg, rgba(255, 126, 87, 0.2), rgba(171, 255, 115, 0.12) 48%, rgba(255, 202, 97, 0.15)),
-    #130a16;
+  background: #130a16;
 }
 
 #section-quests::before,
@@ -5579,7 +5576,10 @@ body::selection {
 }
 
 #section-quests::before {
-  inset: -18% -12%;
+  top: -140px;
+  left: -12vw;
+  width: 124vw;
+  height: max(1040px, 110vh);
   background:
     radial-gradient(circle at 18% 24%, rgba(255, 126, 87, 0.22), transparent 34%),
     radial-gradient(circle at 82% 28%, rgba(171, 255, 115, 0.13), transparent 32%),
@@ -5592,7 +5592,10 @@ body::selection {
 }
 
 #section-quests::after {
-  inset: 0;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: max(920px, 100vh);
   background-image:
     radial-gradient(circle at center, rgba(255, 229, 185, 0.06) 0 1px, transparent 1.5px),
     linear-gradient(90deg, rgba(171, 255, 115, 0.024) 1px, transparent 1px);
@@ -5608,14 +5611,15 @@ body::selection {
   z-index: -1;
   overflow: hidden;
   pointer-events: none;
-  mask-image: linear-gradient(180deg, transparent 0%, #000 10%, #000 88%, transparent 100%);
+  mask-image: linear-gradient(180deg, transparent 0, #000 100px, #000 calc(100% - 100px), transparent 100%);
 }
 
 .quest-live-wallpaper svg {
   position: absolute;
-  inset: -14% -18%;
-  width: 136%;
-  height: 124%;
+  top: -120px;
+  left: -18vw;
+  width: 136vw;
+  height: max(920px, 100vh);
   overflow: visible;
   transform: translate3d(0, 0, 0);
 }
@@ -8192,6 +8196,147 @@ body:not(.horror-page) .glow-line {
 
 .quest-card .card-title a:hover {
   color: #b388ff;
+}
+
+.quest-card .card-title,
+.quest-card .card-title a {
+  max-width: 100%;
+  overflow-wrap: anywhere;
+  word-break: normal;
+  hyphens: auto;
+}
+
+@media (max-width: 767px) {
+  .quest-card .card-price-block {
+    display: grid;
+    grid-template-columns: max-content max-content minmax(0, 1fr);
+    gap: 5px 10px;
+    align-items: center;
+  }
+
+  .quest-card .price-label {
+    grid-column: 1 / -1;
+  }
+
+  .quest-card .card-footer .price,
+  .quest-card .card-footer .old-price,
+  .quest-card .discount-badge {
+    margin: 0;
+  }
+}
+
+.quest-card-clickable {
+  cursor: pointer;
+}
+
+.quest-card-clickable:focus-visible {
+  outline: 3px solid rgba(179, 136, 255, 0.8);
+  outline-offset: 4px;
+}
+
+.footer-contact-link {
+  display: block;
+  color: rgba(216, 209, 234, 0.82);
+  font-size: clamp(0.78rem, 0.95vw, 0.9rem);
+  line-height: 1.45;
+  text-decoration: none;
+  transition: color 160ms ease;
+}
+
+.footer-contact-link:hover {
+  color: #fff;
+}
+
+.header-phone,
+.footer-contact-link {
+  color: inherit !important;
+  text-decoration: none !important;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.header-phone:visited,
+.footer-contact-link:visited {
+  color: inherit !important;
+}
+
+.header-phone::after,
+.footer-contact-link[data-copy-label]::after {
+  content: attr(data-copy-label);
+}
+
+.footer-contact-link[data-copy-label] {
+  position: relative;
+}
+
+.footer-contact-link[data-copy-label]::after {
+  position: absolute;
+  left: 0;
+  bottom: calc(100% + 7px);
+  width: max-content;
+  max-width: 220px;
+  padding: 6px 9px;
+  border-radius: 8px;
+  background: #1e1b2b;
+  color: #fff;
+  font-size: .7rem;
+  line-height: 1.2;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .18s ease;
+}
+
+.footer-contact-link[data-copy-label]:hover::after {
+  opacity: 1;
+}
+
+
+/* Contact step uses the available desktop width instead of leaving a blank column. */
+.booking-contact-form {
+  width: 100%;
+  max-width: none !important;
+}
+
+.booking-field {
+  min-width: 0;
+}
+
+.method-logo {
+  display: inline-grid;
+  width: 25px;
+  height: 25px;
+  place-items: center;
+  border-radius: 7px;
+}
+
+.method-logo svg {
+  width: 18px;
+  height: 18px;
+  fill: #fff;
+}
+
+.method-logo-telegram { background: #229ed9; }
+.method-logo-vk { background: #0077ff; }
+.method-logo-max { background: linear-gradient(135deg, #7b5cff, #24c8ff); }
+
+@media (min-width: 900px) {
+  .booking-contact-form {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0 24px;
+  }
+
+  .booking-field-wide,
+  .booking-contact-form > h3 {
+    grid-column: 1 / -1;
+  }
+}
+
+/* The package quest select keeps comfortable space from both card edges. */
+.packages-collapsible .quest-select-wrapper,
+.package-mini .quest-select-wrapper {
+  width: 100%;
+  padding-inline: 10px;
+  box-sizing: border-box;
 }
 
 @media (max-width: 767px) {

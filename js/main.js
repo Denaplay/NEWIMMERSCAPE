@@ -211,18 +211,24 @@ const quests = [
   }
 ];
 
+/*
+ * Переходы на отдельные страницы квестов временно отключены.
+ * Страницы и маршруты сохранены в проекте, чтобы их можно было вернуть позже.
 const questDetailPages = {
   'Стоматология "Новая жизнь"': '/stomatologiya',
   'Рик и Морти': '/rick-and-morty',
   'K-pop: последний стрим': '/k-pop',
   'Запретная дверь': '/zapretnaya-dver',
+  'Изнанка: в разуме Векны': '/iznanka',
   'Невеста': '/nevesta',
   'Приключение в Хогвартсе': '/rozhdestvo-v-hogvartse',
   'Лабубу: волшебный мир': '/labubu',
   'Монастырь': '/monastyr',
+  'Гринч': '/grinch',
   'Хоррор-свидание': '/horror-svidanie',
   'Among Us': '/among-us'
 };
+*/
 
 // ===== РЕНДЕР КВЕСТОВ =====
 function renderQuests() {
@@ -254,8 +260,11 @@ function getQuestCardDescription(description, maxLength = 90) {
 function createQuestCard(q) {
   const card = document.createElement('div');
   const discountPercent = q.oldPrice > q.price ? Math.round((1 - q.price / q.oldPrice) * 100) : 0;
-  const detailUrl = questDetailPages[q.name];
   card.className = 'quest-card';
+  card.classList.add('quest-card-clickable');
+  card.tabIndex = 0;
+  card.setAttribute('role', 'button');
+  card.setAttribute('aria-label', `Забронировать квест «${q.name}»`);
   card.innerHTML = `
 <div class="card-image" style="background-image: url('${q.image || ''}'); background-size: cover; background-position: center;">
   <div class="image-tags" style="position:absolute; top:8px; left:8px; z-index:2;">
@@ -265,7 +274,7 @@ function createQuestCard(q) {
   ${!q.image ? `<span class="image-emoji">${q.emoji || '🎭'}</span>` : ''}
 </div>
     <div class="card-body">
-      <div class="card-title">${detailUrl ? `<a href="${detailUrl}">${q.name}</a>` : q.name}</div>
+      <div class="card-title">${q.name}</div>
       <div class="card-location">📍 ${q.loc}</div>
       <div class="card-meta">
         <span class="quest-stat"><small>Страх</small><strong>${q.fear || '—'}</strong></span>
@@ -292,6 +301,16 @@ function createQuestCard(q) {
     const desc = this.dataset.questDesc;
     const price = parseInt(this.dataset.questPrice);
     openBooking(name, desc, price, false);
+  });
+  card.addEventListener('click', function (event) {
+    if (event.target.closest('button, a')) return;
+    openBooking(q.name, q.desc, q.price, false);
+  });
+  card.addEventListener('keydown', function (event) {
+    if ((event.key === 'Enter' || event.key === ' ') && event.target === card) {
+      event.preventDefault();
+      openBooking(q.name, q.desc, q.price, false);
+    }
   });
   return card;
 }

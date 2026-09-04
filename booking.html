@@ -152,30 +152,32 @@
 
       <div class="step-content" data-step="3">
         <h3 style="margin-bottom:10px; font-size:1.2rem;">Контактные данные</h3>
-        <div class="booking-form" style="max-width:500px;">
-          <label>Имя *</label><input type="text" id="bookingName" placeholder="Ваше имя" />
-          <label>Телефон *</label>
-          <input type="tel" id="bookingPhone" value="+7 " placeholder="+7 (___) ___-__-__" autocomplete="tel" inputmode="numeric" maxlength="18" />
-          <div class="field-error" id="bookingPhoneError" aria-live="polite"></div>
-          <label>Email (необязательно)</label><input type="email" id="bookingEmail" placeholder="example@mail.ru" />
-
-          <label>Способ связи</label>
-          <div class="contact-methods" id="contactMethods">
-            <div class="contact-method active" data-method="call"><span class="method-icon">📞</span><span class="method-label">Звонок</span></div>
-            <div class="contact-method" data-method="telegram"><span class="method-icon">✈️</span><span class="method-label">Telegram</span></div>
-            <div class="contact-method" data-method="vk"><span class="method-icon">📱</span><span class="method-label">VK</span></div>
-            <div class="contact-method" data-method="max"><span class="method-icon">💬</span><span class="method-label">MAX</span></div>
+        <div class="booking-form booking-contact-form">
+          <div class="booking-field"><label for="bookingName">Имя *</label><input type="text" id="bookingName" placeholder="Ваше имя" /></div>
+          <div class="booking-field"><label for="bookingPhone">Телефон *</label>
+            <input type="tel" id="bookingPhone" value="+7 " placeholder="+7 (___) ___-__-__" autocomplete="tel" inputmode="numeric" maxlength="18" />
+            <div class="field-error" id="bookingPhoneError" aria-live="polite"></div>
           </div>
-          <div class="contact-handle-field" id="telegramHandleField" hidden>
-            <label>Юзернейм Telegram</label>
+          <div class="booking-field"><label for="bookingEmail">Email (необязательно)</label><input type="email" id="bookingEmail" placeholder="example@mail.ru" /></div>
+
+          <div class="booking-field booking-field-wide"><label>Способ связи</label>
+            <div class="contact-methods" id="contactMethods">
+              <div class="contact-method active" data-method="call"><span class="method-icon">📞</span><span class="method-label">Звонок</span></div>
+              <div class="contact-method" data-method="telegram"><span class="method-icon method-logo method-logo-telegram" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M21.7 3.4 18.5 20c-.2 1.2-.9 1.5-1.9.9l-4.8-3.6-2.3 2.3c-.3.3-.5.5-1 .5l.3-4.9 8.9-8c.4-.4-.1-.6-.6-.2L6.2 13.9 1.5 12.4c-1-.3-1-1 .2-1.5L20 3.9c.8-.3 1.6.2 1.7-.5Z"/></svg></span><span class="method-label">Telegram</span></div>
+              <div class="contact-method" data-method="vk"><span class="method-icon method-logo method-logo-vk" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12.8 18.2C5.3 18.2 1 13 1 4h4.2c.1 6.6 3 9.4 5.3 10V4h4v5.7c2.2-.2 4.5-2.8 5.3-5.7H24c-.6 3.6-3.1 6.2-4.9 7.3 1.8.9 4.7 3.2 5.8 6.9h-4.6c-.9-2.8-3-4.9-5.8-5.1v5.1h-1.7Z"/></svg></span><span class="method-label">VK</span></div>
+              <div class="contact-method" data-method="max"><span class="method-icon method-logo method-logo-max" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 5.6 18.3L22 22l-1.6-4.5A10 10 0 0 0 12 2Zm-4.7 7h2.4l2.3 3.2L14.3 9h2.4v7h-2.2v-3.7L12 15.5l-2.5-3.2V16H7.3V9Z"/></svg></span><span class="method-label">MAX</span></div>
+            </div>
+          </div>
+          <div class="contact-handle-field booking-field" id="telegramHandleField" hidden>
+            <label for="bookingTelegram">Юзернейм Telegram</label>
             <input type="text" id="bookingTelegram" placeholder="@username" autocomplete="off" />
           </div>
-          <div class="contact-handle-field" id="vkHandleField" hidden>
-            <label>Юзернейм VK</label>
+          <div class="contact-handle-field booking-field" id="vkHandleField" hidden>
+            <label for="bookingVk">Юзернейм VK</label>
             <input type="text" id="bookingVk" placeholder="vk.com/username или @username" autocomplete="off" />
           </div>
 
-          <div class="promo-field">
+          <div class="promo-field booking-field-wide">
             <label>Промокод</label>
             <div class="promo-field-row">
               <input type="text" id="promoInput" placeholder="Введите промокод" />
@@ -184,10 +186,11 @@
             <div id="promoStatus" class="promo-status"></div>
           </div>
 
-          <label>Комментарий к заказу</label>
-          <textarea id="bookingComment" placeholder="Дополнительные пожелания..." rows="2"></textarea>
+          <div class="booking-field booking-field-wide"><label for="bookingComment">Комментарий к заказу</label>
+            <textarea id="bookingComment" placeholder="Дополнительные пожелания..." rows="2"></textarea>
+          </div>
 
-          <div class="booking-summary-card">
+          <div class="booking-summary-card booking-field-wide">
             <div class="row-between">
               <span class="summary-label">Итого к оплате:</span>
               <span class="summary-total" id="bookingTotalDisplayStep3">0 ₽</span>
@@ -197,11 +200,11 @@
             </div>
           </div>
 
-          <div class="btn-group">
+          <div class="btn-group booking-field-wide">
             <button type="button" class="btn-outline" onclick="goStep(isCurrentPackageBooking() ? 1 : 2)">← Назад</button>
             <button type="button" class="btn-primary" onclick="goStep(4)">Перейти к квитанции</button>
           </div>
-          <div style="font-size:0.7rem; color:#6f648a; margin-top:6px;">* Поля с звёздочкой обязательны</div>
+          <div class="booking-field-wide" style="font-size:0.7rem; color:#6f648a; margin-top:6px;">* Поля с звёздочкой обязательны</div>
         </div>
       </div>
 
