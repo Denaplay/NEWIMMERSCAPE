@@ -29,3 +29,31 @@ jobs:
           tags: |
             ghcr.io/${{ env.IMAGE_NAME }}:latest
             ghcr.io/${{ env.IMAGE_NAME }}:${{ github.sha }}
+
+      - uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USER }}
+          key: ${{ secrets.VPS_SSH_KEY }}
+          port: ${{ secrets.VPS_PORT }}
+          envs: GITHUB_ACTOR,GH_TOKEN,TELEGRAM_BOT_TOKEN,TELEGRAM_CHAT_ID_PROFSOYUZNAYA,TELEGRAM_CHAT_ID_IZMAYLOVSKAYA,TELEGRAM_CHAT_ID_TAGANSKAYA
+          script: |
+            cat > /opt/immerscape/.env <<EOF
+            TELEGRAM_BOT_TOKEN=$TELEGRAM_BOT_TOKEN
+            TELEGRAM_CHAT_ID_PROFSOYUZNAYA=$TELEGRAM_CHAT_ID_PROFSOYUZNAYA
+            TELEGRAM_CHAT_ID_IZMAYLOVSKAYA=$TELEGRAM_CHAT_ID_IZMAYLOVSKAYA
+            TELEGRAM_CHAT_ID_TAGANSKAYA=$TELEGRAM_CHAT_ID_TAGANSKAYA
+            EOF
+            chmod 600 /opt/immerscape/.env
+            echo "$GH_TOKEN" | docker login ghcr.io -u "$GITHUB_ACTOR" --password-stdin
+            cd /opt/immerscape
+            docker compose pull
+            docker compose up -d
+            docker image prune -f
+        env:
+          GITHUB_ACTOR: ${{ github.actor }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID_PROFSOYUZNAYA: ${{ secrets.TELEGRAM_CHAT_ID_PROFSOYUZNAYA }}
+          TELEGRAM_CHAT_ID_IZMAYLOVSKAYA: ${{ secrets.TELEGRAM_CHAT_ID_IZMAYLOVSKAYA }}
+          TELEGRAM_CHAT_ID_TAGANSKAYA: ${{ secrets.TELEGRAM_CHAT_ID_TAGANSKAYA }}
