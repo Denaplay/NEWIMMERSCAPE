@@ -120,7 +120,7 @@ function sendStaticFile(request, response, filePath) {
     'content-type': mimeTypes[extension] || 'application/octet-stream',
     'cache-control': ['.html', '.js', '.css'].includes(extension) ? 'no-store' : 'public, max-age=3600'
   };
-  if (/^\/(?:booking|profile|staff-)/.test(requestPath)) {
+  if (/^\/(?:booking|profile|email-confirmed|staff-)/.test(requestPath)) {
     headers['x-robots-tag'] = 'noindex, nofollow';
   }
   response.writeHead(200, headers);

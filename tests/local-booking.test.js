@@ -162,3 +162,16 @@ test('common Supabase authentication errors are translated into Russian', () => 
   assert.match(translate({ code: 'over_request_rate_limit', message: 'Too many requests' }), /Слишком много попыток/);
   assert.equal(translate({ message: 'Some unknown provider failure' }), 'Не удалось выполнить авторизацию. Проверьте данные и попробуйте ещё раз.');
 });
+
+test('email signup uses a dedicated confirmation page and detects masked duplicates', () => {
+  assert.match(authSource, /confirmationRedirectUrl = `\$\{window\.location\.origin\}\/email-confirmed\.html`/);
+  assert.match(authSource, /Array\.isArray\(result\.data\?\.user\?\.identities\)/);
+  assert.match(authSource, /result\.data\.user\.identities\.length === 0/);
+  assert.match(authSource, /Пользователь с таким email уже зарегистрирован\./);
+});
+
+test('confirmation resend cooldown grows by one minute after every send', () => {
+  assert.match(authSource, /Math\.max\(current\.sendCount \+ 1, 2\)/);
+  assert.match(authSource, /Date\.now\(\) \+ sendCount \* 60 \* 1000/);
+  assert.match(authSource, /Отправить повторно через \$\{formatCooldown\(remainingMs\)\}/);
+});

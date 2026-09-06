@@ -16,7 +16,7 @@
     { "url": "/rozhdestvo-v-hogvartse", "intent": "детский квест Хогвартс" },
     { "url": "/labubu", "intent": "детский квест Лабубу" },
     { "url": "/monastyr", "intent": "квест Монастырь" },
-    { "url": "/horror-svidanie", "intent": "хоррор-свидание в Москве" },
+    { "url": "/horror", "intent": "хоррор-свидание в Москве" },
     { "url": "/among-us", "intent": "экшен-игра Among Us в Москве" }
   ]
 }

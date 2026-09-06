@@ -63,6 +63,11 @@ PORT=8080 npm start
 3. включить Row Level Security и настроить политики для всех таблиц с данными
    пользователей — publishable key сам по себе не даёт административных прав.
 
+Письма подтверждения возвращают пользователя на отдельную страницу
+`/email-confirmed.html`. Добавьте `https://immerscape.ru/email-confirmed.html`
+(и `http://localhost:3000/email-confirmed.html` для локальной проверки) в список
+**Authentication → URL Configuration → Redirect URLs** в Supabase.
+
 Чтобы имя и телефон сохранялись в отдельной таблице `public.profiles`, выполните
 файл `supabase/schema.sql` в **Supabase → SQL Editor**. Скрипт создаёт защищённую
 RLS-политиками таблицу, переносит данные уже зарегистрированных пользователей и

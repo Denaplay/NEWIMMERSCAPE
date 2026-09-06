@@ -64,7 +64,75 @@
   let mode = 'signin';
   let currentUser = null;
   const authTimeoutMs = 20000;
+  const confirmationRedirectUrl = `${window.location.origin}/email-confirmed.html`;
+  const resendButtonLabel = 'Отправить письмо подтверждения ещё раз';
+  const resendCooldownPrefix = 'immerscape.auth.resend-cooldown.';
+  const resendCooldownMemory = new Map();
+  let resendTimerId = null;
   const signupConfirmationMessage = 'Вы зарегистрированы! Теперь нажмите кнопку Войти.';
+
+  function getResendStorageKey(email) {
+    return `${resendCooldownPrefix}${String(email || '').trim().toLowerCase()}`;
+  }
+
+  function readResendCooldown(email) {
+    const storageKey = getResendStorageKey(email);
+    try {
+      const state = JSON.parse(localStorage.getItem(storageKey) || 'null');
+      if (state && Number.isFinite(state.sendCount) && Number.isFinite(state.nextAllowedAt)) {
+        resendCooldownMemory.set(storageKey, state);
+        return state;
+      }
+    } catch (_error) {
+      // В приватном режиме используем состояние только для текущей вкладки.
+    }
+    return resendCooldownMemory.get(storageKey) || { sendCount: 0, nextAllowedAt: 0 };
+  }
+
+  function saveResendCooldown(email, state) {
+    const storageKey = getResendStorageKey(email);
+    resendCooldownMemory.set(storageKey, state);
+    try { localStorage.setItem(storageKey, JSON.stringify(state)); } catch (_error) { /* localStorage может быть недоступен */ }
+  }
+
+  function recordConfirmationEmail(email, isInitialEmail = false) {
+    const current = readResendCooldown(email);
+    const sendCount = isInitialEmail
+      ? Math.max(current.sendCount, 1)
+      : Math.max(current.sendCount + 1, 2);
+    const state = { sendCount, nextAllowedAt: Date.now() + sendCount * 60 * 1000 };
+    saveResendCooldown(email, state);
+    return state;
+  }
+
+  function formatCooldown(remainingMs) {
+    const totalSeconds = Math.max(0, Math.ceil(remainingMs / 1000));
+    const minutes = Math.floor(totalSeconds / 60);
+    const seconds = String(totalSeconds % 60).padStart(2, '0');
+    return `${minutes}:${seconds}`;
+  }
+
+  function updateResendButton(email) {
+    const remainingMs = readResendCooldown(email).nextAllowedAt - Date.now();
+    const coolingDown = remainingMs > 0;
+    resendButton.disabled = coolingDown;
+    resendButton.textContent = coolingDown
+      ? `Отправить повторно через ${formatCooldown(remainingMs)}`
+      : resendButtonLabel;
+    return coolingDown;
+  }
+
+  function showResendButton(email) {
+    resendButton.hidden = false;
+    if (resendTimerId) clearInterval(resendTimerId);
+    updateResendButton(email);
+    resendTimerId = setInterval(() => {
+      if (resendButton.hidden || !updateResendButton(form.elements.email.value.trim())) {
+        clearInterval(resendTimerId);
+        resendTimerId = null;
+      }
+    }, 1000);
+  }
 
   function withTimeout(operation) {
     let timeoutId;
@@ -216,6 +284,9 @@
     mode = nextMode;
     setMessage('');
     resendButton.hidden = true;
+    resendButton.textContent = resendButtonLabel;
+    if (resendTimerId) clearInterval(resendTimerId);
+    resendTimerId = null;
     passwordInput.required = true;
     passwordInput.parentElement.hidden = false;
     const isSignup = nextMode === 'signup';
@@ -325,18 +396,25 @@
     if (!client) return setMessage(initializationError || 'Авторизация недоступна.', 'error');
     const email = form.elements.email.value.trim();
     if (!email) return setMessage('Укажите email для повторной отправки.', 'error');
+    if (updateResendButton(email)) return setMessage('Повторная отправка пока недоступна. Дождитесь окончания таймера.', 'error');
     resendButton.disabled = true;
     try {
       const { error } = await withTimeout(client.auth.resend({
         type: 'signup',
         email,
-        options: { emailRedirectTo: window.location.origin }
+        options: { emailRedirectTo: confirmationRedirectUrl }
       }));
-      setMessage(error ? getErrorMessage(error) : 'Новое письмо подтверждения отправлено. Проверьте также папку «Спам».', error ? 'error' : 'success');
+      if (error) {
+        setMessage(getErrorMessage(error), 'error');
+      } else {
+        recordConfirmationEmail(email);
+        showResendButton(email);
+        setMessage('Новое письмо подтверждения отправлено. Проверьте также папку «Спам».', 'success');
+      }
     } catch (error) {
       setMessage(getErrorMessage(error), 'error');
     } finally {
-      resendButton.disabled = false;
+      updateResendButton(email);
     }
   });
 
@@ -366,16 +444,25 @@
     };
     try {
       const request = mode === 'signup'
-        ? client.auth.signUp({ email, password, options: { data: metadata, emailRedirectTo: window.location.origin } })
+        ? client.auth.signUp({ email, password, options: { data: metadata, emailRedirectTo: confirmationRedirectUrl } })
         : client.auth.signInWithPassword({ email, password });
       const result = await withTimeout(request);
       if (result.error) {
         setMessage(getErrorMessage(result.error), 'error');
         return;
       }
+      const isHiddenDuplicate = mode === 'signup'
+        && Array.isArray(result.data?.user?.identities)
+        && result.data.user.identities.length === 0;
+      if (isHiddenDuplicate) {
+        setMessage('Пользователь с таким email уже зарегистрирован.', 'error');
+        showResendButton(email);
+        return;
+      }
       if (mode === 'signup' && !result.data.session) {
+        recordConfirmationEmail(email, true);
         setMessage('Код подтверждения отправлен на почту.', 'success');
-        resendButton.hidden = false;
+        showResendButton(email);
         return;
       }
       closeModal();
