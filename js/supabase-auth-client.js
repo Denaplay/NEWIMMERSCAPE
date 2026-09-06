@@ -111,7 +111,11 @@
           const data = await request(`/signup${redirect}`, { method: 'POST', body: JSON.stringify({ email, password, data: options.data || {} }) });
           const nextSession = normalizeSession(data);
           if (nextSession) save(nextSession, 'SIGNED_IN');
-          return { data: { user: data.user || null, session: nextSession }, error: null };
+          // При включённом подтверждении email GoTrue может вернуть пользователя
+          // непосредственно в корне ответа, без обёртки { user }. Для уже занятой
+          // почты это замаскированный объект с пустым массивом identities.
+          const user = data.user || (data.id ? data : null);
+          return { data: { user, session: nextSession }, error: null };
         } catch (error) { return { data: { user: null, session: null }, error }; }
       },
       async signInWithPassword({ email, password }) {

@@ -5,6 +5,7 @@ const vm = require('node:vm');
 
 const bookingSource = fs.readFileSync('js/booking.js', 'utf8');
 const authSource = fs.readFileSync('js/auth.js', 'utf8');
+const authClientSource = fs.readFileSync('js/supabase-auth-client.js', 'utf8');
 const schemaSource = fs.readFileSync('supabase/schema.sql', 'utf8');
 const staffSource = fs.readFileSync('js/staff.js', 'utf8');
 const { getUpstreamPath } = require('../server/my-erp');
@@ -168,6 +169,35 @@ test('email signup uses a dedicated confirmation page and detects masked duplica
   assert.match(authSource, /Array\.isArray\(result\.data\?\.user\?\.identities\)/);
   assert.match(authSource, /result\.data\.user\.identities\.length === 0/);
   assert.match(authSource, /Пользователь с таким email уже зарегистрирован\./);
+  assert.match(authClientSource, /const user = data\.user \|\| \(data\.id \? data : null\)/);
+});
+
+test('Supabase client preserves a root-level signup user for duplicate detection', async () => {
+  const values = new Map();
+  const sandbox = {
+    window: {},
+    localStorage: {
+      getItem: key => values.get(key) || null,
+      setItem: (key, value) => values.set(key, value),
+      removeItem: key => values.delete(key)
+    },
+    fetch: async () => ({
+      ok: true,
+      text: async () => JSON.stringify({ id: 'masked-user', identities: [] })
+    }),
+    setInterval,
+    clearInterval,
+    Date,
+    JSON,
+    Math
+  };
+  vm.runInNewContext(authClientSource, sandbox);
+  const client = sandbox.window.ImmerscapeSupabaseAuth.createClient('https://example.supabase.co', 'public-key');
+  const result = await client.auth.signUp({ email: 'existing@example.com', password: 'password' });
+
+  assert.equal(result.error, null);
+  assert.equal(result.data.user.id, 'masked-user');
+  assert.equal(result.data.user.identities.length, 0);
 });
 
 test('confirmation resend cooldown grows by one minute after every send', () => {
