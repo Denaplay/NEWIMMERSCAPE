@@ -2407,6 +2407,136 @@
     margin-bottom: 10px;
   }
 }
+
+/* Final mobile hero/header correction: keep the first screen compact and readable. */
+@media (max-width: 767px) {
+  .horror-page .header {
+    min-height: 60px !important;
+  }
+
+  .horror-page .header .container {
+    grid-template-columns: minmax(0, 1fr) 72px 38px 40px !important;
+    grid-template-rows: 42px !important;
+    min-height: 42px !important;
+    padding: 9px 12px !important;
+    gap: 6px !important;
+  }
+
+  .horror-page .logo {
+    max-width: 100% !important;
+    overflow: hidden;
+    font-size: clamp(0.96rem, 4.8vw, 1.16rem) !important;
+    line-height: 1 !important;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .horror-page .mobile-profile-button {
+    width: 72px !important;
+    height: 38px !important;
+    padding: 0 8px !important;
+    font-size: 0.68rem !important;
+  }
+
+  .horror-page .social-icons a {
+    width: 38px !important;
+    height: 38px !important;
+  }
+
+  .horror-page .mobile-menu-toggle {
+    width: 40px !important;
+    height: 40px !important;
+  }
+
+  .horror-page .figma-hero,
+  .horror-page .horror-hero {
+    padding: 82px 0 36px !important;
+  }
+
+  .horror-page .horror-hero-content .badge {
+    margin-bottom: 18px !important;
+    padding: 7px 12px !important;
+    font-size: 0.72rem !important;
+    line-height: 1.2 !important;
+  }
+
+  .horror-page .horror-hero-content h1 {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 0 18px !important;
+    color: #bbb8b4 !important;
+    font-family: "Ruslan Display", "DS VTCorona Cyr", "Rubik Dirt", "Unbounded", Impact, sans-serif !important;
+    font-size: clamp(2.35rem, 11.5vw, 3.15rem) !important;
+    font-weight: 400 !important;
+    line-height: 1.06 !important;
+    letter-spacing: 0.018em !important;
+    overflow-wrap: normal !important;
+    word-break: normal !important;
+    -webkit-hyphens: none !important;
+    hyphens: none !important;
+    text-wrap: balance;
+    opacity: 1 !important;
+    background: none !important;
+    background-image: none !important;
+    -webkit-background-clip: border-box !important;
+    background-clip: border-box !important;
+    -webkit-text-fill-color: #bbb8b4 !important;
+    -webkit-text-stroke: 0.25px rgba(225, 220, 214, 0.42) !important;
+    text-shadow: 0 2px 0 rgba(0, 0, 0, 0.96), 0 5px 9px rgba(0, 0, 0, 0.82) !important;
+    filter: none !important;
+    mix-blend-mode: normal !important;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .horror-page .horror-hero-content h1 .highlight {
+    display: block !important;
+    color: #aaa5a2 !important;
+    background: none !important;
+    background-image: none !important;
+    -webkit-background-clip: border-box !important;
+    background-clip: border-box !important;
+    -webkit-text-fill-color: #aaa5a2 !important;
+    opacity: 1 !important;
+    filter: none !important;
+    mix-blend-mode: normal !important;
+    text-shadow: 0 2px 0 rgba(0, 0, 0, 0.96), 0 5px 9px rgba(0, 0, 0, 0.82) !important;
+  }
+
+  .horror-page .horror-hero-content > p {
+    max-width: 100% !important;
+    margin-bottom: 22px !important;
+    color: rgba(255, 255, 255, 0.84) !important;
+    font-size: 1rem !important;
+    line-height: 1.48 !important;
+  }
+}
+
+@media (max-width: 360px) {
+  .horror-page .header .container {
+    grid-template-columns: minmax(0, 1fr) 66px 36px 38px !important;
+    padding-inline: 10px !important;
+  }
+
+  .horror-page .mobile-profile-button {
+    width: 66px !important;
+    height: 36px !important;
+    font-size: 0.63rem !important;
+  }
+
+  .horror-page .social-icons a {
+    width: 36px !important;
+    height: 36px !important;
+  }
+
+  .horror-page .mobile-menu-toggle {
+    width: 38px !important;
+    height: 38px !important;
+  }
+
+  .horror-page .horror-hero-content h1 {
+    font-size: clamp(2.05rem, 11vw, 2.55rem) !important;
+  }
+}
   </style>
 </head>
 <body class="horror-page">
