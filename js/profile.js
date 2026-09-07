@@ -14,7 +14,7 @@
   const session = sessionData.session;
   if (!session?.user) {
     loading.textContent = sessionError?.message || 'Сначала войдите в аккаунт.';
-    setTimeout(() => { window.location.href = 'index.html#auth'; }, 900);
+    setTimeout(() => { window.location.href = '/#auth'; }, 900);
     return;
   }
 
@@ -56,6 +56,6 @@
 
   document.getElementById('profileLogout').addEventListener('click', async () => {
     await client.auth.signOut();
-    window.location.href = 'index.html';
+    window.location.href = '/';
   });
 })();

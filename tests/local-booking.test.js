@@ -165,7 +165,7 @@ test('common Supabase authentication errors are translated into Russian', () => 
 });
 
 test('email signup uses a dedicated confirmation page and detects masked duplicates', () => {
-  assert.match(authSource, /confirmationRedirectUrl = `\$\{window\.location\.origin\}\/email-confirmed\.html`/);
+  assert.match(authSource, /confirmationRedirectUrl = `\$\{window\.location\.origin\}\/email-confirmed`/);
   assert.match(authSource, /Array\.isArray\(result\.data\?\.user\?\.identities\)/);
   assert.match(authSource, /result\.data\.user\.identities\.length === 0/);
   assert.match(authSource, /Пользователь с таким email уже зарегистрирован\./);

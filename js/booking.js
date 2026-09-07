@@ -275,12 +275,12 @@ const questTimes = {
 // ===== ДОПОЛНИТЕЛЬНЫЕ УСЛУГИ (ДЛЯ КВЕСТОВ) =====
 // ============================================================
 const additionalServices = [
-  { id: 'video', name: 'Видеонарезка', price: 4000, icon: '🎥', desc: '5-7 минут ярких моментов вашего приключения.' },
+  { id: 'video', name: 'Видеоролик', price: 4000, icon: '🎥', desc: '5-7 минут ярких моментов вашего приключения.' },
   { id: 'director', name: 'Кресло режиссёра', price: 2000, icon: '🎬', desc: 'Наблюдение за игрой со стороны.' },
-  { id: 'actor', name: 'Допалнительный актёр', price: 2000, icon: '🎭', desc: 'Может уменьшить или увеличить уровень страха.' },
-  { id: 'loft', name: 'Лофт', price: 5500, icon: '🏠', desc: 'Украшенный шарами и засервированный одноразовой посудой.' },
+  { id: 'actor', name: 'Дополнительный актёр', price: 2000, icon: '🎭', desc: 'Может уменьшить или увеличить уровень страха.' },
+  { id: 'loft', name: 'Лофт', price: 5500, icon: '🏠', desc: 'Украшенный шарами и засервированный одноразовой посудой. Стоимость — 5 500 ₽ в час.' },
   { id: 'board_game', name: 'Настольная игра', price: 8000, icon: '🎲', desc: 'С ведущим после квеста.' },
-  { id: 'congrats', name: 'Креатив', price: 2000, icon: '🎉', desc: 'Креативное поздравление для именинника.' },
+  { id: 'congrats', name: 'Креативное поздравление', price: 2000, icon: '🎉', desc: 'Поздравление именинника от лица персонажей + подарок' },
   { id: 'photographer', name: 'Фотограф', price: 4000, icon: '📸', desc: 'После квеста, все исходники и 10 фото в проф. обработке.' }
 ];
 
@@ -288,12 +288,12 @@ const additionalServices = [
 // ===== ОПЦИИ ДЛЯ ПАКЕТОВ =====
 // ============================================================
 const packageOptions = [
-  { id: 'video', name: 'Видеонарезка', price: 4000, icon: '🎥', desc: '5-7 минут ярких моментов вашего приключения.' },
+  { id: 'video', name: 'Видеоролик', price: 4000, icon: '🎥', desc: '5-7 минут ярких моментов вашего приключения.' },
   { id: 'director', name: 'Кресло режиссёра', price: 2000, icon: '🎬', desc: 'Наблюдение за игрой со стороны.' },
-  { id: 'actor', name: 'Допалнительный актёр', price: 2000, icon: '🎭', desc: 'Может уменьшить или увеличить уровень страха.' },
-  { id: 'loft', name: 'Лофт', price: 5500, icon: '🏠', desc: 'Украшенный шарами и засервированный одноразовой посудой.' },
+  { id: 'actor', name: 'Дополнительный актёр', price: 2000, icon: '🎭', desc: 'Может уменьшить или увеличить уровень страха.' },
+  { id: 'loft', name: 'Лофт', price: 5500, icon: '🏠', desc: 'Украшенный шарами и засервированный одноразовой посудой. Стоимость — 5 500 ₽ в час.' },
   { id: 'board_game', name: 'Настольная игра', price: 8000, icon: '🎲', desc: 'С ведущим после квеста.' },
-  { id: 'congrats', name: 'Креатив', price: 2000, icon: '🎉', desc: 'Креативное поздравление для именинника.' },
+  { id: 'congrats', name: 'Креативное поздравление', price: 2000, icon: '🎉', desc: 'Поздравление именинника от лица персонажей + подарок' },
   { id: 'photographer', name: 'Фотограф', price: 4000, icon: '📸', desc: 'После квеста, все исходники и 10 фото в проф. обработке.' },
   { id: 'balloon', name: 'Шар с цифрой', price: 1000, icon: '🎈', desc: 'Красивый шар с цифрой для именинника.' },
   { id: 'aquagrim', name: 'Аквагрим/Блеск-тату', price: 7000, icon: '🎨', desc: 'Аквагрим или блеск-тату (или бьюти-бар за 8000).' },
@@ -314,7 +314,7 @@ const bookingOptions = {
   default: additionalServices,
   amongus: additionalServices,
   horror: [
-    { id: 'extra_actor', name: 'Допалнительный актёр', price: 2000, icon: '🎭', desc: 'Может уменьшить или увеличить уровень страха.' },
+    { id: 'extra_actor', name: 'Дополнительный актёр', price: 2000, icon: '🎭', desc: 'Может уменьшить или увеличить уровень страха.' },
     { id: 'pizza', name: 'Пицца', price: 2000, icon: '🍕', desc: 'Пицца к вашему хоррор-свиданию.' },
     { id: 'video', name: 'Видео прохождения', price: 4000, icon: '🎥', desc: 'Запись самых ярких моментов прохождения.' },
     { id: 'proposal', name: 'Предложение руки и сердца', price: 5000, icon: '💍', desc: 'Поможем организовать предложение в атмосфере квеста.' },
@@ -324,7 +324,7 @@ const bookingOptions = {
   events: [
     { id: 'out_of_mkad', name: 'Выезд за МКАД', price: 3000, icon: '🚗', desc: 'Доплата за выезд за пределы МКАД.' },
     { id: 'extra_actor', name: 'Дополнительный актёр', price: 2000, icon: '🎭', desc: 'Может уменьшить или увеличить уровень страха.' },
-    { id: 'video', name: 'Видеонарезка', price: 4000, icon: '🎥', desc: '5-7 минут ярких моментов вашего приключения.' },
+    { id: 'video', name: 'Видеоролик', price: 4000, icon: '🎥', desc: '5-7 минут ярких моментов вашего приключения.' },
     { id: 'photographer', name: 'Фотограф', price: 4000, icon: '📸', desc: 'После квеста, все исходники и 10 фото в проф. обработке.' },
     { id: 'decor', name: 'Декор помещения', price: 3500, icon: '🎈', desc: 'Тематическое украшение помещения для вашего праздника.' }
   ],
@@ -614,7 +614,27 @@ function applyPackageQuestChoice(questName) {
   const nextQuest = questsData.some(q => q.name === questName) ? questName : '';
   selectedPackageQuest = nextQuest;
   if (select) select.value = nextQuest;
+  updatePackageScheduleVisibility();
   return nextQuest;
+}
+
+function updatePackageScheduleVisibility() {
+  const section = document.getElementById('bookingDateTimeSection');
+  if (!section) return;
+  section.hidden = isCurrentPackageBooking() && !getSelectedPackageQuest();
+}
+
+function updateBookingStepNavigation() {
+  const packageMode = isCurrentPackageBooking();
+  const labels = packageMode
+    ? { 1: '1. Выбор', 3: '2. Контакты', 4: '3. Квитанция', 5: '4. Готово' }
+    : { 1: '1. Выбор', 2: '2. Опции', 3: '3. Контакты', 4: '4. Квитанция', 5: '5. Готово' };
+
+  document.querySelectorAll('.step-btn').forEach(button => {
+    const step = Number(button.dataset.step);
+    button.hidden = packageMode && step === 2;
+    if (labels[step]) button.textContent = labels[step];
+  });
 }
 
 function isPackageQuestLocked() {
@@ -633,11 +653,19 @@ function updatePackageQuestLockState() {
   if (hint) {
     hint.textContent = locked
       ? 'Квест уже выбран по карточке, через которую вы открыли бронирование.'
-      : 'В готовом пакете квест входит в стоимость. В пакете с нуля цена квеста добавится по выбранному слоту.';
+      : isCustomPackageBooking()
+        ? 'Выберите квест — после этого появятся доступные даты и время. Его цена добавится к пакету.'
+        : 'Выберите квест — после этого появятся доступные даты и время. Квест входит в стоимость пакета.';
   }
 }
 
 function refreshScheduleForQuest(questName) {
+  updatePackageScheduleVisibility();
+  if (isCurrentPackageBooking() && !getSelectedPackageQuest()) {
+    const timeGrid = document.getElementById('timeGrid');
+    if (timeGrid) timeGrid.innerHTML = '';
+    return;
+  }
   const scheduleQuest = questName || getScheduleQuestName();
   const api = externalBookingApi();
   renderCalendar(currentMonth, currentYear);
@@ -723,10 +751,10 @@ function getPackageParticipantRule() {
 
 function getParticipantRule() {
   if (!isCurrentPackageBooking() && currentBookingName === 'Among Us') {
-    return { basePlayers: 6, extraPlayerPrice: 1500, label: 'за 3–6 чел.' };
+    return { basePlayers: 6, extraPlayerPrice: 1500, label: 'за 3–6 участников' };
   }
   if (!isCurrentPackageBooking() && currentBookingName === 'Хоррор-свидание') {
-    return { basePlayers: 3, extraPlayerPrice: 1500, label: 'за 1–3 чел.' };
+    return { basePlayers: 3, extraPlayerPrice: 1500, label: 'за 1–3 участников' };
   }
   if (!isCurrentPackageBooking() && currentBookingName === 'Хоррор-вечер') {
     return { basePlayers: 2, extraPlayerPrice: 1500, label: 'за 2-х' };
@@ -750,12 +778,15 @@ function calculateBookingTotals() {
   const players = parseInt(playersEl ? playersEl.textContent : bookingPlayersValue) || 1;
   const activeTime = document.querySelector('.time-slot.active');
   const selectedOptions = document.querySelectorAll('.option-checkbox:checked');
-  const basePrice = getBasePriceForBooking(activeTime);
+  const pricingReady = isCurrentPackageBooking() || Boolean(selectedDate && activeTime);
+  const basePrice = pricingReady ? getBasePriceForBooking(activeTime) : 0;
 
   let optionTotal = 0;
-  selectedOptions.forEach(el => {
-    optionTotal += parseInt(el.dataset.price || 0);
-  });
+  if (pricingReady) {
+    selectedOptions.forEach(el => {
+      optionTotal += parseInt(el.dataset.price || 0);
+    });
+  }
 
   const participantRule = getParticipantRule();
   const basePlayers = participantRule.basePlayers;
@@ -775,7 +806,10 @@ function getBasePriceLabel(totals) {
   const priceType = isCurrentPackageBooking() ? 'Цена пакета' : 'Цена квеста';
   const participantRule = getParticipantRule();
   if (participantRule.label) return `${priceType} ${participantRule.label}:`;
-  const playersText = totals.basePlayers === 5 ? 'до 5х' : `за ${totals.basePlayers}х`;
+  if (!isCurrentPackageBooking()) return `${priceType} за 1–${totals.basePlayers} участников:`;
+  const playersText = totals.basePlayers === 5
+    ? 'за 5 участников'
+    : `за ${totals.basePlayers}-х участников`;
   return `${priceType} ${playersText}:`;
 }
 
@@ -913,7 +947,7 @@ function ensurePackageQuestSelect() {
   if (!select) return;
 
   const currentValue = select.value || selectedPackageQuest || getInitialPackageQuestName();
-  select.innerHTML = '<option value="">Без выбора квеста</option>' + questsData
+  select.innerHTML = '<option value="">Выберите квест</option>' + questsData
     .map(q => `<option value="${escapeAttr(q.name)}">${q.name}</option>`)
     .join('');
   applyPackageQuestChoice(currentValue);
@@ -1060,22 +1094,22 @@ function ensurePackagesCollapsible() {
     <div class="collapsible-body" id="packagesBody">
       <div class="package-mini" data-package="Пакет на 2 часа" data-price="23500" data-base-players="3" data-extra-player-price="1500">
         <span class="pkg-name">Пакет на 2 часа</span>
-        <span class="pkg-price">23 500 ₽ <small>за 3х, доп. 1 500 ₽; квест входит</small></span>
+        <span class="pkg-price">23 500 ₽ <small>За 3-х участников, дополнительный участник 1500 р.<br>Квест входит в стоимость.</small></span>
         <button type="button" class="package-desc-toggle" aria-expanded="false">Показать состав</button>
-        <div class="package-description"><ul><li>Квест/анимационная программа на выбор</li><li>Дополнительный актёр</li><li>Украшенная лофт зона</li><li>Сервировка стола</li><li>Креативное поздравление</li><li>Треш коробка</li></ul></div>
+        <div class="package-description"><h5>Программа</h5><ul><li>Квест или анимационная программа на выбор</li><li>Дополнительный актёр</li></ul><h5>Праздник и подарки</h5><ul><li>Украшенная лофт-зона</li><li>Сервировка стола</li><li>Поздравление именинника от лица персонажей и подарок</li><li>Треш-коробка</li></ul></div>
       </div>
       <div class="package-mini" data-package="Пакет на 3 часа" data-price="39000" data-base-players="3" data-extra-player-price="1500">
         <span class="pkg-name">⭐ Пакет на 3 часа</span>
-        <span class="pkg-price">39 000 ₽ <small>за 3х, доп. 1 500 ₽; квест входит</small></span>
+        <span class="pkg-price">39 000 ₽ <small>За 3-х участников, дополнительный участник 1500 р.<br>Квест входит в стоимость.</small></span>
         <span class="pkg-badge">Популярный</span>
         <button type="button" class="package-desc-toggle" aria-expanded="false">Показать состав</button>
-        <div class="package-description"><ul><li>Всё из пакета на 2 часа</li><li>Памятный подарок имениннику и сувенир каждому участнику</li><li>Фотограф</li><li>10 фото в проф. обработке и цветокоррекции</li><li>Кресло режиссёра</li><li>Видео-нарезка самых ярких моментов с прохождения квеста</li><li>Настольная игра с ведущим на выбор</li></ul></div>
+        <div class="package-description"><h5>Программа</h5><ul><li>Квест или анимационная программа на выбор</li><li>Дополнительный актёр</li><li>Настольная игра с ведущим на выбор</li><li>Кресло режиссёра</li></ul><h5>Праздничная зона</h5><ul><li>Украшенная лофт-зона</li><li>Сервировка стола</li></ul><h5>Фото, видео и подарки</h5><ul><li>Фотограф</li><li>10 обработанных фотографий</li><li>Видеоролик с прохождения</li><li>Поздравление и памятный подарок имениннику</li><li>Сувенир каждому участнику</li><li>Треш-коробка</li></ul></div>
       </div>
       <div class="package-mini" data-package="Пакет на 4.5 часа" data-price="103000" data-base-players="5" data-extra-player-price="2500">
         <span class="pkg-name">Пакет на 4.5 часа</span>
-        <span class="pkg-price">103 000 ₽ <small>до 5х, доп. 2 500 ₽; квест входит</small></span>
+        <span class="pkg-price">103 000 ₽ <small>За 5 участников, дополнительный участник 2500 р.<br>Квест входит в стоимость.</small></span>
         <button type="button" class="package-desc-toggle" aria-expanded="false">Показать состав</button>
-        <div class="package-description"><ul><li>Всё из пакета на 3 часа</li><li>Перекрытие локации на всё время праздника</li><li>Лофт зона</li><li>Персональные украшения</li><li>Фотограф на время квеста в образе</li><li>15 фото в проф. обработке + видео с квеста</li><li>Велком дринк или Кенди бар</li><li>Шоу программа на выбор: Крио шоу или шоу Фокусов</li><li>Аквагрим или Блеск тату</li><li>Шар с цифрой</li><li>Мастер-класс на выбор</li><li>Пиньята с любым дизайном</li><li>Персональный менеджер</li><li>Настольная игра с ведущим или музыкальные конкурсы или квиз об имениннике</li><li>Развлечения для родителей: мафия с ведущим или Кресло режиссёра</li><li>Бумажная дискотека с боем подушками или Танцевальные конкурсы</li></ul></div>
+        <div class="package-description"><h5>Основная программа</h5><ul><li>Квест или анимационная программа на выбор</li><li>Дополнительный актёр</li><li>Перекрытие локации на всё время праздника</li><li>Личный менеджер</li></ul><h5>Зона и угощения</h5><ul><li>Лофт-зона с персональными украшениями</li><li>Сервировка стола</li><li>Приветственный напиток или кэнди-бар</li><li>Шар с цифрой</li></ul><h5>Шоу и развлечения</h5><ul><li>Крио-шоу или шоу фокусов</li><li>Мастер-класс на выбор</li><li>Аквагрим или блеск-тату</li><li>Пиньята с любым дизайном</li><li>Настольная игра, музыкальные конкурсы или квиз</li><li>Бумажная дискотека или танцевальные конкурсы</li></ul><h5>Игры для компании</h5><ul><li>Мафия с ведущим или кресло режиссёра</li></ul><h5>Фото, видео и подарки</h5><ul><li>Фотограф в образе на время квеста</li><li>15 обработанных фотографий</li><li>Видеоролик с прохождения</li><li>Поздравление и памятный подарок имениннику</li><li>Сувенир каждому участнику</li><li>Треш-коробка</li></ul></div>
       </div>
     </div>
   `;
@@ -1130,6 +1164,7 @@ function deselectReadyPackage() {
   const meta = getQuestMeta(name);
 
   isPackageBooking = false;
+  updateBookingStepNavigation();
   selectedPackageQuest = '';
   currentBookingName = name;
   currentBookingDesc = desc || '';
@@ -1208,6 +1243,7 @@ function deselectReadyPackage() {
 
 function selectReadyPackage(packageName, packagePrice, activeItem) {
   isPackageBooking = true;
+  updateBookingStepNavigation();
   const initialPackageQuest = getInitialPackageQuestName();
   currentBookingName = packageName;
   currentBookingDesc = `Готовый пакет "${packageName}" с максимальной выгодой.`;
@@ -1389,7 +1425,7 @@ function openBooking(name, desc, price, isPackage) {
       price: String(bookingSelection.price),
       package: bookingSelection.isPackage ? '1' : '0'
     });
-    window.location.href = `booking.html?${params.toString()}`;
+    window.location.href = `/booking?${params.toString()}`;
     return;
   }
 
@@ -1399,6 +1435,7 @@ function openBooking(name, desc, price, isPackage) {
   document.querySelectorAll('.page-overlay').forEach(el => el.classList.remove('open'));
   
   isPackageBooking = isPackage || false;
+  updateBookingStepNavigation();
   selectedPackageQuest = '';
   selectedHorrorVariant = 'standard';
   currentBookingName = name;
@@ -1441,13 +1478,13 @@ function openBooking(name, desc, price, isPackage) {
   const now = new Date();
   currentMonth = now.getMonth();
   currentYear = now.getFullYear();
-  selectedDate = new Date(today);
+  selectedDate = null;
   selectedTime = null;
   
   renderCalendar(currentMonth, currentYear);
   const selectedDateEl = document.getElementById('selectedDate');
   if (selectedDateEl) {
-    selectedDateEl.textContent = selectedDate.toLocaleDateString('ru-RU', { day: 'numeric', month: 'long', year: 'numeric' });
+    selectedDateEl.textContent = 'Выберите дату';
   }
   generateTimeSlots(getCurrentQuestName());
 
@@ -1523,6 +1560,7 @@ function openBooking(name, desc, price, isPackage) {
     if (packagesCollapsible) packagesCollapsible.style.display = 'none';
     if (packageQuestSelect) packageQuestSelect.style.display = 'block';
     updatePackageQuestLockState();
+    updatePackageScheduleVisibility();
     
   } else {
     if (packageQuestSelect) packageQuestSelect.style.display = 'none';
@@ -1560,7 +1598,7 @@ function openBooking(name, desc, price, isPackage) {
 
 function closeBooking() {
   if (document.body.classList.contains('standalone-booking-page')) {
-    window.location.href = isHorrorBookingName(currentBookingName) ? 'horror.html' : 'index.html';
+    window.location.href = isHorrorBookingName(currentBookingName) ? '/horror' : '/';
     return;
   }
 
@@ -1651,7 +1689,7 @@ function goStep(n) {
     n = currentStep > 2 ? 1 : 3;
   }
   if (n === currentStep) return;
-  if (n < 1 || n > 4) return;
+  if (n < 1 || n > 5) return;
   
   if (n > currentStep) {
     if (currentStep === 1) {
@@ -1710,7 +1748,23 @@ function goStep(n) {
   currentStep = n;
   const overlay = document.getElementById('bookingOverlay');
   if (overlay) overlay.scrollTop = 0;
+  if (document.body.classList.contains('standalone-booking-page')) {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
   if (n === 4) updateReceipt();
+}
+
+function showBookingSuccess({ questName, dateTime, contactMethod, contactHandle, phone, email }) {
+  const bookingSummary = document.getElementById('successBookingSummary');
+  const contactSummary = document.getElementById('successContactSummary');
+  const successStepButton = document.querySelector('.step-btn[data-step="5"]');
+  const contactValues = [contactMethod, contactHandle, phone, email].filter(Boolean);
+
+  if (bookingSummary) bookingSummary.textContent = `${questName} · ${dateTime}`;
+  if (contactSummary) contactSummary.textContent = contactValues.join(' · ');
+  if (successStepButton) successStepButton.disabled = false;
+
+  goStep(5);
 }
 
 // ============================================================
@@ -1801,17 +1855,6 @@ function renderCalendar(month, year) {
     grid.appendChild(cell);
   }
   
-  const todayStr = formatDateKey(today);
-  const todayCell = document.querySelector(`.date-grid .date-cell:not(.disabled)[data-date="${todayStr}"]`);
-  if (todayCell && !selectedDate) {
-    document.querySelectorAll('.date-grid .date-cell').forEach(c => c.classList.remove('active'));
-    todayCell.classList.add('active');
-    selectedDate = new Date(todayStr);
-    document.getElementById('selectedDate').textContent = selectedDate.toLocaleDateString('ru-RU', { day: 'numeric', month: 'long', year: 'numeric' });
-    generateTimeSlots(getCurrentQuestName());
-    updateTotalDisplay();
-    updateReceipt();
-  }
 }
 
 // ============================================================
@@ -1821,6 +1864,11 @@ function generateTimeSlots(questName) {
   const grid = document.getElementById('timeGrid');
   if (!grid) return;
   grid.innerHTML = '';
+
+  if (!selectedDate) {
+    grid.innerHTML = '<div class="schedule-message">Сначала выберите дату.</div>';
+    return;
+  }
 
   const api = externalBookingApi();
   const apiState = api?.getState(questName);
@@ -1923,7 +1971,7 @@ function renderOptions(options) {
       <div class="option-check"></div>
       <div class="option-icon">${opt.icon}</div>
       <div class="option-name">${opt.name}</div>
-      <div class="option-price">${opt.price} ₽</div>
+      <div class="option-price">${opt.price} ₽${opt.id === 'loft' ? '/час' : ''}</div>
       <div style="font-size:0.7rem; color:#9288b0; margin-top:4px; max-width:100%; display:none; line-height:1.4; padding:4px 8px; background:rgba(124,77,255,0.05); border-radius:8px;" class="option-desc">${opt.desc}</div>
       <button type="button" class="option-desc-toggle" aria-expanded="false">Описание</button>
       <input type="checkbox" class="option-checkbox" data-price="${opt.price}" data-name="${escapeAttr(opt.name)}" data-description="${escapeAttr(opt.desc || '')}" />
@@ -2207,12 +2255,14 @@ async function confirmBooking() {
     return;
   }
   
-  showToast(`✅ Бронирование подтверждено! ${questName} на ${dateTime} для ${players} чел. Итого: ${total}`);
-  
-  setTimeout(() => {
-    closeBooking();
-    if (button) button.disabled = false;
-  }, 2000);
+  showBookingSuccess({
+    questName,
+    dateTime,
+    contactMethod,
+    contactHandle,
+    phone,
+    email
+  });
 }
 
 // ============================================================
@@ -2372,39 +2422,24 @@ function bookPackage(name, price) {
 function bookCustomPackage() {
   const selected = document.querySelectorAll('.constructor-options .option-card.active');
   const items = Array.from(selected).map(el => el.dataset.name);
-  const players = parseInt(document.getElementById('constructorPlayersDisplay').textContent) || 3;
   const optionsTotal = Array.from(selected).reduce((sum, el) => sum + parseInt(el.dataset.price), 0);
-  const extraPlayerCost = players > 3 ? (players - 3) * 1500 : 0;
-  const finalTotal = optionsTotal + extraPlayerCost;
   const name = `Свой пакет с нуля${items.length ? ` (${items.join(', ')})` : ''}`;
-  openBooking(name, `Персональный пакет с нуля для ${players} участников. К цене добавится квест на выбор по дате и времени. Дополнения: ${items.join(', ') || 'без дополнений'}.`, finalTotal, true);
+  openBooking(name, `Персональный пакет с нуля. К цене добавится квест на выбор по дате и времени. Дополнительные услуги: ${items.join(', ') || 'без дополнительных услуг'}.`, optionsTotal, true);
 }
 
 // ============================================================
 // ===== КОНСТРУКТОР =====
 // ============================================================
-let constructorPlayersValue = 3;
-
-function changeConstructorPlayers(delta) {
-  constructorPlayersValue = Math.max(1, Math.min(20, constructorPlayersValue + delta));
-  const display = document.getElementById('constructorPlayersDisplay');
-  if (display) display.textContent = constructorPlayersValue;
-  updateConstructor();
-}
-
 function updateConstructor() {
   const selected = document.querySelectorAll('.constructor-options .option-card.active');
   const items = Array.from(selected).map(el => ({ name: el.dataset.name, price: parseInt(el.dataset.price) }));
   const container = document.getElementById('constructorItems');
   if (!container) return;
   
-  const extraPlayerCost = constructorPlayersValue > 3 ? (constructorPlayersValue - 3) * 1500 : 0;
   container.innerHTML = `<div class="preview-item"><span>Квест на выбор</span></div>` + items.map(item =>
     `<div class="preview-item"><span>${item.name}</span><span>${item.price} ₽</span></div>`
-  ).join('') + (extraPlayerCost > 0
-    ? `<div class="preview-item"><span>Доп. участники</span><span>${extraPlayerCost} ₽</span></div>`
-    : '');
-  const total = items.reduce((sum, i) => sum + i.price, 0) + extraPlayerCost;
+  ).join('');
+  const total = items.reduce((sum, i) => sum + i.price, 0);
   const totalEl = document.getElementById('constructorTotal');
   if (totalEl) {
     totalEl.textContent = `${total.toLocaleString('ru-RU')} ₽ + квест`;
@@ -2415,7 +2450,8 @@ function updateConstructor() {
 // ===== КНОПКИ БРОНИРОВАНИЯ =====
 // ============================================================
 document.addEventListener('click', function(e) {
-  const btn = e.target.closest('.btn-book-sm');
+  const packageCard = e.target.closest('.package-card');
+  const btn = e.target.closest('.btn-book-sm') || packageCard?.querySelector('.btn-book-sm');
   if (!btn) return;
   
   const name = btn.dataset.questName || btn.dataset.package || 'Квест';

@@ -203,7 +203,7 @@
       account.type = 'button';
       account.className = 'account-button auth-trigger';
       account.textContent = 'Профиль';
-      account.addEventListener('click', function () { window.location.href = '/profile.html'; });
+      account.addEventListener('click', function () { window.location.href = '/profile'; });
       headerRight.appendChild(account);
     }
   }
@@ -242,7 +242,7 @@
 
     mobileProfile.addEventListener('click', function () {
       if (typeof window.openImmerscapeAuth === 'function') window.openImmerscapeAuth();
-      else window.location.href = '/profile.html';
+      else window.location.href = '/profile';
     });
   }
 
@@ -286,8 +286,13 @@
     panel.setAttribute('aria-label', 'Меню сайта');
 
     const currentPath = window.location.pathname.replace(/\.html$/, '') || '/';
+    const currentHash = window.location.hash;
     const links = MENU_ITEMS.map(function (item) {
-      const active = item.path === '/' ? currentPath === '/' : currentPath === item.path;
+      const active = item.path === '/'
+        ? currentPath === '/' && currentHash !== '#section-birthday'
+        : item.path === '/birthday'
+          ? currentPath === '/' && currentHash === '#section-birthday'
+          : currentPath === item.path;
       return '<a href="' + item.href + '"' + (active ? ' class="active" aria-current="page"' : '') + '>' + item.label + '</a>';
     }).join('');
 

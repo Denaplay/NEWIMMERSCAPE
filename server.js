@@ -188,6 +188,13 @@ const server = http.createServer((request, response) => {
     response.writeHead(405, { allow: 'GET, HEAD' }).end('Метод не поддерживается');
     return;
   }
+  if (url.pathname.toLowerCase().endsWith('.html')) {
+    const cleanPath = url.pathname.toLowerCase() === '/index.html'
+      ? '/'
+      : url.pathname.slice(0, -'.html'.length);
+    response.writeHead(308, { location: `${cleanPath}${url.search}` }).end();
+    return;
+  }
   serveStatic(request, response, url.pathname);
 });
 

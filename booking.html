@@ -22,6 +22,7 @@
         <button type="button" class="step-btn" data-step="2">2. Опции</button>
         <button type="button" class="step-btn" data-step="3">3. Контакты</button>
         <button type="button" class="step-btn" data-step="4">4. Квитанция</button>
+        <button type="button" class="step-btn" data-step="5" disabled>5. Готово</button>
       </div>
 
       <div class="step-content active" data-step="1">
@@ -51,6 +52,13 @@
           <div id="bookingMap"></div>
 
           <div class="booking-form">
+            <div class="quest-select-wrapper" id="packageQuestSelect" style="display:none;">
+              <label>Сначала выберите квест</label>
+              <select id="packageQuestChoice"></select>
+              <div class="field-hint">Квест входит в стоимость готового пакета. После выбора появятся доступные даты и время.</div>
+            </div>
+
+            <div id="bookingDateTimeSection">
             <label>Дата и время сеанса</label>
             <div class="datetime-selector">
               <div class="date-selector-wrapper">
@@ -69,11 +77,6 @@
               </div>
               <div class="time-grid" id="timeGrid"></div>
             </div>
-
-            <div class="quest-select-wrapper" id="packageQuestSelect" style="display:none;">
-              <label>Квест внутри пакета</label>
-              <select id="packageQuestChoice"></select>
-              <div class="field-hint">В готовом пакете квест входит в стоимость. В пакете с нуля цена квеста добавится по выбранному слоту.</div>
             </div>
 
             <div style="margin-top:10px;">
@@ -125,22 +128,22 @@
           <div class="collapsible-body" id="packagesBody">
             <div class="package-mini" data-package="Пакет на 2 часа" data-price="23500" data-base-players="3" data-extra-player-price="1500">
               <span class="pkg-name">Пакет на 2 часа</span>
-              <span class="pkg-price">23 500 ₽ <small>за 3х, доп. 1 500 ₽; квест входит</small></span>
+              <span class="pkg-price">23 500 ₽ <small>За 3-х участников, дополнительный участник 1500 р.<br>Квест входит в стоимость.</small></span>
               <button type="button" class="package-desc-toggle" aria-expanded="false">Показать состав</button>
-              <div class="package-description"><ul><li>Квест/анимационная программа на выбор</li><li>Дополнительный актёр</li><li>Украшенная лофт зона</li><li>Сервировка стола</li><li>Креативное поздравление</li><li>Треш коробка</li></ul></div>
+              <div class="package-description"><h5>Программа</h5><ul><li>Квест или анимационная программа на выбор</li><li>Дополнительный актёр</li></ul><h5>Праздник и подарки</h5><ul><li>Украшенная лофт-зона</li><li>Сервировка стола</li><li>Поздравление именинника от лица персонажей и подарок</li><li>Треш-коробка</li></ul></div>
             </div>
             <div class="package-mini" data-package="Пакет на 3 часа" data-price="39000" data-base-players="3" data-extra-player-price="1500">
               <span class="pkg-name">⭐ Пакет на 3 часа</span>
-              <span class="pkg-price">39 000 ₽ <small>за 3х, доп. 1 500 ₽; квест входит</small></span>
+              <span class="pkg-price">39 000 ₽ <small>За 3-х участников, дополнительный участник 1500 р.<br>Квест входит в стоимость.</small></span>
               <span class="pkg-badge">Популярный</span>
               <button type="button" class="package-desc-toggle" aria-expanded="false">Показать состав</button>
-              <div class="package-description"><ul><li>Всё из пакета на 2 часа</li><li>Памятный подарок имениннику и сувенир каждому участнику</li><li>Фотограф</li><li>10 фото в проф. обработке и цветокоррекции</li><li>Кресло режиссёра</li><li>Видео-нарезка самых ярких моментов с прохождения квеста</li><li>Настольная игра с ведущим на выбор</li></ul></div>
+              <div class="package-description"><h5>Программа</h5><ul><li>Квест или анимационная программа на выбор</li><li>Дополнительный актёр</li><li>Настольная игра с ведущим на выбор</li><li>Кресло режиссёра</li></ul><h5>Праздничная зона</h5><ul><li>Украшенная лофт-зона</li><li>Сервировка стола</li></ul><h5>Фото, видео и подарки</h5><ul><li>Фотограф</li><li>10 фотографий в профессиональной обработке и цветокоррекции</li><li>Видеоролик с прохождения квеста</li><li>Поздравление и памятный подарок имениннику</li><li>Сувенир каждому участнику</li><li>Треш-коробка</li></ul></div>
             </div>
             <div class="package-mini" data-package="Пакет на 4.5 часа" data-price="103000" data-base-players="5" data-extra-player-price="2500">
               <span class="pkg-name">Пакет на 4.5 часа</span>
-              <span class="pkg-price">103 000 ₽ <small>до 5х, доп. 2 500 ₽; квест входит</small></span>
+              <span class="pkg-price">103 000 ₽ <small>За 5 участников, дополнительный участник 2500 р.<br>Квест входит в стоимость.</small></span>
               <button type="button" class="package-desc-toggle" aria-expanded="false">Показать состав</button>
-              <div class="package-description"><ul><li>Всё из пакета на 3 часа</li><li>Перекрытие локации на всё время праздника</li><li>Лофт зона</li><li>Персональные украшения</li><li>Фотограф на время квеста в образе</li><li>15 фото в проф. обработке + видео с квеста</li><li>Велком дринк или Кенди бар</li><li>Шоу программа на выбор: Крио шоу или шоу Фокусов</li><li>Аквагрим или Блеск тату</li><li>Шар с цифрой</li><li>Мастер-класс на выбор</li><li>Пиньята с любым дизайном</li><li>Персональный менеджер</li><li>Настольная игра с ведущим или музыкальные конкурсы или квиз об имениннике</li><li>Развлечения для родителей: мафия с ведущим или Кресло режиссёра</li><li>Бумажная дискотека с боем подушками или Танцевальные конкурсы</li></ul></div>
+              <div class="package-description"><h5>Основная программа</h5><ul><li>Квест или анимационная программа на выбор</li><li>Дополнительный актёр</li><li>Перекрытие локации на всё время праздника</li><li>Личный менеджер</li></ul><h5>Зона и угощения</h5><ul><li>Лофт-зона с персональными украшениями</li><li>Сервировка стола</li><li>Приветственный напиток или кэнди-бар</li><li>Шар с цифрой</li></ul><h5>Шоу и развлечения</h5><ul><li>Крио-шоу или шоу фокусов</li><li>Мастер-класс на выбор</li><li>Аквагрим или блеск-тату</li><li>Пиньята с любым дизайном</li><li>Настольная игра, музыкальные конкурсы или квиз</li><li>Бумажная дискотека или танцевальные конкурсы</li></ul><h5>Игры для компании</h5><ul><li>Мафия с ведущим или кресло режиссёра</li></ul><h5>Фото, видео и подарки</h5><ul><li>Фотограф в образе на время квеста</li><li>15 обработанных фотографий</li><li>Видеоролик с прохождения</li><li>Поздравление и памятный подарок имениннику</li><li>Сувенир каждому участнику</li><li>Треш-коробка</li></ul></div>
             </div>
           </div>
         </div>
@@ -215,7 +218,7 @@
           <div class="row"><span>Квест/Пакет</span><span id="receiptQuest">Невеста</span></div>
           <div class="row"><span>Дата и время</span><span id="receiptDateTime">Не выбрана</span></div>
           <div class="row"><span>Количество участников</span><span id="receiptPlayers">1</span></div>
-          <div class="row"><span>Доп. услуги</span><span id="receiptExtras">—</span></div>
+          <div class="row"><span>Дополнительные услуги</span><span id="receiptExtras">—</span></div>
           <div class="row"><span>Формат вечера</span><span id="receiptHorrorVariant">—</span></div>
           <div class="row"><span>Способ связи</span><span id="receiptMethod">Звонок</span></div>
           <div class="row"><span>Сумма</span><span id="receiptSubtotal">0 ₽</span></div>
@@ -237,6 +240,32 @@
             <button type="button" class="btn-primary" onclick="confirmBooking()">Подтвердить бронь</button>
           </div>
         </div>
+      </div>
+
+      <div class="step-content" data-step="5">
+        <section class="booking-success" aria-labelledby="bookingSuccessTitle" role="status">
+          <div class="booking-success-icon" aria-hidden="true">✓</div>
+          <p class="booking-success-eyebrow">Бронирование оформлено</p>
+          <h2 id="bookingSuccessTitle">Ваша бронь успешно создана!</h2>
+          <p class="booking-success-lead">Мы свяжемся с вами по указанным данным, чтобы подтвердить бронирование и уточнить детали.</p>
+
+          <div class="booking-success-details">
+            <div><span>Бронирование</span><strong id="successBookingSummary">—</strong></div>
+            <div><span>Свяжемся с вами</span><strong id="successContactSummary">—</strong></div>
+          </div>
+
+          <div class="booking-success-account">
+            <div>
+              <h3>Создайте личный кабинет</h3>
+              <p>Так будет удобнее хранить данные профиля и пользоваться возможностями аккаунта.</p>
+            </div>
+            <a class="btn-primary" href="/#register">Создать личный кабинет</a>
+          </div>
+
+          <div class="booking-success-actions">
+            <a class="btn-outline" href="/">Вернуться на главную</a>
+          </div>
+        </section>
       </div>
     </div>
   </div>

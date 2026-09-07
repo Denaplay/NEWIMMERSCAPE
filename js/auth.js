@@ -64,7 +64,7 @@
   let mode = 'signin';
   let currentUser = null;
   const authTimeoutMs = 20000;
-  const confirmationRedirectUrl = `${window.location.origin}/email-confirmed.html`;
+  const confirmationRedirectUrl = `${window.location.origin}/email-confirmed`;
   const resendButtonLabel = 'Отправить письмо подтверждения ещё раз';
   const resendCooldownPrefix = 'immerscape.auth.resend-cooldown.';
   const resendCooldownMemory = new Map();
@@ -325,11 +325,14 @@
   // Публичный обработчик используется прямо кнопкой в HTML. Он не зависит от
   // других обработчиков клика и остаётся доступным для повторного открытия.
   window.openImmerscapeAuth = () => {
-    if (currentUser) window.location.href = 'profile.html';
+    if (currentUser) window.location.href = '/profile';
     else openModal();
   };
   if (isSignupConfirmationReturn()) showSignupConfirmedMessage();
-  else if (window.location.hash === '#auth') openModal();
+  else if (window.location.hash === '#register') {
+    setMode('signup');
+    openModal();
+  } else if (window.location.hash === '#auth') openModal();
 
   function closeModal() {
     modal.hidden = true;
@@ -355,7 +358,7 @@
   button.addEventListener('click', async event => {
     event.preventDefault();
     if (!currentUser) return openModal();
-    window.location.href = 'profile.html';
+    window.location.href = '/profile';
   });
   modal.querySelectorAll('[data-auth-close]').forEach(el => el.addEventListener('click', closeModal));
   document.addEventListener('keydown', event => {

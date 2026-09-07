@@ -596,10 +596,10 @@ function initPackageTabs() {
 
 function initConstructorServiceDescriptions() {
   const descriptions = {
-    'Видеонарезка': '5-7 минут ярких моментов вашего приключения.',
+    'Видеоролик': '5-7 минут ярких моментов вашего приключения.',
     'Кресло режиссёра': 'Наблюдение за игрой со стороны.',
     'Дополнительный актёр': 'Может уменьшить или увеличить уровень страха.',
-    'Лофт': 'Украшенная зона для праздника с шарами и сервировкой.',
+    'Лофт': 'Украшенная зона для праздника с шарами и сервировкой. Стоимость — 5 500 ₽ в час.',
     'Настольная игра с ведущим': 'Игра с ведущим после квеста.',
     'Креативное поздравление': 'Поздравление для именинника в стиле сценария.',
     'Фотограф': 'Съёмка после квеста, исходники и фото в обработке.',
@@ -640,24 +640,43 @@ function initConstructorServiceDescriptions() {
 
 // ===== АКТИВНАЯ НАВИГАЦИЯ =====
 document.addEventListener('DOMContentLoaded', function() {
-  const currentPath = window.location.pathname.split('/').pop() || 'index.html';
-  document.querySelectorAll('.nav a').forEach(link => {
-    const href = link.getAttribute('href');
-    link.classList.remove('active');
-    if (href === currentPath || (href === 'index.html' && currentPath === 'index.html')) {
-      link.classList.add('active');
-    }
-    if (currentPath === 'index.html' && href === 'index.html#section-quests') {
-      link.classList.add('active');
-    }
-  });
+  const currentPath = window.location.pathname.replace(/\/$/, '') || '/';
+  const navLinks = Array.from(document.querySelectorAll('.nav a, .mobile-menu-links a'));
+
+  function setActiveNavigation(activeHref) {
+    navLinks.forEach(link => {
+      const isActive = link.getAttribute('href') === activeHref;
+      link.classList.toggle('active', isActive);
+      if (isActive) link.setAttribute('aria-current', 'page');
+      else link.removeAttribute('aria-current');
+    });
+  }
+
+  if (currentPath === '/') {
+    const questSection = document.getElementById('section-quests');
+    const birthdaySection = document.getElementById('section-birthday');
+    const updateHomeNavigation = () => {
+      const birthdayStarted = birthdaySection && birthdaySection.getBoundingClientRect().top <= 180;
+      const questsVisible = questSection && questSection.getBoundingClientRect().bottom > 180;
+      setActiveNavigation(birthdayStarted && !questsVisible ? '/#section-birthday' : '/#section-quests');
+    };
+    updateHomeNavigation();
+    window.addEventListener('scroll', updateHomeNavigation, { passive: true });
+    window.addEventListener('hashchange', updateHomeNavigation);
+  } else {
+    const currentLink = navLinks.find(link => {
+      const path = new URL(link.getAttribute('href'), window.location.origin).pathname.replace(/\/$/, '') || '/';
+      return path === currentPath;
+    });
+    setActiveNavigation(currentLink?.getAttribute('href') || '');
+  }
 });
 
 // ===== ПЛАВНЫЕ ПЕРЕХОДЫ МЕЖДУ СТРАНИЦАМИ =====
 document.addEventListener('DOMContentLoaded', function() {
   document.querySelectorAll('a[href]').forEach(link => {
     const href = link.getAttribute('href');
-    if (href && (href.endsWith('.html') || href.includes('.html#')) && !href.startsWith('http') && !href.startsWith('#')) {
+    if (href && href.startsWith('/') && !href.startsWith('/#')) {
       link.addEventListener('click', function(e) {
         e.preventDefault();
         document.body.classList.add('page-transition');

@@ -44,7 +44,7 @@ npm start
 Страница бронирования доступна по обоим адресам:
 
 - <http://localhost:3000/booking>
-- <http://localhost:3000/booking.html>
+- <http://localhost:3000/booking>
 
 Чтобы выбрать другой порт:
 
@@ -64,8 +64,8 @@ PORT=8080 npm start
    пользователей — publishable key сам по себе не даёт административных прав.
 
 Письма подтверждения возвращают пользователя на отдельную страницу
-`/email-confirmed.html`. Добавьте `https://immerscape.ru/email-confirmed.html`
-(и `http://localhost:3000/email-confirmed.html` для локальной проверки) в список
+`/email-confirmed`. Добавьте `https://immerscape.ru/email-confirmed`
+(и `http://localhost:3000/email-confirmed` для локальной проверки) в список
 **Authentication → URL Configuration → Redirect URLs** в Supabase.
 
 Чтобы имя и телефон сохранялись в отдельной таблице `public.profiles`, выполните
@@ -74,7 +74,7 @@ RLS-политиками таблицу, переносит данные уже 
 устанавливает триггер для новых регистраций. Без этого скрипта имя и телефон
 находятся только в `auth.users.raw_user_meta_data`.
 
-Страница `profile.html` показывает имя, телефон, email и `visits_count`. Имя и
+Страница `/profile` показывает имя, телефон, email и `visits_count`. Имя и
 фамилию пользователь может изменить самостоятельно. Количество фактических
 посещений хранится в `public.profiles.visits_count` и должно увеличиваться вашей
 CRM или администратором после состоявшегося квеста, а не при обычном бронировании.
