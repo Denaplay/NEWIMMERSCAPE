@@ -1586,8 +1586,13 @@
     }
 
     .horror-page .figma-hero::before {
-      background-position: 57% 45%;
-      filter: contrast(1.12) saturate(0.72) brightness(0.62);
+      background:
+        linear-gradient(90deg, rgba(0, 0, 0, 0.94) 0%, rgba(0, 0, 0, 0.74) 34%, rgba(0, 0, 0, 0.18) 68%, rgba(0, 0, 0, 0.3) 100%),
+        linear-gradient(180deg, rgba(0, 0, 0, 0.08) 55%, #000 100%),
+        url('/imeges/horror-page-background.png') center top / cover no-repeat;
+      background-position: center top;
+      opacity: 0.96;
+      filter: contrast(1.06) saturate(0.92) brightness(0.72);
     }
 
     .horror-page .figma-hero .container {
@@ -1995,9 +2000,9 @@
   }
 
   .horror-page .figma-hero::before {
-    background-position: 62% 18%;
-    opacity: 0.78;
-    filter: contrast(1.08) saturate(0.68) brightness(0.48);
+    background-position: 67% top;
+    opacity: 0.88;
+    filter: contrast(1.05) saturate(0.86) brightness(0.58);
   }
 
   .horror-page .horror-hero .container,
@@ -2537,6 +2542,161 @@
     font-size: clamp(2.05rem, 11vw, 2.55rem) !important;
   }
 }
+
+/* Единый кинематографичный фон для всей хоррор-страницы. */
+body.horror-page {
+  background: #030303;
+}
+
+.horror-page .figma-horror {
+  position: relative;
+  isolation: isolate;
+  background:
+    linear-gradient(180deg, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.66)),
+    url('/imeges/horror-page-background.png') center top / cover fixed no-repeat;
+}
+
+.horror-page .figma-horror > section {
+  position: relative;
+  z-index: 1;
+  background-image: none !important;
+  background-color: rgba(0, 0, 0, 0.5) !important;
+}
+
+.horror-page .figma-horror > section:nth-of-type(even) {
+  background:
+    linear-gradient(110deg, rgba(24, 0, 3, 0.72), rgba(0, 0, 0, 0.42) 48%, rgba(9, 18, 22, 0.58)) !important;
+}
+
+.horror-page .figma-horror > section:nth-of-type(odd) {
+  background:
+    linear-gradient(250deg, rgba(34, 0, 4, 0.62), rgba(0, 0, 0, 0.38) 52%, rgba(0, 13, 18, 0.52)) !important;
+}
+
+.horror-page .figma-hero::before {
+  background:
+    linear-gradient(90deg, rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.57) 38%, rgba(0, 0, 0, 0.08) 72%),
+    linear-gradient(180deg, transparent 58%, rgba(0, 0, 0, 0.72)),
+    url('/imeges/horror-page-background.png') center top / cover no-repeat !important;
+  filter: contrast(1.09) saturate(1.08) brightness(0.86) !important;
+}
+
+.horror-page .figma-panel,
+.horror-page .price-card,
+.horror-page .stat-card,
+.horror-page .figma-map-card {
+  border-color: rgba(255, 78, 78, 0.36) !important;
+  background-color: rgba(15, 7, 9, 0.82) !important;
+  box-shadow: 0 24px 65px rgba(0, 0, 0, 0.62), 0 0 28px rgba(255, 18, 18, 0.1) !important;
+  backdrop-filter: blur(9px);
+}
+
+.horror-page .figma-section-title,
+.horror-page .figma-panel h3,
+.horror-page .price-card h3 {
+  filter: brightness(1.24) contrast(1.08);
+  text-shadow: 0 3px 18px rgba(255, 255, 255, 0.14), 0 0 20px rgba(255, 0, 0, 0.16);
+}
+
+.horror-page .figma-copy,
+.horror-page .number-item p,
+.horror-page .service-list p,
+.horror-page .price-line span,
+.horror-page .price-card p {
+  color: rgba(255, 255, 255, 0.92) !important;
+}
+
+.horror-page .number-item > span,
+.horror-page .red-price,
+.horror-page .price-line strong {
+  filter: brightness(1.16) saturate(1.16);
+  box-shadow: 0 0 20px rgba(255, 38, 38, 0.14);
+}
+
+.horror-page .figma-button {
+  filter: brightness(1.08) saturate(1.08);
+  box-shadow: 0 13px 34px rgba(255, 255, 255, 0.13), 0 0 26px rgba(255, 34, 34, 0.18) !important;
+}
+
+.horror-page .footer {
+  background: rgba(7, 4, 5, 0.9) !important;
+  backdrop-filter: blur(12px);
+}
+
+/* Парящие лепестки роз — декоративный слой поверх общего фона. */
+.horror-petals {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.horror-petal {
+  --petal-size: 34px;
+  position: absolute;
+  width: var(--petal-size);
+  height: calc(var(--petal-size) * 0.78);
+  border-radius: 72% 28% 68% 32% / 65% 32% 68% 35%;
+  background:
+    radial-gradient(circle at 72% 25%, rgba(255, 125, 125, 0.92) 0 6%, transparent 27%),
+    radial-gradient(circle at 34% 70%, #ff1d32 0 24%, #c40016 62%, #59000b 100%);
+  box-shadow: 0 0 18px rgba(255, 0, 31, 0.48), inset -7px -8px 11px rgba(62, 0, 8, 0.48);
+  opacity: 0.68;
+  transform: rotate(var(--petal-rotate, -18deg));
+  filter: saturate(1.28);
+  animation: horror-petal-drift 7s ease-in-out infinite alternate;
+}
+
+.horror-petal::after {
+  content: "";
+  position: absolute;
+  width: 48%;
+  height: 62%;
+  right: 3%;
+  top: 0;
+  border-radius: 90% 20% 80% 30%;
+  background: linear-gradient(145deg, rgba(255, 86, 98, 0.88), rgba(113, 0, 14, 0.18));
+  transform: rotate(24deg);
+}
+
+.horror-petal:nth-child(1) { --petal-size: 74px; --petal-rotate: 18deg; left: -26px; top: 12%; filter: blur(3px) saturate(1.25); animation-delay: -1s; }
+.horror-petal:nth-child(2) { --petal-size: 31px; --petal-rotate: -28deg; left: 7%; top: 37%; animation-delay: -4s; }
+.horror-petal:nth-child(3) { --petal-size: 42px; --petal-rotate: 31deg; right: 3%; top: 24%; filter: blur(1px) saturate(1.35); animation-delay: -2s; }
+.horror-petal:nth-child(4) { --petal-size: 25px; --petal-rotate: -8deg; right: 10%; top: 55%; animation-delay: -5s; }
+.horror-petal:nth-child(5) { --petal-size: 55px; --petal-rotate: 52deg; left: -12px; top: 69%; filter: blur(2px) saturate(1.3); animation-delay: -3s; }
+.horror-petal:nth-child(6) { --petal-size: 30px; --petal-rotate: 15deg; left: 12%; top: 86%; animation-delay: -6s; }
+.horror-petal:nth-child(7) { --petal-size: 68px; --petal-rotate: -38deg; right: -25px; top: 81%; filter: blur(4px) saturate(1.2); animation-delay: -2.5s; }
+
+@keyframes horror-petal-drift {
+  from { translate: 0 -8px; rotate: -3deg; }
+  to { translate: 10px 13px; rotate: 7deg; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .horror-petal { animation: none; }
+}
+
+@media (max-width: 767px) {
+  .horror-page .figma-horror {
+    background-position: 64% top;
+  }
+
+  .horror-page .figma-horror > section {
+    background-color: rgba(0, 0, 0, 0.62) !important;
+  }
+
+  .horror-petal:nth-child(1),
+  .horror-petal:nth-child(5),
+  .horror-petal:nth-child(7) {
+    scale: 0.72;
+  }
+
+  .horror-petal:nth-child(2),
+  .horror-petal:nth-child(4) {
+    display: none;
+  }
+}
   </style>
 </head>
 <body class="horror-page">
@@ -2568,6 +2728,15 @@
   </header>
 
   <main class="figma-horror">
+    <div class="horror-petals" aria-hidden="true">
+      <i class="horror-petal"></i>
+      <i class="horror-petal"></i>
+      <i class="horror-petal"></i>
+      <i class="horror-petal"></i>
+      <i class="horror-petal"></i>
+      <i class="horror-petal"></i>
+      <i class="horror-petal"></i>
+    </div>
     <section class="horror-hero figma-hero" id="hero">
       <div class="container">
         <div class="horror-hero-content">
