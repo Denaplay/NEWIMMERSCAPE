@@ -7823,7 +7823,7 @@ body::selection {
     radial-gradient(circle at 10% 12%, rgba(255, 0, 0, 0.22), transparent 28%),
     radial-gradient(circle at 92% 20%, rgba(255, 255, 255, 0.06), transparent 22%),
     linear-gradient(180deg, rgba(0, 0, 0, 0.72), rgba(0, 0, 0, 0.94)),
-    url('../imeges/horror-vecher/1.webp') center / cover fixed no-repeat;
+    url('../imeges/horror-page-background.png') center / cover fixed no-repeat;
 }
 
 .booking-overlay.horror-booking::before {

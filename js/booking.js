@@ -484,7 +484,7 @@ function getHorrorVariants(name) {
     return [
       {
         key: 'standard',
-        title: 'Обычное свидание',
+        title: 'Хоррор свидание',
         time: '60-65 минут',
         price: 10000,
         desc: 'Романтическое хоррор-свидание на м. Профсоюзная'
@@ -502,7 +502,7 @@ function getHorrorVariants(name) {
   return [
     {
       key: 'standard',
-      title: 'Обычный вечер',
+      title: 'Хоррор вечер',
       time: '60-65 минут',
       price: 12000,
       desc: 'Хоррор вечер на м. Таганская'
