@@ -5875,33 +5875,35 @@ body::selection {
 }
 
 #section-quests::before {
-  top: -140px;
+  top: 0;
   left: -12vw;
   width: 124vw;
-  height: max(1040px, 110vh);
+  height: 100%;
   background:
     radial-gradient(circle at 18% 24%, rgba(255, 126, 87, 0.22), transparent 34%),
     radial-gradient(circle at 82% 28%, rgba(171, 255, 115, 0.13), transparent 32%),
     radial-gradient(circle at 50% 86%, rgba(255, 202, 97, 0.18), transparent 38%);
-  background-size: 120% 120%;
+  background-position: center top;
+  background-size: 120vw 2400px;
+  background-repeat: no-repeat;
   opacity: 0.88;
   transform: translate3d(0, 0, 0) scale(1.02);
   will-change: transform, background-position;
-  animation: questGradientPulse 34s ease-in-out infinite alternate;
+  animation: none;
 }
 
 #section-quests::after {
   top: 0;
   left: 0;
   width: 100%;
-  height: max(920px, 100vh);
+  height: 100%;
   background-image:
     radial-gradient(circle at center, rgba(255, 229, 185, 0.06) 0 1px, transparent 1.5px),
     linear-gradient(90deg, rgba(171, 255, 115, 0.024) 1px, transparent 1px);
   background-size: 64px 64px, 64px 64px;
   mask-image: linear-gradient(180deg, transparent 0%, #000 12%, #000 88%, transparent 100%);
   opacity: 0.22;
-  animation: questWallpaperParticles 46s linear infinite;
+  animation: none;
 }
 
 .quest-live-wallpaper {
@@ -5915,10 +5917,10 @@ body::selection {
 
 .quest-live-wallpaper svg {
   position: absolute;
-  top: -120px;
+  top: 0;
   left: -18vw;
   width: 136vw;
-  height: max(920px, 100vh);
+  height: 2400px;
   overflow: visible;
   transform: translate3d(0, 0, 0);
 }
