@@ -4,7 +4,7 @@
   const consentName = 'immerscape_cookie_consent';
   const acceptedValue = 'accepted';
   const storageKey = 'immerscape.cookie-consent';
-  const yandexMetrikaCounterIds = [105721762, 98900241, 100756440];
+  const yandexMetrikaCounterIds = [112558815];
 
   function initializeYandexMetrika() {
     window.ym = window.ym || function() { (window.ym.a = window.ym.a || []).push(arguments); };
