@@ -4363,6 +4363,76 @@ body.page-transition {
   gap: 10px;
   margin-top: 16px;
 }
+
+.booking-consents {
+  display: grid;
+  gap: 12px;
+  margin-top: 18px;
+  padding: 16px;
+  border: 1px solid rgba(179, 136, 255, 0.2);
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.035);
+}
+
+.booking-consent {
+  display: grid;
+  grid-template-columns: 20px minmax(0, 1fr);
+  gap: 10px;
+  align-items: start;
+  color: rgba(244, 239, 255, 0.86);
+  font-size: 0.82rem;
+  line-height: 1.5;
+  cursor: default;
+}
+
+.booking-consent label,
+.auth-consent label {
+  cursor: pointer;
+}
+
+.booking-consent input {
+  width: 18px;
+  height: 18px;
+  margin: 2px 0 0;
+  accent-color: #b388ff;
+}
+
+.booking-consent a,
+.footer-legal a {
+  color: #cbb7ff;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.legal-document-link {
+  display: inline;
+  border: 0;
+  padding: 0;
+  background: none;
+  color: #cbb7ff;
+  font: inherit;
+  text-align: left;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
+
+.booking-consent-error {
+  color: #ff9aab;
+  font-size: 0.78rem;
+  line-height: 1.4;
+}
+
+.booking-consent-error:empty {
+  display: none;
+}
+
+#confirmBookingButton:disabled {
+  cursor: not-allowed;
+  filter: grayscale(0.35);
+  opacity: 0.48;
+  box-shadow: none;
+}
 @media (min-width: 480px) {
   .btn-group {
     gap: 14px;
@@ -5214,6 +5284,7 @@ body.page-transition {
 .account-button.signed-in { color: #d8c8ff; }
 .account-button:disabled { cursor: wait; opacity: 0.6; }
 body.auth-open { overflow: hidden; }
+body.legal-modal-open { overflow: hidden; }
 .auth-modal[hidden] { display: none; }
 .auth-modal {
   position: fixed;
@@ -5251,10 +5322,21 @@ body.auth-open { overflow: hidden; }
 .auth-form [hidden] { display: none; }
 .auth-signup-fields { display: grid; gap: 16px; }
 .auth-signup-fields[hidden] { display: none; }
+.auth-consents { display: grid; gap: 12px; }
+.auth-consents[hidden] { display: none; }
 .auth-form label { display: grid; gap: 7px; color: #d6d0e2; font-size: 0.82rem; font-weight: 600; }
 .auth-form input { box-sizing: border-box; width: 100%; border: 1px solid #352c49; border-radius: 12px; padding: 13px 14px; background: #0b0911; color: #fff; font: inherit; outline: none; }
 .auth-form .auth-consent { grid-template-columns: auto 1fr; align-items: center; cursor: pointer; font-weight: 500; line-height: 1.4; }
 .auth-form .auth-consent input { width: 18px; height: 18px; padding: 0; accent-color: #7c4dff; }
+.auth-form .auth-consent {
+  display: grid;
+  gap: 7px;
+  align-items: start;
+  font-size: 0.82rem;
+  cursor: default;
+}
+.auth-form .auth-consent .legal-document-link { color: #bfa6ff; }
+.auth-form .auth-consent a { color: #bfa6ff; text-decoration: underline; text-underline-offset: 2px; }
 .auth-form input:focus { border-color: #7c4dff; box-shadow: 0 0 0 3px rgba(124, 77, 255, 0.14); }
 .auth-submit { border: 0; border-radius: 12px; padding: 13px; background: linear-gradient(135deg, #7c4dff, #9c6cff); color: #fff; font: inherit; font-weight: 800; cursor: pointer; }
 .auth-submit:disabled, .auth-link:disabled { cursor: wait; opacity: 0.6; }
@@ -5266,10 +5348,45 @@ body.auth-open { overflow: hidden; }
 .auth-link { border: 0; padding: 0; background: none; color: #b388ff; font: inherit; font-size: 0.82rem; cursor: pointer; }
 .auth-reset { margin-top: 15px; }
 .auth-switch { margin-top: 24px; padding-top: 20px; border-top: 1px solid #2c253b; color: #aaa1bd; text-align: center; font-size: 0.85rem; }
+
+.legal-modal[hidden] { display: none; }
+.legal-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 9000;
+  display: grid;
+  place-items: center;
+  padding: 18px;
+}
+.legal-modal-backdrop { position: fixed; inset: 0; background: rgba(4, 3, 9, 0.78); backdrop-filter: blur(7px); }
+.legal-modal-dialog {
+  position: relative;
+  width: min(100%, 620px);
+  max-height: min(76vh, 680px);
+  max-height: min(76dvh, 680px);
+  padding: 26px;
+  overflow-y: auto;
+  border: 1px solid rgba(179, 136, 255, 0.32);
+  border-radius: 22px;
+  background: linear-gradient(145deg, #1a1425, #0e0b16);
+  box-shadow: 0 26px 90px rgba(0, 0, 0, 0.72);
+  color: #f7f3ff;
+}
+.legal-modal-dialog h2 { margin: 0 40px 18px 0; font-size: clamp(1.1rem, 3vw, 1.45rem); line-height: 1.3; }
+.legal-modal-close { position: absolute; top: 10px; right: 14px; border: 0; padding: 4px 8px; background: none; color: #aaa1bd; font-size: 2rem; line-height: 1; cursor: pointer; }
+.legal-modal-content { color: #d6d0e2; font-size: 0.9rem; line-height: 1.65; }
+.legal-modal-content p { margin: 0 0 12px; }
+.legal-modal-content h3, .legal-modal-content h4, .legal-modal-content h5 { margin: 22px 0 10px; color: #fff; }
+.legal-modal-content ul { margin: 0 0 14px; padding-left: 22px; }
+.legal-modal-content a { color: #cbb7ff; }
+.legal-modal-loading, .legal-modal-empty { color: #aaa1bd; }
+.legal-modal-error { color: #ff9aab; }
 @media (max-width: 767px) {
   .account-button { max-width: 220px; }
   .auth-modal { align-items: start; padding: 12px; }
   .auth-dialog { max-height: calc(100vh - 24px); max-height: calc(100dvh - 24px); padding: 28px 22px; }
+  .legal-modal { align-items: start; padding: 12px; }
+  .legal-modal-dialog { max-height: calc(100vh - 24px); max-height: calc(100dvh - 24px); padding: 24px 20px; }
 }
 
 /* ===== ЛИЧНЫЙ ПРОФИЛЬ ===== */
@@ -8415,6 +8532,50 @@ body:not(.horror-page) .glow-line {
   border-radius: 6px;
 }
 
+.footer-legal {
+  grid-column: 1 / -1;
+  display: grid;
+  gap: 16px;
+  margin-top: 4px;
+  padding-top: 24px;
+  border-top: 1px solid rgba(179, 136, 255, 0.16);
+}
+
+.footer-legal h2 {
+  margin: 0;
+  color: #fff;
+  font-family: 'Unbounded', 'Manrope', system-ui, sans-serif;
+  font-size: clamp(0.9rem, 1.2vw, 1.05rem);
+  line-height: 1.25;
+  text-transform: uppercase;
+}
+
+.footer-legal-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px clamp(24px, 5vw, 64px);
+}
+
+.footer-legal p,
+.footer-legal ul {
+  margin: 0;
+  color: rgba(216, 209, 234, 0.76);
+  font-size: clamp(0.78rem, 0.95vw, 0.9rem);
+  line-height: 1.55;
+}
+
+.footer-legal ul {
+  padding-left: 20px;
+}
+
+.footer-legal-policy {
+  display: flex !important;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+  margin-top: 2px;
+}
+
 .horror-page .footer {
   border-top-color: rgba(255, 0, 0, 0.18);
   background:
@@ -8460,6 +8621,10 @@ body:not(.horror-page) .glow-line {
   .footer-col .social-links a {
     width: 36px;
     height: 36px;
+  }
+
+  .footer-legal-grid {
+    grid-template-columns: 1fr;
   }
 }
 

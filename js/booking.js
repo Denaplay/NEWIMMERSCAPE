@@ -1673,6 +1673,14 @@ function resetBookingData() {
   const vkInput = document.getElementById('bookingVk');
   if (telegramInput) telegramInput.value = '';
   if (vkInput) vkInput.value = '';
+  const personalDataConsent = document.getElementById('personalDataConsent');
+  const advertisingConsent = document.getElementById('advertisingConsent');
+  const personalDataConsentError = document.getElementById('personalDataConsentError');
+  const confirmBookingButton = document.getElementById('confirmBookingButton');
+  if (personalDataConsent) personalDataConsent.checked = false;
+  if (advertisingConsent) advertisingConsent.checked = false;
+  if (personalDataConsentError) personalDataConsentError.textContent = '';
+  if (confirmBookingButton) confirmBookingButton.disabled = true;
   updateContactHandleFields();
   
   const now = new Date();
@@ -2160,6 +2168,15 @@ function updateReceipt() {
 // ===== ПОДТВЕРЖДЕНИЕ БРОНИ =====
 // ============================================================
 async function confirmBooking() {
+  const personalDataConsent = document.getElementById('personalDataConsent');
+  const personalDataConsentError = document.getElementById('personalDataConsentError');
+  if (!personalDataConsent?.checked) {
+    if (personalDataConsentError) personalDataConsentError.textContent = 'Для бронирования необходимо дать согласие на обработку персональных данных.';
+    showToast('⚠️ Подтвердите согласие на обработку персональных данных.');
+    personalDataConsent?.focus();
+    return;
+  }
+
   const name = document.getElementById('bookingName').value.trim();
   const phoneCheck = validateBookingPhone(true);
   if (!name) {
@@ -2194,7 +2211,7 @@ async function confirmBooking() {
     .filter(Boolean)
     .join('\n');
 
-  const button = document.querySelector('#receiptBox .btn-primary');
+  const button = document.getElementById('confirmBookingButton');
   if (button) button.disabled = true;
 
   // Бронь и карточка клиента создаются одной транзакцией только в Supabase.
@@ -2270,6 +2287,17 @@ async function confirmBooking() {
 // ============================================================
 document.addEventListener('DOMContentLoaded', function() {
   ensureBookingUi();
+
+  const personalDataConsent = document.getElementById('personalDataConsent');
+  const personalDataConsentError = document.getElementById('personalDataConsentError');
+  const confirmBookingButton = document.getElementById('confirmBookingButton');
+  const updateConsentState = () => {
+    const consentGiven = Boolean(personalDataConsent?.checked);
+    if (confirmBookingButton) confirmBookingButton.disabled = !consentGiven;
+    if (consentGiven && personalDataConsentError) personalDataConsentError.textContent = '';
+  };
+  personalDataConsent?.addEventListener('change', updateConsentState);
+  updateConsentState();
 
   const closeBtn = document.getElementById('closeOverlayBtn');
   if (closeBtn) closeBtn.addEventListener('click', closeBooking);

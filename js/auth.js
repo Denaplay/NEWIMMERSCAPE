@@ -38,7 +38,10 @@
         <label>Email<input name="email" type="email" autocomplete="email" placeholder="mail@example.com" required></label>
         <label class="auth-password-field">Пароль<input name="password" type="password" autocomplete="current-password" minlength="6" placeholder="Не менее 6 символов" required></label>
         <label class="auth-confirm-field" hidden>Повторите пароль<input name="passwordConfirm" type="password" autocomplete="new-password" minlength="6" placeholder="Повторите пароль"></label>
-        <label class="auth-consent" hidden><input name="consent" type="checkbox"> <span>Я согласен на обработку персональных данных</span></label>
+        <div class="auth-consents" hidden>
+          <div class="auth-consent"><input id="authPersonalDataConsent" name="consent" type="checkbox"> <span><label for="authPersonalDataConsent"><strong>Даю согласие на обработку персональных данных</strong></label> в соответствии с <button type="button" class="legal-document-link" data-legal-document data-legal-url="/consent-personal-data.md" data-legal-title="Согласие на обработку персональных данных">Согласием на обработку персональных данных</button>.</span></div>
+          <div class="auth-consent"><input id="authAdvertisingConsent" name="advertisingConsent" type="checkbox"> <span><button type="button" class="legal-document-link" data-legal-document data-legal-url="/consent-advertising.md" data-legal-title="Согласие на рекламные и информационные сообщения"><strong>Соглашаюсь на получение рекламных и информационных сообщений</strong> от Immerscape</button>.</span></div>
+        </div>
         <div class="auth-message" role="status" aria-live="polite"></div>
         <button class="auth-submit" type="submit">Войти</button>
         <button class="auth-resend auth-link" type="button" hidden>Отправить письмо подтверждения ещё раз</button>
@@ -60,7 +63,7 @@
   const passwordInput = form.elements.password;
   const signupFields = modal.querySelector('.auth-signup-fields');
   const confirmField = modal.querySelector('.auth-confirm-field');
-  const consentField = modal.querySelector('.auth-consent');
+  const consentFields = modal.querySelector('.auth-consents');
   let mode = 'signin';
   let currentUser = null;
   const authTimeoutMs = 20000;
@@ -293,7 +296,7 @@
     resetButton.hidden = isSignup;
     signupFields.hidden = !isSignup;
     confirmField.hidden = !isSignup;
-    consentField.hidden = !isSignup;
+    consentFields.hidden = !isSignup;
     form.elements.fullName.required = isSignup;
     form.elements.phone.required = isSignup;
     form.elements.passwordConfirm.required = isSignup;

@@ -1,0 +1,108 @@
+.cookie-consent {
+  position: fixed;
+  right: 18px;
+  bottom: 18px;
+  left: 18px;
+  z-index: 8500;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 94px;
+  gap: 18px;
+  align-items: center;
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 15px 16px 15px 19px;
+  border: 1px solid rgba(179, 136, 255, 0.28);
+  border-radius: 18px;
+  background:
+    radial-gradient(circle at 92% 0%, rgba(124, 77, 255, 0.2), transparent 34%),
+    linear-gradient(145deg, rgba(24, 19, 34, 0.98), rgba(12, 10, 20, 0.98));
+  box-shadow: 0 16px 44px rgba(0, 0, 0, 0.52), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  color: #f7f3ff;
+  font-family: 'Manrope', Arial, sans-serif;
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 220ms ease, transform 220ms ease;
+}
+
+.cookie-consent.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.cookie-consent-text {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+  font-size: 0.78rem;
+  line-height: 1.4;
+}
+
+.cookie-consent-text strong {
+  color: #fff;
+  font-size: 0.9rem;
+  font-weight: 800;
+}
+
+.cookie-consent-text span {
+  display: block;
+  color: rgba(216, 209, 234, 0.78);
+  font-weight: 500;
+}
+
+.cookie-consent-button {
+  width: 100%;
+  min-height: 48px;
+  border: 0;
+  border-radius: 13px;
+  background: linear-gradient(135deg, #7c4dff, #a46cff);
+  box-shadow: 0 8px 22px rgba(124, 77, 255, 0.28);
+  color: #fff;
+  font: inherit;
+  font-size: 0.95rem;
+  font-weight: 800;
+  cursor: pointer;
+  transition: background-color 160ms ease, transform 160ms ease;
+}
+
+.cookie-consent-button:hover {
+  background: linear-gradient(135deg, #8b5cff, #b17cff);
+  transform: translateY(-1px);
+}
+
+.cookie-consent-button:focus-visible {
+  outline: 3px solid rgba(179, 136, 255, 0.72);
+  outline-offset: 3px;
+}
+
+@media (max-width: 520px) {
+  .cookie-consent {
+    right: 10px;
+    bottom: 10px;
+    left: 10px;
+    grid-template-columns: minmax(0, 1fr) 72px;
+    gap: 11px;
+    padding: 13px 13px 13px 15px;
+    border-radius: 16px;
+  }
+
+  .cookie-consent-text {
+    font-size: 0.7rem;
+  }
+
+  .cookie-consent-text strong {
+    font-size: 0.78rem;
+  }
+
+  .cookie-consent-button {
+    min-height: 44px;
+    border-radius: 12px;
+    font-size: 0.85rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cookie-consent,
+  .cookie-consent-button {
+    transition: none;
+  }
+}

@@ -15,6 +15,7 @@ const mimeTypes = {
   '.html': 'text/html; charset=utf-8',
   '.js': 'text/javascript; charset=utf-8',
   '.json': 'application/json; charset=utf-8',
+  '.md': 'text/markdown; charset=utf-8',
   '.ico': 'image/x-icon',
   '.png': 'image/png',
   '.svg': 'image/svg+xml',
@@ -118,7 +119,7 @@ function sendStaticFile(request, response, filePath) {
   const requestPath = String(request.url || '').split('?')[0];
   const headers = {
     'content-type': mimeTypes[extension] || 'application/octet-stream',
-    'cache-control': ['.html', '.js', '.css'].includes(extension) ? 'no-store' : 'public, max-age=3600'
+    'cache-control': ['.html', '.js', '.css', '.md'].includes(extension) ? 'no-store' : 'public, max-age=3600'
   };
   if (/^\/(?:booking|profile|email-confirmed|staff-)/.test(requestPath)) {
     headers['x-robots-tag'] = 'noindex, nofollow';

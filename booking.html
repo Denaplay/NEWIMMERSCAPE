@@ -235,9 +235,21 @@
             </div>
           </div>
 
+          <div class="booking-consents" aria-label="Согласия на обработку данных и получение сообщений">
+            <div class="booking-consent">
+              <input type="checkbox" id="personalDataConsent" required />
+              <span><label for="personalDataConsent"><strong>Даю согласие на обработку персональных данных</strong></label> в соответствии с <button type="button" class="legal-document-link" data-legal-document data-legal-url="/consent-personal-data.md" data-legal-title="Согласие на обработку персональных данных">Согласием на обработку персональных данных</button>.</span>
+            </div>
+            <div class="booking-consent">
+              <input type="checkbox" id="advertisingConsent" />
+              <span><button type="button" class="legal-document-link" data-legal-document data-legal-url="/consent-advertising.md" data-legal-title="Согласие на рекламные и информационные сообщения"><strong>Соглашаюсь на получение рекламных и информационных сообщений</strong> от Immerscape</button>.</span>
+            </div>
+            <div class="booking-consent-error" id="personalDataConsentError" aria-live="polite"></div>
+          </div>
+
           <div class="btn-group">
             <button type="button" class="btn-outline" onclick="goStep(3)">← Назад</button>
-            <button type="button" class="btn-primary" onclick="confirmBooking()">Подтвердить бронь</button>
+            <button type="button" class="btn-primary" id="confirmBookingButton" onclick="confirmBooking()" disabled>Подтвердить бронь</button>
           </div>
         </div>
       </div>
@@ -271,8 +283,10 @@
   </div>
 
   <script src="js/supabase-auth-client.js"></script>
+  <script src="/js/cookie-consent.js"></script>
   <script src="js/supabase-config.js"></script>
   <script src="js/quest-booking-api.js"></script>
+  <script src="js/legal-modal.js"></script>
   <script src="js/booking.js?v=20260809-3"></script>
 </body>
 </html>

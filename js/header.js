@@ -1,6 +1,14 @@
 (function () {
   'use strict';
 
+  if (!document.querySelector('script[data-cookie-consent-script]')) {
+    const cookieConsentScript = document.createElement('script');
+    cookieConsentScript.src = '/js/cookie-consent.js';
+    cookieConsentScript.defer = true;
+    cookieConsentScript.dataset.cookieConsentScript = 'true';
+    (document.head || document.documentElement).appendChild(cookieConsentScript);
+  }
+
   const MENU_ITEMS = [
     { label: 'Квесты', href: '/#section-quests', path: '/' },
     { label: 'День рождения под ключ', href: '/#section-birthday', path: '/birthday' },
