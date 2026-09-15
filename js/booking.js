@@ -484,18 +484,20 @@ function getHorrorVariants(name) {
     return [
       {
         key: 'standard',
-        title: 'Хоррор свидание',
-        time: '60-65 минут',
-        price: 10000,
-        desc: 'Романтическое хоррор-свидание на м. Профсоюзная'
-      },
-      {
-        key: 'vip',
-        title: 'VIP хоррор свидание',
-        time: '2-2.5 часа',
-        price: 15000,
-        desc: 'VIP хоррор-свидание на м. Профсоюзная'
-      }
+      title: 'Хоррор свидание',
+      time: '60-65 минут',
+      price: 10000,
+      extraPrice: 0,
+      desc: 'Романтическое хоррор-свидание на м. Профсоюзная'
+    },
+    {
+      key: 'vip',
+      title: 'VIP версия',
+      time: '2-2.5 часа',
+      price: 15000,
+      extraPrice: 5000,
+      desc: 'VIP хоррор-свидание на м. Профсоюзная'
+    }
     ];
   }
 
@@ -505,13 +507,15 @@ function getHorrorVariants(name) {
       title: 'Хоррор вечер',
       time: '60-65 минут',
       price: 12000,
+      extraPrice: 0,
       desc: 'Хоррор вечер на м. Таганская'
     },
     {
       key: 'vip',
-      title: 'VIP хоррор вечер',
+      title: 'VIP версия',
       time: '2-2.5 часа',
-      price: 15000,
+      price: 17000,
+      extraPrice: 5000,
       desc: 'VIP хоррор вечер на м. Таганская'
     }
   ];
@@ -553,7 +557,9 @@ function renderHorrorVariantSelector(name) {
     <button type="button" class="horror-variant-card${variant.key === selectedHorrorVariant ? ' active' : ''}" data-variant="${variant.key}">
       <span class="horror-variant-name">${variant.title}</span>
       <span class="horror-variant-meta">${variant.time}</span>
-      <span class="horror-variant-price">от ${formatMoney(variant.price)}</span>
+      <span class="horror-variant-price">${'extraPrice' in variant
+        ? (variant.extraPrice ? `+${formatMoney(variant.extraPrice)}` : 'Без доплаты')
+        : `от ${formatMoney(variant.price)}`}</span>
     </button>
   `).join('');
 
@@ -591,6 +597,11 @@ function getSelectedHorrorVariantLabel() {
   if (!isHorrorBookingName(currentBookingName)) return '';
   const variant = getHorrorVariants(currentBookingName).find(item => item.key === selectedHorrorVariant)
     || getHorrorVariants(currentBookingName)[0];
+  if ('extraPrice' in variant) {
+    return variant.extraPrice
+      ? `${variant.title} (+${formatMoney(variant.extraPrice)})`
+      : `${variant.title} (без доплаты)`;
+  }
   return `${variant.title} — ${formatMoney(variant.price)}`;
 }
 
