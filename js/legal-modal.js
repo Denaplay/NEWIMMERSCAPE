@@ -1,6 +1,8 @@
 (function initLegalDocumentModal() {
   'use strict';
 
+  if (document.querySelector('.legal-modal')) return;
+
   const modal = document.createElement('div');
   modal.className = 'legal-modal';
   modal.hidden = true;

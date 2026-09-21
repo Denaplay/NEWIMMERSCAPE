@@ -164,7 +164,7 @@
     const translations = [
       [/auth_timeout|timed out|timeout|aborted/, 'Сервер авторизации не ответил вовремя. Попробуйте ещё раз.'],
       [/failed to fetch|networkerror|network request failed|fetch failed|load failed/, 'Нет связи с сервером авторизации. Проверьте интернет и попробуйте ещё раз.'],
-      [/invalid_credentials|invalid login credentials|invalid email or password/, 'Неверный email или пароль.'],
+      [/invalid_credentials|invalid login credentials|invalid email or password/, 'Аккаунт с таким email не зарегистрирован или пароль указан неверно. Проверьте данные либо зарегистрируйтесь.'],
       [/email_not_confirmed|email not confirmed/, 'Email ещё не подтверждён. Откройте письмо с подтверждением или запросите его повторно.'],
       [/user_already_exists|already registered|already been registered|email exists|email_exists/, 'Пользователь с таким email уже зарегистрирован.'],
       [/weak_password|password should|password must|password is too weak/, 'Пароль слишком простой. Используйте не менее 6 символов.'],

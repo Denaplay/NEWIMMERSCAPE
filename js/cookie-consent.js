@@ -6,6 +6,14 @@
   const storageKey = 'immerscape.cookie-consent';
   const yandexMetrikaCounterIds = [112558815];
 
+  function ensureLegalDocumentModal() {
+    if (document.querySelector('.legal-modal') || document.querySelector('script[data-legal-modal-script]')) return;
+    const legalModalScript = document.createElement('script');
+    legalModalScript.src = '/js/legal-modal.js';
+    legalModalScript.dataset.legalModalScript = 'true';
+    document.head.appendChild(legalModalScript);
+  }
+
   function initializeYandexMetrika() {
     window.ym = window.ym || function() { (window.ym.a = window.ym.a || []).push(arguments); };
     window.ym.l = window.ym.l || Date.now();
@@ -87,6 +95,8 @@
     }
     if (document.querySelector('.cookie-consent')) return;
 
+    ensureLegalDocumentModal();
+
     if (!document.querySelector('link[data-cookie-consent-styles]')) {
       const stylesheet = document.createElement('link');
       stylesheet.rel = 'stylesheet';
@@ -101,8 +111,7 @@
     banner.setAttribute('aria-label', 'Согласие на использование файлов cookie');
     banner.innerHTML = `
       <div class="cookie-consent-text">
-        <strong>Используем куки, чтобы сайт работал лучше.</strong>
-        <span>Оставаясь с нами, вы соглашаетесь на использование файлов куки.</span>
+        <span>Мы используем файлы cookie для работы сайта, аналитики и улучшения сервиса. Подробнее — в <button type="button" class="cookie-consent-policy" data-legal-document data-legal-url="/cookie-policy.md" data-legal-title="Политика использования файлов cookie">Политике использования файлов cookie</button>.</span>
       </div>
       <button class="cookie-consent-button" type="button">Ок</button>`;
     document.body.appendChild(banner);

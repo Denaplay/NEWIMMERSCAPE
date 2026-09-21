@@ -158,10 +158,28 @@ test('Telegram endpoint reports missing hosting configuration in Russian', async
 
 test('common Supabase authentication errors are translated into Russian', () => {
   const translate = loadAuthErrorTranslator();
-  assert.equal(translate({ code: 'invalid_credentials', message: 'Invalid login credentials' }), 'Неверный email или пароль.');
+  assert.equal(translate({ code: 'invalid_credentials', message: 'Invalid login credentials' }), 'Аккаунт с таким email не зарегистрирован или пароль указан неверно. Проверьте данные либо зарегистрируйтесь.');
   assert.match(translate({ code: 'email_not_confirmed', message: 'Email not confirmed' }), /Email ещё не подтверждён/);
   assert.match(translate({ code: 'over_request_rate_limit', message: 'Too many requests' }), /Слишком много попыток/);
   assert.equal(translate({ message: 'Some unknown provider failure' }), 'Не удалось выполнить авторизацию. Проверьте данные и попробуйте ещё раз.');
+});
+
+test('cookie banner links to a dedicated Markdown policy in the legal modal', () => {
+  const cookieSource = fs.readFileSync('js/cookie-consent.js', 'utf8');
+  const cookiePolicy = fs.readFileSync('cookie-policy.md', 'utf8');
+  assert.match(cookieSource, /Мы используем файлы cookie для работы сайта, аналитики и улучшения сервиса\./);
+  assert.match(cookieSource, /data-legal-url="\/cookie-policy\.md"/);
+  assert.match(cookieSource, /Политике использования файлов cookie/);
+  assert.match(cookiePolicy, /Политика использования файлов cookie/);
+});
+
+test('every legal footer includes the cookie policy as its third link', () => {
+  ['index.html', 'action.html', 'events.html', 'horror.html'].forEach(file => {
+    const html = fs.readFileSync(file, 'utf8');
+    const footer = html.match(/<p class="footer-legal-policy">([\s\S]*?)<\/p>/)?.[1] || '';
+    const links = [...footer.matchAll(/<a\b[^>]*href="([^"]+)"/g)].map(match => match[1]);
+    assert.deepEqual(links, ['/privacy-policy.md', '/public-offer.md', '/cookie-policy.md'], file);
+  });
 });
 
 test('email signup uses a dedicated confirmation page and detects masked duplicates', () => {
