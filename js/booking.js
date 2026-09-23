@@ -479,6 +479,10 @@ function isHorrorBookingName(name) {
   return name === 'Хоррор-свидание' || name === 'Хоррор-вечер';
 }
 
+function getRequiredPrepayment(name) {
+  return isHorrorBookingName(name) ? 5000 : 2500;
+}
+
 function getHorrorVariants(name) {
   if (name === 'Хоррор-свидание') {
     return [
@@ -1370,6 +1374,11 @@ function updateBookingPhotoPosition() {
 function updateTotalDisplay() {
   const totals = calculateBookingTotals();
   const basePriceLabel = getBasePriceLabel(totals);
+  const prepaymentLabel = `${getRequiredPrepayment(currentBookingName).toLocaleString('ru-RU')} ₽`;
+
+  document.querySelectorAll('[data-booking-prepayment]').forEach(element => {
+    element.textContent = prepaymentLabel;
+  });
   
   // === ОБНОВЛЯЕМ ОТОБРАЖЕНИЕ ===
   // Шаг 1

@@ -4311,6 +4311,20 @@ body.page-transition {
   padding-top: 6px;
   border-top: 1px solid rgba(255, 255, 255, 0.04);
 }
+.booking-prepayment-notice {
+  margin-top: 10px;
+  padding: 10px 12px;
+  border: 1px solid rgba(255, 193, 7, 0.3);
+  border-radius: 10px;
+  background: rgba(255, 193, 7, 0.08);
+  color: #e8ddbd;
+  font-size: 0.78rem;
+  line-height: 1.4;
+}
+.booking-prepayment-notice strong {
+  color: #ffd36a;
+  font-weight: 800;
+}
 .field-hint,
 .promo-status {
   color: #7a6e96;
@@ -8574,6 +8588,27 @@ body:not(.horror-page) .glow-line {
   align-items: flex-start;
   gap: 8px;
   margin-top: 2px;
+}
+
+.footer-col .footer-legal-policy {
+  gap: 7px;
+  margin: 0;
+}
+
+.footer-col .footer-legal-policy a {
+  color: rgba(216, 209, 234, 0.82);
+  font-size: clamp(0.78rem, 0.95vw, 0.9rem);
+  line-height: 1.4;
+  text-decoration: none;
+}
+
+.footer-col .footer-legal-policy a:hover {
+  color: #fff;
+}
+
+.footer-col .footer-social-title {
+  margin-top: 12px;
+  font-size: 0.78rem;
 }
 
 .horror-page .footer {

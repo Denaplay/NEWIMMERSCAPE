@@ -1556,6 +1556,22 @@
       isolation: isolate;
     }
 
+    .figma-horror::before {
+      content: "";
+      position: absolute;
+      inset: 720px 0 0;
+      z-index: -1;
+      pointer-events: none;
+      background:
+        radial-gradient(circle at 2% 3%, #ff0000 0 10px, rgba(255, 0, 0, 0.5) 11px 18px, transparent 19px),
+        radial-gradient(circle at 97% 12%, #ff0000 0 12px, rgba(255, 0, 0, 0.45) 13px 28px, transparent 29px),
+        radial-gradient(circle at 9% 34%, #ff0000 0 9px, transparent 10px),
+        radial-gradient(circle at 90% 42%, #ff0000 0 8px, transparent 9px),
+        radial-gradient(circle at 4% 69%, #ff0000 0 13px, rgba(255, 0, 0, 0.38) 14px 26px, transparent 27px),
+        radial-gradient(circle at 95% 79%, #ff0000 0 10px, transparent 11px);
+      opacity: 0.72;
+    }
+
     .figma-horror .container,
     .figma-horror section {
       position: relative;
@@ -1570,13 +1586,8 @@
     }
 
     .horror-page .figma-hero::before {
-      background:
-        linear-gradient(90deg, rgba(0, 0, 0, 0.94) 0%, rgba(0, 0, 0, 0.74) 34%, rgba(0, 0, 0, 0.18) 68%, rgba(0, 0, 0, 0.3) 100%),
-        linear-gradient(180deg, rgba(0, 0, 0, 0.08) 55%, #000 100%),
-        url('/imeges/horror-page-background.png') center top / cover no-repeat;
-      background-position: center top;
-      opacity: 0.96;
-      filter: contrast(1.06) saturate(0.92) brightness(0.72);
+      background-position: 57% 45%;
+      filter: contrast(1.12) saturate(0.72) brightness(0.62);
     }
 
     .horror-page .figma-hero .container {
@@ -1637,6 +1648,10 @@
         border-bottom-width: 2px;
       }
 
+      .figma-horror::before {
+        inset: 620px 0 0;
+        opacity: 0.45;
+      }
     }
 
     @media (max-width: 560px) {
@@ -1980,9 +1995,9 @@
   }
 
   .horror-page .figma-hero::before {
-    background-position: 67% top;
-    opacity: 0.88;
-    filter: contrast(1.05) saturate(0.86) brightness(0.58);
+    background-position: 62% 18%;
+    opacity: 0.78;
+    filter: contrast(1.08) saturate(0.68) brightness(0.48);
   }
 
   .horror-page .horror-hero .container,
@@ -2105,6 +2120,11 @@
   .horror-page .stat-card .stat-label {
     margin-top: 4px;
     font-size: 0.5rem !important;
+  }
+
+  .figma-horror::before {
+    inset: 500px 0 0 !important;
+    opacity: 0.32 !important;
   }
 
   .figma-section,
@@ -2517,187 +2537,6 @@
     font-size: clamp(2.05rem, 11vw, 2.55rem) !important;
   }
 }
-
-/* Единый кинематографичный фон для всей хоррор-страницы. */
-body.horror-page {
-  background: #030303;
-}
-
-.horror-page .figma-horror {
-  position: relative;
-  isolation: isolate;
-  background:
-    linear-gradient(180deg, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.66)),
-    url('/imeges/horror-page-background.png') center top / cover scroll no-repeat;
-  background-attachment: scroll;
-}
-
-.horror-page .figma-horror > section {
-  position: relative;
-  z-index: 1;
-  background-image: none !important;
-  background-color: rgba(0, 0, 0, 0.5) !important;
-}
-
-.horror-page .figma-horror > section:nth-of-type(even) {
-  background:
-    linear-gradient(110deg, rgba(24, 0, 3, 0.72), rgba(0, 0, 0, 0.42) 48%, rgba(9, 18, 22, 0.58)) !important;
-}
-
-.horror-page .figma-horror > section:nth-of-type(odd) {
-  background:
-    linear-gradient(250deg, rgba(34, 0, 4, 0.62), rgba(0, 0, 0, 0.38) 52%, rgba(0, 13, 18, 0.52)) !important;
-}
-
-.horror-page .figma-hero::before {
-  background:
-    linear-gradient(90deg, rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.57) 38%, rgba(0, 0, 0, 0.08) 72%),
-    linear-gradient(180deg, transparent 58%, rgba(0, 0, 0, 0.72)),
-    url('/imeges/horror-page-background.png') center top / cover no-repeat !important;
-  filter: contrast(1.09) saturate(1.08) brightness(0.86) !important;
-}
-
-.horror-page .figma-panel,
-.horror-page .price-card,
-.horror-page .stat-card,
-.horror-page .figma-map-card {
-  border-color: rgba(255, 78, 78, 0.36) !important;
-  background-color: rgba(15, 7, 9, 0.82) !important;
-  box-shadow: 0 24px 65px rgba(0, 0, 0, 0.62), 0 0 28px rgba(255, 18, 18, 0.1) !important;
-  backdrop-filter: blur(9px);
-}
-
-.horror-page .figma-section-title,
-.horror-page .figma-panel h3,
-.horror-page .price-card h3 {
-  color: #f2f2f2 !important;
-  background: none !important;
-  background-image: none !important;
-  -webkit-background-clip: border-box !important;
-  background-clip: border-box !important;
-  -webkit-text-fill-color: #f2f2f2 !important;
-  opacity: 1 !important;
-  filter: none !important;
-  mix-blend-mode: normal !important;
-  text-shadow: 0 3px 18px rgba(255, 255, 255, 0.14), 0 0 20px rgba(255, 0, 0, 0.16);
-}
-
-.horror-page .horror-hero-content h1,
-.horror-page .horror-hero-content h1 .highlight,
-.horror-page .figma-metal {
-  color: #f2f2f2 !important;
-  background: none !important;
-  background-image: none !important;
-  -webkit-background-clip: border-box !important;
-  background-clip: border-box !important;
-  -webkit-text-fill-color: #f2f2f2 !important;
-  opacity: 1 !important;
-  filter: none !important;
-  mix-blend-mode: normal !important;
-}
-
-.horror-page .figma-copy,
-.horror-page .number-item p,
-.horror-page .service-list p,
-.horror-page .price-line span,
-.horror-page .price-card p {
-  color: rgba(255, 255, 255, 0.92) !important;
-}
-
-.horror-page .number-item > span,
-.horror-page .red-price,
-.horror-page .price-line strong {
-  filter: brightness(1.16) saturate(1.16);
-  box-shadow: 0 0 20px rgba(255, 38, 38, 0.14);
-}
-
-.horror-page .figma-button {
-  filter: brightness(1.08) saturate(1.08);
-  box-shadow: 0 13px 34px rgba(255, 255, 255, 0.13), 0 0 26px rgba(255, 34, 34, 0.18) !important;
-}
-
-.horror-page .footer {
-  background: rgba(7, 4, 5, 0.9) !important;
-  backdrop-filter: blur(12px);
-}
-
-@media (max-width: 767px) {
-  .horror-page .figma-horror {
-    background-position: 64% top;
-    background-attachment: scroll;
-  }
-
-  .horror-page .figma-horror > section {
-    background-color: rgba(0, 0, 0, 0.62) !important;
-  }
-
-  .horror-page .horror-hero-content h1,
-  .horror-page .horror-hero-content h1 .highlight,
-  .horror-page .figma-metal,
-  .horror-page .figma-section-title,
-  .horror-page .figma-panel h3,
-  .horror-page .price-card h3 {
-    color: #f2f2f2 !important;
-    background: none !important;
-    background-image: none !important;
-    -webkit-background-clip: border-box !important;
-    background-clip: border-box !important;
-    -webkit-text-fill-color: #f2f2f2 !important;
-    opacity: 1 !important;
-    filter: none !important;
-    mix-blend-mode: normal !important;
-  }
-
-  .horror-page .horror-hero-content h1,
-  .horror-page .horror-hero-content h1 .highlight {
-    text-shadow: 0 2px 0 #000, 0 5px 12px rgba(0, 0, 0, 0.9) !important;
-  }
-
-  .horror-page .figma-horror,
-  .horror-page .figma-horror > section,
-  .horror-page .figma-horror .container,
-  .horror-page .horror-hero-content,
-  .horror-page .horror-location-selector,
-  .horror-page .horror-hero-visual,
-  .horror-page .horror-stats {
-    width: 100%;
-    max-width: 100%;
-    min-width: 0;
-  }
-
-  .horror-page .figma-horror .container {
-    padding-right: 16px !important;
-    padding-left: 16px !important;
-  }
-
-  .horror-page .horror-location-selector .loc-btn {
-    display: grid !important;
-    grid-template-columns: auto minmax(0, 1fr) minmax(0, 132px);
-    width: 100% !important;
-    max-width: 100%;
-    min-width: 0;
-    gap: 7px;
-    overflow: hidden;
-  }
-
-  .horror-page .horror-location-selector .loc-name {
-    min-width: 0;
-    overflow-wrap: anywhere;
-  }
-
-  .horror-page .horror-location-selector .loc-btn .badge {
-    width: 100%;
-    min-width: 0;
-    overflow-wrap: anywhere;
-  }
-
-  .horror-page .horror-hero .figma-button,
-  .horror-page .horror-hero-visual .hero-image {
-    width: 100% !important;
-    max-width: 100% !important;
-    min-width: 0 !important;
-  }
-}
   </style>
 </head>
 <body class="horror-page">
@@ -2708,12 +2547,12 @@ body.horror-page {
   <!-- ===== HEADER ===== -->
   <header class="header">
     <div class="container">
-      <a href="/" class="logo">immerscape</a>
+      <a href="index.html" class="logo">immerscape</a>
       <nav class="nav">
-        <a href="/">Квесты</a>
-        <a href="/#section-birthday">День рождения под ключ</a>
-        <a href="/horror" class="active">Хоррор вечер</a>
-        <a href="/action">Экшен игры</a>
+        <a href="index.html">Квесты</a>
+        <a href="index.html#section-birthday">День рождения под ключ</a>
+        <a href="horror.html" class="active">Хоррор вечер</a>
+        <a href="action.html">Экшен игры</a>
       </nav>
       <div class="header-right">
         <span class="header-phone" data-phone="+79916858651">+7 (991) 685-86-51</span>
@@ -2738,11 +2577,11 @@ body.horror-page {
 
           <div class="horror-location-selector">
             <button class="loc-btn" data-location="profsoyuznaya">
-              <span class="pin">📍</span><span class="loc-name">Профсоюзная</span>
+              <span class="pin">📍</span> Профсоюзная
               <span class="badge">Хоррор свидание</span>
             </button>
             <button class="loc-btn active" data-location="taganskaya">
-              <span class="pin">📍</span><span class="loc-name">Таганская</span>
+              <span class="pin">📍</span> Таганская
               <span class="badge">Хоррор вечер</span>
             </button>
           </div>
@@ -2785,8 +2624,8 @@ body.horror-page {
               <div><strong>1,5 часа</strong><p>полноценный просмотр ужастика в уютной комнате на ваш вкус</p></div>
               <div><strong>1 час</strong><p>интерактивного квеста с дополнительными актёрами</p></div>
             </div>
-            <p>Стоимость: <span class="red-price">от 17'000 ₽</span></p>
-            <button class="figma-button" onclick="openBooking('Хоррор-вечер','Хоррор вечер на м. Таганская',12000,false)">Забронировать</button>
+            <p>Стоимость: <span class="red-price">от 15'000 ₽</span></p>
+            <button class="figma-button" onclick="openBooking('Хоррор-вечер','VIP хоррор вечер на м. Таганская',15000,false)">Забронировать</button>
           </article>
         </div>
       </div>
@@ -2836,7 +2675,7 @@ body.horror-page {
           <div class="price-list">
             <div class="price-line"><span>Хоррор вечер на Таганской</span><strong>от 12'000 ₽</strong></div>
             <div class="price-line"><span>Романтическое хоррор свидание</span><strong>от 10'000 ₽</strong></div>
-            <div class="price-line"><span>VIP версия хоррор-вечера</span><strong>+5'000 ₽</strong></div>
+            <div class="price-line"><span>Свидание VIP Хоррор</span><strong>от 15'000 ₽</strong></div>
             <div class="price-line"><span>Девичник Хоррор</span><strong>от 15'000 ₽</strong></div>
             <div class="price-line"><span>Хоррор кино в реальности в компании с друзьями</span><strong>от 15'000 ₽</strong></div>
             <div class="price-line"><span>Романтический просмотр фильма</span><strong>от 6'000 ₽</strong></div>
@@ -2850,7 +2689,7 @@ body.horror-page {
             <p>Дополнительный актёр для более острых ощущений</p>
             <p>Оформление шарами</p>
             <p>Организация предложения руки и сердца в нестандартной обстановке</p>
-            <p>Креативное поздравление от актёров</p>
+            <p>Поздравление именинника от лица персонажей + подарок</p>
           </div>
         </article>
       </div>
@@ -2914,7 +2753,7 @@ body.horror-page {
   </main>
 
   <!-- ===== FOOTER ===== -->
-  <footer class="footer">
+  <footer class="footer" data-site-footer>
     <div class="container">
       <div class="footer-col">
         <strong>immerscape</strong>
@@ -2924,7 +2763,7 @@ body.horror-page {
       <div class="footer-col">
         <strong>Контакты</strong>
         <span>+7 (991) 685-86-51</span>
-        <span>info@immerscape.ru</span>
+        <span>Immerscape-Quest@yandex.ru</span>
         <span>Ежедневно 10:00–22:00</span>
       </div>
       <div class="footer-col">
@@ -2947,19 +2786,11 @@ body.horror-page {
         </div>
         <span style="margin-top:6px; font-size:0.8rem; color:#6f648a;">Будьте в курсе новостей</span>
       </div>
-      <section class="footer-legal" aria-labelledby="performer-info-horror">
-        <h2 id="performer-info-horror">Информация об исполнителе</h2>
-        <div class="footer-legal-grid">
-          <p>Индивидуальный предприниматель Манцурова Тамара Викторовна<br>ИНН: 772915605552<br>ОГРНИП: 325774600224549<br>Адрес: Москва, проезд 2-й Сетуньский, дом 11, кв. 48<br>E-mail: <a href="mailto:Immerscape-Quest@yandex.ru">Immerscape-Quest@yandex.ru</a></p>
-          <p>Режим работы квестов: ежедневно, по предварительной записи с 09:00 до 03:45 следующего дня<br><br>Номер телефона: <a href="tel:+79916858651">8 (991) 685-86-51</a><br>Прием звонков: ежедневно с 10:00 до 22:00</p>
-          <div><p>Места оказания услуг:</p><ul><li>Москва, ул. Кржижановского, 8, к. 2</li><li>Москва, переулок Большой Факельный, 2/22</li><li>Москва, ул. Первомайская, 5</li></ul></div>
-          <p class="footer-legal-policy"><a href="/privacy-policy.md" data-legal-document data-legal-title="Политика в отношении обработки персональных данных">Политика в отношении обработки персональных данных</a><a href="/public-offer.md" data-legal-document data-legal-title="Публичная оферта">Публичная оферта</a><a href="/cookie-policy.md" data-legal-document data-legal-title="Политика использования файлов cookie">Политика использования файлов cookie</a></p>
-        </div>
-      </section>
+      <p class="footer-legal-policy"><a href="/privacy-policy.md" data-legal-document data-legal-title="Политика в отношении обработки персональных данных">Политика в отношении обработки персональных данных</a><a href="/public-offer.md" data-legal-document data-legal-title="Публичная оферта">Публичная оферта</a><a href="/cookie-policy.md" data-legal-document data-legal-title="Политика использования файлов cookie">Политика использования файлов cookie</a></p>
     </div>
   </footer>
+  <script src="js/footer.js?v=20260923-1"></script>
   <script src="js/quest-booking-api.js"></script>
-  <script src="js/legal-modal.js"></script>
   <script src="js/booking.js?v=20260809-3"></script>
   <script src="js/header.js"></script>
   <script src="js/main.js"></script>

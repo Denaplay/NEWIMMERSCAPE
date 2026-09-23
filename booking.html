@@ -6,7 +6,7 @@
   <title>Immerscape · Бронирование</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Rubik+Dirt&family=Ruslan+Display&family=Unbounded:wght@500;600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800;14..32,900&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="css/main.css" />
 </head>
 <body class="standalone-booking-page">
@@ -22,7 +22,6 @@
         <button type="button" class="step-btn" data-step="2">2. Опции</button>
         <button type="button" class="step-btn" data-step="3">3. Контакты</button>
         <button type="button" class="step-btn" data-step="4">4. Квитанция</button>
-        <button type="button" class="step-btn" data-step="5" disabled>5. Готово</button>
       </div>
 
       <div class="step-content active" data-step="1">
@@ -31,11 +30,10 @@
             <h3 id="bookQuestName">Невеста</h3>
             <div class="desc" id="bookQuestDesc">Погрузитесь в атмосферу приключения!</div>
             <div class="meta">
-              <span class="booking-quest-stat"><small>Страх</small><strong id="bookQuestMetaFear">Страшный</strong></span>
-              <span class="booking-quest-stat"><small>Сложность</small><strong id="bookQuestMetaDifficulty">Средняя</strong></span>
-              <span class="booking-quest-stat"><small>Время</small><strong id="bookQuestMetaTime">60 мин</strong></span>
+              <span>⏱ <span id="bookQuestMetaTime">60 мин</span></span>
+              <span>👥 <span id="bookQuestMetaPlayers">1–6</span> чел.</span>
+              <span>⚡ Сложность: <span id="bookQuestMetaDifficulty">4/5</span></span>
             </div>
-            <div class="booking-quest-players">👥 <span id="bookQuestMetaPlayers">1–6</span> игроков</div>
 
             <div class="booking-photos-carousel">
               <div class="booking-photos-track" id="bookingPhotosTrack">
@@ -52,13 +50,6 @@
           <div id="bookingMap"></div>
 
           <div class="booking-form">
-            <div class="quest-select-wrapper" id="packageQuestSelect" style="display:none;">
-              <label>Сначала выберите квест</label>
-              <select id="packageQuestChoice"></select>
-              <div class="field-hint">Квест входит в стоимость готового пакета. После выбора появятся доступные даты и время.</div>
-            </div>
-
-            <div id="bookingDateTimeSection">
             <label>Дата и время сеанса</label>
             <div class="datetime-selector">
               <div class="date-selector-wrapper">
@@ -77,6 +68,11 @@
               </div>
               <div class="time-grid" id="timeGrid"></div>
             </div>
+
+            <div class="quest-select-wrapper" id="packageQuestSelect" style="display:none;">
+              <label>Квест внутри пакета</label>
+              <select id="packageQuestChoice"></select>
+              <div class="field-hint">В готовом пакете квест входит в стоимость. В пакете с нуля цена квеста добавится по выбранному слоту.</div>
             </div>
 
             <div style="margin-top:10px;">
@@ -84,7 +80,6 @@
               <div class="quantity-control">
                 <button type="button" class="qty-btn" onclick="changeBookingPlayers(-1)">−</button>
                 <span class="qty-value" id="bookingPlayersDisplay">1</span>
-                <span class="qty-extra" id="bookingPlayersExtra"></span>
                 <button type="button" class="qty-btn" onclick="changeBookingPlayers(1)">+</button>
               </div>
             </div>
@@ -95,12 +90,13 @@
                 <span class="summary-total" id="bookingTotalDisplay">0 ₽</span>
               </div>
               <div class="row-between summary-subrow">
-                <span><span id="bookingPriceLabel">Цена квеста:</span> <span id="bookingPriceDisplay">0</span> ₽</span>
+                <span>Цена квеста: <span id="bookingPriceDisplay">0</span> ₽</span>
               </div>
+              <div class="booking-prepayment-notice">Для бронирования обязательна предоплата в размере <strong data-booking-prepayment>2 500 ₽</strong></div>
             </div>
 
             <div class="btn-group">
-              <button type="button" class="btn-primary" onclick="goStep(isCurrentPackageBooking() ? 3 : 2)">Далее →</button>
+              <button type="button" class="btn-primary" onclick="goStep(2)">Далее →</button>
             </div>
           </div>
         </div>
@@ -116,8 +112,9 @@
             <span class="summary-total" id="bookingTotalDisplayStep2">0 ₽</span>
           </div>
           <div class="row-between summary-subrow">
-            <span><span id="bookingPriceLabel2">Цена квеста:</span> <span id="bookingPriceDisplay2">0</span> ₽</span>
+            <span>Цена квеста: <span id="bookingPriceDisplay2">0</span> ₽</span>
           </div>
+          <div class="booking-prepayment-notice">Для бронирования обязательна предоплата в размере <strong data-booking-prepayment>2 500 ₽</strong></div>
         </div>
 
         <div class="packages-collapsible" id="packagesCollapsible">
@@ -128,22 +125,22 @@
           <div class="collapsible-body" id="packagesBody">
             <div class="package-mini" data-package="Пакет на 2 часа" data-price="23500" data-base-players="3" data-extra-player-price="1500">
               <span class="pkg-name">Пакет на 2 часа</span>
-              <span class="pkg-price">23 500 ₽ <small>За 3-х участников, дополнительный участник 1500 р.<br>Квест входит в стоимость.</small></span>
-              <button type="button" class="package-desc-toggle" aria-expanded="false">Показать состав</button>
-              <div class="package-description"><h5>Программа</h5><ul><li>Квест или анимационная программа на выбор</li><li>Дополнительный актёр</li></ul><h5>Праздник и подарки</h5><ul><li>Украшенная лофт-зона</li><li>Сервировка стола</li><li>Поздравление именинника от лица персонажей и подарок</li><li>Треш-коробка</li></ul></div>
+              <span class="pkg-price">23 500 ₽ <small>за 3х, доп. 1 500 ₽; квест входит</small></span>
+              <button type="button" class="package-desc-toggle" aria-expanded="false">Состав пакета</button>
+              <div class="package-description"><ul><li>Квест/анимационная программа на выбор</li><li>Дополнительный актёр</li><li>Украшенная лофт зона</li><li>Сервировка стола</li><li>Креативное поздравление</li><li>Треш коробка</li></ul></div>
             </div>
             <div class="package-mini" data-package="Пакет на 3 часа" data-price="39000" data-base-players="3" data-extra-player-price="1500">
               <span class="pkg-name">⭐ Пакет на 3 часа</span>
-              <span class="pkg-price">39 000 ₽ <small>За 3-х участников, дополнительный участник 1500 р.<br>Квест входит в стоимость.</small></span>
+              <span class="pkg-price">39 000 ₽ <small>за 3х, доп. 1 500 ₽; квест входит</small></span>
               <span class="pkg-badge">Популярный</span>
-              <button type="button" class="package-desc-toggle" aria-expanded="false">Показать состав</button>
-              <div class="package-description"><h5>Программа</h5><ul><li>Квест или анимационная программа на выбор</li><li>Дополнительный актёр</li><li>Настольная игра с ведущим на выбор</li><li>Кресло режиссёра</li></ul><h5>Праздничная зона</h5><ul><li>Украшенная лофт-зона</li><li>Сервировка стола</li></ul><h5>Фото, видео и подарки</h5><ul><li>Фотограф</li><li>10 фотографий в профессиональной обработке и цветокоррекции</li><li>Видеоролик с прохождения квеста</li><li>Поздравление и памятный подарок имениннику</li><li>Сувенир каждому участнику</li><li>Треш-коробка</li></ul></div>
+              <button type="button" class="package-desc-toggle" aria-expanded="false">Состав пакета</button>
+              <div class="package-description"><ul><li>Всё из пакета на 2 часа</li><li>Памятный подарок имениннику и сувенир каждому участнику</li><li>Фотограф</li><li>10 фото в проф. обработке и цветокоррекции</li><li>Кресло режиссёра</li><li>Видео-нарезка самых ярких моментов с прохождения квеста</li><li>Настольная игра с ведущим на выбор</li></ul></div>
             </div>
             <div class="package-mini" data-package="Пакет на 4.5 часа" data-price="103000" data-base-players="5" data-extra-player-price="2500">
               <span class="pkg-name">Пакет на 4.5 часа</span>
-              <span class="pkg-price">103 000 ₽ <small>За 5 участников, дополнительный участник 2500 р.<br>Квест входит в стоимость.</small></span>
-              <button type="button" class="package-desc-toggle" aria-expanded="false">Показать состав</button>
-              <div class="package-description"><h5>Основная программа</h5><ul><li>Квест или анимационная программа на выбор</li><li>Дополнительный актёр</li><li>Перекрытие локации на всё время праздника</li><li>Личный менеджер</li></ul><h5>Зона и угощения</h5><ul><li>Лофт-зона с персональными украшениями</li><li>Сервировка стола</li><li>Приветственный напиток или кэнди-бар</li><li>Шар с цифрой</li></ul><h5>Шоу и развлечения</h5><ul><li>Крио-шоу или шоу фокусов</li><li>Мастер-класс на выбор</li><li>Аквагрим или блеск-тату</li><li>Пиньята с любым дизайном</li><li>Настольная игра, музыкальные конкурсы или квиз</li><li>Бумажная дискотека или танцевальные конкурсы</li></ul><h5>Игры для компании</h5><ul><li>Мафия с ведущим или кресло режиссёра</li></ul><h5>Фото, видео и подарки</h5><ul><li>Фотограф в образе на время квеста</li><li>15 обработанных фотографий</li><li>Видеоролик с прохождения</li><li>Поздравление и памятный подарок имениннику</li><li>Сувенир каждому участнику</li><li>Треш-коробка</li></ul></div>
+              <span class="pkg-price">103 000 ₽ <small>до 5х, доп. 2 500 ₽; квест входит</small></span>
+              <button type="button" class="package-desc-toggle" aria-expanded="false">Состав пакета</button>
+              <div class="package-description"><ul><li>Всё из пакета на 3 часа</li><li>Перекрытие локации на всё время праздника</li><li>Лофт зона</li><li>Персональные украшения</li><li>Фотограф на время квеста в образе</li><li>15 фото в проф. обработке + видео с квеста</li><li>Велком дринк или Кенди бар</li><li>Шоу программа на выбор: Крио шоу или шоу Фокусов</li><li>Аквагрим или Блеск тату</li><li>Шар с цифрой</li><li>Мастер-класс на выбор</li><li>Пиньята с любым дизайном</li><li>Персональный менеджер</li><li>Настольная игра с ведущим или музыкальные конкурсы или квиз об имениннике</li><li>Развлечения для родителей: мафия с ведущим или Кресло режиссёра</li><li>Бумажная дискотека с боем подушками или Танцевальные конкурсы</li></ul></div>
             </div>
           </div>
         </div>
@@ -156,32 +153,20 @@
 
       <div class="step-content" data-step="3">
         <h3 style="margin-bottom:10px; font-size:1.2rem;">Контактные данные</h3>
-        <div class="booking-form booking-contact-form">
-          <div class="booking-field"><label for="bookingName">Имя *</label><input type="text" id="bookingName" placeholder="Ваше имя" /></div>
-          <div class="booking-field"><label for="bookingPhone">Телефон *</label>
-            <input type="tel" id="bookingPhone" value="+7 " placeholder="+7 (___) ___-__-__" autocomplete="tel" inputmode="numeric" maxlength="18" />
-            <div class="field-error" id="bookingPhoneError" aria-live="polite"></div>
-          </div>
-          <div class="booking-field"><label for="bookingEmail">Email (необязательно)</label><input type="email" id="bookingEmail" placeholder="example@mail.ru" /></div>
+        <div class="booking-form" style="max-width:500px;">
+          <label>Имя *</label><input type="text" id="bookingName" placeholder="Ваше имя" />
+          <label>Телефон *</label><input type="tel" id="bookingPhone" placeholder="+7 (___) ___-__-__" />
+          <label>Email (необязательно)</label><input type="email" id="bookingEmail" placeholder="example@mail.ru" />
 
-          <div class="booking-field booking-field-wide"><label>Способ связи</label>
-            <div class="contact-methods" id="contactMethods">
-              <div class="contact-method active" data-method="call"><span class="method-icon">📞</span><span class="method-label">Звонок</span></div>
-              <div class="contact-method" data-method="telegram"><span class="method-icon method-logo method-logo-telegram" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M21.7 3.4 18.5 20c-.2 1.2-.9 1.5-1.9.9l-4.8-3.6-2.3 2.3c-.3.3-.5.5-1 .5l.3-4.9 8.9-8c.4-.4-.1-.6-.6-.2L6.2 13.9 1.5 12.4c-1-.3-1-1 .2-1.5L20 3.9c.8-.3 1.6.2 1.7-.5Z"/></svg></span><span class="method-label">Telegram</span></div>
-              <div class="contact-method" data-method="vk"><span class="method-icon method-logo method-logo-vk" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12.8 18.2C5.3 18.2 1 13 1 4h4.2c.1 6.6 3 9.4 5.3 10V4h4v5.7c2.2-.2 4.5-2.8 5.3-5.7H24c-.6 3.6-3.1 6.2-4.9 7.3 1.8.9 4.7 3.2 5.8 6.9h-4.6c-.9-2.8-3-4.9-5.8-5.1v5.1h-1.7Z"/></svg></span><span class="method-label">VK</span></div>
-              <div class="contact-method" data-method="max"><span class="method-icon method-logo method-logo-max" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 5.6 18.3L22 22l-1.6-4.5A10 10 0 0 0 12 2Zm-4.7 7h2.4l2.3 3.2L14.3 9h2.4v7h-2.2v-3.7L12 15.5l-2.5-3.2V16H7.3V9Z"/></svg></span><span class="method-label">MAX</span></div>
-            </div>
-          </div>
-          <div class="contact-handle-field booking-field" id="telegramHandleField" hidden>
-            <label for="bookingTelegram">Юзернейм Telegram</label>
-            <input type="text" id="bookingTelegram" placeholder="@username" autocomplete="off" />
-          </div>
-          <div class="contact-handle-field booking-field" id="vkHandleField" hidden>
-            <label for="bookingVk">Юзернейм VK</label>
-            <input type="text" id="bookingVk" placeholder="vk.com/username или @username" autocomplete="off" />
+          <label>Способ связи</label>
+          <div class="contact-methods" id="contactMethods">
+            <div class="contact-method active" data-method="whatsapp"><span class="method-icon">💬</span><span class="method-label">WhatsApp</span></div>
+            <div class="contact-method" data-method="telegram"><span class="method-icon">✈️</span><span class="method-label">Telegram</span></div>
+            <div class="contact-method" data-method="vk"><span class="method-icon">📱</span><span class="method-label">VK</span></div>
+            <div class="contact-method" data-method="sms"><span class="method-icon">📲</span><span class="method-label">SMS</span></div>
           </div>
 
-          <div class="promo-field booking-field-wide">
+          <div class="promo-field">
             <label>Промокод</label>
             <div class="promo-field-row">
               <input type="text" id="promoInput" placeholder="Введите промокод" />
@@ -190,25 +175,25 @@
             <div id="promoStatus" class="promo-status"></div>
           </div>
 
-          <div class="booking-field booking-field-wide"><label for="bookingComment">Комментарий к заказу</label>
-            <textarea id="bookingComment" placeholder="Дополнительные пожелания..." rows="2"></textarea>
-          </div>
+          <label>Комментарий к заказу</label>
+          <textarea id="bookingComment" placeholder="Дополнительные пожелания..." rows="2"></textarea>
 
-          <div class="booking-summary-card booking-field-wide">
+          <div class="booking-summary-card">
             <div class="row-between">
               <span class="summary-label">Итого к оплате:</span>
               <span class="summary-total" id="bookingTotalDisplayStep3">0 ₽</span>
             </div>
             <div class="row-between summary-subrow">
-              <span><span id="bookingPriceLabel3">Цена квеста:</span> <span id="bookingPriceDisplay3">0</span> ₽</span>
+              <span>Цена квеста: <span id="bookingPriceDisplay3">0</span> ₽</span>
             </div>
+            <div class="booking-prepayment-notice">Для бронирования обязательна предоплата в размере <strong data-booking-prepayment>2 500 ₽</strong></div>
           </div>
 
-          <div class="btn-group booking-field-wide">
-            <button type="button" class="btn-outline" onclick="goStep(isCurrentPackageBooking() ? 1 : 2)">← Назад</button>
-            <button type="button" class="btn-primary" onclick="goStep(4)">Перейти к квитанции</button>
+          <div class="btn-group">
+            <button type="button" class="btn-outline" onclick="goStep(2)">← Назад</button>
+            <button type="button" class="btn-primary" onclick="goStep(4)">Перейти к оплате</button>
           </div>
-          <div class="booking-field-wide" style="font-size:0.7rem; color:#6f648a; margin-top:6px;">* Поля с звёздочкой обязательны</div>
+          <div style="font-size:0.7rem; color:#6f648a; margin-top:6px;">* Поля с звёздочкой обязательны</div>
         </div>
       </div>
 
@@ -218,9 +203,8 @@
           <div class="row"><span>Квест/Пакет</span><span id="receiptQuest">Невеста</span></div>
           <div class="row"><span>Дата и время</span><span id="receiptDateTime">Не выбрана</span></div>
           <div class="row"><span>Количество участников</span><span id="receiptPlayers">1</span></div>
-          <div class="row"><span>Дополнительные услуги</span><span id="receiptExtras">—</span></div>
-          <div class="row"><span>Формат вечера</span><span id="receiptHorrorVariant">—</span></div>
-          <div class="row"><span>Способ связи</span><span id="receiptMethod">Звонок</span></div>
+          <div class="row"><span>Доп. услуги</span><span id="receiptExtras">—</span></div>
+          <div class="row"><span>Способ связи</span><span id="receiptMethod">WhatsApp</span></div>
           <div class="row"><span>Сумма</span><span id="receiptSubtotal">0 ₽</span></div>
           <div class="row"><span>Скидка</span><span id="receiptDiscount">—</span></div>
           <div class="row total"><span>Итого</span><span id="receiptTotal">0 ₽</span></div>
@@ -231,62 +215,23 @@
               <span class="summary-total" id="bookingTotalDisplayStep4">0 ₽</span>
             </div>
             <div class="row-between summary-subrow">
-              <span><span id="bookingPriceLabel4">Цена квеста:</span> <span id="bookingPriceDisplay4">0</span> ₽</span>
+              <span>Цена квеста: <span id="bookingPriceDisplay4">0</span> ₽</span>
             </div>
-          </div>
-
-          <div class="booking-consents" aria-label="Согласия на обработку данных и получение сообщений">
-            <div class="booking-consent">
-              <input type="checkbox" id="personalDataConsent" required />
-              <span><label for="personalDataConsent"><strong>Даю согласие на обработку персональных данных</strong></label> в соответствии с <button type="button" class="legal-document-link" data-legal-document data-legal-url="/consent-personal-data.md" data-legal-title="Согласие на обработку персональных данных">Согласием на обработку персональных данных</button>.</span>
-            </div>
-            <div class="booking-consent">
-              <input type="checkbox" id="advertisingConsent" />
-              <span><button type="button" class="legal-document-link" data-legal-document data-legal-url="/consent-advertising.md" data-legal-title="Согласие на рекламные и информационные сообщения"><strong>Соглашаюсь на получение рекламных и информационных сообщений</strong> от Immerscape</button>.</span>
-            </div>
-            <div class="booking-consent-error" id="personalDataConsentError" aria-live="polite"></div>
+            <div class="booking-prepayment-notice">Для бронирования обязательна предоплата в размере <strong data-booking-prepayment>2 500 ₽</strong></div>
           </div>
 
           <div class="btn-group">
             <button type="button" class="btn-outline" onclick="goStep(3)">← Назад</button>
-            <button type="button" class="btn-primary" id="confirmBookingButton" onclick="confirmBooking()" disabled>Подтвердить бронь</button>
+            <button type="button" class="btn-primary" onclick="confirmBooking()">Подтвердить бронь</button>
           </div>
         </div>
-      </div>
-
-      <div class="step-content" data-step="5">
-        <section class="booking-success" aria-labelledby="bookingSuccessTitle" role="status">
-          <div class="booking-success-icon" aria-hidden="true">✓</div>
-          <p class="booking-success-eyebrow">Бронирование оформлено</p>
-          <h2 id="bookingSuccessTitle">Ваша бронь успешно создана!</h2>
-          <p class="booking-success-lead">Мы свяжемся с вами по указанным данным, чтобы подтвердить бронирование и уточнить детали.</p>
-
-          <div class="booking-success-details">
-            <div><span>Бронирование</span><strong id="successBookingSummary">—</strong></div>
-            <div><span>Свяжемся с вами</span><strong id="successContactSummary">—</strong></div>
-          </div>
-
-          <div class="booking-success-account">
-            <div>
-              <h3>Создайте личный кабинет</h3>
-              <p>Так будет удобнее хранить данные профиля и пользоваться возможностями аккаунта.</p>
-            </div>
-            <a class="btn-primary" href="/#register">Создать личный кабинет</a>
-          </div>
-
-          <div class="booking-success-actions">
-            <a class="btn-outline" href="/">Вернуться на главную</a>
-          </div>
-        </section>
       </div>
     </div>
   </div>
 
   <script src="js/supabase-auth-client.js"></script>
-  <script src="/js/cookie-consent.js"></script>
   <script src="js/supabase-config.js"></script>
   <script src="js/quest-booking-api.js"></script>
-  <script src="js/legal-modal.js"></script>
-  <script src="js/booking.js?v=20260809-3"></script>
+  <script src="js/booking.js?v=20260923-1"></script>
 </body>
 </html>
