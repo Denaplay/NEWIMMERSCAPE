@@ -766,7 +766,7 @@ function getPackageParticipantRule() {
 
 function getParticipantRule() {
   if (!isCurrentPackageBooking() && currentBookingName === 'Among Us') {
-    return { basePlayers: 6, extraPlayerPrice: 1500, label: 'за 3–6 участников' };
+    return { basePlayers: 5, extraPlayerPrice: 1500, label: 'за 5 участников' };
   }
   if (!isCurrentPackageBooking() && currentBookingName === 'Хоррор-свидание') {
     return { basePlayers: 3, extraPlayerPrice: 1500, label: 'за 1–3 участников' };
