@@ -84,11 +84,17 @@
     }
   };
 
+  const QUEST_NAME_ALIASES = {
+    'Приключение в Хогвартсе': 'Хогвартс',
+    'Изнанка: в разуме Векны': 'Изнанка в разуме Векны'
+  };
+
   const schedules = new Map();
   const states = new Map();
 
   function getConfig(questName) {
-    const config = QUEST_API_URLS[questName];
+    const configName = QUEST_NAME_ALIASES[questName] || questName;
+    const config = QUEST_API_URLS[configName];
     if (!config) return null;
     const questId = String(config.book).match(/(\d+)\/?$/)?.[1] || '';
     return {

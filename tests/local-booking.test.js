@@ -129,6 +129,14 @@ test('booking prices come from the selected my-ERP slot', async () => {
   assert.equal(requestedUrl, '/api/my-erp/timetable/5809.json');
   assert.equal(slot.price, 8490);
   assert.equal(slot.id, 45122900);
+  assert.equal(
+    sandbox.window.QuestBookingApi.getConfig('Приключение в Хогвартсе').timetable,
+    '/api/my-erp/timetable/5469.json'
+  );
+  assert.equal(
+    sandbox.window.QuestBookingApi.getConfig('Изнанка: в разуме Векны').timetable,
+    '/api/my-erp/timetable/5774.json'
+  );
   assert.match(bookingSource, /if \(api\?\.getConfig\(questName\)\)[\s\S]*return Number\.isFinite\(apiPrice\) \? apiPrice : 0;/);
   assert.match(bookingSource, /const price = priceByTime \+ getSelectedHorrorVariantExtraPrice\(\);/);
 });
