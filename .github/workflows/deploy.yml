@@ -39,27 +39,39 @@ jobs:
           envs: GITHUB_ACTOR,GH_TOKEN,TELEGRAM_BOT_TOKEN,TELEGRAM_CHAT_ID_PROFSOYUZNAYA,TELEGRAM_CHAT_ID_IZMAYLOVSKAYA,TELEGRAM_CHAT_ID_TAGANSKAYA
           script: |
             set -eu
-            mkdir -p /opt/immerscape
             cat > /opt/immerscape/.env <<EOF
             TELEGRAM_BOT_TOKEN=$TELEGRAM_BOT_TOKEN
             TELEGRAM_CHAT_ID_PROFSOYUZNAYA=$TELEGRAM_CHAT_ID_PROFSOYUZNAYA
             TELEGRAM_CHAT_ID_IZMAYLOVSKAYA=$TELEGRAM_CHAT_ID_IZMAYLOVSKAYA
             TELEGRAM_CHAT_ID_TAGANSKAYA=$TELEGRAM_CHAT_ID_TAGANSKAYA
             EOF
-            cat > /opt/immerscape/docker-compose.yml <<'EOF'
-            services:
-              app:
-                image: ghcr.io/denaplay/newimmerscape:latest
-                restart: unless-stopped
-                env_file: .env
-                ports:
-                  - "127.0.0.1:3000:3000"
-            EOF
             chmod 600 /opt/immerscape/.env
             echo "$GH_TOKEN" | docker login ghcr.io -u "$GITHUB_ACTOR" --password-stdin
             cd /opt/immerscape
+            docker compose config --quiet
             docker compose pull app
-            docker compose up -d --force-recreate --remove-orphans app
+            blocking_containers="$(docker ps -q --filter publish=3000)"
+            if [ -n "$blocking_containers" ]; then
+              echo "Stopping stale Docker container(s) that publish port 3000:"
+              docker ps --filter publish=3000 --format 'table {{.ID}}\t{{.Names}}\t{{.Image}}\t{{.Ports}}'
+              for container_id in $blocking_containers; do
+                docker stop "$container_id"
+              done
+            fi
+            if command -v ss >/dev/null 2>&1 && ss -ltn '( sport = :3000 )' | grep -q ':3000'; then
+              echo "Port 3000 is held by a host process; stopping that exact listener."
+              if command -v fuser >/dev/null 2>&1; then
+                sudo -n fuser -k 3000/tcp || fuser -k 3000/tcp || true
+              fi
+            fi
+            if ! docker compose up -d --force-recreate app; then
+              echo "Port 3000 listeners and published containers:"
+              docker ps --format 'table {{.ID}}\t{{.Names}}\t{{.Image}}\t{{.Ports}}'
+              if command -v ss >/dev/null 2>&1; then
+                ss -ltnp '( sport = :3000 )' || true
+              fi
+              exit 1
+            fi
             healthy=false
             for attempt in 1 2 3 4 5 6 7 8 9 10; do
               if curl --fail --silent --show-error http://127.0.0.1:3000/ >/dev/null; then

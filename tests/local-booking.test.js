@@ -101,8 +101,14 @@ test('hosting-neutral proxy maps only supported my-ERP endpoints', () => {
 
 test('deployment recreates the intended container and verifies application health', () => {
   assert.match(deploymentSource, /set -eu/);
-  assert.match(deploymentSource, /image: ghcr\.io\/denaplay\/newimmerscape:latest/);
-  assert.match(deploymentSource, /docker compose up -d --force-recreate --remove-orphans app/);
+  assert.doesNotMatch(deploymentSource, /--remove-orphans/);
+  assert.doesNotMatch(deploymentSource, /cat > \/opt\/immerscape\/docker-compose\.yml/);
+  assert.match(deploymentSource, /docker compose config --quiet/);
+  assert.match(deploymentSource, /docker ps -q --filter publish=3000/);
+  assert.match(deploymentSource, /docker stop "\$container_id"/);
+  assert.match(deploymentSource, /sudo -n fuser -k 3000\/tcp \|\| fuser -k 3000\/tcp/);
+  assert.match(deploymentSource, /docker compose up -d --force-recreate app/);
+  assert.match(deploymentSource, /ss -ltnp '\( sport = :3000 \)'/);
   assert.match(deploymentSource, /curl --fail --silent --show-error http:\/\/127\.0\.0\.1:3000\//);
   assert.match(deploymentSource, /docker compose logs --tail=100 app/);
 });
