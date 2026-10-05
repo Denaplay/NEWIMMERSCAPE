@@ -126,6 +126,13 @@
   function normalizeSchedule(payload) {
     const schedule = new Map();
 
+    function normalizePrice(value) {
+      const rawPrice = value.price ?? value.tariff ?? value.cost;
+      if (rawPrice === undefined || rawPrice === null || rawPrice === '') return null;
+      const price = Number(String(rawPrice).replace(/\s/g, '').replace(',', '.'));
+      return Number.isFinite(price) && price >= 0 ? price : null;
+    }
+
     function pickDeep(value, keys) {
       if (!value || typeof value !== 'object') return '';
       for (const key of keys) if (value[key] !== undefined && value[key] !== null) return value[key];
@@ -162,9 +169,9 @@
       const inferredStatus = unavailable ? (hasBookingData ? 'confirmed' : 'closed') : 'available';
       const slot = {
         time,
-        price: Number(value.price ?? value.tariff ?? value.cost ?? 0) || 0,
+        price: normalizePrice(value),
         available: !unavailable,
-        id: value.id ?? value.slot_id ?? value.session_id ?? '',
+        id: value.id ?? value.quest_time_id ?? value.slot_id ?? value.session_id ?? '',
         bookingStatus: rawStatus || inferredStatus,
         bookingParams: extractBookingParams(value),
         booking: bookingData
@@ -219,7 +226,7 @@
       states.set(questName, {
         loading: false,
         loaded: false,
-        error: 'Не удалось получить расписание my-ERP. Показано резервное расписание.'
+        error: 'Не удалось получить актуальное расписание и цены my-ERP. Обновите страницу и попробуйте снова.'
       });
       console.error('Ошибка расписания my-ERP:', error);
       return null;

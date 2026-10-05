@@ -4,6 +4,8 @@ const fs = require('node:fs');
 const vm = require('node:vm');
 
 const bookingSource = fs.readFileSync('js/booking.js', 'utf8');
+const bookingPageSource = fs.readFileSync('booking.html', 'utf8');
+const questApiSource = fs.readFileSync('js/quest-booking-api.js', 'utf8');
 const authSource = fs.readFileSync('js/auth.js', 'utf8');
 const authClientSource = fs.readFileSync('js/supabase-auth-client.js', 'utf8');
 const schemaSource = fs.readFileSync('supabase/schema.sql', 'utf8');
@@ -21,6 +23,34 @@ function loadAuthErrorTranslator() {
   const end = authSource.indexOf('function setMessage(', start);
   return vm.runInNewContext(`(${authSource.slice(start, end).trim()})`);
 }
+
+function loadPhoneMaskHelpers() {
+  const start = bookingSource.indexOf('function getPhoneDigits(value)');
+  const end = bookingSource.indexOf('function movePhoneCaretToEnd(input)', start);
+  const caretStart = bookingSource.indexOf('function getPhoneCaretPosition(', end);
+  const caretEnd = bookingSource.indexOf('function handlePhoneKeydown(', caretStart);
+  return vm.runInNewContext(`(() => { ${bookingSource.slice(start, end)} ${bookingSource.slice(caretStart, caretEnd)} return { formatPhoneInput, getPhoneCaretPosition }; })()`);
+}
+
+test('booking page exposes required consent controls and booking help phone', () => {
+  assert.match(bookingPageSource, /id="personalDataConsent"[^>]*required/);
+  assert.match(bookingPageSource, /id="personalDataConsentError"/);
+  assert.match(bookingPageSource, /id="confirmBookingButton"[^>]*disabled/);
+  assert.match(bookingPageSource, /href="tel:\+79916858651"/);
+  assert.match(bookingPageSource, /Если возникли проблемы с бронированием/);
+  assert.match(bookingPageSource, /data-step="5"/);
+});
+
+test('phone mask keeps the caret inside the operator code while it is edited', () => {
+  const { formatPhoneInput, getPhoneCaretPosition } = loadPhoneMaskHelpers();
+  const formatted = formatPhoneInput('+7 (123) 000-00-00');
+  assert.equal(formatted, '+7 (123) 000-00-00');
+  assert.equal(getPhoneCaretPosition(formatted, 1), 5);
+  assert.equal(getPhoneCaretPosition(formatted, 2), 6);
+  assert.equal(getPhoneCaretPosition(formatted, 3), 7);
+  assert.notEqual(getPhoneCaretPosition(formatted, 2), formatted.length);
+  assert.match(bookingSource, /if \(!this\.value\.trim\(\)\) \{\s*this\.value = '\+7 ';\s*movePhoneCaretToEnd\(this\);\s*\}/);
+});
 
 test('confirmation does not send a booking to my-ERP', () => {
   const confirmation = bookingSource.slice(
@@ -66,6 +96,41 @@ test('hosting-neutral proxy maps only supported my-ERP endpoints', () => {
     '/booking_api/get_tariff_with_players/4893?date=2026-08-09'
   );
   assert.equal(getUpstreamPath('/api/my-erp/../../admin'), null);
+});
+
+test('booking prices come from the selected my-ERP slot', async () => {
+  let requestedUrl = '';
+  const sandbox = {
+    window: {},
+    fetch: async url => {
+      requestedUrl = url;
+      return {
+        ok: true,
+        json: async () => [{
+          quest_time_id: 45122900,
+          date: '2026-10-06',
+          time: '11:30',
+          price: '8 490',
+          is_free: true
+        }]
+      };
+    },
+    AbortController,
+    URLSearchParams,
+    setTimeout,
+    clearTimeout,
+    console
+  };
+
+  vm.runInNewContext(questApiSource, sandbox);
+  await sandbox.window.QuestBookingApi.load('Among Us');
+  const slot = sandbox.window.QuestBookingApi.getSlot('Among Us', '2026-10-06', '11:30');
+
+  assert.equal(requestedUrl, '/api/my-erp/timetable/5809.json');
+  assert.equal(slot.price, 8490);
+  assert.equal(slot.id, 45122900);
+  assert.match(bookingSource, /if \(api\?\.getConfig\(questName\)\)[\s\S]*return Number\.isFinite\(apiPrice\) \? apiPrice : 0;/);
+  assert.match(bookingSource, /const price = priceByTime \+ getSelectedHorrorVariantExtraPrice\(\);/);
 });
 
 test('database function atomically creates a new booking and client', () => {

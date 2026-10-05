@@ -4388,6 +4388,41 @@ body.page-transition {
   background: rgba(255, 255, 255, 0.035);
 }
 
+.booking-help-notice {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 18px;
+  padding: 14px 16px;
+  border: 1px solid rgba(255, 193, 92, 0.32);
+  border-radius: 16px;
+  color: rgba(255, 247, 229, 0.92);
+  background: linear-gradient(135deg, rgba(255, 176, 46, 0.14), rgba(124, 77, 255, 0.1));
+  font-size: 0.88rem;
+  line-height: 1.5;
+}
+
+.booking-help-notice-icon {
+  display: grid;
+  flex: 0 0 36px;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  color: #17101f;
+  background: #ffc15c;
+  font-size: 1.1rem;
+  box-shadow: 0 0 22px rgba(255, 193, 92, 0.24);
+}
+
+.booking-help-notice a {
+  color: #ffe1a8;
+  font-weight: 800;
+  white-space: nowrap;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
 .booking-consent {
   display: grid;
   grid-template-columns: 20px minmax(0, 1fr);

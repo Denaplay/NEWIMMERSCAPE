@@ -362,8 +362,11 @@ function getMapUrl(location) {
 // ===== ПОЛУЧЕНИЕ ЦЕНЫ ПО ВРЕМЕНИ =====
 // ============================================================
 function getPriceByTime(questName, timeSlot) {
-  const apiPrice = externalBookingApi()?.getSlot(questName, selectedDateKey(), timeSlot)?.price;
-  if (apiPrice) return apiPrice;
+  const api = externalBookingApi();
+  if (api?.getConfig(questName)) {
+    const apiPrice = api.getSlot(questName, selectedDateKey(), timeSlot)?.price;
+    return Number.isFinite(apiPrice) ? apiPrice : 0;
+  }
   const quest = questsData.find(q => q.name === questName);
   if (!quest || !quest.prices) return quest ? quest.price : 0;
   
@@ -525,6 +528,13 @@ function getHorrorVariants(name) {
   ];
 }
 
+function getSelectedHorrorVariantExtraPrice() {
+  if (!isHorrorBookingName(currentBookingName)) return 0;
+  const variant = getHorrorVariants(currentBookingName).find(item => item.key === selectedHorrorVariant)
+    || getHorrorVariants(currentBookingName)[0];
+  return Number(variant.extraPrice) || 0;
+}
+
 function ensureHorrorVariantSelector() {
   if (document.getElementById('horrorVariantSelector')) return;
 
@@ -581,7 +591,9 @@ function applyHorrorVariant(name) {
 
   const variant = getHorrorVariants(name).find(item => item.key === selectedHorrorVariant)
     || getHorrorVariants(name)[0];
-  currentBookingPrice = variant.price;
+  const activeTime = document.querySelector('.time-slot.active .slot-time')?.textContent;
+  const slotPrice = activeTime ? getPriceByTime(name, activeTime) : 0;
+  currentBookingPrice = slotPrice ? slotPrice + (Number(variant.extraPrice) || 0) : variant.price;
   currentBookingDesc = variant.desc;
   if (baseBookingState) {
     baseBookingState.price = variant.price;
@@ -727,17 +739,18 @@ function getBasePriceForBooking(activeTime) {
     return (currentBookingPrice || 0) + (isCustomPackageBooking() ? getSelectedPackageQuestPrice(activeTime) : 0);
   }
 
-  if (isHorrorBookingName(currentBookingName)) {
-    return currentBookingPrice || getHorrorVariants(currentBookingName)[0].price;
-  }
-
   if (activeTime && currentBookingName) {
     const time = activeTime.querySelector('.slot-time')?.textContent;
     const priceByTime = getPriceByTime(currentBookingName, time);
     if (priceByTime) {
-      currentBookingPrice = priceByTime;
-      return priceByTime;
+      const price = priceByTime + getSelectedHorrorVariantExtraPrice();
+      currentBookingPrice = price;
+      return price;
     }
+  }
+
+  if (isHorrorBookingName(currentBookingName)) {
+    return currentBookingPrice || getHorrorVariants(currentBookingName)[0].price;
   }
 
   const quest = questsData.find(q => q.name === currentBookingName);
@@ -896,6 +909,26 @@ function movePhoneCaretToEnd(input) {
   });
 }
 
+function getPhoneCaretPosition(formattedValue, subscriberDigitsBeforeCaret) {
+  if (subscriberDigitsBeforeCaret <= 0) {
+    const openingBracket = formattedValue.indexOf('(');
+    return openingBracket >= 0 ? openingBracket + 1 : formattedValue.length;
+  }
+
+  let subscriberDigitsSeen = 0;
+  let countryCodeSkipped = false;
+  for (let index = 0; index < formattedValue.length; index += 1) {
+    if (!/\d/.test(formattedValue[index])) continue;
+    if (!countryCodeSkipped) {
+      countryCodeSkipped = true;
+      continue;
+    }
+    subscriberDigitsSeen += 1;
+    if (subscriberDigitsSeen === subscriberDigitsBeforeCaret) return index + 1;
+  }
+  return formattedValue.length;
+}
+
 function handlePhoneKeydown(event) {
   const input = event.currentTarget;
   const prefixLength = 3;
@@ -906,14 +939,19 @@ function handlePhoneKeydown(event) {
   if ((event.key === 'Backspace' && selectionStart <= prefixLength && !hasSelection) ||
       (event.key === 'Delete' && selectionStart < prefixLength && !hasSelection)) {
     event.preventDefault();
-    movePhoneCaretToEnd(input);
   }
 }
 
 function handlePhoneInput(event) {
   const input = event.currentTarget;
-  input.value = formatPhoneInput(input.value);
-  movePhoneCaretToEnd(input);
+  const caretBeforeFormatting = input.selectionStart ?? input.value.length;
+  const digitsBeforeCaret = input.value.slice(0, caretBeforeFormatting).replace(/\D/g, '');
+  const subscriberDigitsBeforeCaret = Math.max(0, digitsBeforeCaret.length - (digitsBeforeCaret[0] === '7' ? 1 : 0));
+  const formattedValue = formatPhoneInput(input.value);
+  const nextCaretPosition = getPhoneCaretPosition(formattedValue, subscriberDigitsBeforeCaret);
+
+  input.value = formattedValue;
+  input.setSelectionRange?.(nextCaretPosition, nextCaretPosition);
   if (input.classList.contains('field-invalid')) validateBookingPhone(false);
 }
 
@@ -1900,12 +1938,14 @@ function generateTimeSlots(questName) {
 
   const api = externalBookingApi();
   const apiState = api?.getState(questName);
-  if (apiState?.loading) {
+  const usesMyErp = Boolean(api?.getConfig(questName));
+  if (usesMyErp && !apiState?.loaded && !apiState?.error) {
     grid.innerHTML = '<div class="schedule-message">Загружаем актуальное расписание…</div>';
     return;
   }
   if (apiState?.error) {
     grid.innerHTML = `<div class="schedule-message schedule-message-error">${apiState.error}</div>`;
+    return;
   }
   
   const apiSlots = apiState?.loaded ? api.getSlots(questName, selectedDateKey()) : null;
@@ -1928,6 +1968,7 @@ function generateTimeSlots(questName) {
     const slot = document.createElement('div');
     slot.className = 'time-slot';
     const apiSlot = apiSlots?.find(item => item.time === time);
+    const hasErpPrice = !usesMyErp || (Number.isFinite(apiSlot?.price) && apiSlot.price > 0);
     const isBusy = apiSlot ? !apiSlot.available : busySlots.includes(time);
     
     const [hour, minute] = time.split(':').map(Number);
@@ -1935,23 +1976,25 @@ function generateTimeSlots(questName) {
       (hour < currentHour || (hour === currentHour && minute <= currentMinute)));
     
     if (isBusy) slot.classList.add('busy');
+    if (!hasErpPrice) slot.classList.add('disabled');
     if (isPast && !isBusy) slot.classList.add('disabled');
-    if (selectedTime === time && !isBusy && !isPast) {
+    if (selectedTime === time && !isBusy && !isPast && hasErpPrice) {
       slot.classList.add('active');
       restoredSelectedTime = true;
     }
     
-    const price = apiSlot?.price || getPriceByTime(questName, time);
+    const erpPrice = getPriceByTime(questName, time);
+    const price = erpPrice ? erpPrice + getSelectedHorrorVariantExtraPrice() : 0;
     const priceText = price
       ? (isCurrentPackageBooking() && !isCustomPackageBooking() ? 'входит' : ` ${price} ₽`)
-      : '';
+      : (usesMyErp ? 'цена недоступна' : '');
     
     slot.innerHTML = `
       <div class="slot-time">${time}</div>
       <div class="slot-price" style="font-size:0.55rem; color:#b388ff; margin-top:1px;">${priceText}</div>
       <div class="slot-status ${isBusy ? 'busy' : (isPast ? 'прошло' : 'available')}">${isBusy ? 'занято' : (isPast ? 'прошло' : 'доступно')}</div>
     `;
-    if (!isBusy && !isPast) {
+    if (!isBusy && !isPast && hasErpPrice) {
       slot.addEventListener('click', function() {
         document.querySelectorAll('.time-slot').forEach(s => s.classList.remove('active'));
         if (!this.classList.contains('busy') && !this.classList.contains('disabled')) {
@@ -1960,7 +2003,7 @@ function generateTimeSlots(questName) {
           if (!isCurrentPackageBooking()) {
             const questName = getCurrentQuestName();
             const price = getPriceByTime(questName, selectedTime);
-            currentBookingPrice = price;
+            currentBookingPrice = price ? price + getSelectedHorrorVariantExtraPrice() : 0;
           }
           updateTotalDisplay();
           updateReceipt();
@@ -2383,8 +2426,10 @@ document.addEventListener('DOMContentLoaded', function() {
   const bookingPhone = document.getElementById('bookingPhone');
   if (bookingPhone) {
     bookingPhone.addEventListener('focus', function() {
-      if (!this.value.trim()) this.value = '+7 ';
-      movePhoneCaretToEnd(this);
+      if (!this.value.trim()) {
+        this.value = '+7 ';
+        movePhoneCaretToEnd(this);
+      }
     });
     bookingPhone.addEventListener('keydown', handlePhoneKeydown);
     bookingPhone.addEventListener('input', handlePhoneInput);

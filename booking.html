@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800;14..32,900&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="css/main.css" />
+  <link rel="stylesheet" href="css/main.css?v=20261006-1" />
 </head>
 <body class="standalone-booking-page">
   <div id="toast" class="toast">Готово!</div>
@@ -154,6 +154,11 @@
       <div class="step-content" data-step="3">
         <h3 style="margin-bottom:10px; font-size:1.2rem;">Контактные данные</h3>
         <div class="booking-form" style="max-width:500px;">
+          <aside class="booking-help-notice" aria-label="Помощь с бронированием">
+            <span class="booking-help-notice-icon" aria-hidden="true">☎</span>
+            <span>Если возникли проблемы с бронированием, звоните по номеру <a href="tel:+79916858651">+7 (991) 685-86-51</a></span>
+          </aside>
+
           <label>Имя *</label><input type="text" id="bookingName" placeholder="Ваше имя" />
           <label>Телефон *</label><input type="tel" id="bookingPhone" placeholder="+7 (___) ___-__-__" />
           <label>Email (необязательно)</label><input type="email" id="bookingEmail" placeholder="example@mail.ru" />
@@ -220,11 +225,49 @@
             <div class="booking-prepayment-notice">Для бронирования обязательна предоплата в размере <strong data-booking-prepayment>2 500 ₽</strong></div>
           </div>
 
+          <div class="booking-consents" aria-label="Согласия на обработку данных и получение сообщений">
+            <div class="booking-consent">
+              <input type="checkbox" id="personalDataConsent" required />
+              <span><label for="personalDataConsent"><strong>Даю согласие на обработку персональных данных</strong></label> в соответствии с <button type="button" class="legal-document-link" data-legal-document data-legal-url="/consent-personal-data.md" data-legal-title="Согласие на обработку персональных данных">Согласием на обработку персональных данных</button>.</span>
+            </div>
+            <div class="booking-consent">
+              <input type="checkbox" id="advertisingConsent" />
+              <span><label for="advertisingConsent"><strong>Соглашаюсь на получение рекламных и информационных сообщений</strong> от Immerscape</label> (необязательно).</span>
+            </div>
+            <div class="booking-consent-error" id="personalDataConsentError" aria-live="polite"></div>
+          </div>
+
           <div class="btn-group">
             <button type="button" class="btn-outline" onclick="goStep(3)">← Назад</button>
-            <button type="button" class="btn-primary" onclick="confirmBooking()">Подтвердить бронь</button>
+            <button type="button" class="btn-primary" id="confirmBookingButton" onclick="confirmBooking()" disabled>Подтвердить бронь</button>
           </div>
         </div>
+      </div>
+
+      <div class="step-content" data-step="5">
+        <section class="booking-success" aria-labelledby="bookingSuccessTitle" role="status">
+          <div class="booking-success-icon" aria-hidden="true">✓</div>
+          <p class="booking-success-eyebrow">Бронирование оформлено</p>
+          <h2 id="bookingSuccessTitle">Ваша бронь успешно создана!</h2>
+          <p class="booking-success-lead">Мы свяжемся с вами по указанным данным, чтобы подтвердить бронирование и уточнить детали.</p>
+
+          <div class="booking-success-details">
+            <div><span>Бронирование</span><strong id="successBookingSummary">—</strong></div>
+            <div><span>Свяжемся с вами</span><strong id="successContactSummary">—</strong></div>
+          </div>
+
+          <div class="booking-success-account">
+            <div>
+              <h3>Создайте личный кабинет</h3>
+              <p>Так будет удобнее хранить данные профиля и пользоваться возможностями аккаунта.</p>
+            </div>
+            <a class="btn-primary" href="/#register">Создать личный кабинет</a>
+          </div>
+
+          <div class="booking-success-actions">
+            <a class="btn-outline" href="/">Вернуться на главную</a>
+          </div>
+        </section>
       </div>
     </div>
   </div>
@@ -232,6 +275,7 @@
   <script src="js/supabase-auth-client.js"></script>
   <script src="js/supabase-config.js"></script>
   <script src="js/quest-booking-api.js"></script>
-  <script src="js/booking.js?v=20260923-1"></script>
+  <script src="js/legal-modal.js"></script>
+  <script src="js/booking.js?v=20261006-2"></script>
 </body>
 </html>
