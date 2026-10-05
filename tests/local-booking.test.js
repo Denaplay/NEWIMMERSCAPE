@@ -10,6 +10,7 @@ const authSource = fs.readFileSync('js/auth.js', 'utf8');
 const authClientSource = fs.readFileSync('js/supabase-auth-client.js', 'utf8');
 const schemaSource = fs.readFileSync('supabase/schema.sql', 'utf8');
 const staffSource = fs.readFileSync('js/staff.js', 'utf8');
+const deploymentSource = fs.readFileSync('.github/workflows/deploy.yml', 'utf8');
 const { getUpstreamPath } = require('../server/my-erp');
 const {
   formatBookingMessage,
@@ -96,6 +97,14 @@ test('hosting-neutral proxy maps only supported my-ERP endpoints', () => {
     '/booking_api/get_tariff_with_players/4893?date=2026-08-09'
   );
   assert.equal(getUpstreamPath('/api/my-erp/../../admin'), null);
+});
+
+test('deployment recreates the intended container and verifies application health', () => {
+  assert.match(deploymentSource, /set -eu/);
+  assert.match(deploymentSource, /image: ghcr\.io\/denaplay\/newimmerscape:latest/);
+  assert.match(deploymentSource, /docker compose up -d --force-recreate --remove-orphans app/);
+  assert.match(deploymentSource, /curl --fail --silent --show-error http:\/\/127\.0\.0\.1:3000\//);
+  assert.match(deploymentSource, /docker compose logs --tail=100 app/);
 });
 
 test('booking prices come from the selected my-ERP slot', async () => {
