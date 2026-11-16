@@ -1,4 +1,9 @@
-const TELEGRAM_API_ORIGIN = 'https://api.telegram.org';
+const DEFAULT_TELEGRAM_API_ORIGIN = 'https://api.telegram.org';
+
+function getTelegramApiOrigin(environment = process.env) {
+  const custom = String(environment.TELEGRAM_API_ORIGIN || '').trim().replace(/\/+$/, '');
+  return custom || DEFAULT_TELEGRAM_API_ORIGIN;
+}
 
 const CHAT_ENV_BY_LOCATION = Object.freeze({
   'м. Профсоюзная': 'TELEGRAM_CHAT_ID_PROFSOYUZNAYA',
@@ -101,7 +106,7 @@ async function sendTelegramBooking(booking, environment = process.env) {
   }
 
   try {
-    const response = await fetch(`${TELEGRAM_API_ORIGIN}/bot${botToken}/sendMessage`, {
+    const response = await fetch(`${getTelegramApiOrigin(environment)}/bot${botToken}/sendMessage`, {
       method: 'POST',
       headers: { 'content-type': 'application/json' },
       body: JSON.stringify({

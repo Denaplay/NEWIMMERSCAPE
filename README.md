@@ -19,6 +19,9 @@ my-ERP и отправку уведомлений о новых бронях в 
 - `TELEGRAM_CHAT_ID` — ID чата Профсоюзной (сохранён для совместимости);
 - `TELEGRAM_CHAT_ID_IZMAYLOVSKAYA` — ID чата Измайловской;
 - `TELEGRAM_CHAT_ID_TAGANSKAYA` — ID чата Таганской.
+- `TELEGRAM_API_ORIGIN` — необязательно: адрес Telegram Bot API, если `api.telegram.org`
+  недоступен с сервера (например, свой прокси на Cloudflare Workers). По умолчанию
+  используется `https://api.telegram.org`.
 
 Для супергруппы ID обычно начинается с `-100`. Вместо `TELEGRAM_CHAT_ID` можно указать
 `TELEGRAM_CHAT_ID_PROFSOYUZNAYA`, если нужно единообразное имя.
